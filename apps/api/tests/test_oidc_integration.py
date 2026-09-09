@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import socket
+import ssl
 import subprocess
 import sys
 import time
@@ -39,9 +40,9 @@ def port():
         sock.bind(('127.0.0.1',0));return sock.getsockname()[1]
 
 
-def wait_http(url,process,seconds=90):
+def wait_http(url,process,tls,seconds=90):
     deadline=time.monotonic()+seconds
-    with httpx.Client(verify=False,timeout=2,trust_env=False) as client:
+    with httpx.Client(verify=tls,timeout=2,trust_env=False) as client:
         while time.monotonic()<deadline:
             if process.poll() is not None:raise RuntimeError('test process exited; inspect captured log')
             try:
@@ -63,6 +64,8 @@ def real_oidc(database,tmp_path):
     imports=home/'data/import';imports.mkdir(parents=True)
     (imports/'silicon-dev-realm.json').write_text(json.dumps(realm(origin)))
     key,cert=generate(tmp_path/'tls')
+    tls=ssl.create_default_context(cafile=str(cert))
+    assert tls.verify_mode == ssl.CERT_REQUIRED and tls.check_hostname
     env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web',
          'OIDC_CLIENT_SECRET':'fictional-dev-client-secret','PUBLIC_ORIGIN':origin,'OIDC_CA_BUNDLE':str(cert)}
     processes=[]
@@ -73,14 +76,14 @@ def real_oidc(database,tmp_path):
                                  '--import-realm','--cache=local'],stdout=kc_log,stderr=subprocess.STDOUT,
                                  env={**os.environ,'JAVA_OPTS_APPEND':'-Xms128m -Xmx512m'})
             processes.append(kc)
-            wait_http(issuer+'/.well-known/openid-configuration',kc)
+            wait_http(issuer+'/.well-known/openid-configuration',kc,tls)
             assert f'Keycloak {VERSION}' in (tmp_path/'keycloak.log').read_text()
             api=subprocess.Popen([sys.executable,'-m','uvicorn','silicon.main:create_app','--factory','--host','127.0.0.1',
                 '--port',str(api_port),'--ssl-keyfile',str(key),'--ssl-certfile',str(cert),'--no-access-log'],
                 cwd=ROOT,env=env,stdout=api_log,stderr=subprocess.STDOUT)
             processes.append(api)
-            wait_http(origin+'/api/v1/ready',api,20)
-            yield origin,issuer
+            wait_http(origin+'/api/v1/ready',api,tls,20)
+            yield origin,issuer,tls
         finally:
             for process in reversed(processes):
                 process.terminate()
@@ -89,6 +92,9 @@ def real_oidc(database,tmp_path):
             # Only process lifecycle evidence is copied; access logs with codes are disabled.
             if any(p.returncode not in (0,-15,143) for p in processes):
                 print('Keycloak/API logs:',tmp_path)
+            key.unlink(missing_ok=True)
+            cert.unlink(missing_ok=True)
+            shutil.rmtree(home)
 
 
 def begin_login(client,origin):
@@ -109,12 +115,12 @@ def begin_login(client,origin):
 
 
 def test_real_keycloak_code_callback_logout_and_expiry(real_oidc,engine):
-    origin,issuer=real_oidc
-    with httpx.Client(verify=False,follow_redirects=False,timeout=10,trust_env=False) as client:
+    origin,issuer,tls=real_oidc
+    with httpx.Client(verify=tls,follow_redirects=False,timeout=10,trust_env=False) as client:
         assert client.get(origin+'/api/v1/session').status_code==401
         callback=begin_login(client,origin)
         # A different browser cannot redeem this callback even with the authentic code/state.
-        with httpx.Client(verify=False,timeout=10,trust_env=False) as stranger:
+        with httpx.Client(verify=tls,timeout=10,trust_env=False) as stranger:
             assert stranger.get(callback).status_code==401
         response=client.get(callback)
         assert response.status_code==303
@@ -140,7 +146,7 @@ def test_real_keycloak_code_callback_logout_and_expiry(real_oidc,engine):
         assert client.get(callback).status_code==303
         with engine.begin() as db:db.execute(text("UPDATE sessions SET expires_at=now()-interval '1 second'"))
         assert client.get(origin+'/api/v1/session').status_code==401
-        with httpx.Client(verify=False,trust_env=False) as stolen:
+        with httpx.Client(verify=tls,trust_env=False) as stolen:
             stolen.cookies.set(SESSION,token)
             assert stolen.get(origin+'/api/v1/session').status_code==401
         assert client.get(origin+'/api/v1/auth/callback?state=forged&code=forged').status_code==401
