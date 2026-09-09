@@ -1,0 +1,39 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "infra/check_docs.py"
+    ],
+    "exit_code": 0,
+    "stdout": "PASS task handoff/state, relative paths, unchanged reviews, 109 local links\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "4133b86b330a5f1fda776bc3625b8fac8d6c857e",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "browser_cleanup": "BROWSER_STACK_CLEANED, exit 0; both reference servers stopped by Ctrl-C (130), viewport reset, task-created tabs closed",
+    "local_browser_runtime_removed": true,
+    "certificate_trust": "retained per explicit user authorization",
+    "resident_postgresql": "not connected, stopped or modified"
+  }
+]

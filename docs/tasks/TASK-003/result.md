@@ -2,12 +2,12 @@
 
 ```yaml
 task_id: TASK-003
-status: executing
+status: review_ready
 accepted_baseline: 99367439f175c1b749395b40f7a0d4a0af068afb
 handoff_commit: cfb1b1f465724af733f07bd2fc8339a5b724db7d
 maintenance_commit: 4133b86b330a5f1fda776bc3625b8fac8d6c857e
 base_commit: 4133b86b330a5f1fda776bc3625b8fac8d6c857e
-head_commit: pending_implementation_commit
+head_commit: 0bc4d23d46ff34721993c02683432aeebcac1fa7
 head_scope: implementation_and_test_evidence
 next_task: TASK-004 (planned, not authorized)
 ```
@@ -28,7 +28,7 @@ next_task: TASK-004 (planned, not authorized)
 - 原生 dialog 的 Esc/返回焦点、键盘表格横滚、手机导航宽度，以及错误自动聚焦/滚入视口已实际验证；会话过期后的详情/保存清除旧客户内容。
 - OpenAPI 和生成客户端已同步；README 指向 0003_crm head、客户操作与本地浏览器验收说明。依赖锁文件未变化。生产启动拒绝保留，身份和客户纵切不等于生产上线就绪。
 
-架构说明见 [ADR-007](../../architecture/adr/ADR-007.md)。
+架构说明见 [ADR-007](../../architecture/adr/ADR-007.md)，完整实现变更文件见 [清单](evidence/changed-files.txt)。
 
 ## 实际验证
 
@@ -63,7 +63,7 @@ git diff --check
 | 视觉 | 已捕获并逐图检查，待独立差异复核 | [17 张截图清单](evidence/screenshot-manifest.json)、[同视口对照](../../design/task003-visual-comparison.md)；原图/迁移图均有 1440×900、390×844 |
 | 文档/状态/历史报告 | passed | infra/check_docs.py 检查相对路径、状态、所有历史审查报告 hash 与链接 |
 | Compose 配置 | passed，exit 0 | config --quiet；未强制启动 Docker，不等于容器验收 |
-| git diff --check | passed，exit 0 | 提交前实际执行 |
+| git diff --check | passed，exit 0 | 提交前实际执行；[收尾检查](evidence/finalization-checks.json) |
 
 认证单元测试使用替身/会话注入的部分仍明确标注，不能据此冒称真实登录；真实 Keycloak 集成单独执行且没有跳过。两个 warnings 来自现有 Starlette/httpx TestClient 与 AnyIO 弃用提示，没有为消除提示升级依赖。
 

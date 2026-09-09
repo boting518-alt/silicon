@@ -1,6 +1,6 @@
 # TASK-003：UI 保真与客户纵切
 
-status: executing
+status: review_ready
 owner: 执行线程
 reviewer: 独立上下文，待指定
 
