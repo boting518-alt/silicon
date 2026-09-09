@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "project": "silicon",
+  "path_base": "repository_root",
+  "current_task": "TASK-000",
+  "status": "review_ready",
+  "paths": {
+    "web": "apps/web",
+    "api": "apps/api",
+    "worker": "apps/worker",
+    "api_client": "packages/api-client",
+    "ui": "packages/ui",
+    "docs": "docs",
+    "tasks": "docs/tasks",
+    "reviews": "docs/reviews",
+    "infra": "infra"
+  },
+  "paths_state": "planned_except_docs",
+  "demo_references": {
+    "quote": {
+      "path": "../silicon-quote-reference",
+      "project_id": "appgprj_6a9e678b54f48191af4637dae884188f",
+      "commit": "65e465092f0afc5519ed1a60214697fbf6a2f2a5",
+      "read_only": true
+    },
+    "workspace": {
+      "path": "../silicon-workspace-reference",
+      "project_id": "appgprj_6a9f6c67e8dc8191a7dd9c3aca8604c1",
+      "commit": "09e204ec99a74a821f35d6799b9e6e00c0c8393d",
+      "read_only": true
+    }
+  },
+  "demo_source_status": "available",
+  "visual_baseline": "pending",
+  "deployment": {
+    "configured": false
+  }
+}

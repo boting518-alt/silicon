@@ -1,0 +1,11 @@
+# OS metadata (external volume may create AppleDouble files)
+.DS_Store
+._*
+# Local secrets and execution artifacts
+.env
+.env.*
+!.env.example
+__pycache__/
+node_modules/
+.venv/
+# Authored Demo dist/ is source: never blanket-ignore dist.

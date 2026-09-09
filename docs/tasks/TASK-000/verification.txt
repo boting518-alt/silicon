@@ -1,0 +1,13 @@
+2026-09-09
+Python 3.12.7; Node v24.15.0
+Command: python3 docs/tasks/TASK-000/verify.py
+Exit: 0
+PASS required documents: 22
+PASS relative configuration, task IDs, status and deployment boundary
+PASS local Markdown links: 44
+PASS Demo commits/identities, 12 file hashes/blob comparisons, tracked trees clean
+PASS JavaScript syntax: 6; HTML local asset references: 10; token values; no detected persistence entrypoints
+NOT_RUN browser/visual/E2E, static HTTP serving, app build, PostgreSQL/Worker tests: outside TASK-000
+
+Initial verification script treated href="./" as a file; corrected to accept a directory with index.html, then reran successfully. This was a checker error, not a Demo source defect.
+Source Git commands can emit non-monotonic index warnings for OS-generated ._*.idx; byte comparisons succeed; full repository pack health not certified.
