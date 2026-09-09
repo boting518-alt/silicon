@@ -5,7 +5,8 @@ task_id: TASK-002
 status: review_ready
 accepted_baseline: c50a95126ec9de6c471c2425cde3dac5f9012993
 base_commit: 088fd4f3418f408f5d1356e62c5ca6768eb4a5cf
-head_commit: pending_content_commit
+head_commit: a2e76b3b423eb1c0e4a196c1fd95954b05b09ea3
+head_scope: implementation_and_test_evidence
 next_task: TASK-003 (planned, not authorized)
 ```
 
@@ -69,3 +70,9 @@ git diff --check
 真实 IdP 首轮 HTTP 表单失败提示 restart cookie missing；改为 HTTPS 并在 API 显式验证测试 CA。随后登录/回调通过，退出表单因相对 action 被测试客户端当绝对 URL 失败；测试改用当前响应 URL 解析相对表单，真实集成 1 passed。后续全套 33 passed 的输出保留为初轮完整证据；新增边界断言后的最终结果另记。以上失败未隐藏或冒充首次通过。
 
 状态为 review_ready，等待独立审查与产品/架构负责人验收；执行者不自行 accepted。
+
+## 提交与最终校验
+
+实现与测试证据已提交，head_commit 指向该实现提交；随后单独提交本报告的精确提交号和文档证据格式修正，最终交付 HEAD 另在交付消息列出，不能将两个提交混同。2026-09-10 完成交付记录。
+
+完整变更文件见 [changed-files.txt](evidence/changed-files.txt)。暂存阶段检查曾发现 checks.txt 文件尾多余空行；已移除并重新检查全部相对交接基线的增量。此修正不改变命令原始输出或测试结论。两轮 TASK-001 及 TASK-000 历史报告的内容 hash 均保持不变。
