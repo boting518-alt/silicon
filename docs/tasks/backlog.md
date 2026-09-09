@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-002，status: review_ready。TASK-000、TASK-001 已由产品/架构负责人确认 accepted；TASK-003 的 status 为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-003，status: executing。TASK-000～TASK-002 已由产品/架构负责人确认 accepted；TASK-004 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000、TASK-001 为 accepted；TASK-002 为 review_ready；TASK-003～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-002 为 accepted；TASK-003 为 executing；TASK-004～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -60,3 +60,7 @@ TASK-008 开始提供基本期初导入，TASK-016 是工具化强化，不把�
 ## TASK-002 交付
 
 身份与隔离纵切进入 review_ready，实际命令与限制见 [结果](TASK-002/result.md)。保留生产启动拒绝；TASK-003 仍为 planned，未开始。
+
+## TASK-003 交接
+
+2026-09-10，产品/架构负责人依据 [TASK-002 独立审查](../reviews/TASK-002-9936743-review.md) 确认身份与隔离纵切 accepted，并明确分配 TASK-003。交接 HEAD 为 99367439f175c1b749395b40f7a0d4a0af068afb，main 分支，只有未跟踪审查报告；原样纳入 Git，无已跟踪用户修改。保留原测试结果及报告结论；浏览器完整验收、远程 CI、容器、远端即时撤销及生产运维限制继续适用。TASK-003 已明确授权浏览器测试，不能以协议测试替代。

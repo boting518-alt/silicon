@@ -2,7 +2,7 @@
 
 ```yaml
 task_id: TASK-002
-status: review_ready
+status: accepted
 accepted_baseline: c50a95126ec9de6c471c2425cde3dac5f9012993
 base_commit: 088fd4f3418f408f5d1356e62c5ca6768eb4a5cf
 head_commit: a2e76b3b423eb1c0e4a196c1fd95954b05b09ea3
@@ -76,3 +76,7 @@ git diff --check
 实现与测试证据已提交，head_commit 指向该实现提交；随后单独提交本报告的精确提交号和文档证据格式修正，最终交付 HEAD 另在交付消息列出，不能将两个提交混同。2026-09-10 完成交付记录。
 
 完整变更文件见 [changed-files.txt](evidence/changed-files.txt)。暂存阶段检查曾发现 checks.txt 文件尾多余空行；已移除并重新检查全部相对交接基线的增量。此修正不改变命令原始输出或测试结论。两轮 TASK-001 及 TASK-000 历史报告的内容 hash 均保持不变。
+
+## 产品/架构验收与交接
+
+2026-09-10，产品/架构负责人依据 [TASK-002 独立审查](../../reviews/TASK-002-9936743-review.md) 确认身份与隔离纵切 accepted，并明确分配 TASK-003。交接 HEAD 为 99367439f175c1b749395b40f7a0d4a0af068afb，main 分支，只有未跟踪审查报告；原样纳入 Git，无已跟踪用户修改。保留原测试结果及报告结论；浏览器完整验收、远程 CI、容器、远端即时撤销及生产运维限制继续适用。TASK-003 已明确授权浏览器测试，不能以协议测试替代。
