@@ -1,0 +1,88 @@
+{
+  "commands": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/export_openapi.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "api:types"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/check_docs.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "--env-file",
+        ".env.example",
+        "-f",
+        "infra/compose.yaml",
+        "config",
+        "-q"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "production_probe_routes": false,
+  "existing_dependency_versions_unchanged": true,
+  "remote_ci": "not_run",
+  "compose_runtime": "not_run",
+  "browser_visual": "not_run: self-signed certificate not trusted",
+  "accepted_baseline": "c50a95126ec9de6c471c2425cde3dac5f9012993",
+  "base_commit": "088fd4f3418f408f5d1356e62c5ca6768eb4a5cf",
+  "tests": [
+    {
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest -v --tb=short",
+      "exit_code": 0,
+      "passed": 37,
+      "warnings": 2,
+      "seconds": 33.67,
+      "output": "evidence/pytest.txt"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin .venv/bin/python -m pytest apps/api/tests/test_identity.py::test_dev_provisioning_is_idempotent_and_does_not_authenticate -v --tb=short",
+      "exit_code": 0,
+      "passed": 1,
+      "warnings": 2,
+      "seconds": 2.04,
+      "output": "evidence/provisioning.txt"
+    }
+  ]
+}

@@ -8,6 +8,8 @@ from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
+from silicon.identity.routes import router
+from silicon.identity.access import Denied, audit
 from silicon.settings import Settings
 from silicon.shared.db import make_engine
 
@@ -33,10 +35,28 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(title="SILICON API", version="0.1.0", lifespan=lifespan)
 
+    app.include_router(router(engine, settings))
+
+    @app.exception_handler(SQLAlchemyError)
+    async def database_failure(request, exc):
+        return JSONResponse(status_code=503, content={"code": "DATABASE_UNAVAILABLE",
+            "message": "服务暂不可用", "request_id": request.state.request_id})
+
+    @app.exception_handler(Denied)
+    def denied(request, exc):
+        if not getattr(request.state, "denial_audited", False):
+            with engine.begin() as db:
+                audit(db, getattr(request.state, "actor_id", None), getattr(request.state, "tenant_id", None),
+                      "access.denied", getattr(request.scope.get("route"), "path", "authentication"),
+                      "denied", request.state.request_id)
+        return JSONResponse(status_code=exc.status, content={"code": exc.code,
+            "message": "身份无效或没有执行此操作的权限", "request_id": request.state.request_id})
+
     @app.middleware("http")
     async def request_id(request: Request, call_next):
         request.state.request_id = str(uuid4())
         response = await call_next(request)
+        response.headers["Cache-Control"] = "no-store"
         response.headers["X-Request-ID"] = request.state.request_id
         return response
 
@@ -50,7 +70,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             with engine.connect() as connection:
                 revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
-                if revision != "0001_platform":
+                if revision != "0002_identity":
                     raise RuntimeError("schema revision not ready")
         except (SQLAlchemyError, RuntimeError):
             return JSONResponse(status_code=503, content={

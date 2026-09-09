@@ -33,3 +33,12 @@ Python 完整传递版本见 uv.lock（包括 Starlette 1.6.0），JS 完整版�
 - [js-yaml 漏洞公告](https://github.com/advisories/GHSA-2883-xcg3-v3hh)。
 
 精确发行元数据读取自 registry.npmjs.org 与 pypi.org 官方包注册表，兼容结论最终以本仓库实际测试为证。
+
+## TASK-002 验证组合
+
+未升级 TASK-001 的 React/Vite/TypeScript/FastAPI/SQLAlchemy/Alembic/psycopg 等版本。
+新增 PyJWT[crypto] **2.13.0**，httpx **0.28.1** 从已有测试依赖同时列为运行依赖；锁定新增传递依赖 cryptography **50.0.1**、cffi **2.1.1**、pycparser **3.0**。安装后用真实 Keycloak 26.7.3 授权码 + HTTPS + RS256/JWKS 路径验证该组合，非只凭版本号判断兼容。
+
+官方来源：[PyJWT 2.13.0 文档](https://pyjwt.readthedocs.io/en/stable/)、[Keycloak 26.7.3 发行](https://www.keycloak.org/2026/08/keycloak-2673-released)、[Keycloak TLS](https://www.keycloak.org/server/enabletls)。下载官方 GitHub 26.7.3 tar.gz 的实际 SHA-256 为 `77657f30b7e90d70f727712ce1c967f430fd6a5e9f458d32d8c6df0635345f47`，下载脚本固定此摘要并拒绝覆盖已有 IdP。不是 latest 策略。
+
+本机实际 Java **21.0.6**；CI 声明 Temurin **21.0.6+7**（Java 21 同一补丁线），但远程 CI 未运行，不能把本机 Oracle Java 通过等同于远程 Temurin runner 已通过。生产模式继续拒绝启动，发行版本兼容实测不是生产安全/运维认证。

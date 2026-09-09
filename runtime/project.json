@@ -3,7 +3,7 @@
   "project": "silicon",
   "path_base": "repository_root",
   "current_task": "TASK-002",
-  "status": "executing",
+  "status": "review_ready",
   "paths": {
     "web": "apps/web",
     "api": "apps/api",
@@ -41,6 +41,7 @@
     "python": "3.12.7",
     "uv": "0.12.11",
     "postgresql": "17.11",
-    "idp_candidate": "Keycloak 26.7.3 (TASK-002 pending)"
+    "keycloak": "26.7.3",
+    "java_tested": "21.0.6"
   }
 }

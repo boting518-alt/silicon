@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-002，status: executing。TASK-000、TASK-001 已由产品/架构负责人确认 accepted；TASK-003 的 status 为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-002，status: review_ready。TASK-000、TASK-001 已由产品/架构负责人确认 accepted；TASK-003 的 status 为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000、TASK-001 为 accepted；TASK-002 为 executing；TASK-003～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000、TASK-001 为 accepted；TASK-002 为 review_ready；TASK-003～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -56,3 +56,7 @@ TASK-008 开始提供基本期初导入，TASK-016 是工具化强化，不把�
 ## TASK-002 交接依据
 
 2026-09-09，产品/架构负责人依据 [首次审查](../reviews/TASK-001-8b7cf4a-review.md) 和 [增量复核](../reviews/TASK-001-c50a951-review.md) 确认 TASK-001 accepted，明确分配 TASK-002。交接时 HEAD 为 c50a95126ec9de6c471c2425cde3dac5f9012993；只有未跟踪的增量报告，原样纳入 Git，无用户修改被覆盖。历史验证及两轮报告结论保持原样。
+
+## TASK-002 交付
+
+身份与隔离纵切进入 review_ready，实际命令与限制见 [结果](TASK-002/result.md)。保留生产启动拒绝；TASK-003 仍为 planned，未开始。

@@ -19,3 +19,7 @@ button:disabled { opacity: .6; cursor: wait; }
 :focus-visible { outline: 3px solid #32ab90; outline-offset: 3px; }
 .error { color: #9a3429; }
 @media (max-width: 720px) { aside { position: static; width: auto; padding: 18px; border-bottom: 1px solid var(--color-border); } .current, .sidebar-note { display: none; } main { margin: 0; padding: 24px 18px; } h1 { font-size: 26px; } section { padding: 22px; } }
+
+select { font: inherit; border: 1px solid var(--border, #e0e7e2); border-radius: 8px; padding: 8px; margin: 0 12px; background: white; }
+section + section { margin-top: 20px; }
+section button + button { margin-left: 12px; }

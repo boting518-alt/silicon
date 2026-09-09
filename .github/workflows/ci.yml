@@ -23,6 +23,14 @@ jobs:
       - run: npm run typecheck && npm run build
       - name: Build verified PostgreSQL 17.11
         run: python infra/build_test_postgres.py --prefix "$RUNNER_TEMP/silicon-pg17"
-      - name: Real database, API and Worker acceptance
-        run: SILICON_TEST_PG_BIN="$RUNNER_TEMP/silicon-pg17/bin" uv run --locked pytest -v
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21.0.6+7'
+      - name: Fetch pinned Keycloak 26.7.3
+        run: python infra/fetch_keycloak.py --destination "$RUNNER_TEMP/silicon-keycloak"
+      - name: Real database, OIDC, API and Worker acceptance
+        run: SILICON_TEST_PG_BIN="$RUNNER_TEMP/silicon-pg17/bin" SILICON_TEST_KEYCLOAK_HOME="$RUNNER_TEMP/silicon-keycloak/keycloak-26.7.3" uv run --locked pytest -v
+      - run: uv run --locked python infra/check_docs.py
+      - run: docker compose --env-file .env.example -f infra/compose.yaml config -q
       - run: git diff --check

@@ -1,0 +1,54 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.7, pytest-9.1.1, pluggy-1.6.0 -- /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Volumes/Lenovo3/workspace/SILICON/silicon-workspace
+configfile: pyproject.toml
+testpaths: apps/api/tests
+plugins: anyio-4.15.1
+collecting ... collected 33 items
+
+apps/api/tests/test_identity.py::test_runtime_rls_default_deny_pool_and_exception PASSED [  3%]
+apps/api/tests/test_identity.py::test_composite_fk_and_cross_tenant_writes PASSED [  6%]
+apps/api/tests/test_identity.py::test_session_memberships_csrf_switch_and_logout PASSED [  9%]
+apps/api/tests/test_identity.py::test_lists_details_fields_attachments_and_revocation PASSED [ 12%]
+apps/api/tests/test_identity.py::test_tenant_jobs_authorization_fencing_and_audit PASSED [ 15%]
+apps/api/tests/test_identity.py::test_upgrade_from_task001_preserves_queue PASSED [ 18%]
+apps/api/tests/test_identity.py::test_tenant_worker_lease_expiry_rolls_back_audit PASSED [ 21%]
+apps/api/tests/test_identity.py::test_field_write_permissions_and_controlled_audit PASSED [ 24%]
+apps/api/tests/test_identity.py::test_cross_tenant_unique_detail_and_attachment_are_404 PASSED [ 27%]
+apps/api/tests/test_identity.py::test_expired_callback_and_inactive_user PASSED [ 30%]
+apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry PASSED [ 33%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change0] PASSED [ 36%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change1] PASSED [ 39%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change2] PASSED [ 42%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change3] PASSED [ 45%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change4] PASSED [ 48%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change5] PASSED [ 51%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change6] PASSED [ 54%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change7] PASSED [ 57%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change8] PASSED [ 60%]
+apps/api/tests/test_oidc_validation.py::test_secure_configuration_and_no_production_bypass PASSED [ 63%]
+apps/api/tests/test_platform.py::test_empty_migration_and_runtime_role PASSED [ 66%]
+apps/api/tests/test_platform.py::test_health_and_ready PASSED            [ 69%]
+apps/api/tests/test_platform.py::test_ready_requires_migration PASSED    [ 72%]
+apps/api/tests/test_platform.py::test_enqueue_deduplication_and_worker_restart PASSED [ 75%]
+apps/api/tests/test_platform.py::test_concurrent_claim_single_winner PASSED [ 78%]
+apps/api/tests/test_platform.py::test_locked_job_does_not_block_another_claim PASSED [ 81%]
+apps/api/tests/test_platform.py::test_locked_exhausted_lease_does_not_block_queued_job PASSED [ 84%]
+apps/api/tests/test_platform.py::test_exhausted_lease_cleanup_is_bounded PASSED [ 87%]
+apps/api/tests/test_platform.py::test_expired_lease_fences_stale_worker PASSED [ 90%]
+apps/api/tests/test_platform.py::test_crash_exhaustion_and_failure_retry PASSED [ 93%]
+apps/api/tests/test_platform.py::test_http_database_stop_recovery_and_long_running_worker PASSED [ 96%]
+apps/api/tests/test_platform.py::test_production_mode_disabled PASSED    [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 33 passed, 2 warnings in 33.21s ========================

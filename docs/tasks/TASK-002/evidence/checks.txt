@@ -1,0 +1,61 @@
+$ .venv/bin/python infra/export_openapi.py
+
+exit_code: 0
+
+$ npm run api:types
+
+> silicon-workspace@0.1.0 api:types
+> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts
+
+✨ openapi-typescript 7.13.0
+🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [21.3ms]
+
+exit_code: 0
+
+$ npm run typecheck
+
+> silicon-workspace@0.1.0 typecheck
+> npm run typecheck --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 typecheck
+> tsc --noEmit
+
+
+exit_code: 0
+
+$ npm run build
+
+> silicon-workspace@0.1.0 build
+> npm run build --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:  0.32 kB
+dist/assets/index-wNGm1GyQ.css    2.20 kB │ gzip:  0.90 kB
+dist/assets/index-Dkf-4NAb.js   194.05 kB │ gzip: 61.54 kB
+
+✓ built in 126ms
+
+exit_code: 0
+
+$ .venv/bin/python infra/check_docs.py
+PASS task handoff/state, relative paths, unchanged reviews, 54 local links
+
+exit_code: 0
+
+$ docker compose --env-file .env.example -f infra/compose.yaml config -q
+
+exit_code: 0
+
+$ git diff --check
+
+exit_code: 0
+

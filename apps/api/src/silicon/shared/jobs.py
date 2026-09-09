@@ -1,4 +1,4 @@
-"""Development-only smoke queue. Never enqueue business or tenant operations here."""
+"""Global scheduler envelopes. Tenant jobs enter through identity.tenant_jobs only."""
 from uuid import uuid4
 from sqlalchemy import text
 
@@ -44,7 +44,7 @@ def claim(engine, lease_seconds=30):
         return dict(db.execute(text("""
             UPDATE jobs SET status='running', attempts=attempts+1,
                 lease_token=:token, lease_until=now()+make_interval(secs => :seconds), error_code=NULL
-            WHERE id=:id RETURNING id, kind, lease_token, attempts
+            WHERE id=:id RETURNING id, kind, lease_token, attempts, tenant_id, actor_id
         """), {"id": row.id, "token": uuid4(), "seconds": lease_seconds}).mappings().one())
 
 
@@ -80,7 +80,10 @@ def run_once(engine):
     if job is None:
         return False
     # Only a bounded, deterministic handler; no external requests or arbitrary payloads.
-    if job['kind'] != 'smoke':
+    if job['kind'] == 'identity.check' or job['tenant_id'] is not None or job['actor_id'] is not None:
+        from silicon.identity.tenant_jobs import execute
+        execute(engine, job)
+    elif job['kind'] != 'smoke':
         fail(engine, job)
     elif heartbeat(engine, job):
         complete(engine, job)
