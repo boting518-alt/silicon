@@ -9,6 +9,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from silicon.identity.routes import router
+from silicon.crm.routes import router as crm_router
 from silicon.identity.access import Denied, audit
 from silicon.settings import Settings
 from silicon.shared.db import make_engine
@@ -36,6 +37,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="SILICON API", version="0.1.0", lifespan=lifespan)
 
     app.include_router(router(engine, settings))
+    app.include_router(crm_router(engine, settings))
 
     @app.exception_handler(SQLAlchemyError)
     async def database_failure(request, exc):
@@ -70,7 +72,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             with engine.connect() as connection:
                 revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
-                if revision != "0002_identity":
+                if revision != "0003_crm":
                     raise RuntimeError("schema revision not ready")
         except (SQLAlchemyError, RuntimeError):
             return JSONResponse(status_code=503, content={

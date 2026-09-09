@@ -1,0 +1,79 @@
+{
+  "method": "OD-018: new local clone on temporary healthy filesystem, no original changes",
+  "sources": [
+    {
+      "name": "quote",
+      "commit": "65e465092f0afc5519ed1a60214697fbf6a2f2a5",
+      "files": [
+        {
+          "path": ".openai/hosting.json",
+          "sha256": "867494fdfc464667488d3d8512429a149d0e87d52da520030d92dee747dbcf5a",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/app.js",
+          "sha256": "2db0e586e1b8fb99d8df4b54d461ec305cddcafa1aa666d0fbd27156f2381cb7",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/index.html",
+          "sha256": "23e1319400a47a545ded9ad77483adb8de769fe9c3a98419ac95c20628147de4",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/style.css",
+          "sha256": "1c5c25d1ba0d9ef7bd145a3148b740f8b0fc9aa184e32a8dae6a29774d39a21f",
+          "matches_original_and_blob": true
+        }
+      ],
+      "fresh_clone_fsck_exit": 0
+    },
+    {
+      "name": "workspace",
+      "commit": "09e204ec99a74a821f35d6799b9e6e00c0c8393d",
+      "files": [
+        {
+          "path": ".openai/hosting.json",
+          "sha256": "75f43d06548c551f3017196be8269ebd4853f263a68d2ca4846bf463525c40eb",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/analytics.js",
+          "sha256": "b94622a58423e4af5d838eb857e22480a72420f7909bffec82459c4c90a2490c",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/app.js",
+          "sha256": "bf2f8b9891634475f99a63e73b87f28db90894d8a7fe9ffe5409696a6dacf9df",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/business.js",
+          "sha256": "d6937a22ceb1ddf0012e6034663350cd9ec0de76c3408a998ab2baedeb81891d",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/index.html",
+          "sha256": "c3c2d988b7d56fdcec097cd0ec957d70ca097295ac2ee899734a37870782c6fc",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/land.js",
+          "sha256": "686ea7b069dba314546dffeee8bd2b13bb5dd3dfe6c3d7e7dcd1f19eaca5af2a",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/operations.js",
+          "sha256": "ae638ddfd8f27c4bb82392333345149ff4291f83496604975ee6d836b69eb787",
+          "matches_original_and_blob": true
+        },
+        {
+          "path": "dist/style.css",
+          "sha256": "a72d18983e61cf3c57ec6e1ccd0c7f0955933808dc8850161e91cd76462c8e9a",
+          "matches_original_and_blob": true
+        }
+      ],
+      "fresh_clone_fsck_exit": 0
+    }
+  ]
+}

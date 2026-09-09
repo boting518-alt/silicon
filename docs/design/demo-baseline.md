@@ -1,8 +1,8 @@
 # Demo 源码与视觉基线
 
 source_status: available
-visual_baseline: pending
-browser_testing: not_run（TASK-000 不主动进行浏览器测试）
+visual_baseline: captured_TASK-003
+browser_testing: TASK-003 已执行，见 [视觉对照](task003-visual-comparison.md)；以下盘点段落保留 TASK-000 当时的静态验证范围。
 
 ## 来源与本次核验
 
@@ -67,3 +67,8 @@ browser_testing: not_run（TASK-000 不主动进行浏览器测试）
 5. 在健康文件系统核验参考仓库 pack 告警；地图数据的来源、版本、许可及坐标系在地图生产化前补齐。
 
 未重绘 UI、未使用默认模板、未做浏览器视觉验收。获取和启动方法见 [运行手册](../runbooks/demo-sources.md)。
+
+
+## TASK-003 增量
+
+2026-09-10 按 OD-018 独立克隆并核验全部 12 个 blob/文件 hash、项目身份和完整 fsck，原参考仓库未修改。原工作空间客户列表/详情与报价首页已取得两视口截图；迁移范围及差异见 [视觉对照](task003-visual-comparison.md)。TASK-000 的 not_run 为历史结论，不改写为当时已通过。地图许可仍待其生产化前核实。

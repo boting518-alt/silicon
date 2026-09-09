@@ -89,6 +89,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/crm/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Members */
+        get: operations["crmMembers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/customers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Customers */
+        get: operations["customers"];
+        put?: never;
+        /** Create */
+        post: operations["createCustomer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/customers/{customer_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Customer */
+        get: operations["customer"];
+        /** Update */
+        put: operations["updateCustomer"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -127,6 +180,246 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Contact */
+        Contact: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Title
+             * @default
+             */
+            title: string;
+            /**
+             * Phone
+             * @default
+             */
+            phone: string;
+            /**
+             * Email
+             * @default
+             */
+            email: string;
+        };
+        /** CustomerDetail */
+        CustomerDetail: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /** Province */
+            province: string;
+            /** City */
+            city: string;
+            /** Industry */
+            industry: string;
+            /** Level */
+            level: string;
+            /** Stage */
+            stage: string;
+            /** Contact Count */
+            contact_count: number;
+            /** Project Count */
+            project_count: number;
+            /**
+             * Owner Id
+             * Format: uuid
+             */
+            owner_id: string;
+            /** Owner Name */
+            owner_name: string;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Notes */
+            notes: string;
+            /** Contacts */
+            contacts: components["schemas"]["Contact"][];
+            /** Projects */
+            projects: components["schemas"]["Project"][];
+            /** Sites */
+            sites: components["schemas"]["Site"][];
+            /** Responsibilities */
+            responsibilities: components["schemas"]["Responsibility"][];
+            /** Role History */
+            role_history: components["schemas"]["RoleHistory"][];
+        };
+        /** CustomerInput */
+        CustomerInput: {
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Province
+             * @default
+             */
+            province: string;
+            /**
+             * City
+             * @default
+             */
+            city: string;
+            /**
+             * Industry
+             * @default
+             */
+            industry: string;
+            /**
+             * Level
+             * @default 普通客户
+             * @enum {string}
+             */
+            level: "普通客户" | "重点客户" | "战略客户";
+            /**
+             * Stage
+             * @default 跟进中
+             * @enum {string}
+             */
+            stage: "跟进中" | "稳定合作" | "交付推进" | "续保跟进";
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Contacts */
+            contacts?: components["schemas"]["Contact"][];
+            /** Projects */
+            projects?: components["schemas"]["Project"][];
+            /** Sites */
+            sites?: components["schemas"]["Site"][];
+            /** Responsibilities */
+            responsibilities?: components["schemas"]["Responsibility"][];
+        };
+        /** CustomerPage */
+        CustomerPage: {
+            /** Contact Total */
+            contact_total: number;
+            /** Project Total */
+            project_total: number;
+            /** Province Total */
+            province_total: number;
+            /** Items */
+            items: components["schemas"]["CustomerSummary"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+        };
+        /** CustomerSummary */
+        CustomerSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /** Province */
+            province: string;
+            /** City */
+            city: string;
+            /** Industry */
+            industry: string;
+            /** Level */
+            level: string;
+            /** Stage */
+            stage: string;
+            /** Contact Count */
+            contact_count: number;
+            /** Project Count */
+            project_count: number;
+            /**
+             * Owner Id
+             * Format: uuid
+             */
+            owner_id: string;
+            /** Owner Name */
+            owner_name: string;
+            /** Version */
+            version: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** CustomerUpdate */
+        CustomerUpdate: {
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Province
+             * @default
+             */
+            province: string;
+            /**
+             * City
+             * @default
+             */
+            city: string;
+            /**
+             * Industry
+             * @default
+             */
+            industry: string;
+            /**
+             * Level
+             * @default 普通客户
+             * @enum {string}
+             */
+            level: "普通客户" | "重点客户" | "战略客户";
+            /**
+             * Stage
+             * @default 跟进中
+             * @enum {string}
+             */
+            stage: "跟进中" | "稳定合作" | "交付推进" | "续保跟进";
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Contacts */
+            contacts?: components["schemas"]["Contact"][];
+            /** Projects */
+            projects?: components["schemas"]["Project"][];
+            /** Sites */
+            sites?: components["schemas"]["Site"][];
+            /** Responsibilities */
+            responsibilities?: components["schemas"]["Responsibility"][];
+            /** Expected Version */
+            expected_version: number;
+        };
         /** Error */
         Error: {
             /** Code */
@@ -146,6 +439,94 @@ export interface components {
             /** Logout Url */
             logout_url: string;
         };
+        /** Member */
+        Member: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+        };
+        /** Project */
+        Project: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** People */
+            people?: components["schemas"]["ProjectPerson"][];
+        };
+        /** ProjectPerson */
+        ProjectPerson: {
+            /**
+             * Contact Id
+             * Format: uuid
+             */
+            contact_id: string;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "project_lead" | "key_person";
+        };
+        /** Responsibility */
+        Responsibility: {
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "sales" | "service";
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+        };
+        /** RoleHistory */
+        RoleHistory: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Party */
+            party: string;
+            /** Project Id */
+            project_id: string | null;
+            /** Project Name */
+            project_name: string;
+            /** Role */
+            role: string;
+            /**
+             * Person Id
+             * Format: uuid
+             */
+            person_id: string;
+            /** Person Name */
+            person_name: string;
+            /**
+             * Valid From
+             * Format: date-time
+             */
+            valid_from: string;
+            /** Valid Until */
+            valid_until: string | null;
+            /**
+             * Changed By
+             * Format: uuid
+             */
+            changed_by: string;
+        };
         /** SelectedTenant */
         SelectedTenant: {
             /**
@@ -161,6 +542,18 @@ export interface components {
             tenant_id: string | null;
             /** Memberships */
             memberships: components["schemas"]["TenantInfo"][];
+        };
+        /** Site */
+        Site: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Address */
+            address: string;
         };
         /** Status */
         Status: {
@@ -343,6 +736,162 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LogoutInfo"];
+                };
+            };
+        };
+    };
+    crmMembers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Member"][];
+                };
+            };
+        };
+    };
+    customers: {
+        parameters: {
+            query?: {
+                q?: string;
+                page?: number;
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerPage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    createCustomer: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CustomerInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    customer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                customer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    updateCustomer: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string;
+            };
+            path: {
+                customer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CustomerUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

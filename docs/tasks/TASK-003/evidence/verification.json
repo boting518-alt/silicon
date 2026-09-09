@@ -1,0 +1,126 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "infra/export_openapi.py"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "api:types"
+    ],
+    "exit_code": 0,
+    "stdout": "\n> silicon-workspace@0.1.0 api:types\n> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts\n\n✨ openapi-typescript 7.13.0\n🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [29.7ms]\n",
+    "stderr": ""
+  },
+  {
+    "check": "OpenAPI + generated client repeatable",
+    "passed": true,
+    "sha256": [
+      "044af0643e0a3eaf441fdc9ad4535cc03e420dbf4b3f025bbefe5ec03af7b55c",
+      "5efe08cdad0421a7cd13f992ec5a731342d2e0ccbe3df3856b90d38f7aefb3ac"
+    ]
+  },
+  {
+    "command": [
+      "node",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "v24.15.0\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "npm",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "11.12.1\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "Python 3.12.7\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/homebrew/opt/postgresql@17/bin/postgres",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "postgres (PostgreSQL) 17.11 (Homebrew)\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "java",
+      "-version"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "java version \"21.0.6\" 2025-01-21 LTS\nJava(TM) SE Runtime Environment (build 21.0.6+8-LTS-188)\nJava HotSpot(TM) 64-Bit Server VM (build 21.0.6+8-LTS-188, mixed mode, sharing)\n"
+  },
+  {
+    "command": [
+      "python3",
+      "infra/check_visual_evidence.py"
+    ],
+    "exit_code": 0,
+    "stdout": "PASS 17 original JPEG screenshots, exact viewport sizes and SHA-256 manifest\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "infra/check_docs.py"
+    ],
+    "exit_code": 0,
+    "stdout": "PASS task handoff/state, relative paths, unchanged reviews, 107 local links\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.example",
+      "-f",
+      "infra/compose.yaml",
+      "config",
+      "--quiet"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "check": "dependency locks unchanged",
+    "passed": true
+  },
+  {
+    "check": "production build has no visual clock/font harness",
+    "passed": true,
+    "note": "Ignore OS metadata when reading generated text assets; no metadata deletion"
+  }
+]

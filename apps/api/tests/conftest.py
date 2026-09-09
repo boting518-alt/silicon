@@ -65,7 +65,7 @@ def database():
 def engine(database):
     owner = make_engine(database.migration_url)
     with owner.begin() as db:
-        db.execute(text("TRUNCATE jobs, outbox_events"))
+        db.execute(text("TRUNCATE jobs, outbox_events, crm_commands, crm_role_history, crm_responsibilities, crm_sites, crm_project_people, crm_projects, crm_contacts, crm_customers"))
     owner.dispose()
     app = make_engine(database.url)
     yield app

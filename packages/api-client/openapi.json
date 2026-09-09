@@ -143,6 +143,254 @@
         }
       }
     },
+    "/api/v1/crm/members": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Members",
+        "operationId": "crmMembers",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Member"
+                  },
+                  "type": "array",
+                  "title": "Response Crmmembers"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crm/customers": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Customers",
+        "operationId": "customers",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 160,
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Create",
+        "operationId": "createCustomer",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crm/customers/{customer_id}": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Customer",
+        "operationId": "customer",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Customer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Update",
+        "operationId": "updateCustomer",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Customer Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "summary": "Health",
@@ -192,6 +440,517 @@
   },
   "components": {
     "schemas": {
+      "Contact": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Title",
+            "default": ""
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 40,
+            "title": "Phone",
+            "default": ""
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "title": "Email",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Contact"
+      },
+      "CustomerDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "province": {
+            "type": "string",
+            "title": "Province"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "industry": {
+            "type": "string",
+            "title": "Industry"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "contact_count": {
+            "type": "integer",
+            "title": "Contact Count"
+          },
+          "project_count": {
+            "type": "integer",
+            "title": "Project Count"
+          },
+          "owner_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Owner Id"
+          },
+          "owner_name": {
+            "type": "string",
+            "title": "Owner Name"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes"
+          },
+          "contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "type": "array",
+            "title": "Contacts"
+          },
+          "projects": {
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            },
+            "type": "array",
+            "title": "Projects"
+          },
+          "sites": {
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            },
+            "type": "array",
+            "title": "Sites"
+          },
+          "responsibilities": {
+            "items": {
+              "$ref": "#/components/schemas/Responsibility"
+            },
+            "type": "array",
+            "title": "Responsibilities"
+          },
+          "role_history": {
+            "items": {
+              "$ref": "#/components/schemas/RoleHistory"
+            },
+            "type": "array",
+            "title": "Role History"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "name",
+          "province",
+          "city",
+          "industry",
+          "level",
+          "stage",
+          "contact_count",
+          "project_count",
+          "owner_id",
+          "owner_name",
+          "version",
+          "created_at",
+          "updated_at",
+          "notes",
+          "contacts",
+          "projects",
+          "sites",
+          "responsibilities",
+          "role_history"
+        ],
+        "title": "CustomerDetail"
+      },
+      "CustomerInput": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Number"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "province": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Province",
+            "default": ""
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "City",
+            "default": ""
+          },
+          "industry": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Industry",
+            "default": ""
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "普通客户",
+              "重点客户",
+              "战略客户"
+            ],
+            "title": "Level",
+            "default": "普通客户"
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "跟进中",
+              "稳定合作",
+              "交付推进",
+              "续保跟进"
+            ],
+            "title": "Stage",
+            "default": "跟进中"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Notes",
+            "default": ""
+          },
+          "contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Contacts"
+          },
+          "projects": {
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Projects"
+          },
+          "sites": {
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Sites"
+          },
+          "responsibilities": {
+            "items": {
+              "$ref": "#/components/schemas/Responsibility"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Responsibilities"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "number",
+          "name"
+        ],
+        "title": "CustomerInput"
+      },
+      "CustomerPage": {
+        "properties": {
+          "contact_total": {
+            "type": "integer",
+            "title": "Contact Total"
+          },
+          "project_total": {
+            "type": "integer",
+            "title": "Project Total"
+          },
+          "province_total": {
+            "type": "integer",
+            "title": "Province Total"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "contact_total",
+          "project_total",
+          "province_total",
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "CustomerPage"
+      },
+      "CustomerSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "province": {
+            "type": "string",
+            "title": "Province"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "industry": {
+            "type": "string",
+            "title": "Industry"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "contact_count": {
+            "type": "integer",
+            "title": "Contact Count"
+          },
+          "project_count": {
+            "type": "integer",
+            "title": "Project Count"
+          },
+          "owner_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Owner Id"
+          },
+          "owner_name": {
+            "type": "string",
+            "title": "Owner Name"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "name",
+          "province",
+          "city",
+          "industry",
+          "level",
+          "stage",
+          "contact_count",
+          "project_count",
+          "owner_id",
+          "owner_name",
+          "version",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CustomerSummary"
+      },
+      "CustomerUpdate": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Number"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "province": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Province",
+            "default": ""
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "City",
+            "default": ""
+          },
+          "industry": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Industry",
+            "default": ""
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "普通客户",
+              "重点客户",
+              "战略客户"
+            ],
+            "title": "Level",
+            "default": "普通客户"
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "跟进中",
+              "稳定合作",
+              "交付推进",
+              "续保跟进"
+            ],
+            "title": "Stage",
+            "default": "跟进中"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Notes",
+            "default": ""
+          },
+          "contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Contacts"
+          },
+          "projects": {
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Projects"
+          },
+          "sites": {
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Sites"
+          },
+          "responsibilities": {
+            "items": {
+              "$ref": "#/components/schemas/Responsibility"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Responsibilities"
+          },
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "number",
+          "name",
+          "expected_version"
+        ],
+        "title": "CustomerUpdate"
+      },
       "Error": {
         "properties": {
           "code": {
@@ -241,6 +1000,187 @@
         ],
         "title": "LogoutInfo"
       },
+      "Member": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Member"
+      },
+      "Project": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Notes",
+            "default": ""
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/ProjectPerson"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "People"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Project"
+      },
+      "ProjectPerson": {
+        "properties": {
+          "contact_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "project_lead",
+              "key_person"
+            ],
+            "title": "Role"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "contact_id",
+          "role"
+        ],
+        "title": "ProjectPerson"
+      },
+      "Responsibility": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "sales",
+              "service"
+            ],
+            "title": "Role"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "user_id"
+        ],
+        "title": "Responsibility"
+      },
+      "RoleHistory": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "party": {
+            "type": "string",
+            "title": "Party"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "project_name": {
+            "type": "string",
+            "title": "Project Name"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "person_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Person Id"
+          },
+          "person_name": {
+            "type": "string",
+            "title": "Person Name"
+          },
+          "valid_from": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid Until"
+          },
+          "changed_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Changed By"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "party",
+          "project_id",
+          "project_name",
+          "role",
+          "person_id",
+          "person_name",
+          "valid_from",
+          "valid_until",
+          "changed_by"
+        ],
+        "title": "RoleHistory"
+      },
       "SelectedTenant": {
         "properties": {
           "tenant_id": {
@@ -287,6 +1227,35 @@
           "memberships"
         ],
         "title": "SessionInfo"
+      },
+      "Site": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Address"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address"
+        ],
+        "title": "Site"
       },
       "Status": {
         "properties": {

@@ -1,0 +1,121 @@
+[
+  {
+    "file": "screenshots/browser-duplicate-error-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "af542f0443d49048a72d084f79738dd2cce94ee23db007e25b7a83a3edb9603b"
+  },
+  {
+    "file": "screenshots/browser-keycloak-login-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "bae0fff61744e042fd3d6350d8eb3f8ef239800176d539ff12c62594d12345dc"
+  },
+  {
+    "file": "screenshots/browser-logged-out-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "c99082600ba342173b46ea4809fa9abd6af007f29d61b91dd8d9528fd3eac605"
+  },
+  {
+    "file": "screenshots/browser-persisted-edit-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "00c270ed7166197cf0c0513f07c741326d3ae2a88057e699d7701155ce4b5719"
+  },
+  {
+    "file": "screenshots/browser-tenant-b-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "b0eddbcac0a15e366d53b9c1bbe3d14d2f869826066c0b659281891e921b5f05"
+  },
+  {
+    "file": "screenshots/browser-version-conflict-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "00ea5bf8847780f1686937d5fc458b05c8b34ab43a7fe9a7eb2a4d13d00b960d"
+  },
+  {
+    "file": "screenshots/migrated-create-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "c555e438927ccf6a5b2ca28d44b3dc2ccce61fa33bb98c7b7a9d6ab308c51f94"
+  },
+  {
+    "file": "screenshots/migrated-customers-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "cdff626c2cfa7fae3abb7f96093794468ddd12c9db9d6249e9b95c94cec25033"
+  },
+  {
+    "file": "screenshots/migrated-customers-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "2fed7d37d83e0da43c1583c5ef7279f7603c2b09110f799989ee74b17f88ab49"
+  },
+  {
+    "file": "screenshots/migrated-detail-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "71e3d42ebd5619ec5c080b05701b50f5e836b3cf35d3d19b1aa8c1c1404d5e14"
+  },
+  {
+    "file": "screenshots/migrated-detail-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "790c0a7095d728ffec5f27edc90f5705c3d5200b65a915bc1ad85e3e34725923"
+  },
+  {
+    "file": "screenshots/original-customers-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "4b2da62b42eb16d8e9d430d2dbd72f243b840e737bcbe16de66774c31c533be7"
+  },
+  {
+    "file": "screenshots/original-customers-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "5e1ab109dc2f96cd3ddbc2e3a008af66020a1afc98df4dbf287180b7dfe021dd"
+  },
+  {
+    "file": "screenshots/original-detail-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "41d501918d51bf6c5ed407db13cdd550f216bd3bbaf692fdc0cfdf31e46cca20"
+  },
+  {
+    "file": "screenshots/original-detail-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "f71a5a3bb2101534410e19f84a9ea068f0220ffc244a9e50799a6ec9686b8034"
+  },
+  {
+    "file": "screenshots/original-quote-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "format": "JPEG",
+    "sha256": "58def70d0f5c73297eb94722fed4d08e545698d5b48efe560cabc49b7e2bbeb6"
+  },
+  {
+    "file": "screenshots/original-quote-390.jpg",
+    "width": 390,
+    "height": 844,
+    "format": "JPEG",
+    "sha256": "932a395c0f1072e38abf11d6723c7cad582d1c40ef9ac518641aa33aeaf977fe"
+  }
+]

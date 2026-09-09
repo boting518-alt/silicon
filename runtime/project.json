@@ -31,7 +31,7 @@
     }
   },
   "demo_source_status": "available",
-  "visual_baseline": "pending",
+  "visual_baseline": "captured_TASK-003",
   "deployment": {
     "configured": false
   },
