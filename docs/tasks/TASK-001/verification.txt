@@ -133,3 +133,10 @@ exit: 0
 
 $ git diff --check
 exit: 0
+
+Final content commit: ad64b4ca6e9229fa4d05729e07b2bd08f36d89b1
+PASS repeated OpenAPI export/type generation followed by git diff --exit-code -- packages/api-client (exit 0).
+PASS current documentation check after complete result: 41 links, review hashes and current-task state.
+PASS git diff --cached --check (exit 0) before content commit.
+PASS 51 staged files exclude dependency/build directories and AppleDouble; no detected credential patterns; lock/config files have no local machine paths.
+Remote CI: not_run (no remote). Docker runtime: not_run (daemon not running); Compose config only.

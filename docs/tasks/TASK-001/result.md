@@ -5,7 +5,7 @@ task_id: TASK-001
 status: review_ready
 accepted_baseline: 88e3044ac8749a9c003fe2ecc78a6de0c9abf1d6
 base_commit: 1e3b6c5fc7c40d9fc831de8e897d4c23f12cb1c6
-head_commit: recorded_in_followup_evidence_commit
+head_commit: ad64b4ca6e9229fa4d05729e07b2bd08f36d89b1
 migration_impact: new platform tables only; no business migration
 next_task: TASK-002 (planned, not authorized)
 ```
@@ -80,4 +80,4 @@ next_task: TASK-002 (planned, not authorized)
 
 ## 审查交接
 
-TASK-001 状态仅为 review_ready，等待独立 Reviewer，执行者不标 accepted。TASK-002 保持 planned，未自动开始。先提交可复核实现与证据，再在单独证据提交记录实际内容 head_commit，避免文件包含自身 SHA；最终交付 SHA 在 `git rev-parse HEAD` 与回复中给出。Reviewer 检查 base..head_commit 的实现及随后仅报告证据的差异。
+TASK-001 状态仅为 review_ready，等待独立 Reviewer，执行者不标 accepted。TASK-002 保持 planned，未自动开始。已提交实现与证据，内容 head_commit 为 ad64b4ca6e9229fa4d05729e07b2bd08f36d89b1；随后单独证据提交仅更新本报告与 verification.txt，避免文件包含自身 SHA；最终交付 SHA 在 `git rev-parse HEAD` 与回复中给出。Reviewer 检查 base..head_commit 的实现及随后仅报告证据的差异。
