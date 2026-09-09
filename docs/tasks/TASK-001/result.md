@@ -2,12 +2,12 @@
 
 ```yaml
 task_id: TASK-001
-status: review_ready
+status: accepted
 accepted_baseline: 88e3044ac8749a9c003fe2ecc78a6de0c9abf1d6
 base_commit: 1e3b6c5fc7c40d9fc831de8e897d4c23f12cb1c6
 head_commit: ad64b4ca6e9229fa4d05729e07b2bd08f36d89b1
 migration_impact: new platform tables only; no business migration
-next_task: TASK-002 (planned, not authorized)
+next_task: TASK-002 (authorized by product/architecture owner)
 ```
 
 ## 交接
@@ -110,3 +110,7 @@ README 将本机与 Compose 初始化分开，并在两者之后提供公共必�
 - [本次验证证据](verification-r1-r2.txt)单独保存，原 verification.txt/json 未覆盖。
 
 测试仅启动并清理自己的临时 PostgreSQL 集群，不连接或停止常驻数据库。容器实测、远程 CI：not_run；没有启动 Docker、升级依赖、修改原 Demo、部署或扩展业务。TASK-001 保持 review_ready，待独立增量复核；未标 accepted，未开始 TASK-002。
+
+## 产品/架构验收与下一任务交接
+
+2026-09-09，产品/架构负责人依据 [首次审查](../../reviews/TASK-001-8b7cf4a-review.md) 和 [增量复核](../../reviews/TASK-001-c50a951-review.md) 确认 TASK-001 accepted，明确分配 TASK-002。交接时 HEAD 为 c50a95126ec9de6c471c2425cde3dac5f9012993；只有未跟踪的增量报告，原样纳入 Git，无用户修改被覆盖。历史验证及两轮报告结论保持原样。

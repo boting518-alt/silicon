@@ -1,6 +1,6 @@
 # TASK-001：工程骨架
 
-status: review_ready
+status: accepted
 owner: 执行线程
 reviewer: 独立上下文，待指定
 
