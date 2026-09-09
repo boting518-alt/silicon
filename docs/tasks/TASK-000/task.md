@@ -1,6 +1,6 @@
 # TASK-000
 
-status: review_ready
+status: accepted
 
 ## 11. TASK-000：可直接执行的首个任务书
 
@@ -27,3 +27,7 @@ status: review_ready
 验收：文档可支持执行者开始 TASK-001；已明确 Demo 基线及获取办法；生产架构与 Demo 托管不混淆；没有引入业务代码、密钥、真实客户数据或未经请求的部署。
 
 若来源源码不可访问：仍完成上述架构文档和工程任务书，把源码依赖列为 `demo_source_pending`；只在开始 UI 迁移前要求补齐源码。不能凭印象重画 UI 并声称复用了原 Demo。
+
+## 产品/架构负责人验收与交接（2026-09-09）
+
+当前状态：accepted（用户明确确认，非执行者自行验收）。依据 docs/reviews/TASK-000-91ac217-review.md 的原审查及 docs/reviews/TASK-000-88e3044-review.md 的 passed 增量复核；已复核基线为 88e3044ac8749a9c003fe2ecc78a6de0c9abf1d6。上文 review_ready 与待复核描述保留为历史阶段。当前明确分配 TASK-001：工程骨架。

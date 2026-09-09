@@ -2,7 +2,7 @@
 
 ```yaml
 task_id: TASK-000
-status: review_ready
+status: accepted
 base_commit: e98d435e10b663430d6a5f17734923ea8d0fb426
 head_commit: 63d75022600c5ced4226e9167fca4af903ae5b2c
 migration_impact: none
@@ -92,3 +92,7 @@ fix_commit: 使用本节所在独立修复提交的 SHA（git rev-parse HEAD）�
 - 原审查报告 SHA-256 修复前后相同；保持未跟踪，不纳入修复提交。
 - `git diff --check`：退出 0，无空白错误。提交前再次检查最终差异并精确暂存两个修复文件。
 - 浏览器、数据库、业务构建和服务测试：not_run，本次为文档前置条件修复。
+
+## 产品/架构负责人验收与交接（2026-09-09）
+
+当前状态：accepted（用户明确确认，非执行者自行验收）。依据 docs/reviews/TASK-000-91ac217-review.md 的原审查及 docs/reviews/TASK-000-88e3044-review.md 的 passed 增量复核；已复核基线为 88e3044ac8749a9c003fe2ecc78a6de0c9abf1d6。上文 review_ready 与待复核描述保留为历史阶段。当前明确分配 TASK-001：工程骨架。

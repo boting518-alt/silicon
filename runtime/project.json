@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "silicon",
   "path_base": "repository_root",
-  "current_task": "TASK-000",
-  "status": "review_ready",
+  "current_task": "TASK-001",
+  "status": "executing",
   "paths": {
     "web": "apps/web",
     "api": "apps/api",
