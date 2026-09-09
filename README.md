@@ -23,7 +23,9 @@ cp .env.example .env
 
 .env 仅本地，示例密码不是生产凭据；不要提交 .env。已有配置先核对，不覆盖。Python 应用只读取 DATABASE_URL，迁移只读取 MIGRATION_DATABASE_URL，发布时必须分别注入。SILICON_ENV=production 目前会拒绝启动。
 
-## 本机 PostgreSQL（默认）
+## 数据库初始化（两条路线二选一）
+
+### 本机 PostgreSQL（默认）
 
 本机已按用户要求从 14 升为 Homebrew PostgreSQL 17.11；14 停止并保留原数据，备份在本机用户目录，不入 Git。统一使用 17 的命令和服务。其他机器安装对应版本后再执行。检查服务：
 
@@ -37,19 +39,33 @@ pg_isready
 ```bash
 createdb silicon
 psql -X -d silicon -v ON_ERROR_STOP=1 -v migration_password=local_migration_only -v app_password=local_app_only -f infra/bootstrap.sql
-uv run --locked --env-file .env python infra/migrate.py upgrade head
-uv run --locked --env-file .env python infra/migrate.py current
 ```
 
 silicon_migrator 拥有迁移对象；silicon_app 非 owner/非 superuser/无 BYPASSRLS，只有所需 DML。完整租户权限留给 TASK-002。原生 Homebrew 本地信任认证沿用原配置，仅监听回环；本地角色权限测试不等于已实现用户登录。
 
-可选容器数据库（与本机服务二选一，不能同时占 5432）：
+### Compose PostgreSQL（可选）
+
+与本机服务二选一，不能同时占 5432：
 
 ```bash
 docker compose --env-file .env -f infra/compose.yaml up -d --wait db
 ```
 
-使用 postgres:17.11-bookworm，初始化使用同一 bootstrap.sql。当前仅验证 Compose 配置语法，容器启动未验证。首次初始化失败需检查专属开发卷和日志，不能把“容器已启动”视作迁移成功。
+使用 postgres:17.11-bookworm；全新卷由容器初始化脚本执行 bootstrap.sql 创建角色和权限，**不要再执行本机路线的 createdb/bootstrap**。`up --wait` 仅说明数据库通过 pg_isready，不表示 Alembic 迁移完成。当前仅验证 Compose 配置语法，容器启动仍为 not_run；初始化失败时检查该开发卷和容器日志。
+
+## 两条路线都必须执行迁移
+
+完成所选数据库初始化后，先确认根目录 `.env` 中 `DATABASE_URL` 和 `MIGRATION_DATABASE_URL` 的主机、端口、库名及各自角色密码均指向该数据库。API/Worker 使用前者，迁移使用后者。为避免终端已有变量覆盖 `.env`，在迁移及应用启动终端先执行下面的 unset。
+
+默认连接为 `127.0.0.1:5432/silicon`。若 Compose 改为 `127.0.0.1:55432:5432`，同时将 `.env` 中两条连接 URL 的主机端口改为 `127.0.0.1:55432`，容器内部仍用 5432。本机使用其他端口时，也同步两条 URL，并给该路线的 createdb/psql 指定对应 `-h` 与 `-p`；不能让迁移和 API 连接不同实例。
+
+```bash
+unset DATABASE_URL MIGRATION_DATABASE_URL
+uv run --locked --env-file .env python infra/migrate.py upgrade head
+uv run --locked --env-file .env python infra/migrate.py current
+```
+
+必须确认 upgrade 成功且 current 显示 `0001_platform (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
 
 ## 启动 Web、API、Worker
 

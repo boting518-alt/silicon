@@ -4,6 +4,7 @@ import socket
 import subprocess
 import sys
 import time
+from threading import Event
 from uuid import uuid4
 
 import httpx
@@ -79,6 +80,56 @@ def test_locked_job_does_not_block_another_claim(engine):
         db.execute(text('SELECT id FROM jobs WHERE id=:id FOR UPDATE'),{'id':first})
         job=claim(engine)
         assert job['id']==second
+
+
+
+def test_locked_exhausted_lease_does_not_block_queued_job(engine):
+    exhausted = enqueue_smoke(engine, 'exhausted-locked')
+    original = claim(engine)
+    assert original['id'] == exhausted
+    with engine.begin() as db:
+        db.execute(text("""
+            UPDATE jobs SET attempts=max_attempts, lease_until=now()-interval '1 second'
+            WHERE id=:id
+        """), {'id': exhausted})
+    queued = enqueue_smoke(engine, 'available-while-cleanup-locked')
+    started = Event()
+
+    def claim_on_other_connection():
+        started.set()
+        return claim(engine)
+
+    # The lock transaction remains open until the other connection returns B.
+    # On failure it unwinds before joining the thread, so cleanup cannot hang.
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        with engine.begin() as lock_holder:
+            lock_holder.execute(text('SELECT id FROM jobs WHERE id=:id FOR UPDATE'), {'id': exhausted})
+            pending = pool.submit(claim_on_other_connection)
+            assert started.wait(timeout=1), 'claimant did not start'
+            claimed = pending.result(timeout=2)
+            assert claimed['id'] == queued
+            assert lock_holder.in_transaction()
+            assert lock_holder.scalar(text('SELECT status FROM jobs WHERE id=:id'), {'id': exhausted}) == 'running'
+
+    assert claim(engine) is None
+    with engine.connect() as db:
+        row = db.execute(text('SELECT status, error_code, lease_token, lease_until FROM jobs WHERE id=:id'), {'id': exhausted}).one()
+        assert tuple(row) == ('failed', 'LEASE_EXHAUSTED', None, None)
+
+
+def test_exhausted_lease_cleanup_is_bounded(engine):
+    with engine.begin() as db:
+        db.execute(text("""
+            INSERT INTO jobs (id, kind, dedupe_key, status, attempts, max_attempts, lease_token, lease_until)
+            VALUES (:id, 'smoke', :key, 'running', 3, 3, :token, now()-interval '1 second')
+        """), [{'id': uuid4(), 'key': f'exhausted-{i}', 'token': uuid4()} for i in range(101)])
+    assert claim(engine) is None
+    with engine.connect() as db:
+        assert db.scalar(text("SELECT count(*) FROM jobs WHERE status='failed'")) == 100
+        assert db.scalar(text("SELECT count(*) FROM jobs WHERE status='running'")) == 1
+    assert claim(engine) is None
+    with engine.connect() as db:
+        assert db.scalar(text("SELECT count(*) FROM jobs WHERE status='failed'")) == 101
 
 
 def test_expired_lease_fences_stale_worker(engine):

@@ -20,11 +20,17 @@ def claim(engine, lease_seconds=30):
     if lease_seconds <= 0:
         raise ValueError("lease must be positive")
     with engine.begin() as db:
-        # An exhausted, crashed attempt becomes visibly failed, never stuck running.
+        # Lock a bounded cleanup batch without waiting behind another worker.
+        # The materialized selection keeps those locks through the update/claim transaction.
         db.execute(text("""
+            WITH exhausted AS MATERIALIZED (
+                SELECT id FROM jobs
+                WHERE status='running' AND lease_until < now() AND attempts >= max_attempts
+                ORDER BY lease_until, id FOR UPDATE SKIP LOCKED LIMIT 100
+            )
             UPDATE jobs SET status='failed', error_code='LEASE_EXHAUSTED',
                 lease_token=NULL, lease_until=NULL
-            WHERE status='running' AND lease_until < now() AND attempts >= max_attempts
+            FROM exhausted WHERE jobs.id=exhausted.id
         """))
         row = db.execute(text("""
             SELECT id FROM jobs

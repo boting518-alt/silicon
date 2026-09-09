@@ -81,3 +81,32 @@ next_task: TASK-002 (planned, not authorized)
 ## 审查交接
 
 TASK-001 状态仅为 review_ready，等待独立 Reviewer，执行者不标 accepted。TASK-002 保持 planned，未自动开始。已提交实现与证据，内容 head_commit 为 ad64b4ca6e9229fa4d05729e07b2bd08f36d89b1；随后单独证据提交仅更新本报告与 verification.txt，避免文件包含自身 SHA；最终交付 SHA 在 `git rev-parse HEAD` 与回复中给出。Reviewer 检查 base..head_commit 的实现及随后仅报告证据的差异。
+
+
+## R1 / R2 增量修复（2026-09-09）
+
+status: review_ready
+fix_base_commit: 8b7cf4a4a0dc1748e5142afb6b45876708febb1b
+
+已读取 [独立审查报告](../../reviews/TASK-001-8b7cf4a-review.md)。初始 HEAD 与待审查 HEAD 一致，无已跟踪用户修改，仅审查报告未跟踪。本次原样纳入该报告；修复前后 SHA-256 一致，保留其 changes_requested 结论。上方 base/head 与验证记录属于首次交付的历史证据；本次差异按 fix_base_commit 到本节所在独立修复提交审查，准确修复 SHA 由 Git 提交记录与交付回复给出，不构造自引用 SHA。
+
+### R1：有界、非阻塞的耗尽租约清理
+
+claim() 使用 MATERIALIZED CTE，通过 FOR UPDATE SKIP LOCKED 按租约到期时间/id 取得最多 100 条待清理行，再在同一事务更新这些已锁定行。被其他连接锁住的耗尽任务留待后续清理，不阻塞正常 queued 任务领取。未改变 statement_timeout、租约 token、尝试次数、重试/failed 或旧 Worker 写入拒绝逻辑，未吞掉异常或省略清理。
+
+新增真实 PG 回归：将 A 置为 running、租约过期且耗尽次数，B 为 queued；独立连接事务锁住 A，通过 Event 同步另一个线程开始领取，在 2 秒有限超时内取得 B，且成功断言发生在持锁事务退出之前。释放 A 后再次领取触发清理，断言 A 为 failed/LEASE_EXHAUSTED 且租约字段清空。另以 101 条耗尽记录验证单次最多清理 100 条、下次清理剩余一条。
+
+### R2：两条数据库路线共用必做迁移步骤
+
+README 将本机与 Compose 初始化分开，并在两者之后提供公共必做的 upgrade head/current 命令，明确使用根目录 .env。迁移/应用终端先 unset 已导出的 DATABASE_URL 与 MIGRATION_DATABASE_URL，避免覆盖 .env；改变主机端口时同步两条 URL，本机初始化命令也指定相应主机/端口。Compose 用户不重复 createdb/bootstrap。明确三阶段：数据库启动/pg_isready、迁移到 0001_platform (head)、API ready 200；前一阶段不能代替后一阶段。
+
+### 本次实际验证
+
+- 原实现先跑新增两项回归：2 failed（持锁时领取超时、单次清理 101 条），证明测试能识别原问题。
+- 修复后 `SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin .venv/bin/python -m pytest -v`：**12 passed, 2 warnings in 3.94s**，退出 0；包含原有全部 10 项 PG/API/Worker 验证及两项新增回归。未更换依赖；原有 Starlette/httpx/anyio 弃用警告未屏蔽。
+- `.venv/bin/python infra/check_docs.py`：退出 0，任务状态、相对路径、原有审查 hash 和本地链接通过。
+- `docker compose --env-file .env.example -f infra/compose.yaml config -q`：退出 0，仅配置校验。
+- `git diff --check`：退出 0；暂存后再次检查。
+- [本次验证证据](verification-r1-r2.txt)单独保存，原 verification.txt/json 未覆盖。
+
+测试仅启动并清理自己的临时 PostgreSQL 集群，不连接或停止常驻数据库。容器实测、远程 CI：not_run；没有启动 Docker、升级依赖、修改原 Demo、部署或扩展业务。TASK-001 保持 review_ready，待独立增量复核；未标 accepted，未开始 TASK-002。
