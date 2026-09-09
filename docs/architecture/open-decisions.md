@@ -23,7 +23,7 @@
 |---|---|---|---|
 | OD-010 | 当前目录没有 Git、AGENTS 或项目代码 | 独立 silicon-workspace，main，无 remote | 本次复核 |
 | OD-011 | 原生 Sites Demo 与 Python 生产运行环境不同 | 原 Demo 只读；生产采用 Vite/FastAPI/PostgreSQL，不复制 hosting 身份 | TASK-001 |
-| OD-012 | 无依赖清单或包管理器可沿用 | Web 暂定 npm，Python 暂定 uv；TASK-001 检查版本维护及兼容后锁定 | TASK-001 安装前 |
+| OD-012 | 无依赖清单或包管理器可沿用 | TASK-001 已落实 npm 11.12.1 + uv 0.12.11；固定依赖和实测见 dependencies.md | TASK-001 安装前 |
 | OD-013 | 尚未选择真实 IdP | 本地 Keycloak，生产以单一 OIDC 适配器接入 | TASK-002 |
 | OD-014 | 报价 .primary=#214f3c，工作空间=#254f3d | 保留两个语义 token，不强行统一造成漂移 | TASK-003 视觉复核 |
 | OD-015 | business.js:4 把开票排列在验收后 | 生产拆分发票、交付、验收、收款状态 | 对应业务实现前 |

@@ -9,3 +9,10 @@ __pycache__/
 node_modules/
 .venv/
 # Authored Demo dist/ is source: never blanket-ignore dist.
+
+# TASK-001 generated output; original Demo dist remains tracked.
+/apps/web/dist/
+.pytest_cache/
+*.egg-info/
+*.tsbuildinfo
+.tools/

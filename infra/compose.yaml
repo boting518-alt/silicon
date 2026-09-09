@@ -1,0 +1,23 @@
+name: silicon-dev
+services:
+  db:
+    image: postgres:17.11-bookworm
+    environment:
+      POSTGRES_DB: silicon
+      POSTGRES_USER: silicon_bootstrap
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Set APP_DB_PASSWORD in .env}
+      MIGRATION_DB_PASSWORD: ${MIGRATION_DB_PASSWORD:?Set MIGRATION_DB_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./bootstrap.sh:/docker-entrypoint-initdb.d/10-bootstrap.sh:ro
+      - ./bootstrap.sql:/bootstrap/bootstrap.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U silicon_bootstrap -d silicon"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  pgdata:

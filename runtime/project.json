@@ -3,7 +3,7 @@
   "project": "silicon",
   "path_base": "repository_root",
   "current_task": "TASK-001",
-  "status": "executing",
+  "status": "review_ready",
   "paths": {
     "web": "apps/web",
     "api": "apps/api",
@@ -15,7 +15,7 @@
     "reviews": "docs/reviews",
     "infra": "infra"
   },
-  "paths_state": "planned_except_docs",
+  "paths_state": "scaffold_created",
   "demo_references": {
     "quote": {
       "path": "../silicon-quote-reference",
@@ -34,5 +34,13 @@
   "visual_baseline": "pending",
   "deployment": {
     "configured": false
+  },
+  "toolchain": {
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "python": "3.12.7",
+    "uv": "0.12.11",
+    "postgresql": "17.11",
+    "idp_candidate": "Keycloak 26.7.3 (TASK-002 pending)"
   }
 }

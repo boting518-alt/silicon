@@ -1,0 +1,14 @@
+:root {
+  --color-background: #f5f7f8;
+  --color-text: #202e2d;
+  --color-primary-workspace: #254f3d;
+  --color-primary-quote: #214f3c;
+  --color-feature-surface: #244d3e;
+  --color-selected: #eaf3ed;
+  --color-soft-surface: #edf3ef;
+  --color-border: #e0e7e2;
+  --radius-button: 8px;
+  --radius-card: 13px;
+  --radius-panel: 18px;
+  --font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+}

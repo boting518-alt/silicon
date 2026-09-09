@@ -1,0 +1,28 @@
+name: skeleton
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+      - run: npm install --global npm@11.12.1
+      - run: python -m pip install uv==0.12.11
+      - run: npm ci --ignore-scripts
+      - run: uv sync --locked
+      - run: uv run --locked python infra/export_openapi.py && npm run api:types
+      - run: git diff --exit-code -- packages/api-client
+      - run: npm run typecheck && npm run build
+      - name: Build verified PostgreSQL 17.11
+        run: python infra/build_test_postgres.py --prefix "$RUNNER_TEMP/silicon-pg17"
+      - name: Real database, API and Worker acceptance
+        run: SILICON_TEST_PG_BIN="$RUNNER_TEMP/silicon-pg17/bin" uv run --locked pytest -v
+      - run: git diff --check

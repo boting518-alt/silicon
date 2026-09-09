@@ -1,0 +1,50 @@
+[
+  {
+    "command": ".tools/bin/uv --version",
+    "exit_code": 0
+  },
+  {
+    "command": ".tools/bin/uv sync --locked",
+    "exit_code": 0
+  },
+  {
+    "command": "npm ci --ignore-scripts",
+    "exit_code": 0
+  },
+  {
+    "command": ".tools/bin/uv run --locked python infra/export_openapi.py",
+    "exit_code": 0
+  },
+  {
+    "command": "npm run api:types",
+    "exit_code": 0
+  },
+  {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  {
+    "command": "npm run build",
+    "exit_code": 0
+  },
+  {
+    "command": ".tools/bin/uv run --locked pytest -v",
+    "exit_code": 0
+  },
+  {
+    "command": ".tools/bin/uv run --locked python infra/check_docs.py",
+    "exit_code": 0
+  },
+  {
+    "command": "docker compose --env-file .env.example -f infra/compose.yaml config -q",
+    "exit_code": 0
+  },
+  {
+    "command": "npm audit --json",
+    "exit_code": 0
+  },
+  {
+    "command": "git diff --check",
+    "exit_code": 0
+  }
+]
