@@ -4,7 +4,7 @@
 task_id: TASK-000
 status: review_ready
 base_commit: e98d435e10b663430d6a5f17734923ea8d0fb426
-head_commit: recorded_in_followup_evidence_commit
+head_commit: 63d75022600c5ced4226e9167fca4af903ae5b2c
 migration_impact: none
 next_task: TASK-001
 ```
@@ -49,6 +49,7 @@ next_task: TASK-001
 | 脚本内 node --check | passed | 6 个原始 JavaScript 文件语法正确；不等于浏览器运行正确 |
 | HTML 静态引用及 CSS token 检查 | passed | 10 个本地资源/导航引用，基线颜色匹配 |
 | 源码持久化入口静态检索 | passed（有限范围） | 未匹配 fetch/XMLHttpRequest/localStorage/indexedDB；刷新行为仍未浏览器验证 |
+| git diff --cached --check / 允许文件范围与凭据模式检查 | passed | 29 文件仅文档/配置；无匹配凭据模式或 OS 附属文件；原指南逐字节一致 |
 | 浏览器/视觉/E2E、静态服务启动 | not_run | 按 TASK-000 范围留给 TASK-003；静态启动命令只作手册 |
 | 应用构建、PostgreSQL、Worker、迁移测试 | not_run | 本次只有文档，无生产骨架；后续任务验收要求已列出 |
 
@@ -68,4 +69,4 @@ next_task: TASK-001
 
 ## 审查交接
 
-状态仅为 review_ready，独立 Review 未执行，不自行 passed/accepted。最终证据提交会记录真实内容 head_commit；该提交只更新本报告等证据。由于文件不能包含自身提交 SHA，交付 HEAD 用 git rev-parse HEAD 获取；Reviewer 检查 base..head_commit 的内容 diff 和 head_commit..HEAD 的证据 diff。下一步等待独立上下文审查，不自动执行 TASK-001。
+状态仅为 review_ready，独立 Review 未执行，不自行 passed/accepted。内容 head_commit 已记录为 63d75022600c5ced4226e9167fca4af903ae5b2c；随后提交仅更新本报告和验证证据。由于文件不能包含自身提交 SHA，交付 HEAD 用 git rev-parse HEAD 获取；Reviewer 检查 base..head_commit 的内容 diff 和 head_commit..HEAD 的证据 diff。下一步等待独立上下文审查，不自动执行 TASK-001。

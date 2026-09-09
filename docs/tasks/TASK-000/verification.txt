@@ -11,3 +11,7 @@ NOT_RUN browser/visual/E2E, static HTTP serving, app build, PostgreSQL/Worker te
 
 Initial verification script treated href="./" as a file; corrected to accept a directory with index.html, then reran successfully. This was a checker error, not a Demo source defect.
 Source Git commands can emit non-monotonic index warnings for OS-generated ._*.idx; byte comparisons succeed; full repository pack health not certified.
+
+Content commit: 63d75022600c5ced4226e9167fca4af903ae5b2c
+PASS git diff --cached --check (exit 0 before content commit)
+PASS 29 staged files within TASK-000 allowlist; no detected credential patterns or AppleDouble files; input guide byte-identical
