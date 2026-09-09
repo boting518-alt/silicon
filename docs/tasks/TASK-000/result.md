@@ -69,4 +69,26 @@ next_task: TASK-001
 
 ## 审查交接
 
-状态仅为 review_ready，独立 Review 未执行，不自行 passed/accepted。内容 head_commit 已记录为 63d75022600c5ced4226e9167fca4af903ae5b2c；随后提交仅更新本报告和验证证据。由于文件不能包含自身提交 SHA，交付 HEAD 用 git rev-parse HEAD 获取；Reviewer 检查 base..head_commit 的内容 diff 和 head_commit..HEAD 的证据 diff。下一步等待独立上下文审查，不自动执行 TASK-001。
+首次交付时状态为 review_ready，独立 Review 尚未执行；后续 R1 审查与修复见下节，不自行 passed/accepted。内容 head_commit 已记录为 63d75022600c5ced4226e9167fca4af903ae5b2c；随后提交仅更新本报告和验证证据。由于文件不能包含自身提交 SHA，交付 HEAD 用 git rev-parse HEAD 获取；首次交付的 Reviewer 检查 base..head_commit 的内容 diff 和 head_commit..91ac217 的证据 diff；本次 R1 修复另以 91ac217..HEAD 审查。下一步等待独立上下文审查，不自动执行 TASK-001。
+
+## R1（P2）修复记录
+
+status: review_ready
+fix_base_commit: 91ac21771230f4e784442592c0bc80c27f8f77b3
+fix_commit: 使用本节所在独立修复提交的 SHA（git rev-parse HEAD），避免报告自引用。
+
+已读取 docs/reviews/TASK-000-91ac217-review.md，其结论为 changes_requested。R1 指出 README 将 TASK-001 自身复核作为骨架开发前置，形成循环。本次按要求改为：“TASK-000 独立复核通过并明确分配 TASK-001 前，不开发骨架。”
+
+逐项对照 README、AGENTS.md 的 Current scope、backlog 的依赖及未授权实施说明、TASK-001 任务书的目标与前置：均以 TASK-000 独立复核通过和明确分配为开工条件。其余三份文件无 R1 冲突，保持原样。仅修改 README.md 与本结果报告。
+
+原独立审查报告保持未跟踪、内容不变，不修改其发现或 changes_requested 结论；修复后仍待独立复核。上方 head_commit 是首次内容交付的历史记录，不是本次修复 HEAD。
+
+本次未开始 TASK-001，未安装业务依赖、部署或清理参考仓库磁盘元数据。
+
+### 本次实际验证
+
+- `python3 docs/tasks/TASK-000/verify.py`：退出 0；22 必需文档、46 本地链接（含已有未跟踪审查报告）、相对配置与任务状态通过；12 Demo 文件 hash/blob、6 JavaScript 语法及 10 本地引用检查通过。
+- R1 定向核对：README 包含指定新句且不再包含循环前置；AGENTS.md、backlog、TASK-001 任务书逐项对照无冲突，并与修复前 Git 内容逐字节一致。
+- 原审查报告 SHA-256 修复前后相同；保持未跟踪，不纳入修复提交。
+- `git diff --check`：退出 0，无空白错误。提交前再次检查最终差异并精确暂存两个修复文件。
+- 浏览器、数据库、业务构建和服务测试：not_run，本次为文档前置条件修复。
