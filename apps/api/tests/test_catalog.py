@@ -255,3 +255,67 @@ def test_expanded_quantity_is_bounded_without_commercial_credit(engine,database,
         revised=ok(send(c,'/boms/'+package_version['id']+'/revise',{'expected_version':package_version['version']}))
         ok(send(c,'/boms/'+revised['id'],update_body(revised,'boms',lines=[]),'put'),200)
         assert c.get(BASE+'/price-books/'+published_price['id']).json()['lines'][0]['amount']=='10.00'
+
+
+def test_category_change_keeps_draft_and_all_catalog_loads_repairable(engine,database,identities):
+    with client(engine,database,identities.user,identities.a) as c:
+        host=product(c,'CATEGORY-HOST');replacement=product(c,'REPLACEMENT-HOST')
+        b=package(c,host,[])
+        changed=ok(send(c,'/skus/'+host['id'],update_body(host,'skus',category='cpu'),'put'),200)
+        assert changed['category']=='cpu'
+        # These are all four requests used together by every catalog page.
+        for path in ['/skus','/boms','/price-books','/rules']:
+            assert c.get(BASE+path).status_code==200
+        broken=ok(c.get(BASE+'/boms/'+b['id']),200)
+        assert any(x['code']=='PACKAGE_REQUIRES_HOST' and x['status']=='BLOCK' for x in broken['snapshot']['checks'])
+        saved=ok(send(c,'/boms/'+b['id'],update_body(broken,'boms',name='待修复草稿'),'put'),200)
+        assert send(c,'/boms/'+b['id']+'/publish',{'expected_version':saved['version']}).json()['code']=='PACKAGE_REQUIRES_HOST'
+        repaired=ok(send(c,'/boms/'+b['id'],update_body(saved,'boms',subject_sku_id=replacement['id']),'put'),200)
+        assert publish(c,'boms',repaired)['snapshot']['subject']['id']==replacement['id']
+
+
+@pytest.mark.parametrize('retired_position',['subject','part'])
+def test_retired_bom_reference_can_be_revised_repaired_without_history_change(engine,database,identities,retired_position):
+    with client(engine,database,identities.user,identities.a) as c:
+        host=product(c,'RETIRE-HOST');part=product(c,'RETIRE-PSU','psu')
+        new_host=product(c,'NEW-HOST');new_part=product(c,'NEW-PSU','psu')
+        frozen=publish(c,'boms',package(c,host,[line(part)]))
+        target=host if retired_position=='subject' else part
+        ok(send(c,'/skus/'+target['id'],update_body(target,'skus',enabled=False),'put'),200)
+        key=str(uuid4());command={'expected_version':frozen['version']}
+        revised=ok(send(c,'/boms/'+frozen['id']+'/revise',command,key=key))
+        assert ok(send(c,'/boms/'+frozen['id']+'/revise',command,key=key))==revised
+        assert revised['family_id']==frozen['family_id'] and revised['revision']==2
+        assert any(x['code']=='DISABLED_SKU' and x['status']=='BLOCK' for x in revised['snapshot']['checks'])
+        saved=ok(send(c,'/boms/'+revised['id'],update_body(revised,'boms',name='仍待替换'),'put'),200)
+        assert send(c,'/boms/'+saved['id']+'/publish',{'expected_version':saved['version']}).json()['code']=='DISABLED_SKU'
+        assert ok(c.get(BASE+'/boms/'+saved['id']),200)['state']=='draft'
+        fixed=ok(send(c,'/boms/'+saved['id'],update_body(saved,'boms',subject_sku_id=new_host['id'] if retired_position=='subject' else host['id'],lines=[line(new_part)]),'put'),200)
+        published=publish(c,'boms',fixed)
+        assert not any(x['code']=='DISABLED_SKU' for x in published['snapshot']['checks'])
+        assert ok(c.get(BASE+'/boms/'+frozen['id']),200)==frozen
+        assert ok(c.get(BASE+'/skus/'+target['id']),200)['enabled'] is False
+
+
+def test_retired_price_line_revision_is_repairable_but_not_publishable(engine,database,identities):
+    with client(engine,database,identities.user,identities.a) as c:
+        old=product(c,'OLD-PRICE','psu');active=product(c,'ACTIVE-PRICE')
+        frozen=publish(c,'price-books',price(c,old,lines=[{'sku_id':old['id'],'amount':'10.00'},{'sku_id':active['id'],'amount':'20.00'}]))
+        # A draft created before retirement must also be checked again on publish.
+        pending=price(c,old,scope='other')
+        ok(send(c,'/skus/'+old['id'],update_body(old,'skus',enabled=False),'put'),200)
+        key=str(uuid4());body={'expected_version':frozen['version']}
+        revised=ok(send(c,'/price-books/'+frozen['id']+'/revise',body,key=key))
+        assert ok(send(c,'/price-books/'+frozen['id']+'/revise',body,key=key))==revised
+        assert revised['family_id']==frozen['family_id'] and revised['revision']==2
+        assert any(x['code']=='DISABLED_SKU' and x['status']=='BLOCK' for x in revised['checks'])
+        saved=ok(send(c,'/price-books/'+revised['id'],update_body(revised,'price-books',valid_from='2027-01-01T00:00:00Z',valid_to='2028-01-01T00:00:00Z'),'put'),200)
+        for value in (pending,saved):
+            r=send(c,'/price-books/'+value['id']+'/publish',{'expected_version':value['version']})
+            assert r.status_code==422 and r.json()['code']=='DISABLED_SKU'
+            assert ok(c.get(BASE+'/price-books/'+value['id']),200)['state']=='draft'
+        fixed=ok(send(c,'/price-books/'+saved['id'],update_body(saved,'price-books',lines=[{'sku_id':active['id'],'amount':'25.00'}]),'put'),200)
+        assert fixed['checks']==[]
+        assert publish(c,'price-books',fixed)['state']=='published'
+        assert ok(c.get(BASE+'/price-books/'+frozen['id']),200)==frozen
+        assert ok(c.get(BASE+'/skus/'+old['id']),200)['enabled'] is False

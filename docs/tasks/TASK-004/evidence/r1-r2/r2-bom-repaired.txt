@@ -1,0 +1,157 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润 未启用" [disabled]:
+      - generic: ◇
+      - text: 报价与利润
+      - generic: 未启用
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理 未启用" [disabled]:
+      - generic: ▤
+      - text: 合同管理
+      - generic: 未启用
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /包件 / BOM
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - generic: SILICON / CATALOG
+  - heading "包件 / BOM" [level=2]
+  - paragraph: 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+  - button "新建包件 / BOM"
+  - status: 版本已发布并冻结。平台 UNKNOWN/BLOCK 不代表兼容通过。
+  - textbox "筛选目录":
+    - /placeholder: 筛选已载入的名称 / 编号
+  - generic: 每类最多载入 100 项
+  - region "目录表格，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "名称 / 编号 类别 / 版本 状态 操作":
+          - columnheader "名称 / 编号"
+          - columnheader "类别 / 版本"
+          - columnheader "状态"
+          - columnheader "操作"
+      - rowgroup:
+        - row "虚构准系统 · 已含电源 修订 1 · 编辑版本 2 已发布 · 冻结 查看 虚构准系统 · 已含电源":
+          - cell "虚构准系统 · 已含电源":
+            - strong: 虚构准系统 · 已含电源
+          - cell "修订 1 · 编辑版本 2"
+          - cell "已发布 · 冻结"
+          - cell "查看 虚构准系统 · 已含电源":
+            - button "查看 虚构准系统 · 已含电源"
+        - row "R1 修复主体 修订 2 · 编辑版本 3 已发布 · 冻结 查看 R1 修复主体":
+          - cell "R1 修复主体":
+            - strong: R1 修复主体
+          - cell "修订 2 · 编辑版本 3"
+          - cell "已发布 · 冻结"
+          - cell "查看 R1 修复主体":
+            - button "查看 R1 修复主体"
+        - row "R2 移除停用电源 修订 3 · 编辑版本 3 已发布 · 冻结 查看 R2 移除停用电源":
+          - cell "R2 移除停用电源":
+            - strong: R2 移除停用电源
+          - cell "修订 3 · 编辑版本 3"
+          - cell "已发布 · 冻结"
+          - cell "查看 R2 移除停用电源":
+            - button "查看 R2 移除停用电源"
+        - row "虚构准系统 · 不含电源 修订 1 · 编辑版本 2 已发布 · 冻结 查看 虚构准系统 · 不含电源":
+          - cell "虚构准系统 · 不含电源":
+            - strong: 虚构准系统 · 不含电源
+          - cell "修订 1 · 编辑版本 2"
+          - cell "已发布 · 冻结"
+          - cell "查看 虚构准系统 · 不含电源":
+            - button "查看 虚构准系统 · 不含电源"
+  - heading "R2 移除停用电源" [level=3]
+  - button "关闭详情"
+  - paragraph: 准系统包件 · 修订 3 · 冻结快照
+  - paragraph: 主体：虚构无电源准系统 / DEMO-BARE
+  - paragraph: 规则来源：虚构工程样例，非供应商认证 / v1
+  - table:
+    - rowgroup:
+      - row "技术部件 数量 必选性 商业归属":
+        - columnheader "技术部件"
+        - columnheader "数量"
+        - columnheader "必选性"
+        - columnheader "商业归属"
+    - rowgroup
+  - paragraph:
+    - strong: UNKNOWN
+    - text: · CPU 插槽资料或必选部件不足
+  - paragraph:
+    - strong: UNKNOWN
+    - text: · 内存代际资料或必选部件不足
+  - paragraph:
+    - strong: BLOCK
+    - text: · 尚无必选电源：不含电源包件需要另选
+  - paragraph:
+    - strong: UNKNOWN
+    - text: · GPU 空间、PCIe/IB 槽位、磁盘背板、内存通道等尚无完整资料；未认证
+  - paragraph: 替换包含件没有自动抵扣；本页不计算报价、成本或利润。
+  - button "编辑草稿" [disabled]
+  - button "创建修订"
+  - generic "平台规则与来源维护"
+  - option "新规则系列" [selected]
+  - option "虚构双路平台 v1"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

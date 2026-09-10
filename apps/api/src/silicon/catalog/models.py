@@ -129,6 +129,7 @@ class PriceUpdate(PriceInput):
     expected_version: Positive
 
 class PriceBook(PriceInput):
+    checks: list[Check]=Field(default_factory=list)
     id: UUID
     family_id: UUID
     revision: int

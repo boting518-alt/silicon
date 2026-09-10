@@ -130,8 +130,9 @@ def checks(lines,platform):
 
 def bom_snapshot(db,body,*,validate=False):
     subject=sku(db,body.subject_sku_id)
+    disabled=not subject.enabled
     if validate and not subject.enabled:raise Denied(422,'DISABLED_SKU')
-    if body.kind=='package' and subject.category!='host':raise Denied(422,'PACKAGE_REQUIRES_HOST')
+    if validate and body.kind=='package' and subject.category!='host':raise Denied(422,'PACKAGE_REQUIRES_HOST')
     platform=rule(db,body.rule_id) if body.rule_id else None
     lines=[]
     def check_graph(id,ancestors,depth=0):
@@ -144,6 +145,7 @@ def bom_snapshot(db,body,*,validate=False):
     for line in body.lines:
         if line.sku_id==subject.id:raise Denied(422,'CYCLIC_PACKAGE')
         part=sku(db,line.sku_id)
+        disabled=disabled or not part.enabled
         if validate and not part.enabled:raise Denied(422,'DISABLED_SKU')
         if line.package_version_id:
             package=row(db,'catalog_boms',line.package_version_id)
@@ -155,7 +157,8 @@ def bom_snapshot(db,body,*,validate=False):
         lines.append(TechnicalLine(sku=part,quantity=line.quantity,required=line.required,charge_mode=line.charge_mode))
         if len(lines)>1000:raise Denied(422,'PACKAGE_SIZE_LIMIT')
     results=checks(lines,platform)
-    if not subject.enabled or any(not x.sku.enabled for x in lines):results.append(Check(code='DISABLED_SKU',status='BLOCK',message='包含已停用 SKU，发布前须调整'))
+    if body.kind=='package' and subject.category!='host':results.append(Check(code='PACKAGE_REQUIRES_HOST',status='BLOCK',message='准系统主体已非主机类别；草稿可修复，发布前须更换主体或调整类别'))
+    if disabled or any(not x.sku.enabled for x in lines):results.append(Check(code='DISABLED_SKU',status='BLOCK',message='包含已停用 SKU，发布前须调整'))
     return BomSnapshot(subject=subject,technical_lines=lines,rule=platform,checks=results)
 
 
@@ -171,7 +174,7 @@ def bom(db,id):
 
 def save_bom(db,access,body,id=None,family=None):
     if id:draft(row(db,'catalog_boms',id),body.expected_version)
-    bom_snapshot(db,body,validate=True)
+    bom_snapshot(db,body)
     values=body.model_dump(exclude={'lines','expected_version'})
     if id:
         update(db,'catalog_boms',id,{**values,'version':body.expected_version+1})
@@ -204,13 +207,18 @@ def revise_bom(db,access,id,version):
 def price_book(db,id):
     item=row(db,'catalog_price_books',id)
     lines=list(db.execute(text('SELECT sku_id,amount FROM catalog_price_lines WHERE book_id=:id ORDER BY sku_id'),{'id':id}).mappings())
-    return PriceBook(**{k:item[k] for k in PriceBook.model_fields if k!='lines'},lines=lines)
+    issues=[]
+    if item['state']=='draft':
+        for line in lines:
+            part=sku(db,line['sku_id'])
+            if not part.enabled:issues.append(Check(code='DISABLED_SKU',status='BLOCK',message=f'{part.number} 已停用；草稿可替换或移除，发布前必须修复'))
+    return PriceBook(**{k:item[k] for k in PriceBook.model_fields if k not in ('lines','checks')},lines=lines,checks=issues)
 
 
 def save_price(db,access,body,id=None,family=None):
     if id:draft(row(db,'catalog_price_books',id),body.expected_version)
     for line in body.lines:
-        if not sku(db,line.sku_id).enabled:raise Denied(422,'DISABLED_SKU')
+        sku(db,line.sku_id)  # Existence/tenant visibility always applies, even to repairable drafts.
     values=body.model_dump(exclude={'lines','expected_version'})
     if id:
         update(db,'catalog_price_books',id,{**values,'version':body.expected_version+1})
@@ -225,6 +233,7 @@ def save_price(db,access,body,id=None,family=None):
 
 def publish_price(db,id,version):
     current=row(db,'catalog_price_books',id);draft(current,version)
+    if price_book(db,id).checks:raise Denied(422,'DISABLED_SKU')
     overlap=db.scalar(text('''SELECT 1 FROM catalog_price_books b JOIN catalog_price_lines p ON p.book_id=b.id
       WHERE b.state='published' AND b.scope=:scope AND b.tax_included=:tax_included AND b.currency=:currency
       AND b.valid_from<:valid_to AND b.valid_to>:valid_from

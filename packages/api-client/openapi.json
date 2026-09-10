@@ -3418,6 +3418,13 @@
             "minItems": 1,
             "title": "Lines"
           },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/Check"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
           "id": {
             "type": "string",
             "format": "uuid",

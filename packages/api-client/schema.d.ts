@@ -862,6 +862,8 @@ export interface components {
             source: string;
             /** Lines */
             lines: components["schemas"]["PriceLine-Output"][];
+            /** Checks */
+            checks?: components["schemas"]["Check"][];
             /**
              * Id
              * Format: uuid

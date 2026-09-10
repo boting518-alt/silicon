@@ -1,0 +1,112 @@
+{
+  "repair_base": "1d627b1225430919efb1ba80ac400460f0b9db83",
+  "review_sha256": "bd5f932eb7144d799f1b56e4307c8c7ea528b67b11e5bcdfb8987fea6b509531",
+  "backend": {
+    "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest apps/api/tests -q",
+    "exit_code": 0,
+    "passed": 70,
+    "skipped": 0,
+    "warnings": 4,
+    "seconds": 43.71,
+    "log": "full-regression.txt"
+  },
+  "catalog": {
+    "passed": 17,
+    "log": "catalog-green.txt"
+  },
+  "red_green": {
+    "r1_red": "1 failed, 13 deselected",
+    "r1_green": "1 passed, 13 deselected",
+    "r2_red": "1 failed, 2 passed, 14 deselected; BOM branch already repaired by shared R1 draft save separation"
+  },
+  "frontend": {
+    "command": "node --test apps/web/tests/*.test.ts",
+    "exit_code": 0,
+    "passed": 14,
+    "skipped": 0
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "exit_code": 0,
+    "vite": "8.2.2",
+    "modules": 20,
+    "asset": "index-BajV_SFH.js"
+  },
+  "checks": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/export_openapi.py"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "api:types"
+      ],
+      "exit_code": 0,
+      "output": "\n> silicon-workspace@0.1.0 api:types\n> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts\n\n✨ openapi-typescript 7.13.0\n🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [53.8ms]\n"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/check_docs.py"
+      ],
+      "exit_code": 0,
+      "output": "PASS task handoff/state, relative paths, unchanged reviews, 148 local links\n"
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "--env-file",
+        ".env.example",
+        "-f",
+        "infra/compose.yaml",
+        "config",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "contract_sha256": {
+    "packages/api-client/openapi.json": "9ab49ae18abfc8c31c850646baae3dee66fedcc77fb886febd1c7a99ffde2d96",
+    "packages/api-client/schema.d.ts": "c89ea9bdb0c14d388d98d0605581714bae3a75693768d9be57cea016b8ce1700"
+  },
+  "contract_reproducible": true,
+  "screenshots": [
+    {
+      "file": "r2-price-blocked.jpg",
+      "sha256": "6889133957f9d5edce7f2ced44068eb09e6c1ccf64e8d5c9ed4bfcf562641828",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "r2-price-old.jpg",
+      "sha256": "3da230e6383d926194fbbd51a4179b8449d784937031ee3ee9b7472adf0c56fe",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "browser": "passed targeted real UI R1/R2; see browser-notes.md",
+  "remote_ci": "not_run",
+  "container_runtime": "not_run",
+  "production": "not_run"
+}

@@ -1,0 +1,44 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+______ test_retired_price_line_revision_is_repairable_but_not_publishable ______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:64582/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:64582/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x104d4d6c0>, stop=<function database.<locals>.stop at 0x104d4d760>)
+identities = namespace(a=UUID('cd658ca9-3680-4e0c-95aa-740e048360f2'), b=UUID('56b52525-e915-4d6e-8c18-b94a441b072d'), user=UUID('6...D('754b7ec1-ce1b-4c46-beaf-35663f7c346f'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:64582/silicon))
+
+    def test_retired_price_line_revision_is_repairable_but_not_publishable(engine,database,identities):
+        with client(engine,database,identities.user,identities.a) as c:
+            old=product(c,'OLD-PRICE','psu');active=product(c,'ACTIVE-PRICE')
+            frozen=publish(c,'price-books',price(c,old,lines=[{'sku_id':old['id'],'amount':'10.00'},{'sku_id':active['id'],'amount':'20.00'}]))
+            # A draft created before retirement must also be checked again on publish.
+            pending=price(c,old,scope='other')
+            ok(send(c,'/skus/'+old['id'],update_body(old,'skus',enabled=False),'put'),200)
+            key=str(uuid4());body={'expected_version':frozen['version']}
+>           revised=ok(send(c,'/price-books/'+frozen['id']+'/revise',body,key=key))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_catalog.py:308:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [422 Unprocessable Entity]>, status = 201
+
+    def ok(r,status=201):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"DISABLED_SKU","message":"身份无效或没有执行此操作的权限","request_id":"3a88bbeb-e0aa-49b4-b94b-4956f67a4578"}
+E       assert 422 == 201
+E        +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+apps/api/tests/test_catalog.py:19: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_catalog.py::test_retired_price_line_revision_is_repairable_but_not_publishable
+1 failed, 2 passed, 14 deselected, 2 warnings in 1.98s
