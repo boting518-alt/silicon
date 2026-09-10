@@ -1,0 +1,4 @@
+- heading "仅独立测试环境：签约命令重复提交" [level=1]
+- paragraph: 先在产品界面完成虚构合同签约。本页使用当前真实登录与企业，在真实后端重放签约请求，不使用 HTTP 替身。不输出会话凭据。
+- button "重复提交已签测试合同" [active]
+- generic: "{ \"status\": \"passed\", \"transport\": \"real browser cookies + real API/PostgreSQL\", \"contract_id\": \"d680664f-7552-400c-a2e3-d0263dbf4a6b\", \"signed_id\": \"a3798697-1996-4331-be0e-6f80ab0dedc0\", \"order_id\": \"bb6930f1-c519-4785-bac3-f2e38b9c4d24\", \"before\": 1, \"after\": 1, \"same_command_replay\": true }"

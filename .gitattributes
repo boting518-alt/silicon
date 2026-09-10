@@ -1,0 +1,2 @@
+# Preserve the exact PDF fixture bytes (xref records include required padding).
+docs/tasks/TASK-007/evidence/fictional-proof.pdf binary

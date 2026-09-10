@@ -51,9 +51,12 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
         realm_data=realm(origin)
         if os.getenv('SILICON_BROWSER_PUBLICATION')=='1':
             realm_data['users'].append({'id':'22222222-2222-4222-8222-222222222222','username':'bob','enabled':True,'firstName':'虚构','lastName':'审批人乙','email':'bob@example.invalid','emailVerified':True,'credentials':[{'type':'password','value':'Fictional-bob-17!','temporary':False}]})
+        if os.getenv('SILICON_BROWSER_CONTRACTS')=='1':
+            realm_data['users'].append({'id':'33333333-3333-4333-8333-333333333333','username':'carol','enabled':True,'firstName':'虚构','lastName':'只读用户','email':'carol@example.invalid','emailVerified':True,'credentials':[{'type':'password','value':'Fictional-carol-17!','temporary':False}]})
         (imports/'realm.json').write_text(json.dumps(realm_data))
         env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web','OIDC_CLIENT_SECRET':'fictional-dev-client-secret',
              'OIDC_CA_BUNDLE':str(cert),'PUBLIC_ORIGIN':origin,'SILICON_VISUAL_FONT':str(ROOT/'.tools/visual/PingFang.ttc')}
+        if os.getenv('SILICON_BROWSER_CONTRACTS')=='1':env['SILICON_FILE_ROOT']=str(temp/'contract-files')
         owner=make_engine(database.migration_url)
         actor=UUID('11111111-1111-4111-8111-111111111111')
         a=UUID('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa');b=UUID('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
@@ -61,6 +64,11 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             db.execute(text('INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:id,:issuer,:subject,\'虚构用户甲\')'),dict(id=actor,issuer=issuer,subject=SUBJECT))
             db.execute(text("INSERT INTO tenants VALUES (:a,'虚构企业 A'),(:b,'虚构企业 B')"),dict(a=a,b=b))
             db.execute(text("INSERT INTO memberships VALUES (:a,:u,'admin',true),(:b,:u,:role,true)"),dict(a=a,b=b,u=actor,role='viewer' if os.getenv('SILICON_BROWSER_CATALOG')=='1' else 'admin'))
+        if os.getenv('SILICON_BROWSER_CONTRACTS')=='1':
+            with owner.begin() as db:
+                viewer=UUID('33333333-3333-4333-8333-333333333333')
+                db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:id,:issuer,:subject,'虚构只读用户')"),dict(id=viewer,issuer=issuer,subject=str(viewer)))
+                db.execute(text("INSERT INTO memberships VALUES (:t,:u,'viewer',true)"),dict(t=a,u=viewer))
         owner.dispose()
         engine=make_engine(database.url)
         samples=[('澄川大学 · 人工智能学院','浙江','杭州','高校','战略客户'),('栖原智能科技有限公司','江苏','苏州','企业','重点客户'),('远岑材料研究院','安徽','合肥','科研院所','重点客户'),('京澜智能研究中心','北京','北京','科研院所','战略客户'),('锦序工业科技有限公司','四川','成都','企业','重点客户'),('南序机器人有限公司','广东','深圳','企业','重点客户'),('浦澄数据技术有限公司','上海','上海','企业','重点客户')]

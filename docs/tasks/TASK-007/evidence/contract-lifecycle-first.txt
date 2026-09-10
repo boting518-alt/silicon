@@ -1,0 +1,43 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_contract_signing_freezes_order_and_file_with_replay ___________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:51206/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:51206/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-16/test_contract_signing_freezes_0/private-files')
+identities = namespace(a=UUID('e1923705-636a-455d-a0cd-1a76b2998963'), b=UUID('88482347-b549-475b-9fdd-6cf5135dd073'), user=UUID('e...D('3d72e2de-5d3e-4c49-b535-09854395aa8d'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:51206/silicon))
+
+    def test_contract_signing_freezes_order_and_file_with_replay(engine,database,identities):
+        i=identities;draft,version=source(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+>           w,f=ready(c,draft['id'],i);body={'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True};key=str(uuid4())
+                ^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_contracts.py:60:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_contracts.py:54: in ready
+    f=ok(upload(c,id,w['version']));w=ok(request(c,'/'+id+'/files/'+f['id']+'/attach',{'expected_version':w['version']}),200)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [503 Service Unavailable]>, status = 200
+
+    def ok(r,status=201):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"DATABASE_UNAVAILABLE","message":"服务暂不可用","request_id":"4b04373d-e238-4857-a2b4-f29f0dffa36c"}
+E       assert 503 == 200
+E        +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+apps/api/tests/test_catalog.py:19: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_contracts.py::test_contract_signing_freezes_order_and_file_with_replay
+1 failed, 1 passed, 2 warnings in 2.57s

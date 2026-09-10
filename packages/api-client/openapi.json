@@ -3779,6 +3779,963 @@
         }
       }
     },
+    "/api/v1/contracts": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Listing",
+        "operationId": "listing_api_v1_contracts_get",
+        "parameters": [
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Workspace"
+                  },
+                  "title": "Response Listing Api V1 Contracts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/orders": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Orders",
+        "operationId": "orders_api_v1_contracts_orders_get",
+        "parameters": [
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  },
+                  "title": "Response Orders Api V1 Contracts Orders Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/orders/{id}": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Order",
+        "operationId": "order_api_v1_contracts_orders__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/signed/{id}": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Signed",
+        "operationId": "signed_api_v1_contracts_signed__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Signed"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/files/{id}/download": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Download",
+        "operationId": "download_api_v1_contracts_files__id__download_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}": {
+      "get": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Detail",
+        "operationId": "detail_api_v1_contracts__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workspace"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}/save": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Save",
+        "operationId": "save_api_v1_contracts__id__save_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Save"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workspace"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}/sign": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Sign",
+        "operationId": "sign_api_v1_contracts__id__sign_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sign"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Signed"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}/uploads": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Upload",
+        "operationId": "upload_api_v1_contracts__id__uploads_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 160,
+              "title": "Name"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "contract",
+                "proof",
+                "technical",
+                "other"
+              ],
+              "type": "string",
+              "default": "contract",
+              "title": "Category"
+            }
+          },
+          {
+            "name": "expected_version",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "Expected Version"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/File"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}/files/{file_id}/attach": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Attach",
+        "operationId": "attach_api_v1_contracts__id__files__file_id__attach_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "File Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workspace"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contracts/{id}/files/{file_id}/delete": {
+      "post": {
+        "tags": [
+          "contracts"
+        ],
+        "summary": "Remove",
+        "operationId": "remove_api_v1_contracts__id__files__file_id__delete_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "File Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workspace"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "summary": "Health",
@@ -3828,6 +4785,31 @@
   },
   "components": {
     "schemas": {
+      "Assignment": {
+        "properties": {
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Assignment"
+      },
       "Bom": {
         "properties": {
           "name": {
@@ -5223,6 +6205,242 @@
         ],
         "title": "Error"
       },
+      "Fields-Input": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "title": "Number",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/Party-Input"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/Party-Input"
+          },
+          "project_lead": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "key_contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Key Contacts"
+          },
+          "sales": {
+            "$ref": "#/components/schemas/Assignment"
+          },
+          "support": {
+            "$ref": "#/components/schemas/Assignment"
+          },
+          "signing_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signing Date"
+          },
+          "delivery_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delivery Date"
+          },
+          "delivery_note": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Delivery Note",
+            "default": ""
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Notes",
+            "default": ""
+          },
+          "payments": {
+            "items": {
+              "$ref": "#/components/schemas/Payment-Input"
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "Payments"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Fields"
+      },
+      "Fields-Output": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "maxLength": 40,
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "title": "Number",
+            "default": ""
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/silicon__contracts__models__Party"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/silicon__contracts__models__Party"
+          },
+          "project_lead": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "key_contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Key Contacts"
+          },
+          "sales": {
+            "$ref": "#/components/schemas/Assignment"
+          },
+          "support": {
+            "$ref": "#/components/schemas/Assignment"
+          },
+          "signing_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signing Date"
+          },
+          "delivery_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delivery Date"
+          },
+          "delivery_note": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Delivery Note",
+            "default": ""
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Notes",
+            "default": ""
+          },
+          "payments": {
+            "items": {
+              "$ref": "#/components/schemas/Payment-Output"
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "Payments"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Fields"
+      },
+      "File": {
+        "properties": {
+          "supplemental": {
+            "type": "boolean",
+            "title": "Supplemental",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "media_type": {
+            "type": "string",
+            "title": "Media Type"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "uploaded_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uploaded By"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "category",
+          "media_type",
+          "size",
+          "sha256",
+          "state",
+          "uploaded_by",
+          "created_at"
+        ],
+        "title": "File"
+      },
       "Frozen": {
         "properties": {
           "config": {
@@ -5232,7 +6450,7 @@
             "$ref": "#/components/schemas/Calculation"
           },
           "customer": {
-            "$ref": "#/components/schemas/Party"
+            "$ref": "#/components/schemas/silicon__publication__models__Party"
           },
           "host": {
             "$ref": "#/components/schemas/Sku"
@@ -5355,7 +6573,7 @@
         ],
         "title": "Member"
       },
-      "Party": {
+      "Order": {
         "properties": {
           "id": {
             "type": "string",
@@ -5366,40 +6584,35 @@
             "type": "string",
             "title": "Number"
           },
-          "name": {
+          "contract_version_id": {
             "type": "string",
-            "title": "Name"
+            "format": "uuid",
+            "title": "Contract Version Id"
           },
-          "contacts": {
-            "items": {
-              "$ref": "#/components/schemas/Contact"
-            },
-            "type": "array",
-            "title": "Contacts"
+          "quote_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Quote Version Id"
           },
-          "project": {
-            "$ref": "#/components/schemas/Project"
+          "amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Amount"
           },
-          "sites": {
-            "items": {
-              "$ref": "#/components/schemas/Site"
-            },
-            "type": "array",
-            "title": "Sites"
+          "currency": {
+            "type": "string",
+            "const": "CNY",
+            "title": "Currency"
           },
-          "responsibilities": {
-            "items": {
-              "$ref": "#/components/schemas/Responsibility"
-            },
-            "type": "array",
-            "title": "Responsibilities"
+          "state": {
+            "type": "string",
+            "const": "pending_fulfillment",
+            "title": "State"
           },
-          "responsibility_names": {
-            "additionalProperties": {
-              "type": "string"
-            },
+          "content": {
+            "additionalProperties": true,
             "type": "object",
-            "title": "Responsibility Names"
+            "title": "Content"
           }
         },
         "additionalProperties": false,
@@ -5407,14 +6620,210 @@
         "required": [
           "id",
           "number",
-          "name",
-          "contacts",
-          "project",
-          "sites",
-          "responsibilities",
-          "responsibility_names"
+          "contract_version_id",
+          "quote_version_id",
+          "amount",
+          "currency",
+          "state",
+          "content"
         ],
+        "title": "Order"
+      },
+      "Party-Input": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Address",
+            "default": ""
+          },
+          "identifier": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Identifier",
+            "default": ""
+          },
+          "representative": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Representative",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
         "title": "Party"
+      },
+      "Payment-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,16}|(?=[\\d.]{1,19}0*$)\\d{0,16}\\.\\d{0,2}0*$)"
+              }
+            ],
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY",
+            "title": "Currency",
+            "default": "CNY"
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "date",
+              "signing",
+              "delivery",
+              "acceptance"
+            ],
+            "title": "Trigger"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "offset_days": {
+            "type": "integer",
+            "maximum": 3650.0,
+            "minimum": 0.0,
+            "title": "Offset Days",
+            "default": 0
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "amount",
+          "trigger"
+        ],
+        "title": "Payment"
+      },
+      "Payment-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,16}|(?=[\\d.]{1,19}0*$)\\d{0,16}\\.\\d{0,2}0*$)",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY",
+            "title": "Currency",
+            "default": "CNY"
+          },
+          "trigger": {
+            "type": "string",
+            "enum": [
+              "date",
+              "signing",
+              "delivery",
+              "acceptance"
+            ],
+            "title": "Trigger"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "offset_days": {
+            "type": "integer",
+            "maximum": 3650.0,
+            "minimum": 0.0,
+            "title": "Offset Days",
+            "default": 0
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Note",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "amount",
+          "trigger"
+        ],
+        "title": "Payment"
+      },
+      "Person": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          },
+          "contact": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Contact",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Person"
       },
       "Policy": {
         "properties": {
@@ -6461,6 +7870,25 @@
         ],
         "title": "RuleRevision"
       },
+      "Save": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          },
+          "fields": {
+            "$ref": "#/components/schemas/Fields-Input"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "fields"
+        ],
+        "title": "Save"
+      },
       "SelectedTenant": {
         "properties": {
           "context_id": {
@@ -6541,6 +7969,93 @@
           "memberships"
         ],
         "title": "SessionInfo"
+      },
+      "Sign": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Content Hash"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "content_hash",
+          "confirmed"
+        ],
+        "title": "Sign"
+      },
+      "Signed": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "contract_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contract Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "content_hash": {
+            "type": "string",
+            "title": "Content Hash"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "registered_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Registered By"
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Registered At"
+          },
+          "order_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Order Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "contract_id",
+          "number",
+          "version",
+          "content_hash",
+          "content",
+          "registered_by",
+          "registered_at",
+          "order_id"
+        ],
+        "title": "Signed"
       },
       "Site": {
         "properties": {
@@ -7058,6 +8573,21 @@
         ],
         "title": "ValidationError"
       },
+      "Version": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version"
+        ],
+        "title": "Version"
+      },
       "VersionCommand": {
         "properties": {
           "expected_version": {
@@ -7096,6 +8626,193 @@
           "reason"
         ],
         "title": "Withdraw"
+      },
+      "Workspace": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "signed"
+            ],
+            "title": "State"
+          },
+          "fields": {
+            "$ref": "#/components/schemas/Fields-Output"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/File"
+            },
+            "type": "array",
+            "title": "Files"
+          },
+          "checks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
+          "ready": {
+            "type": "boolean",
+            "title": "Ready"
+          },
+          "content_hash": {
+            "type": "string",
+            "title": "Content Hash"
+          },
+          "signed_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signed Id"
+          },
+          "order_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Order Id"
+          },
+          "history": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "History"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "state",
+          "fields",
+          "source",
+          "files",
+          "checks",
+          "ready",
+          "content_hash"
+        ],
+        "title": "Workspace"
+      },
+      "silicon__contracts__models__Party": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Name",
+            "default": ""
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Address",
+            "default": ""
+          },
+          "identifier": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Identifier",
+            "default": ""
+          },
+          "representative": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Representative",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Party"
+      },
+      "silicon__publication__models__Party": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "contacts": {
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "type": "array",
+            "title": "Contacts"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          },
+          "sites": {
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            },
+            "type": "array",
+            "title": "Sites"
+          },
+          "responsibilities": {
+            "items": {
+              "$ref": "#/components/schemas/Responsibility"
+            },
+            "type": "array",
+            "title": "Responsibilities"
+          },
+          "responsibility_names": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Responsibility Names"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "name",
+          "contacts",
+          "project",
+          "sites",
+          "responsibilities",
+          "responsibility_names"
+        ],
+        "title": "Party"
       }
     }
   }

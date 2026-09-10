@@ -1,0 +1,38 @@
+{
+  "task": "TASK-007",
+  "status": "review_ready",
+  "base": "59f55c813aba62ec8f18dc5d5e7cc649b277aeca",
+  "handoff": "87e5d80f7127f4ceb2e9d06f082473f3cb9698ab",
+  "backend": {
+    "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+    "passed": 154,
+    "warnings": 9,
+    "seconds": 94.82,
+    "log": "backend-final-green.txt",
+    "database": "independent PostgreSQL 17.11; runtime role RLS",
+    "oidc": "real Keycloak 26.7.3; test-owned CA and hostname verification"
+  },
+  "frontend_node": {
+    "command": "node --experimental-strip-types --test apps/web/tests/*.test.*",
+    "passed": 19,
+    "log": "frontend-final.txt"
+  },
+  "react_http_fixtures": {
+    "contracts": 5,
+    "publication": 5,
+    "quotes": 3,
+    "not_database_evidence": true
+  },
+  "build": "npm run build passed",
+  "typecheck": "npm run typecheck passed",
+  "api_contract": "export_openapi.py + npm run api:types byte-identical",
+  "browser": "real OIDC/admin/viewer, source withdrawal, repeat sign, download bytes, reload, A/B, two viewports; see browser-acceptance.md",
+  "not_run": [
+    "Docker runtime",
+    "other browser platforms",
+    "AV scan",
+    "formal business acceptance"
+  ],
+  "remote_ci": "unverified",
+  "history": "All prior results/reviews retained; diagnostic setup failures retained, not counted as defect red."
+}

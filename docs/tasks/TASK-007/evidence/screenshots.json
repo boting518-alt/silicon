@@ -1,0 +1,86 @@
+[
+  {
+    "file": "contract-confirm-desktop.jpg",
+    "width": 1425,
+    "height": 891,
+    "viewport": [
+      1440,
+      900
+    ],
+    "sha256": "ba6ee7c4721fc698874f17bc10089e0ba3fe9c6ae56c0d65408ba5d8eb552890",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "contract-mobile.jpg",
+    "width": 375,
+    "height": 812,
+    "viewport": [
+      390,
+      844
+    ],
+    "sha256": "ba8d82688e1484bbfc88902830bb8cbeaac876fcf77fae6ee86fd3ad042014da",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "contract-readonly-desktop.jpg",
+    "width": 1425,
+    "height": 891,
+    "viewport": [
+      1440,
+      900
+    ],
+    "sha256": "441536b19affd589ed9f8e331be34d12e8ce8846714c8445261fd2e0ba1196d3",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "contract-readonly-mobile.jpg",
+    "width": 375,
+    "height": 812,
+    "viewport": [
+      390,
+      844
+    ],
+    "sha256": "363733641858e29b6dd6486648edaabc31625b91ad1971804276a07fcbfdfa5f",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "order-desktop.jpg",
+    "width": 1425,
+    "height": 891,
+    "viewport": [
+      1440,
+      900
+    ],
+    "sha256": "44a17277087197468904fddd58555b99cc2423147a7df655e1c34ae2ac89b20a",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "order-mobile.jpg",
+    "width": 375,
+    "height": 812,
+    "viewport": [
+      390,
+      844
+    ],
+    "sha256": "789b8905d89d843c7fbed0dc46569bd988af68ae9ba5600979efcf76aa669f3f",
+    "format": "JPEG",
+    "resampled": false
+  },
+  {
+    "file": "source-blocked-desktop.jpg",
+    "width": 1425,
+    "height": 891,
+    "viewport": [
+      1440,
+      900
+    ],
+    "sha256": "582f3561aee1231a676eb423140be40defaee36d50608b08e5fdd99c4ec2ca65",
+    "format": "JPEG",
+    "resampled": false
+  }
+]

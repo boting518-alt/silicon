@@ -1,0 +1,3 @@
+Browser download file found in user Downloads; size=621
+SHA-256=62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace
+Matches fictional-proof.pdf test upload. Browser download event adapter timed out; filesystem confirms bytes saved.

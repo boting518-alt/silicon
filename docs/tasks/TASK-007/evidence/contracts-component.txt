@@ -1,0 +1,3 @@
+- heading "合同组件边界测试" [level=1]
+- paragraph: HTTP替身；不是数据库、OIDC或真实签约证据。
+- generic: "[ { \"name\": \"edit and unbalanced plan block confirmation\", \"status\": \"passed\" }, { \"name\": \"version conflict preserves edits\", \"status\": \"passed\" }, { \"name\": \"upload failure does not claim success or signing\", \"status\": \"passed\" }, { \"name\": \"lost signing response retries same command then readonly\", \"status\": \"passed\" }, { \"name\": \"late successful response cannot cross enterprise\", \"status\": \"passed\" } ]"

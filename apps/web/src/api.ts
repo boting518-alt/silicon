@@ -21,7 +21,7 @@ const messages: Record<string,string> = {
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   if (init.method && init.method !== 'GET') {
-    headers.set('Content-Type','application/json');
+    if(!headers.has('Content-Type'))headers.set('Content-Type','application/json');
     headers.set('X-CSRF-Token',document.cookie.split('; ').find(x=>x.startsWith('__Host-silicon-csrf='))?.split('=')[1] ?? '');
   }
   const response=await fetch('/api/v1'+path,{...init,headers,signal:init.signal ?? AbortSignal.timeout(10000)});

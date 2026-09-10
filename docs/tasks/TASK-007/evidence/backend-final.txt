@@ -1,0 +1,116 @@
+..............................................F......................... [ 46%]
+...E.................................................................... [ 93%]
+..........                                                               [100%]
+==================================== ERRORS ====================================
+_____ ERROR at setup of test_real_keycloak_code_callback_logout_and_expiry _____
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54100/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-24/test_later_master_data_and_quo0/private-files')
+tmp_path = PosixPath('/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-24/test_real_keycloak_code_callba0')
+
+    @pytest.fixture
+    def real_oidc(database,tmp_path):
+        configured=os.getenv('SILICON_TEST_KEYCLOAK_HOME')
+        if not configured:pytest.skip('not_run: set SILICON_TEST_KEYCLOAK_HOME to Keycloak 26.7.3 distribution; Java 21 required')
+        home=tmp_path/'keycloak'
+        shutil.copytree(configured,home,ignore=shutil.ignore_patterns('._*','data','log'))
+        idp_port,api_port=port(),port()
+        origin=f'https://localhost:{api_port}'
+        issuer=f'https://127.0.0.1:{idp_port}/realms/silicon-dev'
+        imports=home/'data/import';imports.mkdir(parents=True)
+        (imports/'silicon-dev-realm.json').write_text(json.dumps(realm(origin)))
+        key,cert=generate(tmp_path/'tls')
+        tls=ssl.create_default_context(cafile=str(cert))
+        assert tls.verify_mode == ssl.CERT_REQUIRED and tls.check_hostname
+        env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web',
+             'OIDC_CLIENT_SECRET':'fictional-dev-client-secret','PUBLIC_ORIGIN':origin,'OIDC_CA_BUNDLE':str(cert)}
+        processes=[]
+        with (tmp_path/'keycloak.log').open('w') as kc_log,(tmp_path/'api.log').open('w') as api_log:
+            try:
+                kc=subprocess.Popen([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false',f'--https-port={idp_port}',
+                                     f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}',
+                                     '--import-realm','--cache=local'],stdout=kc_log,stderr=subprocess.STDOUT,
+                                     env={**os.environ,'JAVA_OPTS_APPEND':'-Xms128m -Xmx512m'})
+                processes.append(kc)
+>               wait_http(issuer+'/.well-known/openid-configuration',kc,tls)
+
+apps/api/tests/test_oidc_integration.py:79:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+url = 'https://127.0.0.1:54558/realms/silicon-dev/.well-known/openid-configuration'
+process = <Popen: returncode: 1 args: ['/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73...>
+tls = <ssl.SSLContext object at 0x10a51b250>, seconds = 90
+
+    def wait_http(url,process,tls,seconds=90):
+        deadline=time.monotonic()+seconds
+        with httpx.Client(verify=tls,timeout=2,trust_env=False) as client:
+            while time.monotonic()<deadline:
+>               if process.poll() is not None:raise RuntimeError('test process exited; inspect captured log')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               RuntimeError: test process exited; inspect captured log
+
+apps/api/tests/test_oidc_integration.py:47: RuntimeError
+---------------------------- Captured stdout setup -----------------------------
+Keycloak/API logs: /private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-24/test_real_keycloak_code_callba0
+=================================== FAILURES ===================================
+______ test_later_master_data_and_quote_withdrawal_preserve_signed_order _______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:54100/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54100/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-24/test_later_master_data_and_quo0/private-files')
+identities = namespace(a=UUID('29d72d3f-a944-4c6f-a4db-4f0ef27b5abd'), b=UUID('cc9c84c7-32a6-480a-bdbe-23e9ac5b3f86'), user=UUID('3...D('013b244e-dde0-4d36-ad0e-90de68ee399b'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:54100/silicon))
+
+    def test_later_master_data_and_quote_withdrawal_preserve_signed_order(engine,database,identities):
+        from test_catalog import send,update_body
+        from test_crm import update_body as crm_update
+        from test_publication import call
+        i=identities
+        with client(engine,database,i.user,i.a) as one:d,parts,customer=prepare(one,i);candidate=submit(one,d)
+        with client(engine,database,i.other,i.a) as c:
+            ok(approve(c,candidate),200);version=ok(issue(c,candidate));draft=ok(convert(c,version));w,f=ready(c,draft['id'],i)
+            signed=ok(request(c,'/'+draft['id']+'/sign',{'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True}))
+            order=c.get(P+'/orders/'+signed['order_id']).json()
+            ok(send(c,'/skus/'+parts[0]['id'],update_body(parts[0],'skus',name='虚构后续型号',enabled=False),'put'),200)
+>           ok(c.put('/api/v1/crm/customers/'+customer['id'],json=crm_update(customer,name='虚构后续客户名称')),200)
+
+apps/api/tests/test_contracts.py:249:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [422 Unprocessable Entity]>, status = 200
+
+    def ok(r,status=201):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"IDEMPOTENCY_KEY_REQUIRED","message":"身份无效或没有执行此操作的权限","request_id":"29ada81c-ce07-4fb5-b836-f2e39671ca35"}
+E       assert 422 == 200
+E        +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+apps/api/tests/test_catalog.py:19: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_crm.py::test_idempotency_and_concurrent_edit_conflict
+apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[withdraw]
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'id' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_publication.py::test_concurrent_decisions_publication_conversion_and_immutable_role
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-expected-tenant' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[edit]
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'idempotency-key' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_publication.py::test_revision_sources_concurrent_replay_and_permissions
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'body' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry
+FAILED apps/api/tests/test_contracts.py::test_later_master_data_and_quote_withdrawal_preserve_signed_order
+1 failed, 152 passed, 7 warnings, 1 error in 94.38s (0:01:34)

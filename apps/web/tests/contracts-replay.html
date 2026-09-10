@@ -1,0 +1,10 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>TASK-007 浏览器真实 API 重放</title><h1>仅独立测试环境：签约命令重复提交</h1><p>先在产品界面完成虚构合同签约。本页使用当前真实登录与企业，在真实后端重放签约请求，不使用 HTTP 替身。不输出会话凭据。</p><button id="run">重复提交已签测试合同</button><pre id="result">尚未运行</pre><script type="module">
+import {api,crmRequests} from '../src/api';
+document.querySelector('#run').onclick=async()=>{const out=document.querySelector('#result');try{
+const session=await api('/session');crmRequests.bind({tenant_id:session.tenant_id,context_id:session.context_id});const context=crmRequests.capture();
+const req=(path,init)=>crmRequests.request(context,'/contracts'+path,init);const rows=await req('');const w=rows.find(x=>x.fields.number==='DEMO-CON-007'&&x.state==='signed');if(!w)throw Error('先在产品页面完成 DEMO-CON-007 虚构签约');
+const before=await req('/orders');const key=crypto.randomUUID();const init={method:'POST',headers:{'Idempotency-Key':key},body:JSON.stringify({expected_version:w.version,content_hash:w.content_hash,confirmed:true})};
+const first=await req('/'+w.id+'/sign',init),second=await req('/'+w.id+'/sign',init),after=await req('/orders');if(first.id!==second.id||after.length!==before.length||first.id!==w.signed_id)throw Error('重复产生对象或订单');
+out.textContent=JSON.stringify({status:'passed',transport:'real browser cookies + real API/PostgreSQL',contract_id:w.id,signed_id:first.id,order_id:first.order_id,before:before.length,after:after.length,same_command_replay:true},null,2);
+}catch(e){out.textContent=JSON.stringify({status:'failed',error:e.message});}};
+</script></html>

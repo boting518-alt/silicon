@@ -1,12 +1,12 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-005 已由产品/架构负责人确认 accepted。当前 TASK-006 已实现审批、发布快照与合同草稿，状态 review_ready；TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。仅系统内报价发布与来源合同草稿启用，签约、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-006 已由产品/架构负责人确认 accepted。当前 TASK-007 完成合同资料、线下签约登记、私有附件和待履行销售订单，状态 review_ready。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
-先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-006](docs/tasks/TASK-006/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
+先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-007](docs/tasks/TASK-007/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
 
-所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。当前无远程仓库或部署配置，CI 文件已提供，未运行远程 CI。TASK-006 已明确分配；不自动开始 TASK-007。
+所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。已配置 GitHub 远程，未部署。CI 文件已提供，本轮远程运行结果未核实。当前仅 TASK-007；不自动开始 TASK-008。
 
 ## 安装锁定依赖
 
@@ -189,10 +189,26 @@ Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 
 
 构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0006 降级会删除所有报价草稿、选择、优惠配置和幂等结果；0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
 
-TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。TASK-004 已 accepted；其历史 result 的 review_ready 与验证限制保持原样。当前 TASK-005 为 review_ready，不自动开始 TASK-006。
+TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。TASK-004 已 accepted；其历史 result 的 review_ready 与验证限制保持原样。该段为 TASK-005 当时的交付历史，后续验收以 backlog 为准。
 
 ## TASK-006 审查入口
 
 [任务与发布边界](docs/tasks/TASK-006/task.md)、[ADR-011](docs/architecture/adr/ADR-011.md)、[验证结果](docs/tasks/TASK-006/result.md)、[两身份浏览器准备](docs/tasks/TASK-006/browser-acceptance.md)。开发政策只在独立测试栈显式种入；真实企业无政策阻断发布。所有报价须双人审批，确定性BLOCK不可绕过。已发布正文不可修改，合同只是来源草稿，不代表签约或核销。
 
-当前工作：[TASK-007 合同完善与签约登记](docs/tasks/TASK-007/task.md) executing；TASK-006 已由负责人接受，见 [交接](docs/tasks/TASK-007/handoff.md)。不开始 TASK-008。
+当前工作：[TASK-007 合同完善与签约登记 ](docs/tasks/TASK-007/task.md) review_ready；TASK-006 已由负责人接受，见 [交接](docs/tasks/TASK-007/handoff.md)。不开始 TASK-008。
+
+## TASK-007 合同与私有附件
+
+[结果与限制](docs/tasks/TASK-007/result.md)、[ADR-012](docs/architecture/adr/ADR-012.md)、[真实浏览器复现](docs/tasks/TASK-007/browser-acceptance.md)。迁移 head 为0008；仍按上述所选数据库环境执行 upgrade head 和 current，不能只启动数据库就认为ready。
+
+在已加载的本地环境中设置 `SILICON_FILE_ROOT=.local/contract-files`（相对启动时仓库根）与 `SILICON_FILE_MAX_BYTES=10485760`，默认10 MiB，允许1 KiB～20 MiB；文件目录不公开、不入Git、不存储在原Demo中。上传PDF/JPEG/PNG后还需显式关联；类型检查不是AV扫描。未配置存储时上传/下载明确失败。viewer只读且联系方式受字段权限保护，member维护草稿/附件，admin登记线下签约。
+
+已有签约和附件冻结集只读，后续补充附件不改变原签约内容。正金额付款节点必须精确配平；零金额合同签约政策未配置，保留草稿并阻断签约。正式政策与生产模式保护未解除。
+
+孤儿清理先用dry-run；需要实际对象权限的管理员、所选数据库URL和同一文件根，只扫描明确企业，至少24小时，保留pending/linked文件。确认结果后显式加 `--apply`；本轮测试只用独立临时目录：
+
+```bash
+.venv/bin/python infra/clean_contract_files.py --actor "$TEST_ACTOR_ID" --tenant "$TEST_TENANT_ID"
+```
+
+清理脚本不负责读取.env；按上文本地环境加载方式准备 DATABASE_URL / SILICON_FILE_ROOT。不能用生产或常驻数据库执行测试。

@@ -644,6 +644,193 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/contracts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listing */
+        get: operations["listing_api_v1_contracts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Orders */
+        get: operations["orders_api_v1_contracts_orders_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Order */
+        get: operations["order_api_v1_contracts_orders__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/signed/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Signed */
+        get: operations["signed_api_v1_contracts_signed__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/files/{id}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Download */
+        get: operations["download_api_v1_contracts_files__id__download_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detail */
+        get: operations["detail_api_v1_contracts__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save */
+        post: operations["save_api_v1_contracts__id__save_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}/sign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign */
+        post: operations["sign_api_v1_contracts__id__sign_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload */
+        post: operations["upload_api_v1_contracts__id__uploads_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}/files/{file_id}/attach": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Attach */
+        post: operations["attach_api_v1_contracts__id__files__file_id__attach_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/contracts/{id}/files/{file_id}/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Remove */
+        post: operations["remove_api_v1_contracts__id__files__file_id__delete_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -682,6 +869,16 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Assignment */
+        Assignment: {
+            /** User Id */
+            user_id?: string | null;
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+        };
         /** Bom */
         Bom: {
             /** Name */
@@ -1258,11 +1455,118 @@ export interface components {
             /** Request Id */
             request_id: string;
         };
+        /** Fields */
+        "Fields-Input": {
+            /**
+             * Number
+             * @default
+             */
+            number: string;
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            buyer?: components["schemas"]["Party-Input"];
+            seller?: components["schemas"]["Party-Input"];
+            project_lead?: components["schemas"]["Person"];
+            /** Key Contacts */
+            key_contacts?: components["schemas"]["Person"][];
+            sales?: components["schemas"]["Assignment"];
+            support?: components["schemas"]["Assignment"];
+            /** Signing Date */
+            signing_date?: string | null;
+            /** Delivery Date */
+            delivery_date?: string | null;
+            /**
+             * Delivery Note
+             * @default
+             */
+            delivery_note: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Payments */
+            payments?: components["schemas"]["Payment-Input"][];
+        };
+        /** Fields */
+        "Fields-Output": {
+            /**
+             * Number
+             * @default
+             */
+            number: string;
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            buyer?: components["schemas"]["silicon__contracts__models__Party"];
+            seller?: components["schemas"]["silicon__contracts__models__Party"];
+            project_lead?: components["schemas"]["Person"];
+            /** Key Contacts */
+            key_contacts?: components["schemas"]["Person"][];
+            sales?: components["schemas"]["Assignment"];
+            support?: components["schemas"]["Assignment"];
+            /** Signing Date */
+            signing_date?: string | null;
+            /** Delivery Date */
+            delivery_date?: string | null;
+            /**
+             * Delivery Note
+             * @default
+             */
+            delivery_note: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Payments */
+            payments?: components["schemas"]["Payment-Output"][];
+        };
+        /** File */
+        File: {
+            /**
+             * Supplemental
+             * @default false
+             */
+            supplemental: boolean;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Category */
+            category: string;
+            /** Media Type */
+            media_type: string;
+            /** Size */
+            size: number;
+            /** Sha256 */
+            sha256: string;
+            /** State */
+            state: string;
+            /**
+             * Uploaded By
+             * Format: uuid
+             */
+            uploaded_by: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
         /** Frozen */
         Frozen: {
             config: components["schemas"]["QuoteInput"];
             calculation: components["schemas"]["Calculation"];
-            customer: components["schemas"]["Party"];
+            customer: components["schemas"]["silicon__publication__models__Party"];
             host: components["schemas"]["Sku"];
             bom: components["schemas"]["BomSnapshot"];
             policy: components["schemas"]["Policy"];
@@ -1310,8 +1614,8 @@ export interface components {
             /** Name */
             name: string;
         };
-        /** Party */
-        Party: {
+        /** Order */
+        Order: {
             /**
              * Id
              * Format: uuid
@@ -1319,19 +1623,138 @@ export interface components {
             id: string;
             /** Number */
             number: string;
+            /**
+             * Contract Version Id
+             * Format: uuid
+             */
+            contract_version_id: string;
+            /**
+             * Quote Version Id
+             * Format: uuid
+             */
+            quote_version_id: string;
+            /** Amount */
+            amount: string;
+            /**
+             * Currency
+             * @constant
+             */
+            currency: "CNY";
+            /**
+             * State
+             * @constant
+             */
+            state: "pending_fulfillment";
+            /** Content */
+            content: {
+                [key: string]: unknown;
+            };
+        };
+        /** Party */
+        "Party-Input": {
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            /**
+             * Address
+             * @default
+             */
+            address: string;
+            /**
+             * Identifier
+             * @default
+             */
+            identifier: string;
+            /**
+             * Representative
+             * @default
+             */
+            representative: string;
+        };
+        /** Payment */
+        "Payment-Input": {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
             /** Name */
             name: string;
-            /** Contacts */
-            contacts: components["schemas"]["Contact"][];
-            project: components["schemas"]["Project"];
-            /** Sites */
-            sites: components["schemas"]["Site"][];
-            /** Responsibilities */
-            responsibilities: components["schemas"]["Responsibility"][];
-            /** Responsibility Names */
-            responsibility_names: {
-                [key: string]: string;
-            };
+            /** Amount */
+            amount: number | string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /**
+             * Trigger
+             * @enum {string}
+             */
+            trigger: "date" | "signing" | "delivery" | "acceptance";
+            /** Due Date */
+            due_date?: string | null;
+            /**
+             * Offset Days
+             * @default 0
+             */
+            offset_days: number;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+        };
+        /** Payment */
+        "Payment-Output": {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Amount */
+            amount: string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /**
+             * Trigger
+             * @enum {string}
+             */
+            trigger: "date" | "signing" | "delivery" | "acceptance";
+            /** Due Date */
+            due_date?: string | null;
+            /**
+             * Offset Days
+             * @default 0
+             */
+            offset_days: number;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+        };
+        /** Person */
+        Person: {
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            /**
+             * Contact
+             * @default
+             */
+            contact: string;
         };
         /** Policy */
         Policy: {
@@ -1817,6 +2240,12 @@ export interface components {
             /** Expected Version */
             expected_version: number;
         };
+        /** Save */
+        Save: {
+            /** Expected Version */
+            expected_version: number;
+            fields: components["schemas"]["Fields-Input"];
+        };
         /** SelectedTenant */
         SelectedTenant: {
             /**
@@ -1852,6 +2281,56 @@ export interface components {
             tenant_id: string | null;
             /** Memberships */
             memberships: components["schemas"]["TenantInfo"][];
+        };
+        /** Sign */
+        Sign: {
+            /** Expected Version */
+            expected_version: number;
+            /** Content Hash */
+            content_hash: string;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+        };
+        /** Signed */
+        Signed: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /** Number */
+            number: string;
+            /** Version */
+            version: number;
+            /** Content Hash */
+            content_hash: string;
+            /** Content */
+            content: {
+                [key: string]: unknown;
+            };
+            /**
+             * Registered By
+             * Format: uuid
+             */
+            registered_by: string;
+            /**
+             * Registered At
+             * Format: date-time
+             */
+            registered_at: string;
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
         };
         /** Site */
         Site: {
@@ -2057,6 +2536,11 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
+        /** Version */
+        Version: {
+            /** Expected Version */
+            expected_version: number;
+        };
         /** VersionCommand */
         VersionCommand: {
             /** Expected Version */
@@ -2068,6 +2552,85 @@ export interface components {
             expected_version: number;
             /** Reason */
             reason: string;
+        };
+        /** Workspace */
+        Workspace: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Version */
+            version: number;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "draft" | "signed";
+            fields: components["schemas"]["Fields-Output"];
+            source: components["schemas"]["Contract"];
+            /** Files */
+            files: components["schemas"]["File"][];
+            /** Checks */
+            checks: string[];
+            /** Ready */
+            ready: boolean;
+            /** Content Hash */
+            content_hash: string;
+            /** Signed Id */
+            signed_id?: string | null;
+            /** Order Id */
+            order_id?: string | null;
+            /** History */
+            history?: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** Party */
+        silicon__contracts__models__Party: {
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            /**
+             * Address
+             * @default
+             */
+            address: string;
+            /**
+             * Identifier
+             * @default
+             */
+            identifier: string;
+            /**
+             * Representative
+             * @default
+             */
+            representative: string;
+        };
+        /** Party */
+        silicon__publication__models__Party: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /** Contacts */
+            contacts: components["schemas"]["Contact"][];
+            project: components["schemas"]["Project"];
+            /** Sites */
+            sites: components["schemas"]["Site"][];
+            /** Responsibilities */
+            responsibilities: components["schemas"]["Responsibility"][];
+            /** Responsibility Names */
+            responsibility_names: {
+                [key: string]: string;
+            };
         };
     };
     responses: never;
@@ -3754,6 +4317,403 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Contract"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listing_api_v1_contracts_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workspace"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    orders_api_v1_contracts_orders_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Order"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    order_api_v1_contracts_orders__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Order"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    signed_api_v1_contracts_signed__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Signed"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    download_api_v1_contracts_files__id__download_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detail_api_v1_contracts__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workspace"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    save_api_v1_contracts__id__save_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Save"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workspace"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_api_v1_contracts__id__sign_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Sign"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Signed"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_api_v1_contracts__id__uploads_post: {
+        parameters: {
+            query: {
+                name: string;
+                category?: "contract" | "proof" | "technical" | "other";
+                expected_version: number;
+            };
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["File"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    attach_api_v1_contracts__id__files__file_id__attach_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+                file_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workspace"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_api_v1_contracts__id__files__file_id__delete_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+                file_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workspace"];
                 };
             };
             /** @description Validation Error */
