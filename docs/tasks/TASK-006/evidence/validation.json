@@ -3,7 +3,7 @@
   "status": "review_ready",
   "base": "da215ad9b22e5d831c0d7a319885ddf7ad3ec8ef",
   "handoff": "919f75aa537082d19a05865bb4e5e85893548ab5",
-  "implementation": "recorded in delivery note after commit",
+  "implementation": "262eea882dac44c28198db3cf0625cd118273b46",
   "backend": {
     "command": "SILICON_TEST_PG_BIN=\"$PG_BIN\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
     "result": "116 passed, 0 skipped, 3 warnings, 60.69s",
