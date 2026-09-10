@@ -6,16 +6,18 @@ import re
 
 root = Path(__file__).resolve().parents[1]
 config = json.loads((root/'runtime/project.json').read_text())
-assert config['current_task'] == 'TASK-003'
+assert config['current_task'] == 'TASK-004'
 assert config['status'] in {'executing', 'review_ready'}
 for path in config['paths'].values():
     assert not Path(path).is_absolute() and (root/path).is_dir(), path
 assert 'status: accepted' in (root/'docs/tasks/TASK-000/task.md').read_text()
-assert f"status: {config['status']}" in (root/'docs/tasks/TASK-003/task.md').read_text()
-assert '当前只执行已明确分配的 TASK-003' in (root/'AGENTS.md').read_text()
+assert f"status: {config['status']}" in (root/'docs/tasks/TASK-004/task.md').read_text()
+assert '当前只执行已明确分配的 TASK-004' in (root/'AGENTS.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-002/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-001/task.md').read_text()
+assert 'status: accepted' in (root/'docs/tasks/TASK-003/task.md').read_text()
 for name, digest in {
+ 'TASK-003-a6b640e-review.md': '38e06323f15a9113420bc0a4088f03df3300f68db4556c3701350cb838b8d221',
  'TASK-003-45453c7-review.md': '3a5fba49d08d6f87bb90501ef52edea1b212aca14a1d5cd1bc517c7634eb0170',
  'TASK-002-9936743-review.md': '65c01e11f572499f061f1008b5ce6d2a9d9cd5d86c1797f0e7fdfe4726dcf9f5',
  'TASK-001-c50a951-review.md': '1beb182690c5aeb003e8105061613995caa76ee7f83a74eaffc40d9bb7452a70',

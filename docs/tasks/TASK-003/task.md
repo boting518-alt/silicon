@@ -1,6 +1,6 @@
 # TASK-003：UI 保真与客户纵切
 
-status: review_ready
+status: accepted
 owner: 执行线程
 reviewer: 独立上下文，待指定
 
@@ -31,3 +31,7 @@ TASK-002 独立复核通过；两份 Demo 固定源码 checkout 可读且 blob �
 ## 退出、失败与交付
 
 交付 scoped commit、base/head、diff、docs/tasks/TASK-003/result.md，状态 review_ready。独立 Reviewer 在相同内容 commit 复现检查，输出 docs/reviews/TASK-003-<head-short>.md。失败记录复现与修复，不进入下一任务；执行者不自行 accepted。涉及迁移先在测试库验证，不能以代码回滚代替数据恢复；不部署、不外发。
+
+## 产品验收交接
+
+产品/架构负责人依据 [首次审查](../../reviews/TASK-003-45453c7-review.md) 和 [增量复核](../../reviews/TASK-003-a6b640e-review.md) 确认 TASK-003 accepted，复核基线 a6b640e6dd7f5ac1ecff40fa7f43cc5afe241d47。原结果报告及历史验证限制保留；本确认不代表远程 CI、容器或生产验收完成。

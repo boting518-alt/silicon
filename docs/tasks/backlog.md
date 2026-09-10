@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-003，status: review_ready。TASK-000～TASK-002 已由产品/架构负责人确认 accepted；TASK-004 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-004，status: executing。TASK-000～TASK-003 已由产品/架构负责人确认 accepted；TASK-005 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-002 为 accepted；TASK-003 为 review_ready；TASK-004～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-003 为 accepted；TASK-004 为 executing；TASK-005～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -69,3 +69,7 @@ TASK-008 开始提供基本期初导入，TASK-016 是工具化强化，不把�
 ## TASK-003 交付
 
 原 UI 壳与客户管理纵切进入 review_ready；真实 OIDC/PG/API/Worker 共 45 项通过，实际浏览器交互与两视口截图已完成。有意视觉变化与 not_run 限制见 [结果](TASK-003/result.md)。保持等待独立复核，不标 accepted，不开始 TASK-004。
+
+## TASK-004 交接
+
+产品/架构负责人依据 [首次审查](../reviews/TASK-003-45453c7-review.md) 与 [增量复核](../reviews/TASK-003-a6b640e-review.md) 确认 TASK-003 accepted 并明确分配 TASK-004。main/HEAD 为 a6b640e6dd7f5ac1ecff40fa7f43cc5afe241d47；只有未跟踪的增量报告，原样纳入 Git，无已跟踪用户修改。历史结果、限制与结论不改写。[TASK-004 任务书](TASK-004/task.md) 补齐原规划，TASK-005 未授权。
