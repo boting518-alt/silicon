@@ -117,14 +117,14 @@ def detail(db,access,id):
     row=catalog.row(db,'quote_drafts',id);body=configuration(db,row)
     current=evaluate(db,access,body)
     saved=Calculation.model_validate(row['calculation'])
-    return QuoteDetail(id=id,version=row['version'],config=body,saved_calculation=saved,current_calculation=current,needs_reprice=current.fingerprint!=saved.fingerprint)
+    return QuoteDetail(published_version_id=db.scalar(text('SELECT id FROM quote_versions WHERE draft_id=:id ORDER BY issued_at,id LIMIT 1'),{'id':id}),id=id,version=row['version'],config=body,saved_calculation=saved,current_calculation=current,needs_reprice=current.fingerprint!=saved.fingerprint)
 
 def listing(db,access):
     access.require('crm.read')
     return list(db.execute(text('''SELECT q.id,q.name,q.customer_id,q.version FROM quote_drafts q JOIN crm_customers c ON c.id=q.customer_id
       WHERE (:all OR c.owner_id=:actor) ORDER BY q.name,q.id LIMIT 100'''),{'all':access.data_scope=='all','actor':access.actor_id}).mappings())
 
-def save(db,access,body,key,request_id,id=None):
+def save(db,access,body,key,request_id,id=None,*,source_version_id=None):
     if not key or len(key)>128:raise Denied(422,'IDEMPOTENCY_KEY_REQUIRED')
     # Recheck current and proposed customer visibility before replaying any response.
     if id:
@@ -132,7 +132,7 @@ def save(db,access,body,key,request_id,id=None):
         customer(db,access,configuration(db,current))
     customer(db,access,body)
     if body.discount_id:access.require('quote.discount')
-    operation='quote.update:'+str(id) if id else 'quote.create'
+    operation='quote.update:'+str(id) if id else 'quote.revise:'+str(source_version_id) if source_version_id else 'quote.create'
     args=dict(t=access.tenant_id,a=access.actor_id,o=operation,k=key)
     hashed=digest(body.model_dump(mode='json'))
     prior=db.execute(text('SELECT request_hash,response FROM quote_commands WHERE tenant_id=:t AND actor_id=:a AND operation=:o AND key=:k'),args).mappings().first()
@@ -151,7 +151,7 @@ def save(db,access,body,key,request_id,id=None):
         catalog.update(db,'quote_drafts',id,{**values,'version':body.expected_version+1,'calculation':calculated.model_dump_json()})
         for table in ('quote_selections','quote_exclusions'):db.execute(text(f'DELETE FROM {table} WHERE draft_id=:id'),{'id':id})
     else:
-        id=uuid4();catalog.insert(db,'quote_drafts',dict(tenant_id=access.tenant_id,id=id,owner_id=access.actor_id,**values,calculation=calculated.model_dump_json()))
+        id=uuid4();catalog.insert(db,'quote_drafts',dict(tenant_id=access.tenant_id,id=id,owner_id=access.actor_id,source_version_id=source_version_id,**values,calculation=calculated.model_dump_json()))
     for item in config.additions:catalog.insert(db,'quote_selections',dict(tenant_id=access.tenant_id,draft_id=id,**item.model_dump()))
     for sku_id in config.excluded_sku_ids:catalog.insert(db,'quote_exclusions',dict(tenant_id=access.tenant_id,draft_id=id,sku_id=sku_id))
     result=detail(db,access,id)

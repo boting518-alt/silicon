@@ -328,3 +328,111 @@ def test_member_submit_viewer_redaction_and_composite_foreign_key(engine,databas
     with pytest.raises(DBAPIError):
         with tenant_transaction(engine,i.other,i.b,'quote.read','cross-fk') as (db,_):
             db.execute(text("INSERT INTO contract_drafts VALUES (:t,:id,:source,'x','{}',:a,now())"),{'t':i.b,'id':uuid4(),'source':v['id'],'a':i.other})
+
+
+def test_published_draft_requires_revision_new_submit(engine,database,identities):
+    i=identities
+    with client(engine,database,i.user,i.a) as one:
+        draft,_,_=prepare(one,i)
+        body={'expected_version':1,'valid_until':'2098-01-01T00:00:00Z'}
+        key=str(uuid4());can=ok(call(one,'/drafts/'+draft['id']+'/submit',body,key))
+        with client(engine,database,i.other,i.a) as two:
+            ok(approve(two,can),200);issue_key=str(uuid4());v=ok(issue(two,can,issue_key));ct=ok(convert(two,v))
+            for until in ['2098-01-01T00:00:00Z','2097-01-01T00:00:00Z']:
+                r=call(one,'/drafts/'+draft['id']+'/submit',{**body,'valid_until':until})
+                assert r.status_code==409,r.text
+                assert r.json()['code']=='PUBLISHED_DRAFT_REQUIRES_REVISION'
+            assert ok(call(one,'/drafts/'+draft['id']+'/submit',body,key))['id']==can['id']
+            assert ok(issue(two,can,issue_key))['id']==v['id']
+            assert ok(issue(two,can))['id']==v['id']
+            assert two.get(P+'/contracts/'+ct['id']).json()['content']==ct['content']
+
+@pytest.mark.parametrize('different',[False,True])
+def test_revision_keys_are_scoped_by_source(engine,database,identities,different):
+    i=identities
+    with client(engine,database,i.user,i.a) as one:
+        draft,_,_=prepare(one,i)
+        other=ok(command(one,'',{**draft['config'],'quantity':4 if different else draft['config']['quantity']}))
+        cans=[submit(one,d) for d in [draft,other]]
+        with client(engine,database,i.other,i.a) as two:
+            versions=[]
+            for can in cans:ok(approve(two,can),200);versions.append(ok(issue(two,can)))
+            key='same-source-independent-intent'
+            revisions=[ok(call(two,'/versions/'+v['id']+'/revise',{'expected_version':1},key)) for v in versions]
+            assert revisions[0]['id']!=revisions[1]['id']
+            for v,r in zip(versions,revisions):
+                assert ok(call(two,'/versions/'+v['id']+'/revise',{'expected_version':1},key))['id']==r['id']
+                can=submit(two,r);assert can['source_version_id']==v['id']
+                ok(approve(one,can),200);published=ok(issue(one,can))
+                assert published['number']==v['number']+'-R2'
+            for v in versions:assert two.get(P+'/versions/'+v['id']).json()['content']==v['content']
+
+
+def test_publish_resubmit_race_and_historical_candidate_guard(engine,database,identities):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    i=identities
+    with client(engine,database,i.user,i.a) as one:
+        draft,_,_=prepare(one,i);can=submit(one,draft)
+        with client(engine,database,i.other,i.a) as two:ok(approve(two,can),200)
+    barrier=Barrier(2)
+    def race(publishing):
+        with client(engine,database,i.other if publishing else i.user,i.a) as c:
+            barrier.wait(timeout=5)
+            return issue(c,can) if publishing else call(c,'/drafts/'+draft['id']+'/submit',{'expected_version':1,'valid_until':'2097-01-01T00:00:00Z'})
+    with ThreadPoolExecutor(2) as pool:issued,resubmitted=list(pool.map(race,[True,False]))
+    assert sorted([issued.status_code,resubmitted.status_code])==[201,409]
+    with client(engine,database,i.user,i.a) as one,client(engine,database,i.other,i.a) as two:
+        if resubmitted.status_code==201:
+            newer=resubmitted.json();ok(approve(two,newer),200);version=ok(issue(two,newer))
+            assert issued.json()['code']=='APPROVAL_INVALIDATED'
+        else:
+            version=issued.json();assert resubmitted.json()['code']=='PUBLISHED_DRAFT_REQUIRES_REVISION'
+        assert one.get('/api/v1/quotes/'+draft['id']).json()['published_version_id']==version['id']
+        # Create a legacy candidate directly in the isolated fixture to emulate
+        # data produced before this repair, with a valid current pointer/hash.
+        from silicon.publication import service as s
+        from silicon.identity.access import authorize,tenant_transaction
+        from silicon.quotes import service as q
+        from silicon.catalog import service as catalog
+        from silicon.publication.models import Submit
+        with tenant_transaction(engine,i.user,i.a,'quote.write','legacy-fixture') as (db,a):
+            q.guard(db,a,True)
+            old=catalog.row(db,'publication_candidates',version['candidate_id']);legacy=uuid4()
+            catalog.insert(db,'publication_candidates',{k:v for k,v in dict(old).items() if k not in ('id','content') }|{'id':legacy,'content':s.encode(old['content'])})
+            catalog.update(db,'quote_drafts',draft['id'],{'approval_candidate_id':legacy})
+        legacy=two.get(P+'/candidates/'+str(legacy)).json()
+        ok(approve(two,legacy),200)
+        assert issue(two,legacy).json()['code']=='PUBLISHED_DRAFT_REQUIRES_REVISION'
+        assert len(two.get(P+'/versions').json())==1
+
+
+def test_revision_sources_concurrent_replay_and_permissions(engine,database,identities):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    i=identities
+    with client(engine,database,i.user,i.a) as one:
+        draft,_,_=prepare(one,i);other=ok(command(one,'',draft['config']))
+    with client(engine,database,i.user,i.a) as one,client(engine,database,i.other,i.a) as two:
+        versions=[]
+        for d in [draft,other]:
+            can=submit(one,d);ok(approve(two,can),200);versions.append(ok(issue(two,can)))
+    gate=Barrier(2);key='K'*100
+    def revise(v):
+        with client(engine,database,i.user,i.a) as c:
+            gate.wait(timeout=5);return ok(call(c,'/versions/'+v['id']+'/revise',{'expected_version':1},key))
+    with ThreadPoolExecutor(2) as pool:revisions=list(pool.map(revise,versions))
+    assert revisions[0]['id']!=revisions[1]['id']
+    with client(engine,database,i.user,i.a) as one,client(engine,database,i.other,i.a) as two:
+        for v,r in zip(versions,revisions):assert ok(call(one,'/versions/'+v['id']+'/revise',{'expected_version':1},key))['id']==r['id']
+        # Publishing the second branch first cannot change the first's source/number.
+        second=ok(command(one,'/'+revisions[1]['id'],{**revisions[1]['config'],'quantity':5,'expected_version':1},'put'),200)
+        for index,r in [(1,second),(0,revisions[0])]:
+            can=submit(one,r);assert can['source_version_id']==versions[index]['id']
+            ok(approve(two,can),200);assert ok(issue(two,can))['number']==versions[index]['number']+'-R2'
+        assert one.get('/api/v1/quotes/'+revisions[0]['id']).json()['config']==revisions[0]['config']
+    with client(engine,database,i.user,i.b) as wrong:
+        assert call(wrong,'/versions/'+versions[0]['id']+'/revise',{'expected_version':1},key).status_code in (403,404)
+    with i.owner.begin() as db:db.execute(text("UPDATE memberships SET role='viewer' WHERE user_id=:u AND tenant_id=:t"),{'u':i.user,'t':i.a})
+    with client(engine,database,i.user,i.a) as revoked:
+        assert call(revoked,'/versions/'+versions[0]['id']+'/revise',{'expected_version':1},key).status_code==403

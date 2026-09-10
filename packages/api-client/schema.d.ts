@@ -1582,6 +1582,8 @@ export interface components {
         };
         /** QuoteDetail */
         QuoteDetail: {
+            /** Published Version Id */
+            published_version_id?: string | null;
             /**
              * Id
              * Format: uuid

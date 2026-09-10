@@ -1,0 +1,52 @@
+{
+  "task": "TASK-006",
+  "status": "review_ready",
+  "base": "0ca955af10115b1fb7369885c348465672b22dc9",
+  "red": {
+    "R1": "1 failed, 26 deselected: API accepted forbidden resubmission",
+    "R2": "2 failed, 27 deselected: same draft / wrong conflict"
+  },
+  "green": {
+    "R1": "1 passed, 26 deselected",
+    "R2": "2 passed, 27 deselected"
+  },
+  "backend": {
+    "command": "SILICON_TEST_PG_BIN=\"$PG_BIN\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+    "result": "124 passed, 4 warnings, 72.00s"
+  },
+  "supplement": {
+    "command": "SILICON_TEST_PG_BIN=\"$PG_BIN\" .venv/bin/python -m pytest apps/api/tests/test_publication.py -q -k published_draft_requires_revision_new_submit",
+    "result": "1 passed, 30 deselected; final explicit same-key issue replay assertion"
+  },
+  "frontend": "node --test apps/web/tests/*.test.ts: 19 passed",
+  "components": "publication 5 + quote 3 passed; actual React, HTTP fixtures",
+  "checks": [
+    "npm run typecheck",
+    "npm run build",
+    "OpenAPI and client repeat byte-identical",
+    "infra/check_docs.py",
+    "git diff --check"
+  ],
+  "browser": "real OIDC submit/approve/issue, published guidance, independent revision/reapprove/Q-000001-R2, original hash preserved",
+  "not_run": [
+    "full previous browser suite",
+    "Docker",
+    "other browsers"
+  ],
+  "remote_ci": "unverified",
+  "screenshots": [
+    {
+      "file": "guidance-desktop.jpg",
+      "width": 1425,
+      "height": 891,
+      "sha256": "8db086dbd463a2b1aff0c4f2f0c80889c4b0c4384bc7c43c5853a353a1397697"
+    },
+    {
+      "file": "guidance-mobile.jpg",
+      "width": 375,
+      "height": 812,
+      "sha256": "bde6608abc14124c32e22264df18a805a5bb50e3a9e1f6d55aceb6c6eaaaf6ef"
+    }
+  ],
+  "fixture_error": "backend-fixture-error.txt: 123 passed, 1 setup failure before membership creation; not defect red"
+}

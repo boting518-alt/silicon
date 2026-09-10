@@ -1,0 +1,74 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________________ test_revision_keys_are_scoped_by_source[False] ________________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:63700/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:63700/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x123b7cc20>, stop=<function database.<locals>.stop at 0x123b7ccc0>)
+identities = namespace(a=UUID('861b5706-dfb9-44e1-9b5b-1a63a2563b20'), b=UUID('01f69e25-71e8-4d9b-b78f-94180d06394a'), user=UUID('a...D('0a01cb08-1de8-4184-808d-4290f4f3a0f0'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:63700/silicon))
+different = False
+
+    @pytest.mark.parametrize('different',[False,True])
+    def test_revision_keys_are_scoped_by_source(engine,database,identities,different):
+        i=identities
+        with client(engine,database,i.user,i.a) as one:
+            draft,_,_=prepare(one,i)
+            other=ok(command(one,'',{**draft['config'],'quantity':4 if different else draft['config']['quantity']}))
+            cans=[submit(one,d) for d in [draft,other]]
+            with client(engine,database,i.other,i.a) as two:
+                versions=[]
+                for can in cans:ok(approve(two,can),200);versions.append(ok(issue(two,can)))
+                key='same-source-independent-intent'
+                revisions=[ok(call(two,'/versions/'+v['id']+'/revise',{'expected_version':1},key)) for v in versions]
+>               assert revisions[0]['id']!=revisions[1]['id']
+E               AssertionError: assert 'b1db50a1-68e4-4e68-a3da-97d24ae97c51' != 'b1db50a1-68e4-4e68-a3da-97d24ae97c51'
+
+apps/api/tests/test_publication.py:361: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+________________ test_revision_keys_are_scoped_by_source[True] _________________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:63700/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:63700/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x123b7cc20>, stop=<function database.<locals>.stop at 0x123b7ccc0>)
+identities = namespace(a=UUID('862e4952-1031-4d9e-b19a-ee3cfba92e5f'), b=UUID('153a6fd8-6fcb-4e63-a928-80cfba220c0f'), user=UUID('a...D('3926ca49-3f05-4fae-8230-5413a1048a76'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:63700/silicon))
+different = True
+
+    @pytest.mark.parametrize('different',[False,True])
+    def test_revision_keys_are_scoped_by_source(engine,database,identities,different):
+        i=identities
+        with client(engine,database,i.user,i.a) as one:
+            draft,_,_=prepare(one,i)
+            other=ok(command(one,'',{**draft['config'],'quantity':4 if different else draft['config']['quantity']}))
+            cans=[submit(one,d) for d in [draft,other]]
+            with client(engine,database,i.other,i.a) as two:
+                versions=[]
+                for can in cans:ok(approve(two,can),200);versions.append(ok(issue(two,can)))
+                key='same-source-independent-intent'
+>               revisions=[ok(call(two,'/versions/'+v['id']+'/revise',{'expected_version':1},key)) for v in versions]
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_publication.py:360:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 201
+
+    def ok(r,status=201):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"IDEMPOTENCY_CONFLICT","message":"身份无效或没有执行此操作的权限","request_id":"a9c1d4f1-04cc-4ddf-b346-8448f1879d41"}
+E       assert 409 == 201
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_catalog.py:19: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_publication.py::test_revision_keys_are_scoped_by_source[False]
+FAILED apps/api/tests/test_publication.py::test_revision_keys_are_scoped_by_source[True]
+2 failed, 27 deselected, 2 warnings in 2.94s

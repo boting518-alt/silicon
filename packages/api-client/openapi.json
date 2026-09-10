@@ -5942,6 +5942,18 @@
       },
       "QuoteDetail": {
         "properties": {
+          "published_version_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published Version Id"
+          },
           "id": {
             "type": "string",
             "format": "uuid",

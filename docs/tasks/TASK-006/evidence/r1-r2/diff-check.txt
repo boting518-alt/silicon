@@ -1,0 +1,3 @@
+git diff --check: exit 0
+Archived report byte-identical; all prior evidence/reports byte-identical.
+High-confidence private-key/token/provider-key scan: no matches.

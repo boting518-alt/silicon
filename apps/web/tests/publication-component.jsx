@@ -1,7 +1,7 @@
 // Actual React DOM + actual lifecycle component; only HTTP boundary is simulated.
 import React,{act} from 'react';
 import {createRoot} from 'react-dom/client';
-import {PublicationDesk} from '../src/Publication';
+import {PublicationDesk,DraftSubmission} from '../src/Publication';
 import {crmRequests} from '../src/api';
 globalThis.IS_REACT_ACT_ENVIRONMENT=true;
 const container=document.querySelector('#fixture'),out=document.querySelector('#results');
@@ -46,3 +46,12 @@ const tests=[
  }]
 ];
 const results=[];for(const [name,test] of tests){const h=await setup();try{await test(h);results.push({name,status:'passed'});}catch(e){results.push({name,status:'failed',error:e.message});}finally{await h.close();}out.textContent=JSON.stringify(results,null,2);}out.dataset.status=results.every(x=>x.status==='passed')?'passed':'failed';
+
+// Same actual component transitions from editable saved draft to published.
+{const old=globalThis.fetch;globalThis.fetch=async()=>new Response('[]',{status:200});crmRequests.bind({tenant_id:'A',context_id:'A-1'});const root=createRoot(container);
+try{const props={context:crmRequests.capture(),dirty:false,disabled:false,onContextError:()=>{}};
+await act(async()=>root.render(<DraftSubmission {...props} draft={{id:'draft',version:1}}/>));await flush();assert(container.textContent.includes('提交审批'),'unpublished submission present');
+await act(async()=>root.render(<DraftSubmission {...props} draft={{id:'draft',version:1,published_version_id:'version'}}/>));await flush();
+assert(![...container.querySelectorAll('button')].some(b=>b.textContent==='提交审批'),'published submit removed');assert(container.textContent.includes('创建修订草稿'),'explicit revision guidance');assert(container.textContent.includes('旧发布内容与审批记录保持不变'),'historical preservation explained');results.push({name:'published draft replaces submission with independent revision guidance',status:'passed'});
+}catch(e){results.push({name:'published draft revision guidance',status:'failed',error:e.message});}finally{await act(async()=>root.unmount());crmRequests.bind(null);globalThis.fetch=old;}}
+out.textContent=JSON.stringify(results,null,2);out.dataset.status=results.every(x=>x.status==='passed')?'passed':'failed';

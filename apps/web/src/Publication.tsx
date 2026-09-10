@@ -22,6 +22,7 @@ export function DraftSubmission({context,draft,dirty,disabled,onContextError}:{c
  const [until,setUntil]=useState(''),[items,setItems]=useState<Candidate[]>([]);const cmd=useCommands(context,onContextError);
  useEffect(()=>{void cmd.run(()=>crmRequests.request<Candidate[]>(context,'/publication/candidates'),v=>setItems(v.filter(x=>x.draft_id===draft.id)));},[draft.id,draft.version]);
  const latest=items.at(-1);
+ if(draft.published_version_id||cmd.code==='PUBLISHED_DRAFT_REQUIRES_REVISION')return <section className="panel publication-panel"><h3>已发布 · 请创建独立修订</h3><p>此草稿已发布，不能再次提交审批。请进入侧栏“报价审批”，选择来源发布版本，点击“创建修订草稿”；重新打开修订后保存并重新审批。</p><p>旧发布内容与审批记录保持不变。</p></section>;
  return <section className="panel publication-panel"><h3>审批与发布</h3><p>{dirty?'未保存修改：不得使用旧审批发布，请先保存再重新提交。':latest?`${names[latest.state]} · 草稿 v${latest.draft_version}`:'已保存草稿，尚未提交审批'}</p>
  <p>所有报价均需另一授权人员审批。UNKNOWN 保留原状态，缺价或确定性 BLOCK 不能放行。</p>
  <label>报价有效期（本地时间）<input type="datetime-local" value={until} disabled={disabled||cmd.busy} onChange={e=>setUntil(e.target.value)}/></label>

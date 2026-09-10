@@ -106,7 +106,12 @@ def candidate(db,a,id,people):
        note=dec['note'] if dec and internal else None,confirmations=dec['confirmations'] if dec and internal else None,
        source_version_id=c.row(db,'quote_drafts',row['draft_id'])['source_version_id'])
 
+def require_unpublished(db,id):
+    if db.scalar(text("SELECT id FROM quote_versions WHERE draft_id=:id LIMIT 1"),{"id":id}):
+        raise Denied(409,"PUBLISHED_DRAFT_REQUIRES_REVISION")
+
 def submit(db,a,id,body):
+    require_unpublished(db,id)
     draft=c.row(db,'quote_drafts',id);c.expected(draft,body.expected_version)
     content=frozen(db,a,draft,body.valid_until);new=uuid4()
     c.insert(db,'publication_candidates',dict(tenant_id=a.tenant_id,id=new,draft_id=id,draft_version=draft['version'],submitter_id=a.actor_id,
@@ -155,6 +160,7 @@ def issue(db,a,id,body,people):
         customer=visible(db,a,content)
         participant(people,row['submitter_id'],'quote.submit',customer);participant(people,dec['actor_id'],'quote.approve',customer)
         return existing
+    require_unpublished(db,row['draft_id'])
     fresh(db,a,row,people)
     origin=c.row(db,'quote_drafts',row['draft_id'])['source_version_id']
     if origin:
@@ -196,8 +202,10 @@ def revise(db,a,id,body,key,request):
     item=published(db,a,id)
     if item.version!=body.expected_version:raise Denied(409,'VERSION_CONFLICT')
     config=item.content.config.model_copy(update={'name':item.content.config.name+' · 修订'})
-    new=q.save(db,a,config,'revision:'+key,request)
-    c.update(db,'quote_drafts',new.id,dict(source_version_id=id));return new.id
+    # Same complete operation scope as publication_commands; creation and source
+    # association are one INSERT. Replays never rewrite a draft's source.
+    new=q.save(db,a,config,key,request,source_version_id=id)
+    return new.id
 
 def command(db,a,op,key,body,request,perform,render):
     if not key or len(key)>100:raise Denied(422,'IDEMPOTENCY_KEY_REQUIRED')

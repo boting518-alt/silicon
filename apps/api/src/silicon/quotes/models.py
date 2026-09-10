@@ -69,6 +69,7 @@ class QuoteSummary(Input):
     version: int
 
 class QuoteDetail(Input):
+    published_version_id: UUID|None=None
     id: UUID
     version: int
     config: QuoteInput

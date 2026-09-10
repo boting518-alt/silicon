@@ -1,0 +1,14 @@
+[
+  {
+    "file": "guidance-desktop.jpg",
+    "width": 1425,
+    "height": 891,
+    "sha256": "8db086dbd463a2b1aff0c4f2f0c80889c4b0c4384bc7c43c5853a353a1397697"
+  },
+  {
+    "file": "guidance-mobile.jpg",
+    "width": 375,
+    "height": 812,
+    "sha256": "bde6608abc14124c32e22264df18a805a5bb50e3a9e1f6d55aceb6c6eaaaf6ef"
+  }
+]

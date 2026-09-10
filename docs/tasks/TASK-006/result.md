@@ -60,3 +60,23 @@ UI沿用硅屿壳，增加工作室提交入口、审批/风险详情、人工�
 ## 交付追记
 
 实现提交：`262eea882dac44c28198db3cf0625cd118273b46`。本追记为收尾文档提交；最终 HEAD 由包内 manifest 固定。状态保持 review_ready，不代表独立验收。
+
+## R1/R2 独立审查修复（2026-09-10）
+
+本轮基准 `0ca955af10115b1fb7369885c348465672b22dc9`，开始时 main 工作树干净且与 origin/main 一致。原样归档 [独立审查报告](../../reviews/TASK-006-0ca955a-review.md)，结论 changes_requested 保留；此前结果、测试与截图不覆盖。TASK-006 保持 review_ready，TASK-007/008 planned。
+
+R1：原 submit 缺少已发布门槛，issue 只防同候选重复。新增同一 quote 事务排他锁内的草稿发布检查；新提交/其他候选发布返回 PUBLISHED_DRAFT_REQUIRES_REVISION。成功 command 重放及同候选既有版本返回优先保留并重查权限。QuoteDetail 新增 published_version_id，已发布草稿显示独立修订引导而非重提表单。
+
+R2：外层来源作用域与内层 quote.create 不一致。两层现在共同采用 quote.revise:<source_version_id>，保留原 key 长度；在 q.save 的新草稿 INSERT 原子设置来源，取消无条件来源 UPDATE。不同来源相同 key 不碰撞；旧审批不继承，发布编号仍沿各自来源。
+
+无新增迁移、无历史快照改写、无视觉模板或依赖升级。设计见 ADR-011 增量章节。新证据在 evidence/r1-r2；真实 PG/API 与实际 React DOM/浏览器分别记账。完整回归首次的 membership 夹具准备错误单独保留，不作 R1/R2 缺陷红灯。
+
+### 本轮实际验证与限制
+
+R1 真实红灯1失败→1通过；R2两种真实红灯2失败→2通过。完整后端 **124 passed / 4 warnings / 72.00s**；随后补跑新增同 key 发布重放断言 **1 passed / 30 deselected**，不增加完整用例数。首次完整运行123通过/1失败为新增夹具 membership 创建顺序错误，已单列日志。原OIDC/报价/目录/CRM/Worker及空库/升级测试在完整回归内。
+
+前端Node **19通过**；实际React publication **5通过**、原QuoteStudio **3通过**。类型检查、构建、契约重复生成一致性、文档与差异检查通过。详细命令和红绿日志见 [本轮验证](evidence/r1-r2/validation.json)。
+
+真实浏览器完成 Alice提交→Bob审批发布→原草稿修订引导→Bob创建独立修订→Alice重审发布 Q-000001-R2，原Q-000001金额/hash不变。两视口截图与实际像素维持已披露导出限制，见 [浏览器步骤](evidence/r1-r2/browser-notes.md)。不同来源同key与并发条件通过真实PG/API覆盖，不宣称由随机键浏览器操作覆盖。测试环境已清理。
+
+远程CI未核实，Docker/其他浏览器/原全部浏览器路径 not_run；本轮未改正式政策限制。无常驻数据库、系统信任、原Demo或历史快照改动。最终状态review_ready，等待独立增量复核。
