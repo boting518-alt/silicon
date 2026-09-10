@@ -59,4 +59,4 @@ status: review_ready
 
 ## 交付追记
 
-提交与审查包生成后在此追加固定实现提交；最终 HEAD、完整提交日志/changed-files 与源码一致性/SHA256 校验由审查包清单给出，不自行做独立审查结论。
+实现与验证 commit：`6963527074072f491db030b8a9970d3f2867f150`。测试对象为该实现树，后续仅补齐交付文档；最终受审 HEAD 由审查包 REVIEW_MANIFEST.md 与回复精确给出。完整变更清单见 [changed-files](evidence/changed-files.txt)，实现以来文档收尾单独在包内 changes/implementation-to-final.patch 列出。最终状态 review_ready，不自行作独立审查结论。

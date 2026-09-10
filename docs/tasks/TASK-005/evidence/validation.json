@@ -4,7 +4,7 @@
   "date": "2026-09-10",
   "base": "a8ce3e2c13736a032958decf1e65fb482cd4ebf6",
   "handoff": "b98662f74ca4fb418a06322e224a76ca0b8fa74d",
-  "code_head": "recorded in result delivery note; final HEAD in fixed archive manifest",
+  "code_head": "6963527074072f491db030b8a9970d3f2867f150",
   "tests": [
     {
       "name": "backend_full",
@@ -68,6 +68,18 @@
       "status": "passed",
       "result": "exit 0; containers not run",
       "evidence": "compose-config.txt"
+    },
+    {
+      "name": "docs",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "evidence": "docs-final.txt"
+    },
+    {
+      "name": "diff_check",
+      "command": "git diff --check; git diff --cached --check",
+      "status": "passed",
+      "evidence": "diff-check.txt"
     }
   ],
   "browser": {
