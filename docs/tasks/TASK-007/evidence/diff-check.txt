@@ -1,0 +1,1 @@
+PASS git diff --cached --check before implementation and control-style commits; PASS git diff --check after documentation update. PDF fixture binary attribute preserves exact test bytes.

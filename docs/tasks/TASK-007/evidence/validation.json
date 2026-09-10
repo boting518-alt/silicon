@@ -34,5 +34,10 @@
     "formal business acceptance"
   ],
   "remote_ci": "unverified",
-  "history": "All prior results/reviews retained; diagnostic setup failures retained, not counted as defect red."
+  "history": "All prior results/reviews retained; diagnostic setup failures retained, not counted as defect red.",
+  "implementation_commit": "1f19d3dc3c8dd967218e1083b95b0e4f75d4a61a",
+  "style_commit": "2fb0e796267711c36a6ba42ae19724cabb6c2127",
+  "final_build": "build-controls-final.txt; typecheck included",
+  "browser_screenshot_limitation": "captured before final scoped control border/radius styling; no final full business rerun",
+  "docs_and_diff": "PASS check_docs.py and staged/unstaged git diff --check"
 }
