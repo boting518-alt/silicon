@@ -1,6 +1,6 @@
 # TASK-005 配置报价与折扣草稿
 
-status: review_ready
+status: accepted
 
 ## 来源和范围
 
