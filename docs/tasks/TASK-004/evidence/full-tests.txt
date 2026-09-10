@@ -1,0 +1,127 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.7, pytest-9.1.1, pluggy-1.6.0 -- /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Volumes/Lenovo3/workspace/SILICON/silicon-workspace
+configfile: pyproject.toml
+testpaths: apps/api/tests
+plugins: anyio-4.15.1
+collecting ... collected 65 items
+
+apps/api/tests/test_catalog.py::test_sku_maintenance_unique_specs_and_idempotency PASSED [  1%]
+apps/api/tests/test_catalog.py::test_permissions_cross_tenant_and_context PASSED [  3%]
+apps/api/tests/test_catalog.py::test_packages_rules_versions_and_frozen_snapshot PASSED [  4%]
+apps/api/tests/test_catalog.py::test_invalid_cycle_and_unknown_rules PASSED [  6%]
+apps/api/tests/test_catalog.py::test_prices_unknown_zero_expiry_overlap_and_history PASSED [  7%]
+apps/api/tests/test_catalog.py::test_concurrent_update_and_publish_overlap PASSED [  9%]
+apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[skus] PASSED [ 10%]
+apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[boms] PASSED [ 12%]
+apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[price-books] PASSED [ 13%]
+apps/api/tests/test_catalog.py::test_published_database_mutations_denied PASSED [ 15%]
+apps/api/tests/test_catalog.py::test_context_guards_all_catalog_commands_and_csrf PASSED [ 16%]
+apps/api/tests/test_catalog.py::test_catalog_rls_role_and_invalid_price_inputs PASSED [ 18%]
+apps/api/tests/test_crm.py::test_crud_relationships_refresh_history_and_audit PASSED [ 20%]
+apps/api/tests/test_crm.py::test_idempotency_and_concurrent_edit_conflict PASSED [ 21%]
+apps/api/tests/test_crm.py::test_concurrent_duplicate_create_single_customer PASSED [ 23%]
+apps/api/tests/test_crm.py::test_tenants_permissions_default_rls_and_invalid_input PASSED [ 24%]
+apps/api/tests/test_crm.py::test_pagination_search_own_scope_and_foreign_membership PASSED [ 26%]
+apps/api/tests/test_crm.py::test_child_relationships_cannot_cross_customers PASSED [ 27%]
+apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0002_identity] PASSED [ 29%]
+apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0003_crm] PASSED [ 30%]
+apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context] FAILED [ 32%]
+apps/api/tests/test_crm_context.py::test_stale_page_requests_rejected_even_without_notification PASSED [ 33%]
+apps/api/tests/test_crm_context.py::test_detail_is_one_committed_aggregate_during_replacement PASSED [ 35%]
+apps/api/tests/test_crm_context.py::test_missing_context_and_aba_are_rejected PASSED [ 36%]
+apps/api/tests/test_crm_context.py::test_switch_and_save_follow_session_lock_order[save] PASSED [ 38%]
+apps/api/tests/test_crm_context.py::test_switch_and_save_follow_session_lock_order[switch] PASSED [ 40%]
+apps/api/tests/test_crm_context.py::test_stale_edit_cannot_touch_a_visible_record_in_other_enterprise PASSED [ 41%]
+apps/api/tests/test_identity.py::test_runtime_rls_default_deny_pool_and_exception PASSED [ 43%]
+apps/api/tests/test_identity.py::test_composite_fk_and_cross_tenant_writes PASSED [ 44%]
+apps/api/tests/test_identity.py::test_session_memberships_csrf_switch_and_logout PASSED [ 46%]
+apps/api/tests/test_identity.py::test_lists_details_fields_attachments_and_revocation PASSED [ 47%]
+apps/api/tests/test_identity.py::test_tenant_jobs_authorization_fencing_and_audit PASSED [ 49%]
+apps/api/tests/test_identity.py::test_upgrade_from_task001_preserves_queue PASSED [ 50%]
+apps/api/tests/test_identity.py::test_tenant_worker_lease_expiry_rolls_back_audit PASSED [ 52%]
+apps/api/tests/test_identity.py::test_field_write_permissions_and_controlled_audit PASSED [ 53%]
+apps/api/tests/test_identity.py::test_cross_tenant_unique_detail_and_attachment_are_404 PASSED [ 55%]
+apps/api/tests/test_identity.py::test_expired_callback_and_inactive_user PASSED [ 56%]
+apps/api/tests/test_identity.py::test_dev_provisioning_is_idempotent_and_does_not_authenticate PASSED [ 58%]
+apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry PASSED [ 60%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change0] PASSED [ 61%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change1] PASSED [ 63%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change2] PASSED [ 64%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change3] PASSED [ 66%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change4] PASSED [ 67%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change5] PASSED [ 69%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change6] PASSED [ 70%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change7] PASSED [ 72%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change8] PASSED [ 73%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change9] PASSED [ 75%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change10] PASSED [ 76%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change11] PASSED [ 78%]
+apps/api/tests/test_oidc_validation.py::test_invalid_claims_rejected_with_http_substitute[change12] PASSED [ 80%]
+apps/api/tests/test_oidc_validation.py::test_secure_configuration_and_no_production_bypass PASSED [ 81%]
+apps/api/tests/test_platform.py::test_empty_migration_and_runtime_role PASSED [ 83%]
+apps/api/tests/test_platform.py::test_health_and_ready PASSED            [ 84%]
+apps/api/tests/test_platform.py::test_ready_requires_migration PASSED    [ 86%]
+apps/api/tests/test_platform.py::test_enqueue_deduplication_and_worker_restart PASSED [ 87%]
+apps/api/tests/test_platform.py::test_concurrent_claim_single_winner PASSED [ 89%]
+apps/api/tests/test_platform.py::test_locked_job_does_not_block_another_claim PASSED [ 90%]
+apps/api/tests/test_platform.py::test_locked_exhausted_lease_does_not_block_queued_job PASSED [ 92%]
+apps/api/tests/test_platform.py::test_exhausted_lease_cleanup_is_bounded PASSED [ 93%]
+apps/api/tests/test_platform.py::test_expired_lease_fences_stale_worker PASSED [ 95%]
+apps/api/tests/test_platform.py::test_crash_exhaustion_and_failure_retry PASSED [ 96%]
+apps/api/tests/test_platform.py::test_http_database_stop_recovery_and_long_running_worker PASSED [ 98%]
+apps/api/tests/test_platform.py::test_production_mode_disabled PASSED    [100%]
+
+=================================== FAILURES ===================================
+_ test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context] _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "crm_customers"
+
+The above exception was the direct cause of the following exception:
+apps/api/tests/test_crm.py:167: in test_upgrade_from_task002_preserves_identity_and_tenant_job
+    db.execute(text("INSERT INTO crm_customers(tenant_id,id,number,name,owner_id) VALUES (:t,:id,'UPGRADE-CUSTOMER','原客户',:u)"),dict(t=tenant,id=actor,u=actor))
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: in execute
+    raise ex.with_traceback(None)
+E   sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "crm_customers"
+E   [SQL: INSERT INTO crm_customers(tenant_id,id,number,name,owner_id) VALUES (%(t)s,%(id)s,'UPGRADE-CUSTOMER','原客户',%(u)s)]
+E   [SQL parameters hidden due to hide_parameters=True]
+E   (Background on this error at: https://sqlalche.me/e/20/f405)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_crm.py::test_concurrent_duplicate_create_single_customer
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context]
+================== 1 failed, 64 passed, 3 warnings in 39.16s ===================

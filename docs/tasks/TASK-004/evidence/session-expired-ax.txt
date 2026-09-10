@@ -1,0 +1,68 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button ▦ 商品目录, Help: 商品目录
+					29 text ▦
+					30 text 商品目录
+				31 button ◇ 包件 / BOM, Help: 包件 / BOM
+					32 text ◇
+					33 text 包件 / BOM
+				34 button ▤ 价格维护, Help: 价格维护
+					35 text ▤
+					36 text 价格维护
+				37 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					38 text ▤ 合同管理
+					39 text 未启用
+				40 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					41 text ▥ 设备查询
+					42 text 未启用
+				43 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					44 text ▣ 采购合同
+					45 text 未启用
+				46 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					47 text ▦ 库存管理
+					48 text 未启用
+				49 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					50 text ◷ 周转分析
+					51 text 未启用
+			52 text 硅 尚未登录 客户与服务协同
+		53 container
+			54 text 业务管理  / 价格维护
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08 登录已失效，请重新登录。
+			176 heading 进入客户工作空间, Value: 2
+				177 text 进入客户工作空间
+			178 text 使用企业身份登录后，选择企业访问客户档案。
+			179 link Description: 使用企业身份登录, Value: localhost:5173/api/v1/auth/login
+			180 button 刷新登录状态
+			175 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/

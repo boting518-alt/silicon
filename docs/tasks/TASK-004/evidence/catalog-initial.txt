@@ -1,0 +1,72 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.7, pytest-9.1.1, pluggy-1.6.0 -- /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Volumes/Lenovo3/workspace/SILICON/silicon-workspace
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collecting ... collected 8 items
+
+apps/api/tests/test_catalog.py::test_sku_maintenance_unique_specs_and_idempotency PASSED [ 12%]
+apps/api/tests/test_catalog.py::test_permissions_cross_tenant_and_context FAILED [ 25%]
+
+=================================== FAILURES ===================================
+__________________ test_permissions_cross_tenant_and_context ___________________
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+The above exception was the direct cause of the following exception:
+apps/api/tests/test_catalog.py:78: in test_permissions_cross_tenant_and_context
+    with tenant_transaction(engine,i.other,i.b,'catalog.write','FK') as (db,_):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+apps/api/src/silicon/identity/access.py:69: in tenant_transaction
+    audit(db, actor_id, tenant_id, action, tenant_id, 'allowed', request_id)
+apps/api/src/silicon/identity/access.py:54: in audit
+    db.execute(text('''INSERT INTO audit_events(id,actor_id,tenant_id,action,object_id,outcome,request_id)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: in execute
+    raise ex.with_traceback(None)
+E   sqlalchemy.exc.InternalError: (psycopg.errors.InFailedSqlTransaction) current transaction is aborted, commands ignored until end of transaction block
+E   [SQL: INSERT INTO audit_events(id,actor_id,tenant_id,action,object_id,outcome,request_id)
+E           VALUES (%(id)s,%(actor)s,%(tenant)s,%(action)s,%(object)s,%(outcome)s,%(request)s)]
+E   [SQL parameters hidden due to hide_parameters=True]
+E   (Background on this error at: https://sqlalche.me/e/20/2j85)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_catalog.py::test_sku_maintenance_unique_specs_and_idempotency
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/src/silicon/catalog/service.py:86: PydanticDeprecatedSince211: Accessing the 'model_fields' attribute on the instance is deprecated. Instead, you should access this attribute from the model class. Deprecated in Pydantic V2.11 to be removed in V3.0.
+    db.execute(text('UPDATE catalog_specs SET '+','.join(f'{k}=:{k}' for k in body.specs.model_fields)+' WHERE sku_id=:id'),{**body.specs.model_dump(),'id':id})
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_catalog.py::test_permissions_cross_tenant_and_context
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+=================== 1 failed, 1 passed, 3 warnings in 2.15s ====================

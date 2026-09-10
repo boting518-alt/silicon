@@ -20,7 +20,7 @@ jobs:
       - run: uv sync --locked
       - run: uv run --locked python infra/export_openapi.py && npm run api:types
       - run: git diff --exit-code -- packages/api-client
-      - run: node --test apps/web/tests/context-race.test.ts
+      - run: node --test apps/web/tests/*.test.ts
       - run: npm run typecheck && npm run build
       - name: Build verified PostgreSQL 17.11
         run: python infra/build_test_postgres.py --prefix "$RUNNER_TEMP/silicon-pg17"

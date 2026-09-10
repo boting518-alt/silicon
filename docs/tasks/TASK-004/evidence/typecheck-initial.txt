@@ -1,0 +1,24 @@
+
+> silicon-workspace@0.1.0 typecheck
+> npm run typecheck --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 typecheck
+> tsc --noEmit
+
+src/Catalog.tsx(15,123): error TS2739: Type '{}' is missing the following properties from type '{ socket: string; memory_generation: string; capacity_gb?: number | null | undefined; power_w?: number | null | undefined; slot_width?: number | null | undefined; interface: string; speed_gbps?: number | ... 1 more ... | undefined; cpu_sockets?: number | ... 1 more ... | undefined; }': socket, memory_generation, interface
+src/Catalog.tsx(38,33): error TS2345: Argument of type '{ number: string; name: string; category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib"; manufacturer: string; brand: string; brand_kind: "third_party" | "own"; enabled: boolean; specs?: { ...; } | undefined; } | { ...; }' is not assignable to parameter of type 'SetStateAction<{ number: string; name: string; category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib"; manufacturer: string; brand: string; brand_kind: "third_party" | "own"; enabled: boolean; specs?: { ...; } | undefined; }>'.
+  Type '{ specs: {}; number: string; name: string; category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib"; manufacturer: string; brand: string; brand_kind: "own" | "third_party"; enabled: boolean; }' is not assignable to type 'SetStateAction<{ number: string; name: string; category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib"; manufacturer: string; brand: string; brand_kind: "third_party" | "own"; enabled: boolean; specs?: { ...; } | undefined; }>'.
+    Types of property 'specs' are incompatible.
+      Type '{}' is missing the following properties from type '{ socket: string; memory_generation: string; capacity_gb?: number | null | undefined; power_w?: number | null | undefined; slot_width?: number | null | undefined; interface: string; speed_gbps?: number | ... 1 more ... | undefined; cpu_sockets?: number | ... 1 more ... | undefined; }': socket, memory_generation, interface
+src/Catalog.tsx(71,1367): error TS2322: Type '{ socket?: string | undefined; memory_generation?: string | undefined; capacity_gb?: number | null; power_w?: number | null; slot_width?: number | null; interface?: string | undefined; speed_gbps?: number | null; cpu_sockets?: number | null; }' is not assignable to type '{ socket: string; memory_generation: string; capacity_gb?: number | null | undefined; power_w?: number | null | undefined; slot_width?: number | null | undefined; interface: string; speed_gbps?: number | ... 1 more ... | undefined; cpu_sockets?: number | ... 1 more ... | undefined; }'.
+  Types of property 'socket' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error workspace @silicon/web@0.1.0
+npm error location /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error command failed
+npm error command sh -c tsc --noEmit

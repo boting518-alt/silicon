@@ -1,0 +1,178 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button ▦ 商品目录, Help: 商品目录
+					29 text ▦
+					30 text 商品目录
+				31 button ◇ 包件 / BOM, Help: 包件 / BOM
+					32 text ◇
+					33 text 包件 / BOM
+				34 button ▤ 价格维护, Help: 价格维护
+					35 text ▤
+					36 text 价格维护
+				37 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					38 text ▤ 合同管理
+					39 text 未启用
+				40 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					41 text ▥ 设备查询
+					42 text 未启用
+				43 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					44 text ▣ 采购合同
+					45 text 未启用
+				46 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					47 text ▦ 库存管理
+					48 text 未启用
+				49 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					50 text ◷ 周转分析
+					51 text 未启用
+			52 text 虚 虚构用户甲 客户与服务协同
+		53 container
+			54 text 业务管理  / 包件 / BOM
+			55 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 A, Secondary Actions: Expand
+				56 menu
+					57 (disabled) 请选择企业
+					58 (selected) 虚构企业 A
+					59 虚构企业 B
+			60 button 退出登录
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08
+			66 text SILICON / CATALOG
+			67 heading 包件 / BOM, Value: 2
+				68 text 包件 / BOM
+			69 text 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+			70 button 新建包件 / BOM
+				71 text 新建
+				72 text 包件 / BOM
+			73 text field (settable) 筛选目录
+			74 text 每类最多载入 100 项
+			75 container 目录表格，可横向滚动
+				76 table
+					77 row
+						78 cell
+							79 text 名称 / 编号
+						80 cell
+							81 text 类别 / 版本
+						82 cell
+							83 text 状态
+						84 cell
+							85 text 操作
+					86 row
+						87 cell
+							88 text 虚构准系统 · 已含电源
+						89 cell
+							90 text 修订 1 · 编辑版本 3
+						91 cell
+							92 text 已发布 · 冻结
+						93 cell
+							94 button 查看 虚构准系统 · 已含电源
+								95 text 查看
+								96 text 虚构准系统 · 已含电源
+					97 row
+						98 cell
+							99 text 虚构准系统 · 不含电源
+						100 cell
+							101 text 修订 1 · 编辑版本 2
+						102 cell
+							103 text 已发布 · 冻结
+						104 cell
+							105 button 查看 虚构准系统 · 不含电源
+								106 text 查看
+								107 text 虚构准系统 · 不含电源
+					108 row
+						109 cell
+							110 text 虚构 BOM · 外选电源
+						111 cell
+							112 text 修订 1 · 编辑版本 2
+						113 cell
+							114 text 已发布 · 冻结
+						115 cell
+							116 button 查看 虚构 BOM · 外选电源
+								117 text 查看
+								118 text 虚构 BOM · 外选电源
+					119 row
+						120 cell
+							121 text 虚构 BOM · 修订版
+						122 cell
+							123 text 修订 2 · 编辑版本 3
+						124 cell
+							125 text 已发布 · 冻结
+						126 cell
+							127 button 查看 虚构 BOM · 修订版
+								128 text 查看
+								129 text 虚构 BOM · 修订版
+			130 container
+				131 heading 虚构 BOM · 外选电源, Value: 3
+					132 text 虚构 BOM · 外选电源
+				133 button 关闭详情
+				134 text BOM  · 修订  1  ·  冻结快照 主体： 虚构组合方案  /  DEMO-CONFIG 规则来源： 虚构工程样例，非供应商认证 / v1
+				135 table
+					136 row
+						137 cell
+							138 text 技术部件
+						139 cell
+							140 text 数量
+						141 cell
+							142 text 必选性
+						143 cell
+							144 text 商业归属
+					145 row
+						146 cell
+							147 text 虚构无电源准系统
+						148 cell
+							149 text 1
+						150 cell
+							151 text 必选
+						152 cell
+							153 text 另行定价（未计价）
+					154 row
+						155 cell
+							156 text 虚构 1200W 电源
+						157 cell
+							158 text 2
+						159 cell
+							160 text 必选
+						161 cell
+							162 text 另行定价（未计价）
+				163 text UNKNOWN
+				164 text  ·  CPU 插槽资料或必选部件不足
+				165 text UNKNOWN
+				166 text  ·  内存代际资料或必选部件不足
+				167 text PASS
+				168 text  ·  N+1 容量符合示例预算，仍需确认实际功耗与预留
+				169 text UNKNOWN
+				170 text  ·  GPU 空间、PCIe/IB 槽位、磁盘背板、内存通道等尚无完整资料；未认证 替换包含件没有自动抵扣；本页不计算报价、成本或利润。
+				171 button (disabled) 编辑草稿
+				172 button 创建修订
+			173 button (collapsed) 平台规则与来源维护, Secondary Actions: Expand
+				174 text 平台规则与来源维护
+			175 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 116 button 查看 虚构 BOM · 外选电源

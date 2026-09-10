@@ -1,0 +1,182 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button ▦ 商品目录, Help: 商品目录
+					29 text ▦
+					30 text 商品目录
+				31 button ◇ 包件 / BOM, Help: 包件 / BOM
+					32 text ◇
+					33 text 包件 / BOM
+				34 button ▤ 价格维护, Help: 价格维护
+					35 text ▤
+					36 text 价格维护
+				37 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					38 text ▤ 合同管理
+					39 text 未启用
+				40 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					41 text ▥ 设备查询
+					42 text 未启用
+				43 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					44 text ▣ 采购合同
+					45 text 未启用
+				46 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					47 text ▦ 库存管理
+					48 text 未启用
+				49 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					50 text ◷ 周转分析
+					51 text 未启用
+			52 text 虚 虚构用户甲 客户与服务协同
+		53 container
+			54 text 业务管理  / 商品目录
+			55 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 A, Secondary Actions: Expand
+				56 menu
+					57 (disabled) 请选择企业
+					58 (selected) 虚构企业 A
+					59 虚构企业 B
+			60 button 退出登录
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08
+			70 text SILICON / CATALOG
+			71 heading 商品目录, Value: 2
+				72 text 商品目录
+			73 text 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+			74 button 新建商品
+				75 text 新建
+				76 text 商品
+			129 container
+				130 text 编号已存在，请使用当前企业内唯一编号。
+			77 text field (settable) 筛选目录
+			78 text 每类最多载入 100 项
+			79 container 目录表格，可横向滚动
+				80 table
+					81 row
+						82 cell
+							83 text 名称 / 编号
+						84 cell
+							85 text 类别 / 版本
+						86 cell
+							87 text 状态
+						88 cell
+							89 text 操作
+					117 row
+						118 cell
+							119 text 虚构无电源准系统
+							120 text DEMO-BARE
+						121 cell
+							122 text 主机 / 准系统
+						123 cell
+							124 text 启用
+						125 cell
+							126 button 查看 虚构无电源准系统
+								127 text 查看
+								128 text 虚构无电源准系统
+					91 row
+						92 cell
+							93 text 虚构双路准系统
+							94 text DEMO-HOST
+						95 cell
+							96 text 主机 / 准系统
+						97 cell
+							98 text 启用
+						99 cell
+							100 button 查看 虚构双路准系统
+								101 text 查看
+								102 text 虚构双路准系统
+					104 row
+						105 cell
+							106 text 虚构 1200W 电源
+							107 text DEMO-PSU
+						108 cell
+							109 text 电源
+						110 cell
+							111 text 启用
+						112 cell
+							113 button 查看 虚构 1200W 电源
+								114 text 查看
+								115 text 虚构 1200W 电源
+			131 container
+				132 heading 编辑商品目录, Value: 3
+					133 text 编辑 商品目录
+				134 button 取消编辑
+				135 container
+					136 text SKU 编号
+					137 text field (settable) SKU 编号, Value: DEMO-HOST
+					138 text 商品名称
+					139 text field (settable) 商品名称, Value: 虚构无电源准系统
+					140 text 制造商
+					141 text field (settable) 制造商, Value: 虚构制造商
+					142 text 销售品牌
+					143 text field (settable) 销售品牌, Value: 硅屿测试品牌
+					144 text 类别
+					145 pop up button (collapsed, settable) 类别, Value: 主机 / 准系统, Secondary Actions: Expand
+						146 menu
+							147 (selected) 主机 / 准系统
+							148 CPU
+							149 GPU
+							150 内存
+							151 电源
+							152 系统盘
+							153 数据盘
+							154 网卡
+							155 IB 卡
+					156 text 品牌属性
+					157 pop up button (collapsed, settable) 品牌属性, Value: 自有品牌, Secondary Actions: Expand
+						158 menu
+							159 第三方品牌
+							160 (selected) 自有品牌
+					161 text 状态
+					162 pop up button (collapsed, settable) 状态, Value: 启用, Secondary Actions: Expand
+						163 menu
+							164 (selected) 启用
+							165 停用
+				166 heading 结构化规格 · 不确定的属性留空, Value: 4
+					167 text 结构化规格 · 不确定的属性留空
+				168 container
+					169 text CPU 插槽
+					170 text field (settable) CPU 插槽
+					171 text 内存代际
+					172 text field (settable) 内存代际
+					173 text 容量 GB
+					174 stepper (settable) 容量 GB
+					175 text 功率 / 电源额定 W
+					176 stepper (settable) 功率 / 电源额定 W
+					177 text 占用槽宽
+					178 stepper (settable) 占用槽宽
+					179 text 接口
+					180 text field (settable) 接口
+					181 text 速率 Gbps
+					182 stepper (settable) 速率 Gbps
+					183 text CPU 插槽数量
+					184 stepper (settable) CPU 插槽数量
+				185 button 保存目录记录
+			69 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 129 container

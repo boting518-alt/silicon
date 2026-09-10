@@ -1,0 +1,47 @@
+{
+  "screenshots": [
+    {
+      "file": "final-bom-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "a0f13738365e47818feb28dc1133ead3865071b23047f7bdf98b82562de3cb06",
+      "phase": "final fixed-fixture visual retest"
+    },
+    {
+      "file": "final-bom-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d7c28898b34721b14e3de2556d9d8ee587f6118903099dd96135d7c7386551e4",
+      "phase": "final fixed-fixture visual retest"
+    },
+    {
+      "file": "final-price-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "fd5876f56e3c95759fd719aa74cf6a9806f710982e8216ac978895f1197494e1",
+      "phase": "final fixed-fixture visual retest"
+    },
+    {
+      "file": "final-price-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "38f07d25dbc320280d444e7803c7f3352ce8fd490cb7af52261b30a0ccf01271",
+      "phase": "final fixed-fixture visual retest"
+    },
+    {
+      "file": "final-sku-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "2743e08967133592288477624bb9a672ac99697dc91a0f21fef126b5f18b8823",
+      "phase": "final fixed-fixture visual retest"
+    },
+    {
+      "file": "final-sku-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "1426cf66e6c94de0974e53364a9945419eee19d1ba7d36f2fe13393fa1cb2645",
+      "phase": "final fixed-fixture visual retest"
+    }
+  ],
+  "intermediate": "Other JPG files retain initial interaction evidence, not final layout baselines."
+}

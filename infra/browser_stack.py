@@ -57,7 +57,7 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
         with owner.begin() as db:
             db.execute(text('INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:id,:issuer,:subject,\'虚构用户甲\')'),dict(id=actor,issuer=issuer,subject=SUBJECT))
             db.execute(text("INSERT INTO tenants VALUES (:a,'虚构企业 A'),(:b,'虚构企业 B')"),dict(a=a,b=b))
-            db.execute(text("INSERT INTO memberships VALUES (:a,:u,'admin',true),(:b,:u,'admin',true)"),dict(a=a,b=b,u=actor))
+            db.execute(text("INSERT INTO memberships VALUES (:a,:u,'admin',true),(:b,:u,:role,true)"),dict(a=a,b=b,u=actor,role='viewer' if os.getenv('SILICON_BROWSER_CATALOG')=='1' else 'admin'))
         owner.dispose()
         engine=make_engine(database.url)
         samples=[('澄川大学 · 人工智能学院','浙江','杭州','高校','战略客户'),('栖原智能科技有限公司','江苏','苏州','企业','重点客户'),('远岑材料研究院','安徽','合肥','科研院所','重点客户'),('京澜智能研究中心','北京','北京','科研院所','战略客户'),('锦序工业科技有限公司','四川','成都','企业','重点客户'),('南序机器人有限公司','广东','深圳','企业','重点客户'),('浦澄数据技术有限公司','上海','上海','企业','重点客户')]
@@ -70,6 +70,9 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             with tenant_transaction(engine,actor,a,'crm.write','browser-fixture') as (db,access):save(db,access,body,f'seed-{n}','browser-fixture')
         with tenant_transaction(engine,actor,a,'crm.write','visual-clock') as (db,_):
             db.execute(text("UPDATE crm_customers SET created_at=timestamptz '2026-09-08 04:00:00+00'-make_interval(secs=>substring(number from 5)::int), updated_at=timestamptz '2026-09-08 04:00:00+00'"))
+        if os.getenv('SILICON_BROWSER_CATALOG_SEED')=='1':
+            from catalog_examples import seed
+            seed(engine,actor,a)
         engine.dispose()
         commands=[([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false','--https-port=8443',f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}','--import-realm','--cache=local'],issuer+'/.well-known/openid-configuration'),
                   ([sys.executable,'-m','uvicorn','silicon.main:create_app','--factory','--host','127.0.0.1','--port','8000','--no-access-log'],'http://127.0.0.1:8000/api/v1/ready'),

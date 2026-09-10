@@ -1,12 +1,12 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-002 已由产品/架构负责人确认 accepted。当前 TASK-003 迁移原硅屿 UI 壳，提供独立客户档案、联系人、项目、装机地点与责任分工；沿用 Keycloak OIDC、租户权限和审计。报价、合同、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-003 已由产品/架构负责人确认 accepted。当前 TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。报价、合同、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
-先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-003](docs/tasks/TASK-003/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
+先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-004](docs/tasks/TASK-004/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
 
-所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。当前无远程仓库或部署配置，CI 文件已提供，未运行远程 CI。TASK-004 必须另行明确分配，不自动开始。
+所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。当前无远程仓库或部署配置，CI 文件已提供，未运行远程 CI。TASK-005 必须另行明确分配，不自动开始。
 
 ## 安装锁定依赖
 
@@ -65,7 +65,7 @@ uv run --locked --env-file .env python infra/migrate.py upgrade head
 uv run --locked --env-file .env python infra/migrate.py current
 ```
 
-必须确认 upgrade 成功且 current 显示 `0004_session_context (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
+必须确认 upgrade 成功且 current 显示 `0005_catalog (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
 
 ## 本地真实 IdP 与 HTTPS
 
@@ -128,6 +128,16 @@ uv run --locked --env-file .env python apps/worker/main.py --once
 
 health 返回 200/ok；ready 验证数据库和迁移版本，成功 200/ready，数据库不可用或未迁移为 503/DATABASE_NOT_READY。每个响应有 X-Request-ID。Worker 完成 smoke 后 result 持久化为 smoke completed；相同 dedupe key 不重复创建。smoke 仅为无租户的命令行开发任务；租户 identity.check 只能由已授权的内部服务入队，执行时重查 membership。没有业务处理器、任意 payload、通知或外部副作用。
 
+## 商品、包件/BOM 与价格
+
+选择企业后，管理员可进入商品目录、包件/BOM 和价格维护；成员/viewer 只读。目录写入与客户一样要求页面预期企业/context_id、CSRF、幂等键与 expected_version。目录是企业共享主数据，不按客户 owner 限制。制造商、销售品牌独立，不包含供应商管理或成本字段。
+
+先建主机和部件 SKU，再建立包件（包含行）或 BOM（可含另计价行），选择版本化规则资料；缺资料显示 UNKNOWN。发布冻结快照，修订创建新草稿，旧版不变。发布仅冻结目录，不表示兼容通过。包含件不重复收费，本任务没有替换折价或报价总额计算。
+
+价格表输入 CNY 十进制金额、明确范围、含税口径、来源和 UTC 期间；先保存再发布。当前价只使用已发布且处于左闭右开期间的条目；未知/过期不是零价。同范围/SKU/税口径的已发布期间重叠会拒绝，修订须改到不重叠期间，不缩短原版期间。没有税率或汇率换算。设计与 API 见 [ADR-009](docs/architecture/adr/ADR-009.md)。
+
+本机/Compose 都先迁移到 0005 再验证 ready。浏览器复现仍使用独立 `infra/browser_stack.py`；设置 `SILICON_BROWSER_CATALOG=1` 时虚构用户在企业 B 为只读、A 为管理员，用于权限验证。请先结束真实 OIDC pytest 再启动浏览器栈，避免现有 IdP HTTP 8080 监听冲突。不改变证书信任。目录测试：`SILICON_TEST_PG_BIN="$(pg_config --bindir)" .venv/bin/python -m pytest apps/api/tests/test_catalog.py -v`。
+
 ## 客户管理
 
 CRM 列表、详情、新建、编辑和成员查询均要求 `X-Expected-Tenant` 与 `X-Session-Context`，分别来自当前页面绑定的 tenant_id 和 GET /session 的 context_id；它们只用于错配检查，不授予访问权限。缺失返回 428/CONTEXT_REQUIRED，不一致返回 409/CONTEXT_CHANGED。切企业每次轮换 context_id（包括切回原企业）；其他标签的旧表单失效，必须明确重新选择，不自动迁移草稿或重试保存。更新到 0004 后旧页面须刷新加载新客户端。详见 [ADR-008](docs/architecture/adr/ADR-008.md)。
@@ -141,7 +151,7 @@ CRM 列表、详情、新建、编辑和成员查询均要求 `X-Expected-Tenant
 ```bash
 uv run --locked python infra/export_openapi.py
 npm run api:types
-node --test apps/web/tests/context-race.test.ts
+node --test apps/web/tests/*.test.ts
 npm run typecheck
 npm run build
 SILICON_TEST_PG_BIN="$(pg_config --bindir)" SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3" uv run --locked pytest -v
@@ -161,4 +171,4 @@ OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py �
 
 Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 PostgreSQL 保持运行，只有需要停止时执行 `brew services stop postgresql@17`；不要为单个项目清理而删除本机数据目录。可选容器使用 `docker compose --env-file .env -f infra/compose.yaml down`，保留卷；`down -v` 会删除该专属开发卷，仅确认数据可丢弃时手工执行。
 
-构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
+构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。

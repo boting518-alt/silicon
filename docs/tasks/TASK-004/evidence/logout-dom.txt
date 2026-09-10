@@ -1,0 +1,35 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - navigation "主导航":
+    - button "业务驾驶舱" [disabled]
+    - button "报价与利润" [disabled]
+    - button "交付与验收" [disabled]
+    - button "售后与部件" [disabled]
+    - button "续保与扩容" [disabled]
+    - button "经营总览" [disabled]
+    - button "客户管理"
+    - button "商品目录"
+    - button "包件 / BOM"
+    - button "价格维护"
+    - button "合同管理" [disabled]
+    - button "设备查询" [disabled]
+    - button "采购合同" [disabled]
+    - button "库存管理" [disabled]
+    - button "周转分析" [disabled]
+- banner:
+  - generic: 业务管理 /客户管理
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从一次成交，到长期合作。" [level=1]
+  - paragraph: 独立客户档案，连接联系人、项目与内部责任分工。
+  - heading "正在读取身份…" [level=2]
+  - paragraph: 使用企业身份登录后，选择企业访问客户档案。
+  - link "使用企业身份登录":
+    - /url: /api/v1/auth/login
+  - button "刷新登录状态"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

@@ -1,0 +1,91 @@
+{
+  "checks": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/export_openapi.py"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "api:types"
+      ],
+      "exit_code": 0,
+      "output": "\n> silicon-workspace@0.1.0 api:types\n> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts\n\n✨ openapi-typescript 7.13.0\n🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [52.6ms]\n"
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "--env-file",
+        ".env.example",
+        "-f",
+        "infra/compose.yaml",
+        "config",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "infra/check_docs.py"
+      ],
+      "exit_code": 0,
+      "output": "PASS task handoff/state, relative paths, unchanged reviews, 139 local links\n"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "contract_reproducible": true,
+  "contract_sha256": {
+    "packages/api-client/openapi.json": "b7ccb0e12ff082ff970fd53b2960c0ef3c3b1fc9682da3ae10a190346c20eef8",
+    "packages/api-client/schema.d.ts": "1527d569367c114a7f6e23273fe5ba8ad0f2b1dfc2ec8e89b54b5122290716c0"
+  },
+  "backend": {
+    "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest apps/api/tests -q",
+    "exit_code": 0,
+    "passed": 66,
+    "skipped": 0,
+    "warnings": 2,
+    "seconds": 38.79,
+    "log": "full-tests-delivery.txt"
+  },
+  "frontend": {
+    "command": "node --test apps/web/tests/*.test.ts",
+    "passed": 14,
+    "failed": 0,
+    "log": "frontend-delivery.txt"
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "status": "passed",
+    "log": "typecheck-delivery.txt"
+  },
+  "build": {
+    "command": "npm run build",
+    "status": "passed",
+    "log": "build-delivery.txt"
+  },
+  "remote_ci": {
+    "status": "not_run",
+    "reason": "No remote repository configured"
+  },
+  "container_runtime": {
+    "status": "not_run",
+    "reason": "No container stack launched; only Compose config checked"
+  },
+  "browser_cleanup": "Both independent stacks exited 0 with BROWSER_STACK_CLEANED"
+}

@@ -1,0 +1,83 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - navigation "主导航":
+    - button "业务驾驶舱" [disabled]
+    - button "报价与利润" [disabled]
+    - button "交付与验收" [disabled]
+    - button "售后与部件" [disabled]
+    - button "续保与扩容" [disabled]
+    - button "经营总览" [disabled]
+    - button "客户管理"
+    - button "商品目录"
+    - button "包件 / BOM"
+    - button "价格维护"
+    - button "合同管理" [disabled]
+    - button "设备查询" [disabled]
+    - button "采购合同" [disabled]
+    - button "库存管理" [disabled]
+    - button "周转分析" [disabled]
+- banner:
+  - generic: 业务管理 /商品目录
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: SILICON / CATALOG
+  - heading "商品目录" [level=2]
+  - paragraph: 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+  - button "新建商品"
+  - textbox "筛选目录":
+    - /placeholder: 筛选已载入的名称 / 编号
+  - generic: 每类最多载入 100 项
+  - region "目录表格，可横向滚动":
+    - table:
+      - rowgroup:
+        - row "名称 / 编号 类别 / 版本 状态 操作":
+          - columnheader "名称 / 编号"
+          - columnheader "类别 / 版本"
+          - columnheader "状态"
+          - columnheader "操作"
+      - rowgroup:
+        - row "虚构无电源准系统 DEMO-BARE 主机 / 准系统 启用 查看 虚构无电源准系统":
+          - cell "虚构无电源准系统 DEMO-BARE":
+            - strong: 虚构无电源准系统
+            - generic: DEMO-BARE
+          - cell "主机 / 准系统"
+          - cell "启用"
+          - cell "查看 虚构无电源准系统":
+            - button "查看 虚构无电源准系统"
+        - row "虚构组合方案 DEMO-CONFIG 主机 / 准系统 启用 查看 虚构组合方案":
+          - cell "虚构组合方案 DEMO-CONFIG":
+            - strong: 虚构组合方案
+            - generic: DEMO-CONFIG
+          - cell "主机 / 准系统"
+          - cell "启用"
+          - cell "查看 虚构组合方案":
+            - button "查看 虚构组合方案"
+        - row "虚构双路准系统 DEMO-HOST 主机 / 准系统 启用 查看 虚构双路准系统":
+          - cell "虚构双路准系统 DEMO-HOST":
+            - strong: 虚构双路准系统
+            - generic: DEMO-HOST
+          - cell "主机 / 准系统"
+          - cell "启用"
+          - cell "查看 虚构双路准系统":
+            - button "查看 虚构双路准系统"
+        - row "虚构 1200W 电源 DEMO-PSU 电源 启用 查看 虚构 1200W 电源":
+          - cell "虚构 1200W 电源 DEMO-PSU":
+            - strong: 虚构 1200W 电源
+            - generic: DEMO-PSU
+          - cell "电源"
+          - cell "启用"
+          - cell "查看 虚构 1200W 电源":
+            - button "查看 虚构 1200W 电源"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

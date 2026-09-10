@@ -7,6 +7,9 @@ import {CrmRequests,StaleResponse} from '../src/api.ts';
 for(const [surface,method,path] of [
   ['list','GET','/crm/customers'],['detail','GET','/crm/customers/one'],
   ['new form','POST','/crm/customers'],['edit form','PUT','/crm/customers/one'],
+  ['catalog list','GET','/catalog/skus'],['catalog detail','GET','/catalog/boms/one'],
+  ['catalog create','POST','/catalog/skus'],['catalog edit','PUT','/catalog/boms/one'],
+  ['catalog publish','POST','/catalog/price-books/one/publish'],['catalog revision','POST','/catalog/boms/one/revise'],
 ]) {
   test(`delayed successful ${surface} response never updates the new enterprise`,async()=>{
     const original=globalThis.fetch;

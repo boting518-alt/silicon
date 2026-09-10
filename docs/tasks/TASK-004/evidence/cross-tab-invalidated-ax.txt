@@ -1,0 +1,40 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			6 container 主导航
+				7 button (disabled) 业务驾驶舱, Help: 业务驾驶舱尚未启用
+				10 button (disabled) 报价与利润, Help: 报价与利润尚未启用
+				13 button (disabled) 交付与验收, Help: 交付与验收尚未启用
+				16 button (disabled) 售后与部件, Help: 售后与部件尚未启用
+				19 button (disabled) 续保与扩容, Help: 续保与扩容尚未启用
+				22 button (disabled) 经营总览, Help: 经营总览尚未启用
+				25 button 客户管理
+				28 button 商品目录
+				31 button 包件 / BOM
+				34 button 价格维护
+				37 button (disabled) 合同管理, Help: 合同管理尚未启用
+				40 button (disabled) 设备查询, Help: 设备查询尚未启用
+				43 button (disabled) 采购合同, Help: 采购合同尚未启用
+				46 button (disabled) 库存管理, Help: 库存管理尚未启用
+				49 button (disabled) 周转分析, Help: 周转分析尚未启用
+		53 container
+			54 text 业务管理  / 商品目录
+			55 pop up button (collapsed, settable) Description: 当前企业, Value: 请选择企业, Secondary Actions: Expand
+				56 menu
+					57 (disabled) 请选择企业
+					58 虚构企业 A
+					59 虚构企业 B
+			60 button 退出登录
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 企业上下文已变化，旧表单已失效。请重新选择企业；不会自动保存或迁移旧草稿。
+			139 heading 请选择企业, Value: 2
+				140 text 请选择企业
+			141 text 在右上方选择你要进入的企业。
+			138 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/

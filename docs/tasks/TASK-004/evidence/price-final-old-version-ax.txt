@@ -1,0 +1,141 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button ▦ 商品目录, Help: 商品目录
+					29 text ▦
+					30 text 商品目录
+				31 button ◇ 包件 / BOM, Help: 包件 / BOM
+					32 text ◇
+					33 text 包件 / BOM
+				34 button ▤ 价格维护, Help: 价格维护
+					35 text ▤
+					36 text 价格维护
+				37 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					38 text ▤ 合同管理
+					39 text 未启用
+				40 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					41 text ▥ 设备查询
+					42 text 未启用
+				43 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					44 text ▣ 采购合同
+					45 text 未启用
+				46 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					47 text ▦ 库存管理
+					48 text 未启用
+				49 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					50 text ◷ 周转分析
+					51 text 未启用
+			52 text 虚 虚构用户甲 客户与服务协同
+		53 container
+			54 text 业务管理  / 价格维护
+			55 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 A, Secondary Actions: Expand
+				56 menu
+					57 (disabled) 请选择企业
+					58 (selected) 虚构企业 A
+					59 虚构企业 B
+			60 button 退出登录
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08
+			66 text SILICON / CATALOG
+			67 heading 价格维护, Value: 2
+				68 text 价格维护
+			69 text 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+			70 button 新建价格表
+				71 text 新建
+				72 text 价格表
+			73 text field (settable) 筛选目录
+			74 text 每类最多载入 100 项
+			75 container 目录表格，可横向滚动
+				76 table
+					77 row
+						78 cell
+							79 text 名称 / 编号
+						80 cell
+							81 text 类别 / 版本
+						82 cell
+							83 text 状态
+						84 cell
+							85 text 操作
+					86 row
+						87 cell
+							88 text 虚构 2026 销售价格
+						89 cell
+							90 text 修订 1 · 编辑版本 2
+						91 cell
+							92 text 已发布 · 冻结
+						93 cell
+							94 button 查看 虚构 2026 销售价格
+								95 text 查看
+								96 text 虚构 2026 销售价格
+					97 row
+						98 cell
+							99 text 虚构 2027 修订价格
+						100 cell
+							101 text 修订 2 · 编辑版本 5
+						102 cell
+							103 text 已发布 · 冻结
+						104 cell
+							105 button 查看 虚构 2027 修订价格
+								106 text 查看
+								107 text 虚构 2027 修订价格
+			108 container
+				109 heading 虚构 2026 销售价格, Value: 3
+					110 text 虚构 2026 销售价格
+				111 button 关闭详情
+				112 text 修订  1  ·  CNY  ·  含税  · 范围  retail 有效期 [ 2026-01-01T08:00:00+08:00 ,  2027-01-01T08:00:00+08:00 ) 来源： 虚构演示定价单，不是供应商报价 DEMO-HOST ： 10000.50  CNY
+				113 button (disabled) 编辑草稿
+				114 button 创建修订
+			115 container
+				116 heading 查询当前有效价格, Value: 3
+					117 text 查询当前有效价格
+				118 container
+					119 text 查询 SKU
+					120 pop up button (collapsed, settable) 查询 SKU, Value: DEMO-HOST · 虚构双路准系统, Secondary Actions: Expand
+						121 menu
+							122 请选择
+							123 DEMO-BARE · 虚构无电源准系统
+							124 DEMO-CONFIG · 虚构组合方案
+							125 (selected) DEMO-HOST · 虚构双路准系统
+							126 DEMO-PSU · 虚构 1200W 电源
+				127 container
+					128 text 查询范围
+					129 text field (settable) 查询范围, Value: retail
+				130 container
+					131 text 查询税口径
+					132 pop up button (collapsed, settable) 查询税口径, Value: 含税, Secondary Actions: Expand
+						133 menu
+							134 (selected) 含税
+							135 不含税
+				136 button 查询当前价格
+				137 text 10000.50 CNY 来源： 虚构演示定价单，不是供应商报价  · 修订  1 2026-01-01T08:00:00+08:00  →  2027-01-01T08:00:00+08:00 （截止不包含）
+			138 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/

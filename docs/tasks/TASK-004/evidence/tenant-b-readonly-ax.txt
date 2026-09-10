@@ -1,0 +1,90 @@
+Browser tab: 4, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+0 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	1 container root
+		2 container
+			3 link Description: 硅屿首页, Value: localhost:5173/
+			4 text 业务工作空间
+			5 container 主导航
+				6 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					7 text ▧ 业务驾驶舱
+					8 text 未启用
+				9 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					10 text ◇ 报价与利润
+					11 text 未启用
+				12 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					13 text ▤ 交付与验收
+					14 text 未启用
+				15 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					16 text ⚙ 售后与部件
+					17 text 未启用
+				18 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					19 text ↗ 续保与扩容
+					20 text 未启用
+				21 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					22 text ◫ 经营总览
+					23 text 未启用
+				24 button ◉ 客户管理, Help: 客户管理
+					25 text ◉
+					26 text 客户管理
+				27 button ▦ 商品目录, Help: 商品目录
+					28 text ▦
+					29 text 商品目录
+				30 button ◇ 包件 / BOM, Help: 包件 / BOM
+					31 text ◇
+					32 text 包件 / BOM
+				33 button ▤ 价格维护, Help: 价格维护
+					34 text ▤
+					35 text 价格维护
+				36 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					37 text ▤ 合同管理
+					38 text 未启用
+				39 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					40 text ▥ 设备查询
+					41 text 未启用
+				42 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					43 text ▣ 采购合同
+					44 text 未启用
+				45 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					46 text ▦ 库存管理
+					47 text 未启用
+				48 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					49 text ◷ 周转分析
+					50 text 未启用
+			51 text 虚 虚构用户甲 客户与服务协同
+		52 container
+			53 text 业务管理  / 商品目录
+			54 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 B, Secondary Actions: Expand
+				55 menu
+					56 (disabled) 请选择企业
+					57 虚构企业 A
+					58 (selected) 虚构企业 B
+			59 button 退出登录
+		60 container
+			61 text SALES & CUSTOMER INTELLIGENCE
+			62 heading 从每个部件，到清晰版本。, Value: 1
+				63 text 从每个部件，到清晰版本 。
+			64 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08
+			231 text SILICON / CATALOG
+			232 heading 商品目录, Value: 2
+				233 text 商品目录
+			234 text 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+			235 button (disabled) 新建商品
+				236 text 新建 商品
+			237 text 只读权限：目录维护与发布仅对企业管理员开放。
+			238 text field (settable) 筛选目录
+			239 text 每类最多载入 100 项
+			240 container 目录表格，可横向滚动
+				241 table
+					242 row
+						243 cell
+							244 text 名称 / 编号
+						245 cell
+							246 text 类别 / 版本
+						247 cell
+							248 text 状态
+						249 cell
+							250 text 操作
+			251 text 当前企业尚无记录。
+			230 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 27 button ▦ 商品目录, Help: 商品目录

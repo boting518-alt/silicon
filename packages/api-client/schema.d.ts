@@ -142,6 +142,234 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/catalog/skus": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Skus */
+        get: operations["skus_api_v1_catalog_skus_get"];
+        put?: never;
+        /** Create Sku */
+        post: operations["create_sku_api_v1_catalog_skus_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/skus/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sku */
+        get: operations["sku_api_v1_catalog_skus__id__get"];
+        /** Update Sku */
+        put: operations["update_sku_api_v1_catalog_skus__id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Rules */
+        get: operations["rules_api_v1_catalog_rules_get"];
+        put?: never;
+        /** Create Rule */
+        post: operations["create_rule_api_v1_catalog_rules_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/rules/{id}/revise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revise Rule */
+        post: operations["revise_rule_api_v1_catalog_rules__id__revise_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/boms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Boms */
+        get: operations["boms_api_v1_catalog_boms_get"];
+        put?: never;
+        /** Create Bom */
+        post: operations["create_bom_api_v1_catalog_boms_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/boms/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Bom */
+        get: operations["bom_api_v1_catalog_boms__id__get"];
+        /** Update Bom */
+        put: operations["update_bom_api_v1_catalog_boms__id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/boms/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Bom */
+        post: operations["publish_bom_api_v1_catalog_boms__id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/boms/{id}/revise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revise Bom */
+        post: operations["revise_bom_api_v1_catalog_boms__id__revise_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/price-books": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Prices */
+        get: operations["prices_api_v1_catalog_price_books_get"];
+        put?: never;
+        /** Create Price */
+        post: operations["create_price_api_v1_catalog_price_books_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/price-books/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Price */
+        get: operations["price_api_v1_catalog_price_books__id__get"];
+        /** Update Price */
+        put: operations["update_price_api_v1_catalog_price_books__id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/price-books/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Price */
+        post: operations["publish_price_api_v1_catalog_price_books__id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/price-books/{id}/revise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revise Price */
+        post: operations["revise_price_api_v1_catalog_price_books__id__revise_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalog/current-price/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Current Price */
+        get: operations["current_price_api_v1_catalog_current_price__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -180,6 +408,128 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Bom */
+        Bom: {
+            /** Name */
+            name: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "package" | "bom";
+            /**
+             * Subject Sku Id
+             * Format: uuid
+             */
+            subject_sku_id: string;
+            /** Rule Id */
+            rule_id?: string | null;
+            /** Lines */
+            lines?: components["schemas"]["BomLine"][];
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Family Id
+             * Format: uuid
+             */
+            family_id: string;
+            /** Revision */
+            revision: number;
+            /** Version */
+            version: number;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "draft" | "published";
+            snapshot: components["schemas"]["BomSnapshot"];
+        };
+        /** BomInput */
+        BomInput: {
+            /** Name */
+            name: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "package" | "bom";
+            /**
+             * Subject Sku Id
+             * Format: uuid
+             */
+            subject_sku_id: string;
+            /** Rule Id */
+            rule_id?: string | null;
+            /** Lines */
+            lines?: components["schemas"]["BomLine"][];
+        };
+        /** BomLine */
+        BomLine: {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Package Version Id */
+            package_version_id?: string | null;
+            /** Quantity */
+            quantity: number;
+            /**
+             * Required
+             * @default true
+             */
+            required: boolean;
+            /**
+             * Charge Mode
+             * @enum {string}
+             */
+            charge_mode: "included" | "separate";
+        };
+        /** BomSnapshot */
+        BomSnapshot: {
+            subject: components["schemas"]["Sku"];
+            /** Technical Lines */
+            technical_lines: components["schemas"]["TechnicalLine"][];
+            rule: components["schemas"]["Rule"] | null;
+            /** Checks */
+            checks: components["schemas"]["Check"][];
+        };
+        /** BomUpdate */
+        BomUpdate: {
+            /** Name */
+            name: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "package" | "bom";
+            /**
+             * Subject Sku Id
+             * Format: uuid
+             */
+            subject_sku_id: string;
+            /** Rule Id */
+            rule_id?: string | null;
+            /** Lines */
+            lines?: components["schemas"]["BomLine"][];
+            /** Expected Version */
+            expected_version: number;
+        };
+        /** Check */
+        Check: {
+            /** Code */
+            code: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "BLOCK" | "WARN" | "UNKNOWN" | "PASS";
+            /** Message */
+            message: string;
+        };
         /** Contact */
         Contact: {
             /**
@@ -204,6 +554,41 @@ export interface components {
              * @default
              */
             email: string;
+        };
+        /** CurrentPrice */
+        CurrentPrice: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "KNOWN" | "UNKNOWN" | "EXPIRED" | "NOT_YET_VALID";
+            /** Amount */
+            amount?: string | null;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /** Tax Included */
+            tax_included: boolean;
+            /** Scope */
+            scope: string;
+            /**
+             * As Of
+             * Format: date-time
+             */
+            as_of: string;
+            /** Book Id */
+            book_id?: string | null;
+            /** Revision */
+            revision?: number | null;
+            /** Source */
+            source?: string | null;
+            /** Valid From */
+            valid_from?: string | null;
+            /** Valid To */
+            valid_to?: string | null;
         };
         /** CustomerDetail */
         CustomerDetail: {
@@ -449,6 +834,134 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** PriceBook */
+        PriceBook: {
+            /** Name */
+            name: string;
+            /** Scope */
+            scope: string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /** Tax Included */
+            tax_included: boolean;
+            /**
+             * Valid From
+             * Format: date-time
+             */
+            valid_from: string;
+            /**
+             * Valid To
+             * Format: date-time
+             */
+            valid_to: string;
+            /** Source */
+            source: string;
+            /** Lines */
+            lines: components["schemas"]["PriceLine-Output"][];
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Family Id
+             * Format: uuid
+             */
+            family_id: string;
+            /** Revision */
+            revision: number;
+            /** Version */
+            version: number;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "draft" | "published";
+        };
+        /** PriceInput */
+        PriceInput: {
+            /** Name */
+            name: string;
+            /** Scope */
+            scope: string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /** Tax Included */
+            tax_included: boolean;
+            /**
+             * Valid From
+             * Format: date-time
+             */
+            valid_from: string;
+            /**
+             * Valid To
+             * Format: date-time
+             */
+            valid_to: string;
+            /** Source */
+            source: string;
+            /** Lines */
+            lines: components["schemas"]["PriceLine-Input"][];
+        };
+        /** PriceLine */
+        "PriceLine-Input": {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Amount */
+            amount: number | string;
+        };
+        /** PriceLine */
+        "PriceLine-Output": {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Amount */
+            amount: string;
+        };
+        /** PriceUpdate */
+        PriceUpdate: {
+            /** Name */
+            name: string;
+            /** Scope */
+            scope: string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /** Tax Included */
+            tax_included: boolean;
+            /**
+             * Valid From
+             * Format: date-time
+             */
+            valid_from: string;
+            /**
+             * Valid To
+             * Format: date-time
+             */
+            valid_to: string;
+            /** Source */
+            source: string;
+            /** Lines */
+            lines: components["schemas"]["PriceLine-Input"][];
+            /** Expected Version */
+            expected_version: number;
+        };
         /** Project */
         Project: {
             /**
@@ -527,6 +1040,77 @@ export interface components {
              */
             changed_by: string;
         };
+        /** Rule */
+        Rule: {
+            /** Name */
+            name: string;
+            /** Source */
+            source: string;
+            /**
+             * Socket
+             * @default
+             */
+            socket: string;
+            /**
+             * Memory Generation
+             * @default
+             */
+            memory_generation: string;
+            /** Power Budget W */
+            power_budget_w?: number | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Family Id
+             * Format: uuid
+             */
+            family_id: string;
+            /** Revision */
+            revision: number;
+        };
+        /** RuleInput */
+        RuleInput: {
+            /** Name */
+            name: string;
+            /** Source */
+            source: string;
+            /**
+             * Socket
+             * @default
+             */
+            socket: string;
+            /**
+             * Memory Generation
+             * @default
+             */
+            memory_generation: string;
+            /** Power Budget W */
+            power_budget_w?: number | null;
+        };
+        /** RuleRevision */
+        RuleRevision: {
+            /** Name */
+            name: string;
+            /** Source */
+            source: string;
+            /**
+             * Socket
+             * @default
+             */
+            socket: string;
+            /**
+             * Memory Generation
+             * @default
+             */
+            memory_generation: string;
+            /** Power Budget W */
+            power_budget_w?: number | null;
+            /** Expected Version */
+            expected_version: number;
+        };
         /** SelectedTenant */
         SelectedTenant: {
             /**
@@ -565,6 +1149,124 @@ export interface components {
             /** Address */
             address: string;
         };
+        /** Sku */
+        Sku: {
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib";
+            /** Manufacturer */
+            manufacturer: string;
+            /** Brand */
+            brand: string;
+            /**
+             * Brand Kind
+             * @enum {string}
+             */
+            brand_kind: "own" | "third_party";
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            specs?: components["schemas"]["Specs"];
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Version */
+            version: number;
+        };
+        /** SkuInput */
+        SkuInput: {
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib";
+            /** Manufacturer */
+            manufacturer: string;
+            /** Brand */
+            brand: string;
+            /**
+             * Brand Kind
+             * @enum {string}
+             */
+            brand_kind: "own" | "third_party";
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            specs?: components["schemas"]["Specs"];
+        };
+        /** SkuUpdate */
+        SkuUpdate: {
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Category
+             * @enum {string}
+             */
+            category: "host" | "cpu" | "gpu" | "memory" | "psu" | "system_disk" | "data_disk" | "nic" | "ib";
+            /** Manufacturer */
+            manufacturer: string;
+            /** Brand */
+            brand: string;
+            /**
+             * Brand Kind
+             * @enum {string}
+             */
+            brand_kind: "own" | "third_party";
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            specs?: components["schemas"]["Specs"];
+            /** Expected Version */
+            expected_version: number;
+        };
+        /** Specs */
+        Specs: {
+            /**
+             * Socket
+             * @default
+             */
+            socket: string;
+            /**
+             * Memory Generation
+             * @default
+             */
+            memory_generation: string;
+            /** Capacity Gb */
+            capacity_gb?: number | null;
+            /** Power W */
+            power_w?: number | null;
+            /** Slot Width */
+            slot_width?: number | null;
+            /**
+             * Interface
+             * @default
+             */
+            interface: string;
+            /** Speed Gbps */
+            speed_gbps?: number | null;
+            /** Cpu Sockets */
+            cpu_sockets?: number | null;
+        };
         /** Status */
         Status: {
             /**
@@ -572,6 +1274,19 @@ export interface components {
              * @enum {string}
              */
             status: "ok" | "ready";
+        };
+        /** TechnicalLine */
+        TechnicalLine: {
+            sku: components["schemas"]["Sku"];
+            /** Quantity */
+            quantity: number;
+            /** Required */
+            required: boolean;
+            /**
+             * Charge Mode
+             * @enum {string}
+             */
+            charge_mode: "included" | "separate";
         };
         /** TenantInfo */
         TenantInfo: {
@@ -615,6 +1330,11 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
+        };
+        /** VersionCommand */
+        VersionCommand: {
+            /** Expected Version */
+            expected_version: number;
         };
     };
     responses: never;
@@ -925,6 +1645,738 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    skus_api_v1_catalog_skus_get: {
+        parameters: {
+            query?: {
+                q?: string;
+                page?: number;
+                page_size?: number;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sku"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_sku_api_v1_catalog_skus_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SkuInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sku"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sku_api_v1_catalog_skus__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sku"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_sku_api_v1_catalog_skus__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SkuUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sku"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    rules_api_v1_catalog_rules_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Rule"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_rule_api_v1_catalog_rules_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RuleInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Rule"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revise_rule_api_v1_catalog_rules__id__revise_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RuleRevision"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Rule"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    boms_api_v1_catalog_boms_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_bom_api_v1_catalog_boms_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BomInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    bom_api_v1_catalog_boms__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_bom_api_v1_catalog_boms__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BomUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_bom_api_v1_catalog_boms__id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revise_bom_api_v1_catalog_boms__id__revise_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Bom"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    prices_api_v1_catalog_price_books_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_price_api_v1_catalog_price_books_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PriceInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    price_api_v1_catalog_price_books__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_price_api_v1_catalog_price_books__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PriceUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_price_api_v1_catalog_price_books__id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revise_price_api_v1_catalog_price_books__id__revise_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PriceBook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    current_price_api_v1_catalog_current_price__id__get: {
+        parameters: {
+            query: {
+                scope: string;
+                tax_included?: boolean;
+                as_of?: string | null;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CurrentPrice"];
                 };
             };
             /** @description Validation Error */

@@ -1,0 +1,143 @@
+Browser tab: 3, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button ▦ 商品目录, Help: 商品目录
+					29 text ▦
+					30 text 商品目录
+				31 button ◇ 包件 / BOM, Help: 包件 / BOM
+					32 text ◇
+					33 text 包件 / BOM
+				34 button ▤ 价格维护, Help: 价格维护
+					35 text ▤
+					36 text 价格维护
+				37 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					38 text ▤ 合同管理
+					39 text 未启用
+				40 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					41 text ▥ 设备查询
+					42 text 未启用
+				43 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					44 text ▣ 采购合同
+					45 text 未启用
+				46 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					47 text ▦ 库存管理
+					48 text 未启用
+				49 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					50 text ◷ 周转分析
+					51 text 未启用
+			52 text 虚 虚构用户甲 客户与服务协同
+		53 container
+			54 text 业务管理  / 价格维护
+			55 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 A, Secondary Actions: Expand
+				56 menu
+					57 (disabled) 请选择企业
+					58 (selected) 虚构企业 A
+					59 虚构企业 B
+			60 button 退出登录
+		61 container
+			62 text SALES & CUSTOMER INTELLIGENCE
+			63 heading 从每个部件，到清晰版本。, Value: 1
+				64 text 从每个部件，到清晰版本 。
+			65 text 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。 工作台 /  2026.09.08
+			70 text SILICON / CATALOG
+			71 heading 价格维护, Value: 2
+				72 text 价格维护
+			73 text 企业共享目录 · 真实版本与来源 · 报价工作室尚未启用
+			74 button 新建价格表
+				75 text 新建
+				76 text 价格表
+			186 container
+				187 text 价格有效期与已发布价格重叠，请调整期间或适用范围。
+			188 text 已保存到当前企业，可刷新查询。
+			77 text field (settable) 筛选目录
+			78 text 每类最多载入 100 项
+			79 container 目录表格，可横向滚动
+				80 table
+					81 row
+						82 cell
+							83 text 名称 / 编号
+						84 cell
+							85 text 类别 / 版本
+						86 cell
+							87 text 状态
+						88 cell
+							89 text 操作
+					90 row
+						91 cell
+							92 text 虚构 2026 销售价格
+						93 cell
+							94 text 修订 1 · 编辑版本 2
+						95 cell
+							96 text 已发布 · 冻结
+						97 cell
+							98 button 查看 虚构 2026 销售价格
+								99 text 查看
+								100 text 虚构 2026 销售价格
+					101 row
+						102 cell
+							103 text 虚构 2027 修订价格
+						104 cell
+							105 text 修订 2 · 编辑版本 2
+						106 cell
+							107 text 草稿
+						108 cell
+							109 button 查看 虚构 2027 修订价格
+								110 text 查看
+								111 text 虚构 2027 修订价格
+			189 container
+				190 heading 虚构 2027 修订价格, Value: 3
+					191 text 虚构 2027 修订价格
+				192 button 关闭详情
+				193 text 修订  2  ·  CNY  ·  含税  · 范围  retail 有效期 [ 2026-01-01T08:00:00+08:00 ,  2027-01-01T08:00:00+08:00 ) 来源： 虚构演示定价单，不是供应商报价 DEMO-HOST ： 11000.75  CNY
+				194 button 编辑草稿
+				195 button 发布版本
+			164 container
+				165 heading 查询当前有效价格, Value: 3
+					166 text 查询当前有效价格
+				167 container
+					168 text 查询 SKU
+					169 pop up button (collapsed, settable) 查询 SKU, Value: 请选择, Secondary Actions: Expand
+						170 menu
+							171 (selected) 请选择
+							172 DEMO-BARE · 虚构无电源准系统
+							173 DEMO-CONFIG · 虚构组合方案
+							174 DEMO-HOST · 虚构双路准系统
+							175 DEMO-PSU · 虚构 1200W 电源
+				176 container
+					177 text 查询范围
+					178 text field (settable) 查询范围, Value: retail
+				179 container
+					180 text 查询税口径
+					181 pop up button (collapsed, settable) 查询税口径, Value: 含税, Secondary Actions: Expand
+						182 menu
+							183 (selected) 含税
+							184 不含税
+				185 button (disabled) 查询当前价格
+			69 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 186 container
