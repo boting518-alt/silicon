@@ -96,3 +96,7 @@ final-boundary-red真实显示关闭期初仍接受新预览；已拒绝新预�
 - 原始日志可能含历史本机路径，它们不是复现依赖。所有复现命令以仓库根及环境变量运行；审查包不含PG/Java/Keycloak安装包、字体、TLS私钥、真实数据或依赖目录。
 
 浏览器夹具退出记录BROWSER_STACK_CLEANED；新CSV生成脚本只写虚构文件，不连接DB。独立审查包由 `infra/package_task008_review.py --implementation "$IMPLEMENTATION_COMMIT" --destination "$REVIEW_ZIP"` 从干净已提交HEAD生成并解压校验。完整源码、二进制差异、日志/截图、任务/ADR/报告及SHA256SUMS均包含；旧历史证据保持。
+
+## 提交与增量交付登记
+
+实现及全部测试证据提交：e7e1e326023d0a2ffbc9c6b156fc52fa75724d7f。其父提交为上述独立交接；此后的本次提交仅登记本节及提交/变更索引，不改变实现。完整变更见 [文件清单](evidence/implementation-changed-files.txt)、[统计](evidence/implementation-stat.txt)、[提交记录](evidence/implementation-commits.txt)。实现暂存差异检查通过，提交后工作树干净。最终提交号与完整基线二进制差异由审查包固定；GitHub同步结果在最终交付消息核对，CI仍未核实。

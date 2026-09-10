@@ -37,5 +37,8 @@
     "automated pixel comparison",
     "production validation"
   ],
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "implementation": "e7e1e326023d0a2ffbc9c6b156fc52fa75724d7f",
+  "docs": "passed, 247 links before delivery-index additions",
+  "diff_check": "passed staged implementation"
 }

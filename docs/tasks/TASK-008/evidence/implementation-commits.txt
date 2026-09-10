@@ -1,0 +1,15 @@
+commit 0992ffbf6da59ea7237d20aeac2d9c3cb6e7e9ab
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 01:34:02 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 01:34:02 2026 +0800
+
+    docs(task008): accept task007 and hand off procurement inventory scope
+
+commit e7e1e326023d0a2ffbc9c6b156fc52fa75724d7f
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 02:42:30 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 02:42:30 2026 +0800
+
+    feat(task008): add procurement and transactional inventory ledger

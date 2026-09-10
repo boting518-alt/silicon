@@ -1,0 +1,120 @@
+ AGENTS.md                                          |    4 +-
+ README.md                                          |   35 +-
+ apps/api/migrations/versions/0009_inventory.py     |   79 +
+ apps/api/src/silicon/contracts/storage.py          |    6 +-
+ apps/api/src/silicon/inventory/models.py           |  214 +
+ apps/api/src/silicon/inventory/routes.py           |  193 +
+ apps/api/src/silicon/inventory/service.py          |  393 ++
+ apps/api/src/silicon/main.py                       |    5 +-
+ apps/api/tests/conftest.py                         |    2 +-
+ apps/api/tests/test_crm.py                         |    2 +-
+ apps/api/tests/test_identity.py                    |    2 +-
+ apps/api/tests/test_inventory.py                   |  287 +
+ apps/api/tests/test_platform.py                    |    4 +-
+ apps/web/src/Inventory.tsx                         |   63 +
+ apps/web/src/main.tsx                              |    9 +-
+ apps/web/src/style.css                             |    4 +
+ apps/web/tests/inventory-component.html            |    1 +
+ apps/web/tests/inventory-component.jsx             |   20 +
+ docs/architecture/adr/ADR-013.md                   |   37 +
+ docs/reviews/TASK-007-4802fcc-review.md            |   60 +
+ docs/tasks/TASK-007/task.md                        |    2 +-
+ docs/tasks/TASK-008/browser-acceptance.md          |   42 +
+ docs/tasks/TASK-008/evidence/api-contracts.txt     |   12 +
+ docs/tasks/TASK-008/evidence/backend-complete.txt  |   27 +
+ docs/tasks/TASK-008/evidence/backend-final.txt     |   32 +
+ .../tasks/TASK-008/evidence/backend-full-first.txt |   25 +
+ .../TASK-008/evidence/backend-release-green.txt    | 1071 ++++
+ .../evidence/backend-release-green.txt.raw.gz      |  Bin 0 -> 6351 bytes
+ docs/tasks/TASK-008/evidence/backend-release.txt   | 2382 +++++++
+ .../tasks/TASK-008/evidence/browser-date-fixed.txt |  138 +
+ .../evidence/browser-date-fixed.txt.raw.gz         |  Bin 0 -> 1596 bytes
+ .../browser-fixtures/corrected-opening.csv         |    2 +
+ .../evidence/browser-fixtures/invalid-opening.csv  |    2 +
+ .../evidence/browser-fixtures/valid-opening.csv    |    2 +
+ .../evidence/browser-import-cutoff-mismatch.txt    |  115 +
+ .../browser-import-cutoff-mismatch.txt.raw.gz      |  Bin 0 -> 1666 bytes
+ .../TASK-008/evidence/browser-import-invalid.txt   |  115 +
+ .../evidence/browser-import-invalid.txt.raw.gz     |  Bin 0 -> 1657 bytes
+ .../TASK-008/evidence/browser-import-posted.txt    |  115 +
+ .../evidence/browser-import-posted.txt.raw.gz      |  Bin 0 -> 1656 bytes
+ docs/tasks/TASK-008/evidence/browser-refresh-a.txt |  183 +
+ .../TASK-008/evidence/browser-refresh-a.txt.raw.gz |  Bin 0 -> 1812 bytes
+ .../TASK-008/evidence/browser-session-expired.txt  |   84 +
+ .../evidence/browser-session-expired.txt.raw.gz    |  Bin 0 -> 964 bytes
+ docs/tasks/TASK-008/evidence/browser-stack.txt     |    3 +
+ .../TASK-008/evidence/browser-stock-final.txt      |  134 +
+ .../evidence/browser-stock-final.txt.raw.gz        |  Bin 0 -> 1727 bytes
+ .../evidence/browser-stock-reconciliation.txt      |  134 +
+ .../browser-stock-reconciliation.txt.raw.gz        |  Bin 0 -> 1719 bytes
+ docs/tasks/TASK-008/evidence/browser-tenant-b.txt  |  110 +
+ .../TASK-008/evidence/browser-tenant-b.txt.raw.gz  |  Bin 0 -> 1342 bytes
+ .../TASK-008/evidence/browser-two-receipts.txt     |  136 +
+ .../evidence/browser-two-receipts.txt.raw.gz       |  Bin 0 -> 1606 bytes
+ .../evidence/browser-warehouse-permissions.txt     |  172 +
+ .../browser-warehouse-permissions.txt.raw.gz       |  Bin 0 -> 1673 bytes
+ .../TASK-008/evidence/build-after-browser.txt      |   18 +
+ docs/tasks/TASK-008/evidence/build-release.txt     |   18 +
+ docs/tasks/TASK-008/evidence/compose-config.txt    |    1 +
+ docs/tasks/TASK-008/evidence/concurrency-green.txt |   12 +
+ docs/tasks/TASK-008/evidence/concurrency-red.txt   |   53 +
+ .../TASK-008/evidence/concurrency-red.txt.raw.gz   |  Bin 0 -> 1432 bytes
+ .../TASK-008/evidence/contract-consistency.txt     |   13 +
+ .../TASK-008/evidence/cost-projection-red.txt      |   47 +
+ docs/tasks/TASK-008/evidence/csv-helper.txt        |    1 +
+ docs/tasks/TASK-008/evidence/diff-check.txt        |    1 +
+ docs/tasks/TASK-008/evidence/docs-check.txt        |    1 +
+ docs/tasks/TASK-008/evidence/environment.json      |   50 +
+ docs/tasks/TASK-008/evidence/expanded-first.txt    |   45 +
+ docs/tasks/TASK-008/evidence/expanded-green.txt    |   12 +
+ .../tasks/TASK-008/evidence/final-boundary-red.txt |   34 +
+ .../TASK-008/evidence/frontend-build-first.txt     |   16 +
+ docs/tasks/TASK-008/evidence/frontend-build.txt    |   18 +
+ docs/tasks/TASK-008/evidence/frontend-expanded.txt |   18 +
+ docs/tasks/TASK-008/evidence/frontend-final.txt    |   18 +
+ .../TASK-008/evidence/identity-correction.txt      |   16 +
+ .../TASK-008/evidence/inventory-components.txt     |    3 +
+ .../evidence/inventory-components.txt.raw.gz       |  Bin 0 -> 296 bytes
+ .../TASK-008/evidence/inventory-desktop-all.jpg    |  Bin 0 -> 87460 bytes
+ .../inventory-desktop-layout-diagnostic.jpg        |  Bin 0 -> 77295 bytes
+ docs/tasks/TASK-008/evidence/inventory-desktop.jpg |  Bin 0 -> 81446 bytes
+ .../TASK-008/evidence/inventory-final-green.txt    |   20 +
+ docs/tasks/TASK-008/evidence/inventory-final.txt   |   41 +
+ docs/tasks/TASK-008/evidence/inventory-mobile.jpg  |  Bin 0 -> 39657 bytes
+ docs/tasks/TASK-008/evidence/node-release.txt      |   27 +
+ docs/tasks/TASK-008/evidence/node-tests.txt        |   27 +
+ docs/tasks/TASK-008/evidence/opening-green.txt     |   12 +
+ docs/tasks/TASK-008/evidence/opening-red.txt       |   41 +
+ .../tasks/TASK-008/evidence/opening-red.txt.raw.gz |  Bin 0 -> 1221 bytes
+ docs/tasks/TASK-008/evidence/purchase-fixed.txt    |   12 +
+ docs/tasks/TASK-008/evidence/purchase-green.txt    |   43 +
+ .../TASK-008/evidence/purchase-green.txt.raw.gz    |  Bin 0 -> 1207 bytes
+ docs/tasks/TASK-008/evidence/purchase-red.txt      |   44 +
+ .../TASK-008/evidence/purchase-red.txt.raw.gz      |  Bin 0 -> 1152 bytes
+ docs/tasks/TASK-008/evidence/raw-log-index.json    |  102 +
+ docs/tasks/TASK-008/evidence/receipt-green.txt     |   12 +
+ docs/tasks/TASK-008/evidence/receipt-red.txt       |   45 +
+ .../tasks/TASK-008/evidence/receipt-red.txt.raw.gz |  Bin 0 -> 1281 bytes
+ docs/tasks/TASK-008/evidence/screenshots.json      |   67 +
+ docs/tasks/TASK-008/evidence/source-check.txt      |    1 +
+ .../TASK-008/evidence/storage-integration.txt      |   12 +
+ docs/tasks/TASK-008/evidence/supplier-green.txt    |   12 +
+ docs/tasks/TASK-008/evidence/supplier-red.txt      |   42 +
+ .../TASK-008/evidence/supplier-red.txt.raw.gz      |  Bin 0 -> 1194 bytes
+ docs/tasks/TASK-008/evidence/typecheck-release.txt |    7 +
+ .../TASK-008/evidence/typecheck-release.txt.raw.gz |  Bin 0 -> 101 bytes
+ docs/tasks/TASK-008/evidence/validation.json       |   41 +
+ .../evidence/warehouse-no-cost-desktop.jpg         |  Bin 0 -> 78348 bytes
+ docs/tasks/TASK-008/handoff.md                     |    7 +
+ docs/tasks/TASK-008/result.md                      |   98 +
+ docs/tasks/TASK-008/task-source.md                 |  200 +
+ docs/tasks/TASK-008/task.md                        |  202 +
+ docs/tasks/backlog.md                              |    8 +-
+ infra/browser_stack.py                             |    2 +-
+ infra/check_docs.py                                |    8 +-
+ infra/create_inventory_test_csv.py                 |   10 +
+ infra/package_task008_review.py                    |  154 +
+ packages/api-client/openapi.json                   | 4724 +++++++++++++-
+ packages/api-client/schema.d.ts                    | 6581 ++++++++++++++------
+ runtime/project.json                               |    2 +-
+ 119 files changed, 17197 insertions(+), 2260 deletions(-)
