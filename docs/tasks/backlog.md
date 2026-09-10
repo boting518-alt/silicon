@@ -85,3 +85,7 @@ TASK-008 开始提供基本期初导入，TASK-016 是工具化强化，不把�
 ## TASK-005 交付待审查（2026-09-10）
 
 TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单码优惠、原 SVG 联动与独立 PG/浏览器验证已交付；结果见 [result](TASK-005/result.md)。不自行 accepted，不启动 TASK-006。TASK-004 的两轮报告与历史结果不改写。
+
+## TASK-005 独立审查修复
+
+2026-09-10：按用户授权修复 [R1/R2/C1报告](../reviews/TASK-005-6d2a818-review.md)，新增实际PG与React组件回归及定向真实浏览器证据。状态保持review_ready，详见 [结果追加](TASK-005/result.md)；不自行accepted，不开始TASK-006。

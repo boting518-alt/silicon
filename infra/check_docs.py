@@ -18,6 +18,7 @@ assert 'status: accepted' in (root/'docs/tasks/TASK-001/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-003/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-004/task.md').read_text()
 for name, digest in {
+ 'TASK-005-6d2a818-review.md': '1a27276947e33b2044a46ed091cb7741b1b251c3687324cd5933a94e5e4ea788',
  'TASK-004-a8ce3e2-review.md': '5d8b40dbf106c64401c330aa85937556b5e0c1502337bc8e09fdde69d92cb442',
  'TASK-004-1d627b1-review.md': 'bd5f932eb7144d799f1b56e4307c8c7ea528b67b11e5bcdfb8987fea6b509531',
  'TASK-003-a6b640e-review.md': '38e06323f15a9113420bc0a4088f03df3300f68db4556c3701350cb838b8d221',

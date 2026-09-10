@@ -1,0 +1,37 @@
+{
+  "read_only_independent_browser_cluster": true,
+  "create_commands": [
+    {
+      "request_hash": "3423f870a3140b6a537ebe4912447cfd1ca01641128c4ec4f10649751321dcb4",
+      "draft_id": "107dea4b-82fb-4560-acfe-42daeefda5f5",
+      "version": "1"
+    },
+    {
+      "request_hash": "8f96c549f891169a1cb466adce9472adc87b328777d6141660b5e800758b829a",
+      "draft_id": "c84433b1-74a6-4369-9a8c-27161fea207d",
+      "version": "1"
+    },
+    {
+      "request_hash": "8f96c549f891169a1cb466adce9472adc87b328777d6141660b5e800758b829a",
+      "draft_id": "ecdf5b49-b79a-4a55-aed2-03f584b416c2",
+      "version": "1"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "107dea4b-82fb-4560-acfe-42daeefda5f5",
+      "name": "响应丢失虚构草稿",
+      "version": 1
+    },
+    {
+      "id": "c84433b1-74a6-4369-9a8c-27161fea207d",
+      "name": "仅修改第二份",
+      "version": 2
+    },
+    {
+      "id": "ecdf5b49-b79a-4a55-aed2-03f584b416c2",
+      "name": "完全相同的虚构草稿",
+      "version": 1
+    }
+  ]
+}

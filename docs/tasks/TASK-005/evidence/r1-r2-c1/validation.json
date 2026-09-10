@@ -1,0 +1,98 @@
+{
+  "task": "TASK-005",
+  "status": "review_ready",
+  "review_base": "6d2a81846aa515e8c69f028d68f619d40b502292",
+  "review_sha256": "1a27276947e33b2044a46ed091cb7741b1b251c3687324cd5933a94e5e4ea788",
+  "repair_implementation": "recorded after implementation commit in result delivery note",
+  "checks": [
+    {
+      "name": "pg_red",
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin .venv/bin/python -m pytest apps/api/tests/test_quotes.py -q -k selected_optional_cpu",
+      "evidence": "r1-red.txt",
+      "result": "expected_failure"
+    },
+    {
+      "name": "pg_green",
+      "command": "same PG command after fix",
+      "evidence": "r1-green.txt",
+      "result": "passed"
+    },
+    {
+      "name": "backend",
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest apps/api/tests -q",
+      "evidence": "backend-full.txt",
+      "result": "92 passed, 0 skipped, 3 warnings, 45.65s"
+    },
+    {
+      "name": "frontend",
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "evidence": "frontend.txt",
+      "result": "19 passed"
+    },
+    {
+      "name": "component",
+      "command": "Open https://localhost:5173/tests/quote-component.html with real React DOM and HTTP transport fixture",
+      "evidence": "component-green.txt",
+      "result": "3 passed (before fix: 3 failed)"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "evidence": "typecheck.txt",
+      "result": "passed"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "evidence": "build.txt",
+      "result": "passed"
+    },
+    {
+      "name": "contract",
+      "command": ".venv/bin/python infra/export_openapi.py; npm run api:types",
+      "evidence": "contract-check.txt",
+      "result": "byte-identical to review base"
+    },
+    {
+      "name": "docs",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "evidence": "docs-check.txt",
+      "result": "passed"
+    },
+    {
+      "name": "diff",
+      "command": "git diff --check; git diff --cached --check",
+      "evidence": "diff-check.txt",
+      "result": "passed"
+    }
+  ],
+  "browser": {
+    "method": "real CUA, real Keycloak and isolated PG; one-shot test-only response-delivery fault after real transaction",
+    "command": "SILICON_BROWSER_QUOTE_REVIEW=1 SILICON_BROWSER_CATALOG=1 SILICON_BROWSER_CATALOG_SEED=1 SILICON_BROWSER_QUOTES=1 SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python infra/browser_stack.py",
+    "results": "R1 selected/excluded mismatch and optional power; R2 identical creates/distinct IDs/response-loss replay/second edit; C1 success/pending/failure/retry across two viewports; tenant switch clears form",
+    "evidence": "browser-notes.md",
+    "screenshots": "screenshots.json",
+    "tls_bypass": false,
+    "trust_changes": false,
+    "resident_database_used": false,
+    "stack_cleanup": "BROWSER_STACK_CLEANED; own local transport files removed after copying event bytes"
+  },
+  "not_run": [
+    {
+      "check": "remote CI",
+      "reason": "no remote"
+    },
+    {
+      "check": "Docker startup",
+      "reason": "not required for targeted native test stack"
+    },
+    {
+      "check": "all old browser flows and two-tab browser races",
+      "reason": "targeted repair flows executed; existing Node/PG races re-run separately"
+    },
+    {
+      "check": "other browsers/fonts and production",
+      "reason": "out of current development task"
+    }
+  ]
+}

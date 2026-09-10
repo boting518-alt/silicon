@@ -78,9 +78,14 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             migration=make_engine(database.migration_url)
             quote_seed(engine,migration,actor,a)
             migration.dispose()
+        review=os.getenv('SILICON_BROWSER_QUOTE_REVIEW')=='1'
+        if review:
+            from quote_review_fixture import seed as review_seed,CONTROL,EVENTS
+            assert not CONTROL.exists() and not EVENTS.exists(), 'Review control files already exist; inspect before starting'
+            review_seed(engine,actor,a)
         engine.dispose()
         commands=[([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false','--https-port=8443',f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}','--import-realm','--cache=local'],issuer+'/.well-known/openid-configuration'),
-                  ([sys.executable,'-m','uvicorn','silicon.main:create_app','--factory','--host','127.0.0.1','--port','8000','--no-access-log'],'http://127.0.0.1:8000/api/v1/ready'),
+                  ([sys.executable,'-m','uvicorn','infra.quote_review_fixture:create_app' if review else 'silicon.main:create_app','--factory','--host','127.0.0.1','--port','8000','--no-access-log'],'http://127.0.0.1:8000/api/v1/ready'),
                   (['npm','run','dev'],origin)]
         for index,(command,url) in enumerate(commands):
             log=(temp/f'process-{index}.log').open('w')

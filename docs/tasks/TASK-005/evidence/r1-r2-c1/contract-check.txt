@@ -1,0 +1,1 @@
+PASS: generated OpenAPI and TypeScript are byte-identical to reviewed baseline.

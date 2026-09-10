@@ -245,3 +245,80 @@ def test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer(engine,d
             release.set();event.remove(Engine,'after_cursor_execute',after);event.remove(Engine,'before_cursor_execute',before)
         new=ok(c.get(Q+'/'+saved['id']),200)
         assert new['needs_reprice'] and any(x['code']=='DISABLED_SKU' for x in new['current_calculation']['checks'])
+
+
+def test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not(engine,database,identities):
+    with client(engine,database,identities.user,identities.a) as c:
+        customer,host,psu,_=fixture(c)
+        cpu_a=product(c,'OPTIONAL-CPU-A','cpu',specs={'socket':'A'})
+        cpu_b=product(c,'OPTIONAL-CPU-B','cpu',specs={'socket':'B'})
+        rule=ok(send(c,'/rules',{'name':'虚构选择规则','source':'测试资料','socket':'A','power_budget_w':1000}))
+        bom=publish(c,'boms',package(c,host,[line(psu,2),line(cpu_a,charge_mode='separate'),line(cpu_b,required=False,charge_mode='separate')],rule_id=rule['id'],kind='bom'))
+        for sku in (cpu_a,cpu_b):publish(c,'price-books',price(c,sku,'2.00',valid_from='2020-01-01T00:00:00Z',valid_to='2099-01-01T00:00:00Z'))
+        body={**config(customer,bom),'quantity':1}
+        selected=ok(command(c,'/evaluate',body),200)
+        assert next(x for x in selected['checks'] if x['code']=='socket')['status']=='BLOCK'
+        assert selected['total']=='14.01'
+        assert next(x for x in selected['technical_lines'] if x['sku']['id']==cpu_b['id'])['required'] is False
+        excluded=ok(command(c,'/evaluate',{**body,'excluded_sku_ids':[cpu_b['id']]}),200)
+        assert next(x for x in excluded['checks'] if x['code']=='socket')['status']=='PASS'
+        assert excluded['total']=='12.01'
+        assert cpu_b['id'] not in [x['sku_id'] for x in excluded['priced_lines']]
+        assert psu['id'] not in [x['sku_id'] for x in selected['priced_lines']]
+        assert ok(c.get('/api/v1/catalog/boms/'+bom['id']),200)==bom
+
+
+def test_selected_optional_memory_and_categories_preserve_template_requirements(engine,database,identities):
+    with client(engine,database,identities.user,identities.a) as c:
+        customer,host,psu,_=fixture(c)
+        cpu=product(c,'OPT-CPU','cpu',specs={'socket':'A'})
+        ram_a=product(c,'REQ-RAM','memory',specs={'memory_generation':'D5'})
+        ram_b=product(c,'OPT-RAM','memory',specs={'memory_generation':'D4'})
+        gpu=product(c,'REQ-GPU','gpu')
+        rule=ok(send(c,'/rules',{'name':'虚构内存规则','source':'测试','socket':'A','memory_generation':'D5','power_budget_w':1000}))
+        bom=publish(c,'boms',package(c,host,[line(cpu,required=False),line(ram_a),line(ram_b,required=False),line(psu,2),line(gpu)],rule_id=rule['id']))
+        body={**config(customer,bom),'quantity':1}
+        value=ok(command(c,'/evaluate',body),200)
+        assert next(x for x in value['checks'] if x['code']=='memory_generation')['status']=='BLOCK'
+        assert not any(x['code']=='MISSING_cpu' for x in value['checks'])
+        assert value['total']=='10.01' # All selected template parts are included.
+        without=ok(command(c,'/evaluate',{**body,'excluded_sku_ids':[ram_b['id'],gpu['id']]}),200)
+        assert next(x for x in without['checks'] if x['code']=='memory_generation')['status']=='PASS'
+        assert any(x['code']=='MISSING_gpu' for x in without['checks'])
+        assert ram_b['id'] not in [x['sku']['id'] for x in without['technical_lines']]
+        no_cpu=ok(command(c,'/evaluate',{**body,'excluded_sku_ids':[cpu['id']]}),200)
+        assert next(x for x in no_cpu['checks'] if x['code']=='socket')['status']=='UNKNOWN'
+        assert ok(c.get('/api/v1/catalog/boms/'+bom['id']),200)==bom
+
+
+@pytest.mark.parametrize(('quantity','status'),[(1,'WARN'),(2,'PASS')])
+def test_selected_optional_power_counts_for_capacity_and_completeness(engine,database,identities,quantity,status):
+    with client(engine,database,identities.user,identities.a) as c:
+        customer,host,_,_=fixture(c)
+        psu=product(c,'OPT-POWER','psu',specs={'power_w':1200})
+        cpu=product(c,'REQ-CPU','cpu',specs={'socket':'A'})
+        rule=ok(send(c,'/rules',{'name':'虚构容量规则','source':'测试','socket':'A','power_budget_w':1000}))
+        bom=publish(c,'boms',package(c,host,[line(cpu),line(psu,quantity,required=False)],rule_id=rule['id']))
+        body={**config(customer,bom),'quantity':1}
+        value=ok(command(c,'/evaluate',body),200)
+        assert next(x for x in value['checks'] if x['code']=='POWER')['status']==status
+        assert not any(x['code']=='MISSING_psu' for x in value['checks'])
+        assert value['total']=='10.01' and [x['sku_id'] for x in value['priced_lines']]==[host['id']]
+        excluded=ok(command(c,'/evaluate',{**body,'excluded_sku_ids':[psu['id']]}),200)
+        assert next(x for x in excluded['checks'] if x['code']=='POWER')['status']=='BLOCK'
+        assert any(x['code']=='MISSING_psu' for x in excluded['checks'])
+        assert ok(c.get('/api/v1/catalog/boms/'+bom['id']),200)==bom
+
+
+def test_identical_create_intents_and_lost_response_replay_are_distinct(engine,database,identities):
+    with client(engine,database,identities.user,identities.a) as c:
+        customer,_,_,bom=fixture(c);body=config(customer,bom);key=str(uuid4())
+        first=ok(command(c,'',body,key=key))
+        # Caller loses the first response but retries the same command.
+        assert ok(command(c,'',body,key=key))==first
+        second=ok(command(c,'',body,key=str(uuid4())))
+        assert second['id']!=first['id']
+        assert len(ok(c.get(Q),200))==2
+        ok(command(c,'/'+second['id'],{**body,'name':'仅修改第二份','expected_version':1},'put'),200)
+        assert ok(c.get(Q+'/'+first['id']),200)['config']['name']==body['name']
+        assert ok(c.get(Q+'/'+second['id']),200)['version']==2

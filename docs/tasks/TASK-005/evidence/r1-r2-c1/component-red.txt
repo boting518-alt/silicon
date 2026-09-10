@@ -1,0 +1,3 @@
+- heading "QuoteStudio 实际 React 组件回归" [level=1]
+- paragraph: 仅测试页面：HTTP 传输为替身，不验证数据库、OIDC 或真实登录。应用构建不包含此入口。
+- generic: "[ { \"name\": \"R2 explicit new creates a second identical draft and edits only that draft\", \"status\": \"failed\", \"error\": \"explicit new must create two rows for identical content\" }, { \"name\": \"R2 lost create response retries one command, then explicit new starts another\", \"status\": \"failed\", \"error\": \"explicit new after retry is independent\" }, { \"name\": \"C1 success then in-flight failure then success preserves edits and historical amount\", \"status\": \"failed\", \"error\": \"in-flight status\" } ]"

@@ -1,0 +1,1 @@
+PASS: original TASK-005 result is byte-exact prefix; catalog checks, product startup guard and dependency locks unchanged.

@@ -64,12 +64,16 @@ def evaluate(db,access,body,*,applying=False):
     # nested included parts, without rewriting any published snapshot.
     current={id:catalog.sku(db,id) for id in {snapshot.subject.id,*[x.sku.id for x in technical]}}
     preview=[x.model_copy(update={'sku':current[x.sku.id]}) for x in technical]
-    issues=catalog.checks(preview,snapshot.rule)
+    # The template's required flag is metadata, not selection state. Every row
+    # remaining after exclusions is selected for this quote. Adapt only the
+    # compatibility input; returned technical rows and published BOM stay intact.
+    selected_for_checks=[x.model_copy(update={'required':True}) for x in preview]
+    issues=catalog.checks(selected_for_checks,snapshot.rule)
     def issue(code,status,message):issues.append(Check(code=code,status=status,message=message))
     for item in current.values():
         if not item.enabled:issue('DISABLED_SKU','BLOCK',item.number+' 已停用，不能作为当前可售配置')
     if current[snapshot.subject.id].category!='host':issue('HOST_CATEGORY','BLOCK','主体当前类别不是主机')
-    selected_categories={current[snapshot.subject.id].category}|{x.sku.category for x in preview if x.required}
+    selected_categories={current[snapshot.subject.id].category}|{x.sku.category for x in preview}
     required_categories={'host','cpu','memory','psu','system_disk'}|{x.sku.category for x in snapshot.technical_lines if x.required}
     for category in sorted(required_categories):
         if category not in selected_categories:issue('MISSING_'+category,'BLOCK','开发完整性要求缺少 '+category+'；不是供应商认证规则')

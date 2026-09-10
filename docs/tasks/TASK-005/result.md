@@ -60,3 +60,42 @@ status: review_ready
 ## 交付追记
 
 实现与验证 commit：`6963527074072f491db030b8a9970d3f2867f150`。测试对象为该实现树，后续仅补齐交付文档；最终受审 HEAD 由审查包 REVIEW_MANIFEST.md 与回复精确给出。完整变更清单见 [changed-files](evidence/changed-files.txt)，实现以来文档收尾单独在包内 changes/implementation-to-final.patch 列出。最终状态 review_ready，不自行作独立审查结论。
+
+## 独立审查修复 R1 / R2 / C1（2026-09-10）
+
+status: review_ready
+
+修复前基准：`6d2a81846aa515e8c69f028d68f619d40b502292`。开始时 main/HEAD 与该基准相同，无后续提交及已跟踪修改；仅本次报告已未跟踪地放在 docs/reviews 中。将其原样纳入版本控制，SHA-256 `1a27276947e33b2044a46ed091cb7741b1b251c3687324cd5933a94e5e4ea788`，不修改 changes_requested 结论。当前仍为TASK-005修复，不开始TASK-006。上方首次执行历史/限制及旧证据保持不变。
+
+### 修改与原因
+
+- **R1**：模板 required 被错误用作实际选择过滤。仅报价兼容输入改为当前全部已选行，实际类别完整性统计全部选中类别，原模板必选类别另行保留。原返回技术行的 required、目录 checks 语义与已发布快照不改。排除件不计价、不检查；UNKNOWN仍表示资料不足。真实PG/API覆盖混合必选/可选CPU不匹配BLOCK、排除后PASS、内存BLOCK、可选电源WARN/PASS/排除BLOCK、可选CPU满足类别与原必选GPU不能消失，included不重复收费、BOM完整响应不变。
+- **R2**：相同payload不等于同一次新建意图。“新建草稿”和成功打开已有草稿重置本地命令身份；失败重试不重置；保存签名包含创建/更新目标。服务端重放、IDEMPOTENCY_CONFLICT、expected_version不改。实际React DOM组件覆盖新建、重复内容、打开后新建、响应丢失重试和第二份编辑；真实浏览器/PG再次核对独立ID、三次意图只有三份。
+- **C1**：重算开始清除当前试算，显示计算中；失败清除成功提示、显示失败/待重算。历史金额改为明确“历史保存结果”，不丢弃未保存配置。组件及真实浏览器都完成先成功→失败→重试成功；桌面/手机截图记录状态。没有修改金额规则、视觉风格、依赖、迁移、认证或TLS。
+
+决策补充见 [ADR-010](../../architecture/adr/ADR-010.md)。可重复的实际React测试在 apps/web/tests/quote-component.html/.jsx；只模拟HTTP边界，不替换组件/hooks。另有独立测试栈 `infra/quote_review_fixture.py`，显式test factory在真实提交后丢弃成功响应并交付503；无产品控制接口、不绕过权限，用于实际浏览器故障回归。
+
+### 本轮实际验证
+
+| 检查/命令（仓库根） | 结果 | 新证据 |
+|---|---|---|
+| `SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin .venv/bin/python -m pytest apps/api/tests/test_quotes.py -q -k selected_optional_cpu` | 原实现1 failed（PASS错误，预期BLOCK）→修复后1 passed | r1-red / r1-green.txt |
+| 实际React DOM组件测试页 `/tests/quote-component.html` | 原实现3 failed →修复后3 passed | component-red / component-green.txt |
+| `SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3" .venv/bin/python -m pytest apps/api/tests -q` | **92 passed、0 skipped、3 warnings，45.65s** | backend-full.txt |
+| `node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts` | **19 passed**，保留并发/跨企业延迟成功响应 | frontend.txt |
+| `npm run typecheck` / `npm run build` | exit 0 | typecheck / build.txt |
+| `.venv/bin/python infra/export_openapi.py` / `npm run api:types` | exit 0，生成物与审查基准字节相同 | contract-check.txt |
+| `.venv/bin/python infra/check_docs.py`、`git diff --check`（含暂存及最终范围） | 交付检查通过 | docs-check / diff-check.txt |
+| 独立可信HTTPS浏览器定向操作 | R1/R2/C1实际完成，6张1440×900/390×844截图 | browser-notes.md、screenshots.json |
+
+本轮新增5项PG参数化用例，覆盖上述R1和真实重复创建/重放/编辑隔离；完整回归包含原身份、真实OIDC、目录、CRM、Worker、空库及升级。PG/IdP全为独立临时实例，不读写/停止常驻数据库。3条warnings为原Starlette/AnyIO弃用及并发TestClient的Pydantic alias提示，未升级依赖消除。
+
+首次新增PG夹具误用了禁止另计价的package类型，被422拒绝；修正为BOM后才取得真正R1红灯。r1-fixture-red.txt保留该准备错误，不把它冒称R1复现。所有本轮证据新增于 [r1-r2-c1](evidence/r1-r2-c1/)，不覆盖原记录；必要的文本行尾规范化保留同名raw.gz原始字节。
+
+### 浏览器、剩余限制与交付
+
+[本轮浏览器复现/限制](evidence/r1-r2-c1/browser-notes.md)、[验证汇总](evidence/r1-r2-c1/validation.json)。实际使用原可信证书、固定字体及相同硅屿壳；CPU/内存可选不匹配阻断且取消后移除，电源included不收费；两份相同草稿ID不同，第二份编辑不改第一份；真实提交成功但成功响应被测试传输丢弃后，重试仍只有一份。计算中、失败、历史金额与重试在两个视口均可辨认，未保存名称保留。
+
+本轮没有重新跑全部旧浏览器路径或双标签浏览器保存竞态；原相关Node/PG回归通过，不能冒称双标签实际交互。远程CI、Docker运行及其他浏览器/字体not_run（无远程/非本轮要求）；未部署、未创建远程。原真实商务政策未配置、无次数预占核销和生产拒绝启动等限制继续适用。
+
+修复实现commit与最终HEAD在交付追记和审查包固定清单登记。新审查包从最终commit完整导出，另含相对此次6d2a818基准的增量diff/changed-files/log；原完整审查包保留。最终review_ready，等待独立Reviewer复核，不自行accepted。

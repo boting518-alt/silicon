@@ -1,0 +1,38 @@
+[
+  {
+    "file": "c1-calculating-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "18d4db60ce27ae8b1130703a2c08b62e99e8ea4a559b281d42499a057d5d972a"
+  },
+  {
+    "file": "c1-failure-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "5e242a7b4897a9e9201781529fd62086b548ac994dfe5f84f6ee85f2e21baf04"
+  },
+  {
+    "file": "c1-failure-390.jpg",
+    "width": 390,
+    "height": 844,
+    "sha256": "725b78b96437230a7477d12fc1b40aea7f9b8474c32e08e6e58c66562a29b012"
+  },
+  {
+    "file": "c1-history-390.jpg",
+    "width": 390,
+    "height": 844,
+    "sha256": "5ab4a9fa6e602a6968976062566cbf36ae1c5962925058adb2ec15bbf2fe3090"
+  },
+  {
+    "file": "r1-block-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3a25730e957800f42b189b9eb78be1f4edf88559bc7c8339dc31a4c9b1b3b9f7"
+  },
+  {
+    "file": "r2-two-drafts-1440.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2148ec96edbd76416cfaa9862ccc88be514d3411bff6ca6e953ffeff39b72bb2"
+  }
+]

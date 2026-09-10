@@ -1,0 +1,48 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not _________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:54356/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54356/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x11b02a8e0>, stop=<function database.<locals>.stop at 0x11b02a980>)
+identities = namespace(a=UUID('1aa98d8b-6927-4ad3-8d81-5ca1ff9e3121'), b=UUID('80e2a797-be5c-495e-b4bf-e36627453e52'), user=UUID('3...D('ca94509e-730a-4dc2-aa1e-b5065cdabcf9'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:54356/silicon))
+
+    def test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not(engine,database,identities):
+        with client(engine,database,identities.user,identities.a) as c:
+            customer,host,psu,_=fixture(c)
+            cpu_a=product(c,'OPTIONAL-CPU-A','cpu',specs={'socket':'A'})
+            cpu_b=product(c,'OPTIONAL-CPU-B','cpu',specs={'socket':'B'})
+            rule=ok(send(c,'/rules',{'name':'虚构选择规则','source':'测试资料','socket':'A','power_budget_w':1000}))
+>           bom=publish(c,'boms',package(c,host,[line(psu,2),line(cpu_a,charge_mode='separate'),line(cpu_b,required=False,charge_mode='separate')],rule_id=rule['id']))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:256:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_catalog.py:28: in package
+    return ok(send(c,'/boms',{'name':name,'kind':'package','subject_sku_id':host['id'],'lines':lines,**kw}))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [422 Unprocessable Entity]>, status = 201
+
+    def ok(r,status=201):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":[{"type":"value_error","loc":["body"],"msg":"Value error, package contents must be included, not extra charges","input":{"name":"虚构包件","kind":"package","subject_sku_id":"0e87d172-63c1-464b-b838-a434cf02244c","lines":[{"sku_id":"d86b67c1-dd66-411b-80fe-1899faae31e7","quantity":2,"required":true,"charge_mode":"included"},{"sku_id":"33c0dda4-703b-4fdc-a8a9-63d703b04291","quantity":1,"required":true,"charge_mode":"separate"},{"sku_id":"b69471fd-c0c8-4968-b437-746f39794c63","quantity":1,"required":false,"charge_mode":"separate"}],"rule_id":"606cab5d-8384-46a1-8dd4-d5b5934b4bd5"},"ctx":{"error":{}}}]}
+E       assert 422 == 201
+E        +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+apps/api/tests/test_catalog.py:19: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_quotes.py::test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not
+1 failed, 16 deselected, 2 warnings in 2.12s

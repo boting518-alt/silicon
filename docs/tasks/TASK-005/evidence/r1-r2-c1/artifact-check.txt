@@ -1,0 +1,1 @@
+PASS: 6 original JPEG dimensions/hash; 10 completed DOM checkpoints; test stack cleaned, only own transport control/events files removed after preserving event bytes.

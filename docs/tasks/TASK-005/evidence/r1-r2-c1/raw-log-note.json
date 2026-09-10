@@ -1,0 +1,25 @@
+{
+  "only_trailing_whitespace_or_terminal_newline_normalized": [
+    "r1-red.txt",
+    "r1-fixture-red.txt",
+    "component-red.txt",
+    "component-green.txt",
+    "typecheck.txt",
+    "r1-selected-block.txt",
+    "r1-excluded-pass.txt",
+    "r2-first.txt",
+    "r2-second.txt",
+    "r2-edited-second.txt",
+    "r2-first-unchanged.txt",
+    "r2-lost-response.txt",
+    "r2-retry-success.txt",
+    "c1-calculating.txt",
+    "c1-failure-desktop.txt",
+    "c1-calculating-desktop.txt",
+    "c1-retry-success.txt",
+    "c1-failure-mobile.txt",
+    "c1-mobile-retry-success.txt",
+    "tenant-b-empty.txt"
+  ],
+  "exact_original_bytes": "same stem .raw.txt.gz; old evidence unchanged"
+}

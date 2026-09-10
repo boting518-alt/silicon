@@ -1,0 +1,3 @@
+{"event": "create-loss", "upstream_status": 201, "draft_id": "107dea4b-82fb-4560-acfe-42daeefda5f5", "version": 1}
+{"event": "trial-failure", "upstream_status": 200}
+{"event": "trial-failure", "upstream_status": 200}
