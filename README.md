@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-005 已由产品/架构负责人确认 accepted。当前 TASK-006 正在实现审批、发布快照与合同草稿；TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。正式报价发布、合同、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-005 已由产品/架构负责人确认 accepted。当前 TASK-006 已实现审批、发布快照与合同草稿，状态 review_ready；TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。仅系统内报价发布与来源合同草稿启用，签约、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
@@ -190,3 +190,7 @@ Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 
 构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0006 降级会删除所有报价草稿、选择、优惠配置和幂等结果；0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
 
 TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。TASK-004 已 accepted；其历史 result 的 review_ready 与验证限制保持原样。当前 TASK-005 为 review_ready，不自动开始 TASK-006。
+
+## TASK-006 审查入口
+
+[任务与发布边界](docs/tasks/TASK-006/task.md)、[ADR-011](docs/architecture/adr/ADR-011.md)、[验证结果](docs/tasks/TASK-006/result.md)、[两身份浏览器准备](docs/tasks/TASK-006/browser-acceptance.md)。开发政策只在独立测试栈显式种入；真实企业无政策阻断发布。所有报价须双人审批，确定性BLOCK不可绕过。已发布正文不可修改，合同只是来源草稿，不代表签约或核销。

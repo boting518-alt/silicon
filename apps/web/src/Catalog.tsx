@@ -57,7 +57,7 @@ export function Catalog({page,context,canWrite,disabled,onContextError}:{page:Ca
   }catch(e){if(n===generation.current)fail(e);}finally{if(n===generation.current)setBusy(false);}}
   async function lookup(){const n=generation.current;setBusy(true);setError('');setNotice('');setCurrent(null);try{const result=await crmRequests.request<S['CurrentPrice']>(context,`/catalog/current-price/${lookupSku}?scope=${encodeURIComponent(lookupScope)}&tax_included=${lookupTax}`);if(n===generation.current)setCurrent(result);}catch(e){if(n===generation.current)fail(e);}finally{if(n===generation.current)setBusy(false);}}
   const rows=page==='skus'?skus:page==='boms'?boms:prices;
-  return <section className="panel catalog"><div className="panel-title"><div><div className="eyebrow">SILICON / CATALOG</div><h2>{names[page]}</h2><p>企业共享目录 · 真实版本与来源 · 报价工作室尚未启用</p></div><button className="primary" disabled={locked||!canWrite} onClick={()=>begin(null)}>新建{page==='skus'?'商品':page==='boms'?'包件 / BOM':'价格表'}</button></div>
+  return <section className="panel catalog"><div className="panel-title"><div><div className="eyebrow">SILICON / CATALOG</div><h2>{names[page]}</h2><p>企业共享目录 · 真实版本与来源 · 报价按当前有效性另行校验</p></div><button className="primary" disabled={locked||!canWrite} onClick={()=>begin(null)}>新建{page==='skus'?'商品':page==='boms'?'包件 / BOM':'价格表'}</button></div>
     {!canWrite&&<p className="muted">只读权限：目录维护与发布仅对企业管理员开放。</p>}
     {error&&<div className="error" role="alert" tabIndex={-1} ref={alert}>{error}</div>}{notice&&<p className="success" role="status">{notice}</p>}
     <div className="toolbar"><input aria-label="筛选目录" placeholder="筛选已载入的名称 / 编号" value={query} onChange={e=>setQuery(e.target.value)}/><span className="muted">每类最多载入 100 项</span></div>

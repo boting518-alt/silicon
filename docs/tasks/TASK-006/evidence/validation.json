@@ -1,0 +1,119 @@
+{
+  "task": "TASK-006",
+  "status": "review_ready",
+  "base": "da215ad9b22e5d831c0d7a319885ddf7ad3ec8ef",
+  "handoff": "919f75aa537082d19a05865bb4e5e85893548ab5",
+  "implementation": "recorded in delivery note after commit",
+  "backend": {
+    "command": "SILICON_TEST_PG_BIN=\"$PG_BIN\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+    "result": "116 passed, 0 skipped, 3 warnings, 60.69s",
+    "log": "backend-final.txt"
+  },
+  "supplement": {
+    "command": "SILICON_TEST_PG_BIN=\"$PG_BIN\" .venv/bin/python -m pytest apps/api/tests/test_publication.py -q -k 'new_price_boundary or current_price_version_boundary or member_submit'",
+    "result": "3 passed, 23 deselected, 2 warnings",
+    "log": "publication-supplement.txt"
+  },
+  "frontend": {
+    "command": "node --test apps/web/tests/*.test.ts",
+    "result": "19 passed",
+    "log": "frontend.txt"
+  },
+  "components": {
+    "method": "real React DOM with HTTP fixtures",
+    "publication": "4 passed",
+    "quotes": "3 passed",
+    "paths": [
+      "/tests/publication-component.html",
+      "/tests/quote-component.html"
+    ]
+  },
+  "commands_passed": [
+    "npm run typecheck",
+    "npm run build",
+    ".venv/bin/python infra/export_openapi.py",
+    "npm run api:types",
+    ".venv/bin/python infra/check_docs.py",
+    "git diff --check"
+  ],
+  "browser": {
+    "command": "SILICON_BROWSER_PUBLICATION=1 SILICON_BROWSER_CATALOG=1 SILICON_BROWSER_CATALOG_SEED=1 SILICON_BROWSER_QUOTES=1 SILICON_TEST_PG_BIN=\"$PG_BIN\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python infra/browser_stack.py",
+    "real_oidc": true,
+    "real_pg": true,
+    "two_identities": true,
+    "two_tab_stale_approval_rejected": true,
+    "snapshot_price_change": "future price revision, not current-period overwrite",
+    "screenshots": [
+      {
+        "file": "approval-1440.jpg",
+        "width": 1425,
+        "height": 891,
+        "sha256": "19375a5f7b5b4a4d7d023627840d09a3c33dc9badc137fba27f812334120ebce"
+      },
+      {
+        "file": "contract-1440.jpg",
+        "width": 1425,
+        "height": 891,
+        "sha256": "29541b9118bb883433d2ef0cb26098e6f9d30a5d8366624884281abea8f37e2d"
+      },
+      {
+        "file": "contract-390.jpg",
+        "width": 375,
+        "height": 812,
+        "sha256": "ce05d834fdfdcfcd3f814f92d430e5a989c77737f51028cf93685223d24ffb50"
+      },
+      {
+        "file": "contract-warning-390.jpg",
+        "width": 375,
+        "height": 812,
+        "sha256": "76472f38b0ba8de62b4199df4f8f0066fb10544e424781300f41777c125d2704"
+      },
+      {
+        "file": "final-login-1440.png",
+        "width": 1280,
+        "height": 720,
+        "sha256": "012a683145b2d01c12041e2c4edc95140921aaa0e1411a99fc4048e20b14922d"
+      },
+      {
+        "file": "final-submission-1440.png",
+        "width": 1425,
+        "height": 891,
+        "sha256": "b8677e28d8e3fa546e34aa561fae52b7939cc976b49c97d334b809138be792be"
+      },
+      {
+        "file": "final-submission-390.png",
+        "width": 375,
+        "height": 812,
+        "sha256": "9a59b0e11acbbf4e2aac4e14ae15aebbec6e064c8dca45246074be1f04615876"
+      },
+      {
+        "file": "invalidated-1440.jpg",
+        "width": 1425,
+        "height": 891,
+        "sha256": "69fff3eae8760658507ccba298b2c078f999f870c74e170ae1df2da459fc5809"
+      },
+      {
+        "file": "published-1440.jpg",
+        "width": 1425,
+        "height": 891,
+        "sha256": "3b665da70d9b0c4cca7dfeed2f1b56e8a703bb69795d7aa3c16ff0767d32d129"
+      },
+      {
+        "file": "published-390.jpg",
+        "width": 375,
+        "height": 812,
+        "sha256": "5ab17a81130a28fb70f28981de0b86439aec2c5fda2ba81c047f6444df5b92c1"
+      }
+    ],
+    "cleanup": "BROWSER_STACK_CLEANED",
+    "trust_changed": false,
+    "screenshot_export_limitation": "Viewport checked at 1440x900 and 390x844; IAB exports scaled images (1425x891 and 375x812), native getScreenshot gives same result. No rescaling applied. final-login is 1280x720 before viewport reset."
+  },
+  "not_run": [
+    "remote CI (no remote)",
+    "Docker runtime (native isolated stack)",
+    "formal commercial policy acceptance",
+    "other browsers/fonts",
+    "all prior browser paths"
+  ]
+}

@@ -139,7 +139,9 @@ def save(db,access,body,key,request_id,id=None):
     if prior:
         if prior['request_hash']!=hashed:raise Denied(409,'IDEMPOTENCY_CONFLICT')
         return QuoteDetail.model_validate(prior['response'])
-    if id:catalog.expected(current,body.expected_version)
+    if id:
+        if db.scalar(text("SELECT id FROM quote_versions WHERE draft_id=:id LIMIT 1"),{"id":id}):raise Denied(409,"PUBLISHED_DRAFT_REQUIRES_REVISION")
+        catalog.expected(current,body.expected_version)
     config=QuoteInput.model_validate(body.model_dump(exclude={'expected_version'}))
     # Canonical ordering prevents a reload from marking equivalent selections stale.
     config.additions.sort(key=lambda x:str(x.sku_id));config.excluded_sku_ids.sort(key=str)

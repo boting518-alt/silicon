@@ -1,0 +1,94 @@
+from datetime import datetime
+from typing import Annotated,Literal
+from uuid import UUID
+from pydantic import Field,AwareDatetime
+from silicon.catalog.models import Input,Positive,Sku,BomSnapshot
+from silicon.crm.models import Contact,Project,Site,Responsibility,Name
+from silicon.quotes.models import QuoteInput,Calculation
+
+class Submit(Input):
+    expected_version: Positive
+    valid_until: AwareDatetime
+class Confirmation(Input):
+    code: str
+    explanation: Annotated[str,Field(min_length=1,max_length=1000)]
+    evidence: Annotated[str,Field(min_length=1,max_length=1000)]
+class Decide(Input):
+    expected_version: Positive
+    approved: bool
+    note: Annotated[str,Field(min_length=1,max_length=2000)]
+    confirmations: list[Confirmation]=Field(default_factory=list,max_length=100)
+class VersionCommand(Input):
+    expected_version: Positive
+class Issue(VersionCommand):
+    confirmed: Literal[True]
+class Withdraw(VersionCommand):
+    reason: Annotated[str,Field(min_length=1,max_length=1000)]
+class Convert(VersionCommand):
+    quote_version_id: UUID
+class Party(Input):
+    id: UUID
+    number: str
+    name: str
+    contacts: list[Contact]
+    project: Project
+    sites: list[Site]
+    responsibilities: list[Responsibility]
+    responsibility_names: dict[str,str]
+class Policy(Input):
+    id: UUID
+    version: int
+    enabled: bool
+    mode: Literal['development','formal']
+    allow_risks: bool
+    responsibility: str
+    discount_quota: Literal['unlimited','limited']
+class Frozen(Input):
+    config: QuoteInput
+    calculation: Calculation
+    customer: Party
+    host: Sku
+    bom: BomSnapshot
+    policy: Policy
+    valid_until: datetime
+    discount_conditions: dict|None
+    unknown_fields: list[str]
+    development: bool
+class Candidate(Input):
+    id: UUID
+    draft_id: UUID
+    draft_version: int
+    submitter_id: UUID
+    content_hash: str
+    content: Frozen
+    state: str
+    decision_id: UUID|None=None
+    approver_id: UUID|None=None
+    note: str|None=None
+    confirmations: list[Confirmation]|None=None
+    source_version_id: UUID|None=None
+class Published(Input):
+    id: UUID
+    candidate_id: UUID
+    decision_id: UUID
+    number: str
+    revision: int
+    content_hash: str
+    content: Frozen
+    issuer_id: UUID
+    issued_at: datetime
+    valid_until: datetime
+    state: str
+    version: int
+class Contract(Input):
+    id: UUID
+    quote_version_id: UUID
+    source_hash: str
+    content: Frozen
+    created_at: datetime
+    source_state: str
+    missing_fields: list[str]
+    source_number: str
+    decision_id: UUID
+    issuer_id: UUID
+    issued_at: datetime

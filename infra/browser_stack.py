@@ -48,7 +48,10 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
         home=temp/'keycloak'
         shutil.copytree(os.environ['SILICON_TEST_KEYCLOAK_HOME'],home,ignore=shutil.ignore_patterns('._*','data','log'))
         imports=home/'data/import';imports.mkdir(parents=True)
-        (imports/'realm.json').write_text(json.dumps(realm(origin)))
+        realm_data=realm(origin)
+        if os.getenv('SILICON_BROWSER_PUBLICATION')=='1':
+            realm_data['users'].append({'id':'22222222-2222-4222-8222-222222222222','username':'bob','enabled':True,'firstName':'虚构','lastName':'审批人乙','email':'bob@example.invalid','emailVerified':True,'credentials':[{'type':'password','value':'Fictional-bob-17!','temporary':False}]})
+        (imports/'realm.json').write_text(json.dumps(realm_data))
         env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web','OIDC_CLIENT_SECRET':'fictional-dev-client-secret',
              'OIDC_CA_BUNDLE':str(cert),'PUBLIC_ORIGIN':origin,'SILICON_VISUAL_FONT':str(ROOT/'.tools/visual/PingFang.ttc')}
         owner=make_engine(database.migration_url)
@@ -77,6 +80,11 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             from quote_examples import seed as quote_seed
             migration=make_engine(database.migration_url)
             quote_seed(engine,migration,actor,a)
+            migration.dispose()
+        if os.getenv('SILICON_BROWSER_PUBLICATION')=='1':
+            from publication_examples import seed as publication_seed
+            migration=make_engine(database.migration_url)
+            publication_seed(engine,migration,actor,a,issuer)
             migration.dispose()
         review=os.getenv('SILICON_BROWSER_QUOTE_REVIEW')=='1'
         if review:

@@ -1,6 +1,6 @@
 # TASK-006 — 报价审批、发布快照与合同草稿
 
-status: executing
+status: review_ready
 
 来源：用户附件 TASK-006-Codex.md；除状态登记外保留任务要求。
 角色：当前对话负责人担任产品负责人、架构师及独立 Reviewer；Codex 担任实现、测试与仓库维护者。

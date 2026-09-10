@@ -1,0 +1,38 @@
+{
+  "published_count": 1,
+  "contract_count": 1,
+  "quote_id": "674dbdb4-623d-4fdc-a2b9-726349521da7",
+  "contract_id": "92c7d744-bcce-45d6-a706-21589bab7694",
+  "same_frozen_content": true,
+  "hash": "433f551cd66270c260f4c0021c6968b32e56ed57c9f348d62869fab30ca35c81",
+  "total": "77660.01",
+  "new_prices": [
+    {
+      "revision": 1,
+      "state": "published",
+      "amount": "28000.00",
+      "valid_from": "2026-01-01 08:00:00+08:00",
+      "valid_to": "2027-01-01 08:00:00+08:00"
+    },
+    {
+      "revision": 2,
+      "state": "published",
+      "amount": "30000.00",
+      "valid_from": "2028-01-01 08:00:00+08:00",
+      "valid_to": "2030-01-01 08:00:00+08:00"
+    }
+  ],
+  "source_withdrawn": true,
+  "participants": [
+    {
+      "draft_version": 1,
+      "submitter_id": "11111111-1111-4111-8111-111111111111",
+      "actor_id": "22222222-2222-4222-8222-222222222222"
+    },
+    {
+      "draft_version": 2,
+      "submitter_id": "22222222-2222-4222-8222-222222222222",
+      "actor_id": "11111111-1111-4111-8111-111111111111"
+    }
+  ]
+}

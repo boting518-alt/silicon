@@ -42,6 +42,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(crm_router(engine, settings))
     app.include_router(catalog_router(engine, settings))
     app.include_router(quote_router(engine, settings))
+    from silicon.publication.routes import router as publication_router
+    app.include_router(publication_router(engine, settings))
 
     @app.exception_handler(SQLAlchemyError)
     async def database_failure(request, exc):
@@ -76,7 +78,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             with engine.connect() as connection:
                 revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
-                if revision != "0006_quotes":
+                if revision != "0007_publication":
                     raise RuntimeError("schema revision not ready")
         except (SQLAlchemyError, RuntimeError):
             return JSONResponse(status_code=503, content={

@@ -138,7 +138,7 @@ def test_child_relationships_cannot_cross_customers(engine,database,identities):
               dict(t=i.a,c=first['id'],p=first['projects'][0]['id'],person=second['contacts'][0]['id']))
 
 
-@pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog'])
+@pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
 def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
     import subprocess,sys
     from pathlib import Path
@@ -163,29 +163,38 @@ def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_r
                     db.execute(text("INSERT INTO memberships VALUES (:t,:u,'admin',true)"),dict(t=tenant,u=actor))
                     db.execute(text("INSERT INTO jobs(id,kind,dedupe_key,tenant_id,actor_id) VALUES (:id,'identity.check','legacy-tenant-job',:t,:u)"),dict(id=job,t=tenant,u=actor))
                     db.execute(text("INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at) VALUES ('legacy-session',:u,:t,'legacy-csrf',now()+interval '5 minutes')"),dict(u=actor,t=tenant))
-                    if start_revision in ('0004_session_context','0005_catalog'):
+                    if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
                         db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
                         db.execute(text("INSERT INTO crm_customers(tenant_id,id,number,name,owner_id) VALUES (:t,:id,'UPGRADE-CUSTOMER','原客户',:u)"),dict(t=tenant,id=actor,u=actor))
                         db.execute(text("INSERT INTO crm_contacts(tenant_id,customer_id,id,name,title,phone,email) VALUES (:t,:id,:id,'原联系人','','','')"),dict(t=tenant,id=actor))
-                if start_revision=='0005_catalog':
+                if start_revision in ('0005_catalog','0006_quotes'):
                     import sys
                     sys.path.insert(0,str(root/'infra'))
                     from catalog_examples import seed
                     old_app=make_engine(str(make_url(database.url).set(database=name)))
                     seed(old_app,actor,tenant)
+                    if start_revision=='0006_quotes':
+                        with owner.begin() as db:
+                            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
+                            db.execute(text("INSERT INTO crm_projects(tenant_id,customer_id,id,name,notes) VALUES (:t,:id,:id,'原项目','')"),dict(t=tenant,id=actor))
+                            bom=db.scalar(text("SELECT id FROM catalog_boms WHERE state='published' LIMIT 1"))
+                            db.execute(text("INSERT INTO quote_drafts(tenant_id,id,name,customer_id,project_id,bom_id,quantity,scope,tax_included,calculation,owner_id) VALUES (:t,:id,'原草稿',:id,:id,:bom,1,'retail',true,'{}',:id)"),dict(t=tenant,id=actor,bom=bom))
                     old_app.dispose()
         app=make_engine(str(make_url(database.url).set(database=name)))
         with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
-            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0006_quotes'
+            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0007_publication'
             assert db.scalar(text("SELECT context_id IS NOT NULL FROM sessions WHERE token_hash='legacy-session'"))
-            assert db.scalar(text('SELECT count(*) FROM crm_customers'))==(1 if start_revision in ('0004_session_context','0005_catalog') else 0)
-            if start_revision in ('0004_session_context','0005_catalog'):
+            assert db.scalar(text('SELECT count(*) FROM crm_customers'))==(1 if start_revision in ('0004_session_context','0005_catalog','0006_quotes') else 0)
+            if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
                 assert db.scalar(text('SELECT name FROM crm_customers'))=='原客户'
                 assert db.scalar(text('SELECT name FROM crm_contacts'))=='原联系人'
-            if start_revision=='0005_catalog':
+            if start_revision in ('0005_catalog','0006_quotes'):
                 assert db.scalar(text('SELECT count(*) FROM catalog_skus'))==3
                 assert db.scalar(text("SELECT count(*) FROM catalog_boms WHERE state='published'"))==2
                 assert str(db.scalar(text('SELECT amount FROM catalog_price_lines')))=='10000.50'
+            if start_revision=='0006_quotes':
+                assert db.scalar(text('SELECT name FROM quote_drafts'))=='原草稿'
+                assert db.scalar(text('SELECT calculation FROM quote_drafts'))=={}
             assert db.scalar(text('SELECT tenant_id FROM jobs WHERE id=:id'),{'id':job})==tenant
         from silicon.shared.jobs import run_once
         assert run_once(app)

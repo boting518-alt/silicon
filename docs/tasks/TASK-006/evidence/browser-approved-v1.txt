@@ -1,0 +1,153 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构审批人乙
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /报价审批
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "报价审批与版本历史" [level=2]
+  - paragraph: 内部发布，不发送外部；合同草稿不代表签约或收入。
+  - button "刷新状态"
+  - status: 审批决定已记录。
+  - navigation "版本列表":
+    - heading "审批候选" [level=3]
+    - button "虚构 TASK-006 发布验收 · v1 · 已批准"
+    - heading "已发布版本" [level=3]
+    - heading "合同草稿" [level=3]
+    - paragraph: 暂无来源合同草稿
+  - article:
+    - heading "已批准 · 候选 v1" [level=2]
+    - paragraph:
+      - text: 提交人 11111111-1111-4111-8111-111111111111
+      - text: 候选 b8975e25-c33d-41c1-9f90-0cb72c2cf226
+      - text: 内容 hash b8689560589beb43da16043006cf27ac87a37eb9c727b143e7242c450b15dfed
+    - text: 演示数据 / 开发政策，不用于真实商务
+    - heading "澄川大学 · 人工智能学院 · 科研平台" [level=3]
+    - paragraph: 虚构 TASK-006 发布验收 · 1 台
+    - generic: 冻结总额
+    - strong: 49660.01 CNY · 含税
+    - paragraph: 有效至 2027-11-02T04:00:00Z
+    - generic: 发布政策
+    - paragraph: v1 · 虚构开发审批责任；不用于真实商务
+    - paragraph: 成本、利润、税额拆分、运费及服务费：未配置
+    - heading "设备与商业内容" [level=3]
+    - paragraph: 虚构无电源准系统 · 硅屿测试品牌 · 自有品牌
+    - paragraph: 虚构计算 CPU ×1 · 另计价
+    - paragraph: 虚构 ECC 内存 ×1 · 另计价
+    - paragraph: 虚构 1200W 电源 ×2 · 含于包件，不重复收费
+    - paragraph: 虚构系统盘 ×1 · 另计价
+    - paragraph: 虚构计算 GPU ×1 · 另计价
+    - text: 虚构无电源准系统 ×1
+    - generic: 虚构开发种子，非供应商价格 · 价格表 v1 · 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 9000.00 CNY
+    - text: 虚构计算 CPU ×1
+    - generic: 虚构开发种子，非供应商价格 · 价格表 v1 · 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 9800.01 CNY
+    - text: 虚构 ECC 内存 ×1
+    - generic: 虚构开发种子，非供应商价格 · 价格表 v1 · 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 1880.00 CNY
+    - text: 虚构系统盘 ×1
+    - generic: 虚构开发种子，非供应商价格 · 价格表 v1 · 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 980.00 CNY
+    - text: 虚构计算 GPU ×1
+    - generic: 虚构开发种子，非供应商价格 · 价格表 v1 · 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 28000.00 CNY
+    - paragraph: 优惠 0.00 CNY · 无折扣；无额度占用或核销。
+    - heading "原始风险与检查范围" [level=3]
+    - paragraph: PASS · CPU 插槽符合所选示例资料（非完整认证）
+    - paragraph: PASS · 内存代际符合所选示例资料（非完整认证）
+    - paragraph: PASS · N+1 容量符合示例预算，仍需确认实际功耗与预留
+    - paragraph: UNKNOWN · GPU 空间、PCIe/IB 槽位、磁盘背板、内存通道等尚无完整资料；未认证
+    - paragraph: UNKNOWN · 发布政策已配置；仍须人工确认责任范围
+    - paragraph: UNKNOWN · 成本、利润和贡献率未知，需人工承担本阶段风险
+    - paragraph: UNKNOWN · 税额拆分、运费、服务费未配置，不计作零元
+    - heading "合同字段来源" [level=3]
+    - paragraph: 客户及项目来自冻结 CRM 内容，地点不冒称甲方注册地址。乙方主体资料待补齐。
+    - paragraph: 周明远 · 职务未配置
+    - paragraph: 许知微 · 职务未配置
+    - paragraph: 内部负责人：sales / 虚构用户甲
+    - paragraph: 内部审批说明：虚构审批人乙逐项确认，不用于真实商务
+    - paragraph: 风险确认 COVERAGE：虚构验收：保留未知状态，仅用于开发验证；依据：TASK-006 开发政策与虚构人工核对记录
+    - paragraph: 风险确认 SALE_POLICY：虚构验收：保留未知状态，仅用于开发验证；依据：TASK-006 开发政策与虚构人工核对记录
+    - paragraph: 风险确认 COST_UNKNOWN：虚构验收：保留未知状态，仅用于开发验证；依据：TASK-006 开发政策与虚构人工核对记录
+    - paragraph: 风险确认 CHARGES_UNKNOWN：虚构验收：保留未知状态，仅用于开发验证；依据：TASK-006 开发政策与虚构人工核对记录
+    - group "人工确认发布":
+      - generic: 人工确认发布
+      - paragraph: 确认上述候选、总额、口径、有效期与开发标记；发布后不可改写。
+      - checkbox "我确认发布此批准版本"
+      - text: 我确认发布此批准版本
+      - button "发布批准版本" [disabled]
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

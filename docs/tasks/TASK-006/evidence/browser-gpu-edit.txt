@@ -1,0 +1,247 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构审批人乙
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /报价与利润
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "把算力，组装成你的理想形态。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "配置报价草稿" [level=2]
+  - paragraph: 草稿、试算与正式报价分开；已保存后可提交审批；发布使用独立冻结版本。
+  - button "新建草稿"
+  - text: 已保存草稿
+  - combobox "已保存草稿":
+    - option "选择重新打开（最多100项）" [disabled]
+    - option "虚构 TASK-006 发布验收 · v2" [selected]
+  - status: 草稿已保存，可刷新重新打开；没有正式发布或折扣核销。
+  - text: 草稿名称
+  - textbox "草稿名称": 虚构 TASK-006 发布验收
+  - text: 客户
+  - combobox "客户":
+    - option "请选择客户（最多100项）"
+    - option "澄川大学 · 人工智能学院" [selected]
+    - option "栖原智能科技有限公司"
+    - option "远岑材料研究院"
+    - option "京澜智能研究中心"
+    - option "锦序工业科技有限公司"
+    - option "南序机器人有限公司"
+    - option "浦澄数据技术有限公司"
+  - text: 项目
+  - combobox "项目":
+    - option "请选择项目"
+    - option "科研平台" [selected]
+  - text: YOUR SERVER
+  - heading "服务器结构" [level=2]
+  - generic: 部件示意
+  - img "可点击的服务器部件等距结构图":
+    - button "配置主机 · 已选 · 数量 1"
+    - button "配置电源 · 已选 · 数量 2":
+      - generic: PSU
+    - button "配置CPU · 已选 · 数量 1":
+      - generic: CPU
+    - button "配置内存 · 已选 · 数量 1":
+      - generic: RAM
+    - button "配置内存 · 已选 · 数量 1"
+    - button "配置GPU · 已选 · 数量 2":
+      - generic: GPU
+    - button "配置GPU · 已选 · 数量 2"
+    - button "配置系统盘 · 已选 · 数量 1":
+      - generic: SSD
+    - button "配置网卡 · 未选 · 数量 0":
+      - generic: NET
+    - button "配置IB 卡 · 未选 · 数量 0":
+      - generic: IB
+    - button "配置数据盘 · 未选 · 数量 0":
+      - generic: DATA
+    - generic: SILICON / COMPUTE NODE
+  - generic: 点击部件定位配置
+  - button "⇧ 展开部件"
+  - text: GPU · 数量 2
+  - generic: 已选 · 兼容性以后端为准
+  - paragraph:
+    - text: 虚线为未选 / 缺失；橙色为停用或异常。
+    - text: 示意图非精确装配模型，不表示兼容认证。
+  - heading "配置清单" [level=2]
+  - generic: 已保存草稿
+  - text: 准系统 / BOM 版本
+  - combobox "准系统 / BOM 版本":
+    - option "请选择已发布版本"
+    - option "虚构准系统 · 已含电源 · v1"
+    - option "虚构准系统 · 不含电源 · v1"
+    - option "虚构审批验收 BOM · v1" [selected]
+  - text: 整机数量
+  - spinbutton "整机数量": "1"
+  - heading "版本包含的技术部件" [level=3]
+  - checkbox "虚构计算 CPU ×1 · 另计价" [checked]
+  - text: 虚构计算 CPU ×1 · 另计价
+  - checkbox "虚构 ECC 内存 ×1 · 另计价" [checked]
+  - text: 虚构 ECC 内存 ×1 · 另计价
+  - checkbox "虚构 1200W 电源 ×2 · 含于包件，不另收费" [checked]
+  - text: 虚构 1200W 电源 ×2 · 含于包件，不另收费
+  - checkbox "虚构系统盘 ×1 · 另计价" [checked]
+  - text: 虚构系统盘 ×1 · 另计价
+  - checkbox "虚构计算 GPU ×1 · 另计价"
+  - text: 虚构计算 GPU ×1 · 另计价
+  - generic: 移除包含件不会降低根包件基价；替换件在下方新增计价。
+  - text: 电源追加型号
+  - combobox "电源追加型号":
+    - option "不追加 / 使用包含件" [selected]
+    - option "虚构 1200W 电源"
+  - text: CPU追加型号
+  - combobox "CPU追加型号":
+    - option "不追加 / 使用包含件" [selected]
+    - option "虚构计算 CPU"
+  - text: GPU追加型号
+  - combobox "GPU追加型号":
+    - option "不追加 / 使用包含件"
+    - option "虚构计算 GPU" [selected]
+  - text: GPU追加数量
+  - spinbutton "GPU追加数量": "2"
+  - text: 内存追加型号
+  - combobox "内存追加型号":
+    - option "不追加 / 使用包含件" [selected]
+    - option "虚构 ECC 内存"
+  - text: 系统盘追加型号
+  - combobox "系统盘追加型号":
+    - option "不追加 / 使用包含件" [selected]
+    - option "虚构系统盘"
+  - text: 网卡追加型号
+  - combobox "网卡追加型号":
+    - option "不追加 / 使用包含件" [selected]
+  - text: IB 卡追加型号
+  - combobox "IB 卡追加型号":
+    - option "不追加 / 使用包含件" [selected]
+  - text: 数据盘追加型号
+  - combobox "数据盘追加型号":
+    - option "不追加 / 使用包含件" [selected]
+  - text: 价格范围
+  - textbox "价格范围": retail
+  - text: 价格口径
+  - combobox "价格口径":
+    - option "CNY 含税" [selected]
+    - option "CNY 不含税"
+  - generic: 按价格表原口径，不自行换算税率或运费。
+  - complementary:
+    - generic: YOUR QUOTE / DRAFT
+    - heading "每一份算力，明码标价。" [level=2]
+    - button "重新计价"
+    - paragraph:
+      - text: 历史保存结果 v2：77660.01 CNY
+      - text: 仅为当时结果；当前配置以下方重新计价为准。
+    - text: 虚构无电源准系统 ×1
+    - text: 虚构开发种子，非供应商价格 · 价格版本 1
+    - text: 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 9000.00 CNY
+    - text: 虚构计算 CPU ×1
+    - text: 虚构开发种子，非供应商价格 · 价格版本 1
+    - text: 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 9800.01 CNY
+    - text: 虚构 ECC 内存 ×1
+    - text: 虚构开发种子，非供应商价格 · 价格版本 1
+    - text: 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 1880.00 CNY
+    - text: 虚构系统盘 ×1
+    - text: 虚构开发种子，非供应商价格 · 价格版本 1
+    - text: 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 980.00 CNY
+    - text: 虚构计算 GPU ×2
+    - text: 虚构开发种子，非供应商价格 · 价格版本 1
+    - text: 2026-01-01T08:00:00+08:00 → 2027-01-01T08:00:00+08:00
+    - generic: 56000.00 CNY
+    - generic: 1 台小计
+    - generic: 77660.01 CNY
+    - text: 折扣码（仅已配置政策）
+    - textbox "折扣码（仅已配置政策）"
+    - button "应用折扣" [disabled]
+    - button "移除折扣" [disabled]
+    - paragraph: 未使用折扣 · 单码不叠加，不占用或核销次数。
+    - generic: 后端试算 · 非最终报价
+    - generic: 计价时刻：2026-09-10T13:10:18.532271Z；保存时重新核验。
+    - strong: 77660.01 CNY
+    - generic: 优惠 0.00 CNY · 金额可计算 · 未获得销售/发布授权
+    - paragraph: PASS · CPU 插槽符合所选示例资料（非完整认证）
+    - paragraph: PASS · 内存代际符合所选示例资料（非完整认证）
+    - paragraph: PASS · N+1 容量符合示例预算，仍需确认实际功耗与预留
+    - paragraph: UNKNOWN · GPU 空间、PCIe/IB 槽位、磁盘背板、内存通道等尚无完整资料；未认证
+    - paragraph: UNKNOWN · 真实销售/发布政策未配置；这里只保存草稿，不是最终报价，不预占或核销折扣
+    - button "保存草稿"
+    - paragraph: 允许保存待补全草稿。提交审批另行检查发布政策；UNKNOWN 不是兼容通过。
+  - heading "审批与发布" [level=3]
+  - paragraph: 审批失效，需重新提交 · 草稿 v1
+  - paragraph: 所有报价均需另一授权人员审批。UNKNOWN 保留原状态，缺价或确定性 BLOCK 不能放行。
+  - text: 报价有效期（本地时间）
+  - textbox "报价有效期（本地时间）"
+  - button "提交审批" [disabled]
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

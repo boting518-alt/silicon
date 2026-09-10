@@ -1,0 +1,3 @@
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+BROWSER_STACK_READY: https://localhost:5173; real IdP; isolated PG; fictional seeded A; empty B
+BROWSER_STACK_CLEANED

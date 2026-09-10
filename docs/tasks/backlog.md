@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-006，status: executing。TASK-000～TASK-005 已由产品/架构负责人确认 accepted；TASK-007 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-006，status: review_ready。TASK-000～TASK-005 已由产品/架构负责人确认 accepted；TASK-007 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-005 为 accepted；TASK-006 为 executing；TASK-007～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-005 为 accepted；TASK-006 为 review_ready；TASK-007～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -93,3 +93,7 @@ TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单
 ## TASK-006 验收交接
 
 2026-09-10，负责人依据 [TASK-005 增量复核](../reviews/TASK-005-da215ad-review.md) 明确 accepted TASK-005 并分配 [TASK-006](TASK-006/task.md)。main/HEAD da215ad9b22e5d831c0d7a319885ddf7ad3ec8ef 与审查基线一致；只有未跟踪的同报告，已与附件逐字节核对原样归档。旧 result、首次审查及证据不改写；Reviewer 未重跑 PG/OIDC/完整浏览器等限制保留。TASK-006 executing，不开始 TASK-007。
+
+## TASK-006 交付待审查
+
+审批、发布快照和来源合同草稿进入 review_ready，见 [结果](TASK-006/result.md)。独立PG/OIDC完整116项及补充3项、真实双人浏览器与两视口证据均如实记录；正式商务政策/远程CI等限制保留。不自行accepted，不开始TASK-007。

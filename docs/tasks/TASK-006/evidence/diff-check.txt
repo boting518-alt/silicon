@@ -1,0 +1,4 @@
+git diff --check
+exit 0
+Historical TASK-005 result and evidence unchanged.
+High-confidence private key/JWT/provider credential scan: no matches.
