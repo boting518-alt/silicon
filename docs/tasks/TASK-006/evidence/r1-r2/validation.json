@@ -48,5 +48,6 @@
       "sha256": "bde6608abc14124c32e22264df18a805a5bb50e3a9e1f6d55aceb6c6eaaaf6ef"
     }
   ],
-  "fixture_error": "backend-fixture-error.txt: 123 passed, 1 setup failure before membership creation; not defect red"
+  "fixture_error": "backend-fixture-error.txt: 123 passed, 1 setup failure before membership creation; not defect red",
+  "implementation": "5183b2a7d080269bdf951b41d6a4198bd3808a77"
 }
