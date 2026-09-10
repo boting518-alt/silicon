@@ -1,6 +1,6 @@
 # TASK-004：SKU、准系统包件、BOM 与价格表
 
-status: review_ready
+status: accepted
 owner: 执行线程
 reviewer: 独立上下文，待指定
 
@@ -32,3 +32,5 @@ reviewer: 独立上下文，待指定
 ## 交付
 
 交接单独提交；提交实现、迁移、契约、测试及证据。result.md 记录准确 base/head、命令、结果和限制，未执行检查明确 not_run；本地与远程 CI 分开。完成设 review_ready，不自行 accepted，不开始 TASK-005。
+
+2026-09-10 产品负责人明确 accepted，依据 TASK-004-a8ce3e2-review.md 增量复核及首次审查/修复证据；Reviewer 未复跑真实 PG/IdP 与浏览器的限制保留，不改写历史 result。

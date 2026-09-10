@@ -50,7 +50,7 @@
 
 
 ## Current scope
-- 当前只执行已明确分配的 TASK-004；状态以 docs/tasks/backlog.md 为准。
-- TASK-000～TASK-003 已由产品/架构负责人确认 accepted；TASK-004 已明确分配，完成后进入 review_ready，不自动开始 TASK-005。
+- 当前只执行已明确分配的 TASK-005；状态以 docs/tasks/backlog.md 为准。
+- TASK-000～TASK-004 已由产品/架构负责人确认 accepted；TASK-005 已明确分配，完成后进入 review_ready，不自动开始 TASK-006。
 - runtime/project.json 所有路径相对仓库根解析；参考 checkout 是独立只读仓库，不入生产提交。
 - 归档指南中的旧会话绝对路径是历史资料，禁止用作运行依赖。
