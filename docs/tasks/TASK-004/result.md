@@ -56,3 +56,30 @@ status: review_ready
 - 保留 production 拒绝启动；身份功能完成不等于生产运维就绪。未改证书信任、TLS 校验、原 Demo 或参考仓库元数据，未部署或创建远程。
 
 TASK-004 保持 review_ready，等待独立审查；不自行 accepted，不开始 TASK-005。
+
+
+## R1/R2 独立审查修复（2026-09-10）
+
+status: review_ready。修复 base：`1d627b1225430919efb1ba80ac400460f0b9db83`；修复实现及回归证据 head：`04066fb5908b43146a45a16fdcc6ee4d83128130`。随后仅提交本节和增量文件清单，包中 final HEAD 明确记录收尾提交，不循环写入自身。上文 66 项通过等首次结果保持历史含义。
+
+原 [审查报告](../../reviews/TASK-004-1d627b1-review.md) 从用户提供文件逐字节保存，SHA-256 `bd5f932eb7144d799f1b56e4307c8c7ea528b67b11e5bcdfb8987fea6b509531`，不修改 changes_requested 结论。判断 R1/R2 合理：真实 PG/API 首先复现 R1 列表 422 和 R2 价格修订 422，不将 Reviewer 的仓库替身探针冒充数据库证据。
+
+- R1：允许 SKU 类别修改；已有 package 草稿类别不符时仍返回完整数据和 PACKAGE_REQUIRES_HOST/BLOCK，保存中间修复状态可行，发布重新校验并拒绝。没有丢弃单条记录或吞掉错误；三类目录加载请求均可用。
+- R2：BOM/价格表复制历史成草稿与发布校验分离；停用主体/直接部件/价格 SKU 不阻止修订或草稿保存，停用项明确标示。发布在同一授权/目录锁事务重新校验，未修复项 422 DISABLED_SKU，包括停用前已经保存的价格草稿。修订链、幂等、expected_version、FK/RLS、防环和数量约束保留；不重新启用旧 SKU，不修改旧发布快照或条目。
+- 价格响应增加只读 checks，前端展示草稿阻断原因。已发布价格 checks 为空，不表示当前销售授权；原历史价格查询语义未扩展。有限平台兼容 BLOCK/UNKNOWN 与停用/主体类别发布门槛明确区分，详见 ADR-009 新增节。
+
+实际验证（命令环境为既有独立 PG 17.11、Keycloak 26.7.3、Java 21.0.6，不操作常驻数据库）：
+
+| 检查 | 结果 |
+|---|---|
+| `.venv/bin/python -m pytest apps/api/tests/test_catalog.py -q`，前缀 `SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin` | 17 passed；新增 4 项覆盖类别修改、停用主体、停用部件、价格修订/移除/发布再检查，旧版完整响应保持 |
+| `.venv/bin/python -m pytest apps/api/tests -q`，同 PG 前缀并设置 `SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3"` | 70 passed、0 skipped、4 warnings，43.71s；真实 OIDC、身份、CRM、Worker、空库/升级回归 |
+| `node --test apps/web/tests/*.test.ts` | 14 passed，无失败/跳过 |
+| `npm run typecheck`、`npm run build` | passed |
+| `.venv/bin/python infra/export_openapi.py`、`npm run api:types` | passed；重复生成哈希一致 |
+| `infra/check_docs.py`、Compose config、`git diff --check` | passed；新增原审查哈希校验 |
+| 真实 HTTPS 浏览器定向回归 | passed；类别变化后三页面可加载，草稿发布阻断及修复；停用电源后修订移除、价格修订替换、刷新旧版保持；实际退出和栈清理完成 |
+
+原始红/绿测试、完整回归、实际浏览器 DOM 和两张截图在 [新增证据目录](evidence/r1-r2/)，命令/哈希见 [validation.json](evidence/r1-r2/validation.json)，交互步骤见 [browser-notes.md](evidence/r1-r2/browser-notes.md)，修复文件见 [清单](evidence/r1-r2/changed-files.txt)。4 条 warning 为原 Starlette/AnyIO 弃用及既有并发 CRM 测试中的 Pydantic 元数据提示，未升级依赖。
+
+本次无数据库迁移或旧快照重写，无视觉模板/CSS 改造。截图为定向 1280×720 操作证据，旧六张两视口基线保留，未重跑整套两视口视觉验收。远程 CI、容器运行、生产部署仍 not_run；没有改变证书信任、关闭 TLS、修改原 Demo、创建远程或开始 TASK-005。修复等待当前 Reviewer 增量复核，不自行 accepted。
