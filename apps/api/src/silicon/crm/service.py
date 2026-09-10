@@ -14,9 +14,13 @@ def visible(access):
 
 
 def detail(db,access,customer_id,*,lock=False):
-    row=db.execute(text(BASE+' WHERE c.id=:id'+visible(access)+(' FOR UPDATE OF c' if lock else '')),
-                   {'id':customer_id,'actor':access.actor_id}).mappings().first()
-    if row is None: raise Denied(404,'NOT_FOUND')
+    # Lock the parent BEFORE the aggregate SELECTs. A separate lock query avoids
+    # mixing subquery counts with a tuple refreshed after waiting at READ COMMITTED.
+    args={'id':customer_id,'actor':access.actor_id}
+    parent=db.scalar(text('SELECT c.id FROM crm_customers c WHERE c.id=:id'+visible(access)+
+                          (' FOR UPDATE OF c' if lock else ' FOR SHARE OF c')),args)
+    if parent is None: raise Denied(404,'NOT_FOUND')
+    row=db.execute(text(BASE+' WHERE c.id=:id'+visible(access)),args).mappings().one()
     result=dict(row)
     args={'id':customer_id}
     for field,table in [('contacts','crm_contacts'),('projects','crm_projects'),('sites','crm_sites'),('responsibilities','crm_responsibilities'),('role_history','crm_role_history')]:

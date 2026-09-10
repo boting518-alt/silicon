@@ -1,0 +1,63 @@
+Browser tab: 1, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					29 text ▤ 合同管理
+					30 text 未启用
+				31 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					32 text ▥ 设备查询
+					33 text 未启用
+				34 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					35 text ▣ 采购合同
+					36 text 未启用
+				37 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					38 text ▦ 库存管理
+					39 text 未启用
+				40 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					41 text ◷ 周转分析
+					42 text 未启用
+			43 text 虚 虚构用户甲 客户与服务协同
+		44 container
+			45 text 业务管理  / 客户管理
+			46 pop up button (collapsed, settable) Description: 当前企业, Value: 请选择企业, Secondary Actions: Expand
+				47 menu
+					48 (disabled) 请选择企业
+					49 虚构企业 A
+					50 虚构企业 B
+			51 button 退出登录
+		52 container
+			53 text SALES & CUSTOMER INTELLIGENCE
+			54 heading 从一次成交，到长期合作。, Value: 1
+				55 text 从一次成交，到长期合作 。
+			56 text 独立客户档案，连接联系人、项目与内部责任分工。 工作台 /  2026.09.08 企业上下文已变化，旧表单已失效。请重新选择企业；不会自动保存或迁移旧草稿。
+			57 heading 请选择企业, Value: 2
+				58 text 请选择企业
+			59 text 在右上方选择你要进入的企业。
+			60 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/

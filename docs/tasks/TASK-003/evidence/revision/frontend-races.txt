@@ -1,0 +1,13 @@
+✔ delayed successful list response never updates the new enterprise (10.902917ms)
+✔ delayed successful detail response never updates the new enterprise (0.244334ms)
+✔ delayed successful new form response never updates the new enterprise (0.209833ms)
+✔ delayed successful edit form response never updates the new enterprise (0.181291ms)
+✔ a discarded form ticket cannot issue another request after A/B/A (0.085292ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 80.440125

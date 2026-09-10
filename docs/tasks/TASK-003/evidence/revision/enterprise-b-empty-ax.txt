@@ -1,0 +1,107 @@
+Browser tab: 2, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+0 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	1 container root
+		2 container
+			3 link Description: 硅屿首页, Value: localhost:5173/
+			4 text 业务工作空间
+			5 container 主导航
+				6 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					7 text ▧ 业务驾驶舱
+					8 text 未启用
+				9 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					10 text ◇ 报价与利润
+					11 text 未启用
+				12 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					13 text ▤ 交付与验收
+					14 text 未启用
+				15 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					16 text ⚙ 售后与部件
+					17 text 未启用
+				18 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					19 text ↗ 续保与扩容
+					20 text 未启用
+				21 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					22 text ◫ 经营总览
+					23 text 未启用
+				24 button ◉ 客户管理, Help: 客户管理
+					25 text ◉
+					26 text 客户管理
+				27 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					28 text ▤ 合同管理
+					29 text 未启用
+				30 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					31 text ▥ 设备查询
+					32 text 未启用
+				33 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					34 text ▣ 采购合同
+					35 text 未启用
+				36 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					37 text ▦ 库存管理
+					38 text 未启用
+				39 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					40 text ◷ 周转分析
+					41 text 未启用
+			42 text 虚 虚构用户甲 客户与服务协同
+		43 container
+			44 text 业务管理  / 客户管理
+			45 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 B, Secondary Actions: Expand
+				46 menu
+					47 (disabled) 请选择企业
+					48 虚构企业 A
+					49 (selected) 虚构企业 B
+			50 button 退出登录
+		51 container
+			52 text SALES & CUSTOMER INTELLIGENCE
+			53 heading 从一次成交，到长期合作。, Value: 1
+				54 text 从一次成交，到长期合作 。
+			55 text 独立客户档案，连接联系人、项目与内部责任分工。 工作台 /  2026.09.08
+			56 container 客户统计
+				57 text 客户档案
+				58 container
+					59 text 0 家
+				60 text 当前企业 · 当前搜索范围
+				61 text 联系人
+				62 container
+					63 text 0 位
+				64 text 当前企业 · 当前搜索范围
+				65 text 关联项目
+				66 container
+					67 text 0 个
+				68 text 当前企业 · 当前搜索范围
+				69 text 覆盖地区
+				70 container
+					71 text 0 个
+				72 text 当前企业 · 当前搜索范围
+			73 text 客户管理 合同、报价、设备与库存模块尚未启用
+			74 heading 客户档案, Value: 2
+				75 text 客户档案
+			76 text 客户独立于合同 · 点击客户查看档案
+			77 button 新增客户
+			78 container
+				79 text field (settable) Description: 搜索客户, Value: R1-
+				80 button 搜索
+				81 button 重置
+			82 container 客户表格，可横向滚动
+				83 table
+					84 row
+						85 cell
+							86 text 客户单位 / 行业
+						87 cell
+							88 text 所在地区
+						89 cell
+							90 text 客户关系
+						91 cell
+							92 text 建档人员
+						93 cell
+							94 text 联系人 / 项目
+						95 cell
+							96 text 跟进阶段
+						97 cell
+							98 text 档案
+			99 text 没有匹配的客户。可调整搜索条件或新增客户。
+			100 text 0  家客户 · 第  1  页
+			101 button (disabled) 上一页
+			102 button (disabled) 下一页
+			103 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 80 button 搜索

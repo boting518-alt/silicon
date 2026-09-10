@@ -150,17 +150,65 @@
         ],
         "summary": "Members",
         "operationId": "crmMembers",
+        "parameters": [
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page expected tenant, checked against locked server session; not authorization",
+              "title": "X-Expected-Tenant"
+            },
+            "description": "Page expected tenant, checked against locked server session; not authorization"
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque context_id from session; changes on every tenant selection",
+              "title": "X-Session-Context"
+            },
+            "description": "Opaque context_id from session; changes on every tenant selection"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Member"
                   },
-                  "type": "array",
                   "title": "Response Crmmembers"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -210,6 +258,42 @@
               "default": 25,
               "title": "Page Size"
             }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page expected tenant, checked against locked server session; not authorization",
+              "title": "X-Expected-Tenant"
+            },
+            "description": "Page expected tenant, checked against locked server session; not authorization"
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque context_id from session; changes on every tenant selection",
+              "title": "X-Session-Context"
+            },
+            "description": "Opaque context_id from session; changes on every tenant selection"
           }
         ],
         "responses": {
@@ -251,6 +335,42 @@
               "default": "",
               "title": "Idempotency-Key"
             }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page expected tenant, checked against locked server session; not authorization",
+              "title": "X-Expected-Tenant"
+            },
+            "description": "Page expected tenant, checked against locked server session; not authorization"
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque context_id from session; changes on every tenant selection",
+              "title": "X-Session-Context"
+            },
+            "description": "Opaque context_id from session; changes on every tenant selection"
           }
         ],
         "requestBody": {
@@ -304,6 +424,42 @@
               "format": "uuid",
               "title": "Customer Id"
             }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page expected tenant, checked against locked server session; not authorization",
+              "title": "X-Expected-Tenant"
+            },
+            "description": "Page expected tenant, checked against locked server session; not authorization"
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque context_id from session; changes on every tenant selection",
+              "title": "X-Session-Context"
+            },
+            "description": "Opaque context_id from session; changes on every tenant selection"
           }
         ],
         "responses": {
@@ -355,6 +511,42 @@
               "default": "",
               "title": "Idempotency-Key"
             }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page expected tenant, checked against locked server session; not authorization",
+              "title": "X-Expected-Tenant"
+            },
+            "description": "Page expected tenant, checked against locked server session; not authorization"
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque context_id from session; changes on every tenant selection",
+              "title": "X-Session-Context"
+            },
+            "description": "Opaque context_id from session; changes on every tenant selection"
           }
         ],
         "requestBody": {
@@ -1183,6 +1375,11 @@
       },
       "SelectedTenant": {
         "properties": {
+          "context_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Context Id"
+          },
           "tenant_id": {
             "type": "string",
             "format": "uuid",
@@ -1191,12 +1388,18 @@
         },
         "type": "object",
         "required": [
+          "context_id",
           "tenant_id"
         ],
         "title": "SelectedTenant"
       },
       "SessionInfo": {
         "properties": {
+          "context_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Context Id"
+          },
           "user": {
             "$ref": "#/components/schemas/UserInfo"
           },
@@ -1222,6 +1425,7 @@
         },
         "type": "object",
         "required": [
+          "context_id",
           "user",
           "tenant_id",
           "memberships"

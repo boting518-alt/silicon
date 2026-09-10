@@ -65,7 +65,7 @@ uv run --locked --env-file .env python infra/migrate.py upgrade head
 uv run --locked --env-file .env python infra/migrate.py current
 ```
 
-必须确认 upgrade 成功且 current 显示 `0003_crm (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
+必须确认 upgrade 成功且 current 显示 `0004_session_context (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
 
 ## 本地真实 IdP 与 HTTPS
 
@@ -130,6 +130,8 @@ health 返回 200/ok；ready 验证数据库和迁移版本，成功 200/ready�
 
 ## 客户管理
 
+CRM 列表、详情、新建、编辑和成员查询均要求 `X-Expected-Tenant` 与 `X-Session-Context`，分别来自当前页面绑定的 tenant_id 和 GET /session 的 context_id；它们只用于错配检查，不授予访问权限。缺失返回 428/CONTEXT_REQUIRED，不一致返回 409/CONTEXT_CHANGED。切企业每次轮换 context_id（包括切回原企业）；其他标签的旧表单失效，必须明确重新选择，不自动迁移草稿或重试保存。更新到 0004 后旧页面须刷新加载新客户端。详见 [ADR-008](docs/architecture/adr/ADR-008.md)。
+
 登录并选择企业后可搜索、分页、打开档案、新增和编辑客户。客户编号在企业内唯一；联系人、项目角色、内部负责人和装机地点一起保存，刷新后仍可查询。viewer 不能保存；其他企业不可见；并发编辑冲突时先重载最新版本再合并。原合同、设备与报价入口禁用，不返回演示成功。
 
 浏览器真实验收与固定视觉夹具的复现方法见 [浏览器验收](docs/tasks/TASK-003/browser-acceptance.md)，原始截图及有意变化见 [视觉对照](docs/design/task003-visual-comparison.md)。浏览器测试栈只创建独立临时 PG/Keycloak；不要先执行本机 createdb 或连接常驻数据库。测试客户端显式信任夹具生成的 CA 并启用主机名验证，缺失证书直接失败。
@@ -139,6 +141,7 @@ health 返回 200/ok；ready 验证数据库和迁移版本，成功 200/ready�
 ```bash
 uv run --locked python infra/export_openapi.py
 npm run api:types
+node --test apps/web/tests/context-race.test.ts
 npm run typecheck
 npm run build
 SILICON_TEST_PG_BIN="$(pg_config --bindir)" SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3" uv run --locked pytest -v
@@ -158,4 +161,4 @@ OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py �
 
 Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 PostgreSQL 保持运行，只有需要停止时执行 `brew services stop postgresql@17`；不要为单个项目清理而删除本机数据目录。可选容器使用 `docker compose --env-file .env -f infra/compose.yaml down`，保留卷；`down -v` 会删除该专属开发卷，仅确认数据可丢弃时手工执行。
 
-构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
+构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。

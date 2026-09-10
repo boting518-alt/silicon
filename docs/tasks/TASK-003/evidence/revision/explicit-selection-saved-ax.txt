@@ -1,0 +1,242 @@
+Browser tab: 1, Title: "硅屿 · 业务工作空间", URL: "https://localhost:5173/".
+1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/
+	2 container root
+		3 container
+			4 link Description: 硅屿首页, Value: localhost:5173/
+			5 text 业务工作空间
+			6 container 主导航
+				7 button (disabled) ▧ 业务驾驶舱 未启用, Help: 业务驾驶舱尚未启用
+					8 text ▧ 业务驾驶舱
+					9 text 未启用
+				10 button (disabled) ◇ 报价与利润 未启用, Help: 报价与利润尚未启用
+					11 text ◇ 报价与利润
+					12 text 未启用
+				13 button (disabled) ▤ 交付与验收 未启用, Help: 交付与验收尚未启用
+					14 text ▤ 交付与验收
+					15 text 未启用
+				16 button (disabled) ⚙ 售后与部件 未启用, Help: 售后与部件尚未启用
+					17 text ⚙ 售后与部件
+					18 text 未启用
+				19 button (disabled) ↗ 续保与扩容 未启用, Help: 续保与扩容尚未启用
+					20 text ↗ 续保与扩容
+					21 text 未启用
+				22 button (disabled) ◫ 经营总览 未启用, Help: 经营总览尚未启用
+					23 text ◫ 经营总览
+					24 text 未启用
+				25 button ◉ 客户管理, Help: 客户管理
+					26 text ◉
+					27 text 客户管理
+				28 button (disabled) ▤ 合同管理 未启用, Help: 合同管理尚未启用
+					29 text ▤ 合同管理
+					30 text 未启用
+				31 button (disabled) ▥ 设备查询 未启用, Help: 设备查询尚未启用
+					32 text ▥ 设备查询
+					33 text 未启用
+				34 button (disabled) ▣ 采购合同 未启用, Help: 采购合同尚未启用
+					35 text ▣ 采购合同
+					36 text 未启用
+				37 button (disabled) ▦ 库存管理 未启用, Help: 库存管理尚未启用
+					38 text ▦ 库存管理
+					39 text 未启用
+				40 button (disabled) ◷ 周转分析 未启用, Help: 周转分析尚未启用
+					41 text ◷ 周转分析
+					42 text 未启用
+			43 text 虚 虚构用户甲 客户与服务协同
+		44 container
+			45 text 业务管理  / 客户管理
+			46 pop up button (collapsed, settable) Description: 当前企业, Value: 虚构企业 A, Secondary Actions: Expand
+				47 menu
+					48 (disabled) 请选择企业
+					49 (selected) 虚构企业 A
+					50 虚构企业 B
+			51 button 退出登录
+		52 container
+			53 text SALES & CUSTOMER INTELLIGENCE
+			54 heading 从一次成交，到长期合作。, Value: 1
+				55 text 从一次成交，到长期合作 。
+			56 text 独立客户档案，连接联系人、项目与内部责任分工。 工作台 /  2026.09.08
+			57 container 客户统计
+				58 text 客户档案
+				59 container
+					60 text 8 家
+				61 text 当前企业 · 当前搜索范围
+				62 text 联系人
+				63 container
+					64 text 14 位
+				65 text 当前企业 · 当前搜索范围
+				66 text 关联项目
+				67 container
+					68 text 7 个
+				69 text 当前企业 · 当前搜索范围
+				70 text 覆盖地区
+				71 container
+					72 text 7 个
+				73 text 当前企业 · 当前搜索范围
+			74 text 客户管理 合同、报价、设备与库存模块尚未启用
+			75 heading 客户档案, Value: 2
+				76 text 客户档案
+			77 text 客户独立于合同 · 点击客户查看档案
+			78 button 新增客户
+			79 container
+				80 text field (settable) 搜索客户
+				81 button 搜索
+				82 button 重置
+			83 container 客户表格，可横向滚动
+				84 table
+					85 row
+						86 cell
+							87 text 客户单位 / 行业
+						88 cell
+							89 text 所在地区
+						90 cell
+							91 text 客户关系
+						92 cell
+							93 text 建档人员
+						94 cell
+							95 text 联系人 / 项目
+						96 cell
+							97 text 跟进阶段
+						98 cell
+							99 text 档案
+					100 row
+						101 cell
+							102 button 明确重新选择后创建
+							103 container
+								104 text R1-VALID  ·  行业未填写
+						105 cell
+							106 text —  ·  —
+						107 cell
+							108 text 普通客户
+						109 cell
+							110 text 虚构用户甲
+						111 cell
+							112 text 0  位 /  0  个
+						113 cell
+							114 text 跟进中
+						115 cell
+							116 button 查看 明确重新选择后创建 档案
+					117 row
+						118 cell
+							119 button 澄川大学 · 人工智能学院
+							120 container
+								121 text CUS-001  ·  高校
+						122 cell
+							123 text 浙江  ·  杭州
+						124 cell
+							125 text 战略客户
+						126 cell
+							127 text 虚构用户甲
+						128 cell
+							129 text 2  位 /  1  个
+						130 cell
+							131 text 稳定合作
+						132 cell
+							133 button 查看 澄川大学 · 人工智能学院 档案
+					134 row
+						135 cell
+							136 button 栖原智能科技有限公司
+							137 container
+								138 text CUS-002  ·  企业
+						139 cell
+							140 text 江苏  ·  苏州
+						141 cell
+							142 text 重点客户
+						143 cell
+							144 text 虚构用户甲
+						145 cell
+							146 text 2  位 /  1  个
+						147 cell
+							148 text 稳定合作
+						149 cell
+							150 button 查看 栖原智能科技有限公司 档案
+					151 row
+						152 cell
+							153 button 远岑材料研究院
+							154 container
+								155 text CUS-003  ·  科研院所
+						156 cell
+							157 text 安徽  ·  合肥
+						158 cell
+							159 text 重点客户
+						160 cell
+							161 text 虚构用户甲
+						162 cell
+							163 text 2  位 /  1  个
+						164 cell
+							165 text 稳定合作
+						166 cell
+							167 button 查看 远岑材料研究院 档案
+					168 row
+						169 cell
+							170 button 京澜智能研究中心
+							171 container
+								172 text CUS-004  ·  科研院所
+						173 cell
+							174 text 北京  ·  北京
+						175 cell
+							176 text 战略客户
+						177 cell
+							178 text 虚构用户甲
+						179 cell
+							180 text 2  位 /  1  个
+						181 cell
+							182 text 稳定合作
+						183 cell
+							184 button 查看 京澜智能研究中心 档案
+					185 row
+						186 cell
+							187 button 锦序工业科技有限公司
+							188 container
+								189 text CUS-005  ·  企业
+						190 cell
+							191 text 四川  ·  成都
+						192 cell
+							193 text 重点客户
+						194 cell
+							195 text 虚构用户甲
+						196 cell
+							197 text 2  位 /  1  个
+						198 cell
+							199 text 稳定合作
+						200 cell
+							201 button 查看 锦序工业科技有限公司 档案
+					202 row
+						203 cell
+							204 button 南序机器人有限公司
+							205 container
+								206 text CUS-006  ·  企业
+						207 cell
+							208 text 广东  ·  深圳
+						209 cell
+							210 text 重点客户
+						211 cell
+							212 text 虚构用户甲
+						213 cell
+							214 text 2  位 /  1  个
+						215 cell
+							216 text 稳定合作
+						217 cell
+							218 button 查看 南序机器人有限公司 档案
+					219 row
+						220 cell
+							221 button 浦澄数据技术有限公司
+							222 container
+								223 text CUS-007  ·  企业
+						224 cell
+							225 text 上海  ·  上海
+						226 cell
+							227 text 重点客户
+						228 cell
+							229 text 虚构用户甲
+						230 cell
+							231 text 2  位 /  1  个
+						232 cell
+							233 text 稳定合作
+						234 cell
+							235 button 查看 浦澄数据技术有限公司 档案
+			236 text 8  家客户 · 第  1  页
+			237 button (disabled) 上一页
+			238 button (disabled) 下一页
+			239 text 硅屿 SILICON / BUSINESS STUDIO 企业内独立档案 · 操作记录可追溯
+
+The focused UI element is 1 AXWebArea 硅屿 · 业务工作空间, URL: localhost:5173/

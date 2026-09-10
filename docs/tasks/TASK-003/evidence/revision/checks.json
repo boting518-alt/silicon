@@ -1,0 +1,53 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "infra/export_openapi.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "api:types"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "infra/check_docs.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "--env-file",
+      ".env.example",
+      "-f",
+      "infra/compose.yaml",
+      "config",
+      "--quiet"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0
+  },
+  {
+    "check": "OpenAPI/client reproducibility",
+    "result": "passed",
+    "sha256": {
+      "packages/api-client/openapi.json": "a06fa1569f3db98e1e6469a0fb3ea57520fb8d0135ae037982bd0340dfe9e2da",
+      "packages/api-client/schema.d.ts": "e17662908cc38633c9f689075e0597d99aab744562aa682603bc08a0960c3269"
+    }
+  }
+]

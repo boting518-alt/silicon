@@ -530,6 +530,11 @@ export interface components {
         /** SelectedTenant */
         SelectedTenant: {
             /**
+             * Context Id
+             * Format: uuid
+             */
+            context_id: string;
+            /**
              * Tenant Id
              * Format: uuid
              */
@@ -537,6 +542,11 @@ export interface components {
         };
         /** SessionInfo */
         SessionInfo: {
+            /**
+             * Context Id
+             * Format: uuid
+             */
+            context_id: string;
             user: components["schemas"]["UserInfo"];
             /** Tenant Id */
             tenant_id: string | null;
@@ -743,7 +753,12 @@ export interface operations {
     crmMembers: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Page expected tenant, checked against locked server session; not authorization */
+                "x-expected-tenant"?: string | null;
+                /** @description Opaque context_id from session; changes on every tenant selection */
+                "x-session-context"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -758,6 +773,15 @@ export interface operations {
                     "application/json": components["schemas"]["Member"][];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     customers: {
@@ -767,7 +791,12 @@ export interface operations {
                 page?: number;
                 page_size?: number;
             };
-            header?: never;
+            header?: {
+                /** @description Page expected tenant, checked against locked server session; not authorization */
+                "x-expected-tenant"?: string | null;
+                /** @description Opaque context_id from session; changes on every tenant selection */
+                "x-session-context"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -798,6 +827,10 @@ export interface operations {
             query?: never;
             header?: {
                 "Idempotency-Key"?: string;
+                /** @description Page expected tenant, checked against locked server session; not authorization */
+                "x-expected-tenant"?: string | null;
+                /** @description Opaque context_id from session; changes on every tenant selection */
+                "x-session-context"?: string | null;
             };
             path?: never;
             cookie?: never;
@@ -831,7 +864,12 @@ export interface operations {
     customer: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Page expected tenant, checked against locked server session; not authorization */
+                "x-expected-tenant"?: string | null;
+                /** @description Opaque context_id from session; changes on every tenant selection */
+                "x-session-context"?: string | null;
+            };
             path: {
                 customer_id: string;
             };
@@ -864,6 +902,10 @@ export interface operations {
             query?: never;
             header?: {
                 "Idempotency-Key"?: string;
+                /** @description Page expected tenant, checked against locked server session; not authorization */
+                "x-expected-tenant"?: string | null;
+                /** @description Opaque context_id from session; changes on every tenant selection */
+                "x-session-context"?: string | null;
             };
             path: {
                 customer_id: string;

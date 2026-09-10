@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Header, Query, Request
+from fastapi import APIRouter, Depends, Header, Query, Request
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from silicon.identity.access import Denied
@@ -9,26 +9,30 @@ from silicon.crm import service
 
 
 def router(engine,settings):
-    routes=APIRouter(prefix='/api/v1/crm',tags=['customers'])
+    def declared_context(x_expected_tenant: str | None=Header(None,description='Page expected tenant, checked against locked server session; not authorization'),
+                         x_session_context: str | None=Header(None,description='Opaque context_id from session; changes on every tenant selection')):
+        # Validation happens inside request_tenant, after authentication under the session lock.
+        pass
+    routes=APIRouter(prefix='/api/v1/crm',tags=['customers'],dependencies=[Depends(declared_context)])
 
     @routes.get('/members',response_model=list[Member],operation_id='crmMembers')
     def members(request:Request):
-        with request_tenant(engine,request,settings,'crm.read') as (db,access):
+        with request_tenant(engine,request,settings,'crm.read',require_context=True) as (db,access):
             return list(db.execute(text('''SELECT u.id,u.display_name AS name FROM memberships m JOIN identity_users u ON u.id=m.user_id
                 WHERE m.tenant_id=:tenant AND m.active AND u.active ORDER BY u.display_name,u.id'''),{'tenant':access.tenant_id}).mappings())
 
     @routes.get('/customers',response_model=CustomerPage,operation_id='customers')
     def customers(request:Request,q:str=Query('',max_length=160),page:int=Query(1,ge=1,le=100000),page_size:int=Query(25,ge=1,le=100)):
-        with request_tenant(engine,request,settings,'crm.read') as (db,access):
+        with request_tenant(engine,request,settings,'crm.read',require_context=True) as (db,access):
             return service.listing(db,access,q.strip(),page,page_size)
 
     @routes.get('/customers/{customer_id}',response_model=CustomerDetail,operation_id='customer')
     def customer(customer_id:UUID,request:Request):
-        with request_tenant(engine,request,settings,'crm.read') as (db,access):return service.detail(db,access,customer_id)
+        with request_tenant(engine,request,settings,'crm.read',require_context=True) as (db,access):return service.detail(db,access,customer_id)
 
     def write(request,body,key,customer_id=None):
         try:
-            with request_tenant(engine,request,settings,'crm.write',write=True) as (db,access):
+            with request_tenant(engine,request,settings,'crm.write',write=True,require_context=True) as (db,access):
                 return service.save(db,access,body,key,request.state.request_id,customer_id)
         except IntegrityError as exc:
             # A concurrent unique insert or invalid tenant relation rolls back the whole aggregate.

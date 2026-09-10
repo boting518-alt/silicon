@@ -1,0 +1,44 @@
+[
+  {
+    "file": "._create-invalidated.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "5320bf3aa15405ec192b3d23fd4a91986a2940fe86f3a4fe29528b13be0b76b2",
+    "inspected": true
+  },
+  {
+    "file": "._edit-invalidated.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "5320bf3aa15405ec192b3d23fd4a91986a2940fe86f3a4fe29528b13be0b76b2",
+    "inspected": true
+  },
+  {
+    "file": "._enterprise-b-empty.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "5320bf3aa15405ec192b3d23fd4a91986a2940fe86f3a4fe29528b13be0b76b2",
+    "inspected": true
+  },
+  {
+    "file": "create-invalidated.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "630d1e5cb287b22a663ed204cfcee05c214563294d41d0ebd733e6174c0c62ae",
+    "inspected": true
+  },
+  {
+    "file": "edit-invalidated.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "630d1e5cb287b22a663ed204cfcee05c214563294d41d0ebd733e6174c0c62ae",
+    "inspected": true
+  },
+  {
+    "file": "enterprise-b-empty.jpg",
+    "width": 1280,
+    "height": 720,
+    "sha256": "da5da733b45f5f938756f2f7905ebe2793718092732a0f167d9d8f49fabd0bbf",
+    "inspected": true
+  }
+]

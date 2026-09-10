@@ -29,6 +29,8 @@ def client(engine,database,user,tenant):
     with TestClient(create_app(Settings(database.url,'test')),base_url='https://localhost:5173') as c:
         c.cookies.set(SESSION,token);c.cookies.set(CSRF,csrf)
         c.headers.update({'Origin':'https://localhost:5173','X-CSRF-Token':csrf,'Idempotency-Key':str(uuid4())})
+        context=c.get('/api/v1/session').json()
+        c.headers.update({'X-Expected-Tenant':str(tenant),'X-Session-Context':context['context_id']})
         yield c
 
 
@@ -136,7 +138,8 @@ def test_child_relationships_cannot_cross_customers(engine,database,identities):
               dict(t=i.a,c=first['id'],p=first['projects'][0]['id'],person=second['contacts'][0]['id']))
 
 
-def test_upgrade_from_task002_preserves_identity_and_tenant_job(database):
+@pytest.mark.parametrize('start_revision',['0002_identity','0003_crm'])
+def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
     import subprocess,sys
     from pathlib import Path
     from sqlalchemy.engine import make_url
@@ -150,18 +153,20 @@ def test_upgrade_from_task002_preserves_identity_and_tenant_job(database):
     env={**database.env,'MIGRATION_DATABASE_URL':url}
     try:
         with owner.begin() as db:db.execute(text('GRANT USAGE ON SCHEMA public TO silicon_app'))
-        for revision in ('0002_identity','head'):
+        for revision in (start_revision,'head'):
             result=subprocess.run([sys.executable,'infra/migrate.py','upgrade',revision],cwd=root,env=env,capture_output=True,text=True,timeout=15)
             assert result.returncode==0,result.stderr
-            if revision=='0002_identity':
+            if revision==start_revision:
                 with owner.begin() as db:
                     db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:u,'test','legacy','legacy user')"),{'u':actor})
                     db.execute(text("INSERT INTO tenants VALUES (:t,'legacy tenant')"),{'t':tenant})
                     db.execute(text("INSERT INTO memberships VALUES (:t,:u,'admin',true)"),dict(t=tenant,u=actor))
                     db.execute(text("INSERT INTO jobs(id,kind,dedupe_key,tenant_id,actor_id) VALUES (:id,'identity.check','legacy-tenant-job',:t,:u)"),dict(id=job,t=tenant,u=actor))
+                    db.execute(text("INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at) VALUES ('legacy-session',:u,:t,'legacy-csrf',now()+interval '5 minutes')"),dict(u=actor,t=tenant))
         app=make_engine(str(make_url(database.url).set(database=name)))
         with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
-            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0003_crm'
+            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0004_session_context'
+            assert db.scalar(text("SELECT context_id IS NOT NULL FROM sessions WHERE token_hash='legacy-session'"))
             assert db.scalar(text('SELECT count(*) FROM crm_customers'))==0
             assert db.scalar(text('SELECT tenant_id FROM jobs WHERE id=:id'),{'id':job})==tenant
         from silicon.shared.jobs import run_once

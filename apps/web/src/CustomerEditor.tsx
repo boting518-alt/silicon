@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Customer, CustomerInput, Member } from './api';
-import { api, ApiError, errorMessage } from './api';
+import { crmRequests, ApiError, errorMessage, StaleResponse, isContextError } from './api';
+import type { ContextTicket } from './api';
 
 const uuid=()=>crypto.randomUUID();
 const blank:CustomerInput={number:'',name:'',province:'',city:'',industry:'',level:'普通客户',stage:'跟进中',notes:'',contacts:[],projects:[],sites:[],responsibilities:[]};
@@ -8,7 +9,7 @@ function inputOf(c:Customer):CustomerInput {
   return {number:c.number,name:c.name,province:c.province,city:c.city,industry:c.industry,level:c.level as CustomerInput['level'],
     stage:c.stage as CustomerInput['stage'],notes:c.notes,contacts:c.contacts,projects:c.projects,sites:c.sites,responsibilities:c.responsibilities};
 }
-export function CustomerEditor({customer,members,onSaved,onReload,onCancel,onAuthExpired}:{customer:Customer|null;members:Member[];onSaved:(c:Customer)=>void;onReload:()=>void;onCancel:()=>void;onAuthExpired:(e:unknown)=>void}) {
+export function CustomerEditor({customer,members,onSaved,onReload,onCancel,onAuthExpired,context,disabled}:{context:ContextTicket;disabled:boolean;customer:Customer|null;members:Member[];onSaved:(c:Customer)=>void;onReload:()=>void;onCancel:()=>void;onAuthExpired:(e:unknown)=>void}) {
   const [draft,setDraft]=useState<CustomerInput>(()=>customer?inputOf(customer):{...blank});
   const [message,setMessage]=useState(''); const [conflict,setConflict]=useState(false); const [busy,setBusy]=useState(false);
   const errorRef=useRef<HTMLDivElement>(null);
@@ -17,16 +18,16 @@ export function CustomerEditor({customer,members,onSaved,onReload,onCancel,onAut
   function change<K extends keyof CustomerInput>(field:K,value:CustomerInput[K]) { setDraft(d=>({...d,[field]:value})); }
   const contacts=draft.contacts ?? [], projects=draft.projects ?? [], sites=draft.sites ?? [];
   async function save(event:React.FormEvent) {
-    event.preventDefault(); if(busy)return; setBusy(true);setMessage('');setConflict(false);
+    event.preventDefault(); if(busy||disabled)return; setBusy(true);setMessage('');setConflict(false);
     const body=JSON.stringify({...draft,...(customer?{expected_version:customer.version}:{})});
     if(attempt.current.body!==body)attempt.current={body,key:uuid()};
-    try { onSaved(await api<Customer>('/crm/customers'+(customer?'/'+customer.id:''),{method:customer?'PUT':'POST',body,headers:{'Idempotency-Key':attempt.current.key}})); }
-    catch(error){if(error instanceof ApiError&&error.status===401){onAuthExpired(error);return;}setMessage(errorMessage(error));setConflict(error instanceof ApiError && error.code==='VERSION_CONFLICT');}
+    try { onSaved(await crmRequests.request<Customer>(context,'/crm/customers'+(customer?'/'+customer.id:''),{method:customer?'PUT':'POST',body,headers:{'Idempotency-Key':attempt.current.key}})); }
+    catch(error){if(error instanceof StaleResponse)return;if(isContextError(error)||(error instanceof ApiError&&error.status===401)){onAuthExpired(error);return;}setMessage(errorMessage(error));setConflict(error instanceof ApiError && error.code==='VERSION_CONFLICT');}
     finally{setBusy(false);}
   }
   return <form onSubmit={save} aria-label="客户编辑表单">
     <p className="form-intro">客户独立建档。客户侧联系人与内部负责人分别记录，保存后可刷新查询。</p>
-    <fieldset disabled={busy}><div className="edit-grid">
+    <fieldset disabled={busy||disabled}><div className="edit-grid">
       <label>客户编号<input required maxLength={40} value={draft.number} onChange={e=>change('number',e.target.value)}/></label>
       <label>客户名称<input required maxLength={160} value={draft.name} onChange={e=>change('name',e.target.value)}/></label>
       <label>省份<input maxLength={160} value={draft.province} onChange={e=>change('province',e.target.value)}/></label>
@@ -50,6 +51,6 @@ export function CustomerEditor({customer,members,onSaved,onReload,onCancel,onAut
     <label className="note-label">客户备注<textarea maxLength={2000} value={draft.notes} onChange={e=>change('notes',e.target.value)}/></label>
     </fieldset>
     {message&&<div className="error" role="alert" ref={errorRef} tabIndex={-1}>{message}{conflict&&<button type="button" onClick={onReload}>重新载入最新版本</button>}</div>}
-    <div className="modal-actions"><button className="primary" type="submit" disabled={busy}>{busy?'正在保存…':'保存客户'}</button><button type="button" disabled={busy} onClick={onCancel}>取消</button></div>
+    <div className="modal-actions"><button className="primary" type="submit" disabled={busy||disabled}>{busy?'正在保存…':'保存客户'}</button><button type="button" disabled={busy||disabled} onClick={onCancel}>取消</button></div>
   </form>;
 }

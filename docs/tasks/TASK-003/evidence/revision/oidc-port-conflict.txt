@@ -1,0 +1,26 @@
+Appending additional Java properties to JAVA_OPTS
+Updating the configuration and installing your custom providers, if any. Please wait.
+2026-09-10 09:58:25,100 WARN  [org.keycloak.common.Profile] (build-15) Deprecated features identity-brokering-api:v1, twitter-broker:v1 enabled by default. Check the upgrading guide for steps to use later versions if available.
+2026-09-10 09:58:25,521 INFO  [org.freedesktop.dbus.connections.transports.TransportBuilder] (build-21) Using transport dbus-java-transport-native-unixsocket for address unix:path=/var/run/dbus/system_bus_socket
+2026-09-10 09:58:36,616 INFO  [io.quarkus.deployment.QuarkusAugmentor] (main) Quarkus augmentation completed in 12646ms
+Running the server in development mode. DO NOT use this configuration in production.
+2026-09-10 09:58:38,195 INFO  [org.infinispan.CONTAINER] (main) ISPN000974: Virtual threads support: enabled
+2026-09-10 09:58:38,679 INFO  [org.hibernate.orm.jdbc.batch] (JPA Startup Thread) HHH100501: Automatic JDBC statement batching enabled (maximum batch size 32)
+2026-09-10 09:58:38,697 WARN  [org.keycloak.common.Profile] (main) Deprecated features identity-brokering-api:v1, twitter-broker:v1 enabled by default. Check the upgrading guide for steps to use later versions if available.
+2026-09-10 09:58:39,140 INFO  [org.keycloak.quarkus.runtime.storage.database.liquibase.QuarkusJpaUpdaterProvider] (main) Initializing database schema. Using changelog META-INF/jpa-changelog-master.xml
+2026-09-10 09:58:43,320 INFO  [org.infinispan.CONTAINER] (main) ISPN000556: Starting user marshaller 'org.infinispan.commons.marshall.ImmutableProtoStreamMarshaller'
+2026-09-10 09:58:43,482 INFO  [org.keycloak.connections.infinispan.DefaultInfinispanConnectionProviderFactory] (main) Node name: node_33432, Site name: null, Cluster name: ISPN
+2026-09-10 09:58:43,550 INFO  [org.keycloak.quarkus.runtime.storage.database.jpa.DatabaseIndexChecker] (db-index-checker) Running database index checker
+2026-09-10 09:58:43,557 INFO  [org.keycloak.models.workflow.WorkflowsEventListenerFactory] (main) Workflow runner task scheduled: next execution at 21:58:43, then every PT12H
+2026-09-10 09:58:43,614 INFO  [org.keycloak.exportimport.dir.DirImportProvider] (main) Importing from directory /private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-2/test_real_keycloak_code_callba0/keycloak/bin/../data/import
+2026-09-10 09:58:43,618 INFO  [org.keycloak.services] (main) KC-SERVICES0050: Initializing master realm
+2026-09-10 09:58:44,550 INFO  [org.keycloak.services] (main) KC-SERVICES0030: Full model import requested. Strategy: IGNORE_EXISTING
+2026-09-10 09:58:45,203 INFO  [org.keycloak.exportimport.util.ImportUtils] (main) Realm 'silicon-dev' imported
+2026-09-10 09:58:45,205 INFO  [org.keycloak.services] (main) KC-SERVICES0032: Import finished successfully
+2026-09-10 09:58:45,283 INFO  [org.keycloak.services.resources.KeycloakApplication] (main) Bootstrap completed in 6.585000 seconds
+2026-09-10 09:58:45,352 INFO  [com.arjuna.ats.jbossatx] (main) ARJUNA032014: Stopping transaction recovery manager
+2026-09-10 09:58:45,479 ERROR [org.keycloak.quarkus.runtime.cli.ExecutionExceptionHandler] (main) ERROR: Failed to start server in (development) mode
+2026-09-10 09:58:45,479 ERROR [org.keycloak.quarkus.runtime.cli.ExecutionExceptionHandler] (main) ERROR: Unable to start HTTP server
+2026-09-10 09:58:45,479 ERROR [org.keycloak.quarkus.runtime.cli.ExecutionExceptionHandler] (main) ERROR: io.quarkus.runtime.QuarkusBindException: Port already bound: 8080: Address already in use
+2026-09-10 09:58:45,479 ERROR [org.keycloak.quarkus.runtime.cli.ExecutionExceptionHandler] (main) ERROR: Port already bound: 8080: Address already in use
+2026-09-10 09:58:45,479 ERROR [org.keycloak.quarkus.runtime.cli.ExecutionExceptionHandler] (main) For more details run the same command passing the '--verbose' option. Also you can use '--help' to see the details about the usage of the particular command.

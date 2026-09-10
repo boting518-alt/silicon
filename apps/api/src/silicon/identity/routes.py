@@ -53,12 +53,14 @@ class TenantInfo(BaseModel):
 
 
 class SessionInfo(BaseModel):
+    context_id: UUID
     user: UserInfo
     tenant_id: UUID | None
     memberships: list[TenantInfo]
 
 
 class SelectedTenant(BaseModel):
+    context_id: UUID
     tenant_id: UUID
 
 
@@ -135,7 +137,7 @@ def router(engine, settings):
                 WHERE m.user_id=:user AND m.active ORDER BY t.name,t.id'''),{'user':user['user_id']}).mappings().all()
             tenant = user['tenant_id'] if any(m['id']==user['tenant_id'] for m in memberships) else None
             return {'user':{'id':str(user['user_id']),'name':user['display_name']},
-                    'tenant_id':str(tenant) if tenant else None,
+                    'tenant_id':str(tenant) if tenant else None, 'context_id':str(user['context_id']),
                     'memberships':[{'id':str(m['id']),'name':m['name'],'role':m['role']} for m in memberships]}
 
     @routes.post('/session/tenant', operation_id='selectTenant', response_model=SelectedTenant)
@@ -147,7 +149,7 @@ def router(engine, settings):
                 actor = user['user_id']
                 csrf(request,user,settings.public_origin)
                 authorize(db,actor,selection.tenant_id)
-                db.execute(text('UPDATE sessions SET tenant_id=:tenant WHERE token_hash=:hash'),
+                context_id = db.scalar(text('UPDATE sessions SET tenant_id=:tenant,context_id=gen_random_uuid() WHERE token_hash=:hash RETURNING context_id'),
                            {'tenant':selection.tenant_id,'hash':user['token_hash']})
                 audit(db,actor,selection.tenant_id,'tenant.switch',selection.tenant_id,'allowed',request.state.request_id)
         except Denied:
@@ -155,7 +157,7 @@ def router(engine, settings):
                 audit(db,actor,selection.tenant_id,'tenant.switch',selection.tenant_id,'denied',request.state.request_id)
             request.state.denial_audited = True
             raise
-        return {'tenant_id':str(selection.tenant_id)}
+        return {'tenant_id':str(selection.tenant_id),'context_id':str(context_id)}
 
     @routes.post('/auth/logout', operation_id='logout', response_model=LogoutInfo)
     def logout(request: Request):
@@ -180,8 +182,8 @@ from contextlib import contextmanager
 
 
 @contextmanager
-def request_tenant(engine, request, settings, permission, *, write=False):
-    """Future HTTP adapters derive tenant and actor from the session, never a body/header ID."""
+def request_tenant(engine, request, settings, permission, *, write=False, require_context=False):
+    """Session row lock orders business work with tenant switches; headers only assert expectations."""
     actor = tenant = None
     try:
         with engine.begin() as db:
@@ -189,6 +191,13 @@ def request_tenant(engine, request, settings, permission, *, write=False):
             actor, tenant = user['user_id'], user['tenant_id']
             if write:
                 csrf(request,user,settings.public_origin)
+            if require_context:
+                expected=request.headers.get('X-Expected-Tenant')
+                context=request.headers.get('X-Session-Context')
+                if not expected or not context:
+                    raise Denied(428,'CONTEXT_REQUIRED')
+                if expected != str(tenant) or context != str(user['context_id']):
+                    raise Denied(409,'CONTEXT_CHANGED')
             if tenant is None:
                 raise Denied(403,'TENANT_REQUIRED')
             access = authorize(db,actor,tenant)

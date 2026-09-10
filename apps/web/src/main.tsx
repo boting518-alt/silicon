@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { api, ApiError, errorMessage } from './api';
+import { api, ApiError, errorMessage, crmRequests, StaleResponse, isContextError } from './api';
 import type { Session, Customer, CustomerPage, Member } from './api';
 import { CustomerEditor } from './CustomerEditor';
 import '../../../packages/ui/tokens.css';
@@ -28,25 +28,55 @@ function App() {
   const [message,setMessage]=useState(''),[notice,setNotice]=useState(''),[data,setData]=useState<CustomerPage|null>(null);
   const [members,setMembers]=useState<Member[]>([]),[loading,setLoading]=useState(false),[keyword,setKeyword]=useState(''),[query,setQuery]=useState(''),[page,setPage]=useState(1),[refresh,setRefresh]=useState(0);
   const [modal,setModal]=useState<'detail'|'edit'|'create'|null>(null),[selected,setSelected]=useState<Customer|null>(null);
-  const epoch=useRef(0);
+  const tabIdentity=useRef(crypto.randomUUID());
+  const epoch=useRef(0),authEpoch=useRef(0),sessionRef=useRef(session);
+  sessionRef.current=session;
   const tenant=session?.tenant_id;
   const canWrite=session?.memberships.find(m=>m.id===tenant)?.role!=='viewer';
-  function clearCustomerState(){epoch.current++;setData(null);setMembers([]);setSelected(null);setModal(null);setQuery('');setKeyword('');setPage(1);setNotice('');}
-  function handleError(e:unknown){setMessage(errorMessage(e));if(e instanceof ApiError&&e.status===401){setSession(null);clearCustomerState();}}
-  async function loadSession(){setAuthLoading(true);try{setSession(await api<Session>('/session'));setMessage('');}catch(e){setSession(null);clearCustomerState();setMessage(e instanceof ApiError&&e.status===401?'请先登录企业身份。':errorMessage(e));}finally{setAuthLoading(false);}}
+  function clearCustomerState(){epoch.current++;crmRequests.bind(null);setLoading(false);setData(null);setMembers([]);setSelected(null);setModal(null);setQuery('');setKeyword('');setPage(1);setNotice('');}
+  function invalidateContext(){authEpoch.current++;clearCustomerState();setBusy(false);setAuthLoading(false);setSession(s=>s?{...s,tenant_id:null}:s);setMessage('企业上下文已变化，旧表单已失效。请重新选择企业；不会自动保存或迁移旧草稿。');}
+  function handleError(e:unknown){if(e instanceof StaleResponse)return;if(isContextError(e)){invalidateContext();return;}setMessage(errorMessage(e));if(e instanceof ApiError&&e.status===401){setSession(null);clearCustomerState();}}
+  async function loadSession(){const attempt=++authEpoch.current;setAuthLoading(true);try{const next=await api<Session>('/session');if(attempt!==authEpoch.current)return;crmRequests.bind(next.tenant_id?{tenant_id:next.tenant_id,context_id:next.context_id}:null);setSession(next);setMessage('');}catch(e){if(attempt!==authEpoch.current)return;setSession(null);clearCustomerState();setMessage(e instanceof ApiError&&e.status===401?'请先登录企业身份。':errorMessage(e));}finally{if(attempt===authEpoch.current)setAuthLoading(false);}}
+  function notifyContext(){try{const channel=new BroadcastChannel('silicon-context');channel.postMessage({sender:tabIdentity.current});channel.close();}catch{}try{localStorage.setItem('silicon-context-change',crypto.randomUUID());}catch{}}
   useEffect(()=>{void loadSession();},[]);
   useEffect(()=>{
+    const changed=()=>invalidateContext();
+    const stored=(event:StorageEvent)=>{if(event.key==='silicon-context-change')changed();};
+    let channel:BroadcastChannel|undefined;
+    try{channel=new BroadcastChannel('silicon-context');channel.onmessage=event=>{if(event.data?.sender!==tabIdentity.current)changed();};}catch{}
+    async function check(){
+      const expected=sessionRef.current;if(!expected?.tenant_id)return;
+      const attempt=++authEpoch.current;setBusy(true);
+      try{const actual=await api<Session>('/session');if(attempt!==authEpoch.current)return;
+        if(actual.context_id!==expected.context_id || actual.tenant_id!==expected.tenant_id)invalidateContext();
+      }catch(e){if(attempt===authEpoch.current){invalidateContext();handleError(e);}}
+      finally{if(attempt===authEpoch.current)setBusy(false);}
+    }
+    const visible=()=>{if(document.visibilityState==='visible')void check();};
+    window.addEventListener('storage',stored);window.addEventListener('focus',check);document.addEventListener('visibilitychange',visible);
+    return()=>{channel?.close();window.removeEventListener('storage',stored);window.removeEventListener('focus',check);document.removeEventListener('visibilitychange',visible);};
+  },[]);
+  useEffect(()=>{
     if(!tenant)return;
-    const abort=new AbortController();setLoading(true);setMessage('');
-    Promise.all([api<CustomerPage>(`/crm/customers?q=${encodeURIComponent(query)}&page=${page}&page_size=10`,{signal:abort.signal}),api<Member[]>('/crm/members',{signal:abort.signal})])
-      .then(([result,people])=>{if(!abort.signal.aborted){setData(result);setMembers(people);}})
-      .catch(e=>{if(!abort.signal.aborted){setData(null);setMessage(errorMessage(e));if(e instanceof ApiError&&e.status===401){setSession(null);clearCustomerState();}}})
-      .finally(()=>{if(!abort.signal.aborted)setLoading(false);});
+    const ticket=crmRequests.capture();const abort=new AbortController();setLoading(true);setMessage('');
+    Promise.all([crmRequests.request<CustomerPage>(ticket,`/crm/customers?q=${encodeURIComponent(query)}&page=${page}&page_size=10`,{signal:abort.signal}),crmRequests.request<Member[]>(ticket,'/crm/members',{signal:abort.signal})])
+      .then(([result,people])=>{if(!abort.signal.aborted&&crmRequests.isCurrent(ticket)){setData(result);setMembers(people);}})
+      .catch(e=>{if(!abort.signal.aborted&&crmRequests.isCurrent(ticket)){setData(null);handleError(e);}})
+      .finally(()=>{if(!abort.signal.aborted&&crmRequests.isCurrent(ticket))setLoading(false);});
     return()=>abort.abort();
-  },[tenant,query,page,refresh]);
-  async function switchTenant(id:string){setBusy(true);clearCustomerState();try{await api('/session/tenant',{method:'POST',body:JSON.stringify({tenant_id:id})});await loadSession();setRefresh(n=>n+1);}catch(e){handleError(e);}finally{setBusy(false);}}
-  async function logout(){setBusy(true);try{const result=await api<{logout_url:string}>('/auth/logout',{method:'POST'});setSession(null);clearCustomerState();window.location.assign(result.logout_url);}catch(e){handleError(e);}finally{setBusy(false);}}
-  async function openCustomer(id:string){const generation=epoch.current;setMessage('');try{const customer=await api<Customer>('/crm/customers/'+id);if(generation===epoch.current){setSelected(customer);setModal('detail');}}catch(e){if(generation===epoch.current){setSelected(null);setModal(null);handleError(e);}}}
+  },[tenant,session?.context_id,query,page,refresh]);
+  async function switchTenant(id:string){
+    const attempt=++authEpoch.current;setBusy(true);clearCustomerState();setSession(s=>s?{...s,tenant_id:null}:s);
+    try{
+      const selected=await api<{tenant_id:string;context_id:string}>('/session/tenant',{method:'POST',body:JSON.stringify({tenant_id:id})});
+      if(attempt!==authEpoch.current)return;notifyContext();
+      const next=await api<Session>('/session');if(attempt!==authEpoch.current)return;
+      if(next.tenant_id!==selected.tenant_id||next.context_id!==selected.context_id){invalidateContext();return;}
+      crmRequests.bind({tenant_id:selected.tenant_id,context_id:selected.context_id});setSession(next);setMessage('');setRefresh(n=>n+1);
+    }catch(e){if(attempt===authEpoch.current)handleError(e);}finally{if(attempt===authEpoch.current)setBusy(false);}
+  }
+  async function logout(){setBusy(true);try{const result=await api<{logout_url:string}>('/auth/logout',{method:'POST'});notifyContext();setSession(null);clearCustomerState();window.location.assign(result.logout_url);}catch(e){handleError(e);}finally{setBusy(false);}}
+  async function openCustomer(id:string){const generation=epoch.current;setMessage('');try{const customer=await crmRequests.request<Customer>(crmRequests.capture(),'/crm/customers/'+id);if(generation===epoch.current){setSelected(customer);setModal('detail');}}catch(e){if(generation===epoch.current){setSelected(null);setModal(null);handleError(e);}}}
   const generation=epoch.current;
   return <><aside className="sidebar"><a className="brand" href="/" aria-label="硅屿首页"><b>▧</b><span>硅屿 <small>SILICON</small></span></a><div className="side-caption">业务工作空间</div><nav aria-label="主导航">{navigation.map(([icon,label])=><button key={label} className={label==='客户管理'?'active':''} aria-current={label==='客户管理'?'page':undefined} disabled={label!=='客户管理'} title={label==='客户管理'?'客户管理':`${label}尚未启用`}><span>{icon}</span>{label}{label!=='客户管理'&&<small>未启用</small>}</button>)}</nav><div className="sidebar-bottom"><span className="avatar">{session?.user.name.slice(0,1) ?? '硅'}</span><div>{session?.user.name ?? '尚未登录'}<small>客户与服务协同</small></div></div></aside>
   <div className="shell"><header><span>业务管理 <i>/</i><b>客户管理</b></span><div className="identity-bar">{session&&<><select aria-label="当前企业" disabled={busy} value={tenant ?? ''} onChange={e=>void switchTenant(e.target.value)}><option value="" disabled>请选择企业</option>{session.memberships.map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</select><button disabled={busy} onClick={()=>void logout()}>退出登录</button></>}</div></header><main>
@@ -65,7 +95,7 @@ function App() {
     <footer>硅屿 SILICON / BUSINESS STUDIO <span>企业内独立档案 · 操作记录可追溯</span></footer>
   </main></div>
   {modal&&tenant&&<Dialog title={modal==='create'?'新增客户':modal==='edit'?'编辑客户':'客户全景档案'} onClose={()=>setModal(null)}>
-    {modal==='detail'&&selected?<CustomerView customer={selected} members={members} canWrite={canWrite} onEdit={()=>setModal('edit')}/>:<CustomerEditor key={selected?.version??'new'} customer={selected} members={members} onAuthExpired={handleError} onCancel={()=>setModal(null)} onReload={()=>{if(selected)void openCustomer(selected.id);}} onSaved={c=>{if(generation!==epoch.current)return;setSelected(c);setModal('detail');setRefresh(n=>n+1);setNotice('客户已保存，可刷新查询。');}}/>}
+    {modal==='detail'&&selected?<CustomerView customer={selected} members={members} canWrite={canWrite&&!busy} onEdit={()=>setModal('edit')}/>:<CustomerEditor key={selected?.version??'new'} customer={selected} members={members} context={crmRequests.capture()} disabled={busy} onAuthExpired={handleError} onCancel={()=>setModal(null)} onReload={()=>{if(selected)void openCustomer(selected.id);}} onSaved={c=>{if(generation!==epoch.current)return;setSelected(c);setModal('detail');setRefresh(n=>n+1);setNotice('客户已保存，可刷新查询。');}}/>}
   </Dialog>}
   </>;
 }

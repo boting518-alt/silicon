@@ -1,0 +1,60 @@
+{
+  "base_commit": "45453c72ac2ab52a1e1375982256b1da70c0ef09",
+  "date": "2026-09-10",
+  "status": "review_ready",
+  "environment": {
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "python": "3.12.7",
+    "postgres": "17.11",
+    "keycloak": "26.7.3",
+    "java": "21.0.6"
+  },
+  "tests": [
+    {
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest -v --tb=short",
+      "exit_code": 0,
+      "passed": 52,
+      "skipped": 0,
+      "warnings": 2,
+      "seconds": 37.26,
+      "output": "full-tests-rerun.txt"
+    },
+    {
+      "command": "node --test apps/web/tests/context-race.test.ts",
+      "exit_code": 0,
+      "passed": 5,
+      "skipped": 0,
+      "output": "frontend-races.txt",
+      "test_double": "fetch transport only; production response fence"
+    },
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run build",
+      "exit_code": 0
+    }
+  ],
+  "preserved_runs": {
+    "full-tests.txt": "52 passed before strengthened R2 aggregate assertions",
+    "full-tests-final.txt": "51 passed / 1 IdP fixture setup error; concurrent browser stack occupied HTTP 8080",
+    "oidc-port-conflict.txt": "Keycloak startup log supporting port conflict; rerun after browser stack cleanup passed",
+    "r1-red.txt": "pre-fix failure expected 409 got 200",
+    "r2-red.txt": "pre-fix mixed aggregate failure"
+  },
+  "browser": {
+    "result": "passed for recorded dual-tab steps",
+    "details": "browser-validation.md",
+    "tls_verification": true,
+    "trust_changed": false,
+    "stack_cleanup": "BROWSER_STACK_CLEANED, exit 0"
+  },
+  "not_run": [
+    "remote CI (no remote)",
+    "Compose container runtime (configuration only)",
+    "browser network-delay interception (deterministic Node transport test instead)",
+    "browser notification-loss fault injection (real PG API request rejection covered)"
+  ]
+}
