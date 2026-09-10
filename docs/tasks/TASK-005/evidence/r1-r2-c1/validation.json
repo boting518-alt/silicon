@@ -3,7 +3,7 @@
   "status": "review_ready",
   "review_base": "6d2a81846aa515e8c69f028d68f619d40b502292",
   "review_sha256": "1a27276947e33b2044a46ed091cb7741b1b251c3687324cd5933a94e5e4ea788",
-  "repair_implementation": "recorded after implementation commit in result delivery note",
+  "repair_implementation": "df92e476025c612d64eb7f474aaad078602d5605",
   "checks": [
     {
       "name": "pg_red",

@@ -99,3 +99,7 @@ status: review_ready
 本轮没有重新跑全部旧浏览器路径或双标签浏览器保存竞态；原相关Node/PG回归通过，不能冒称双标签实际交互。远程CI、Docker运行及其他浏览器/字体not_run（无远程/非本轮要求）；未部署、未创建远程。原真实商务政策未配置、无次数预占核销和生产拒绝启动等限制继续适用。
 
 修复实现commit与最终HEAD在交付追记和审查包固定清单登记。新审查包从最终commit完整导出，另含相对此次6d2a818基准的增量diff/changed-files/log；原完整审查包保留。最终review_ready，等待独立Reviewer复核，不自行accepted。
+
+### 本轮修复交付追记
+
+修复实现与验证 commit：`df92e476025c612d64eb7f474aaad078602d5605`。后续提交仅登记交付信息；最终 HEAD 在审查包 REVIEW_MANIFEST.md 中固定，避免提交自引用。修复文件清单见 [changed-files](evidence/r1-r2-c1/changed-files.txt)，最终完整增量以包内 changes/review-base-to-final 为准。状态保持 review_ready。
