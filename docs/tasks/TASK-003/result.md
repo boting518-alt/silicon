@@ -1,5 +1,7 @@
 # TASK-003 原 UI 壳迁移与客户纵切交付
 
+以下原始交付记录保留；本轮 R1/R2 修复、提交与最新验证见文末“独立审查修复”部分。
+
 ```yaml
 task_id: TASK-003
 status: review_ready
@@ -83,3 +85,70 @@ git diff --check
 | 地图素材许可 | 尚未进入地图生产化，本次不用地图；后续核实来源/许可/坐标系 |
 
 未部署、未创建远程、未开始 TASK-004。head_scope 仅指实现及测试证据 commit；本结果/状态收尾作为其后的文档 commit，避免把文档自身 hash 伪写进自身。
+
+## 独立审查修复（2026-09-10）
+
+```yaml
+task_id: TASK-003
+status: review_ready
+repair_base_commit: 45453c72ac2ab52a1e1375982256b1da70c0ef09
+repair_head_commit: 005ea46446d6d6d140ce261e207901fbd8c4362a
+repair_head_scope: R1_R2_implementation_contract_tests_and_evidence
+review: docs/reviews/TASK-003-45453c7-review.md
+```
+
+开始时 main/HEAD 与指定基线完全一致；只有未跟踪的原独立审查报告，没有已跟踪用户修改。报告原样纳入修复提交，未改其 changes_requested 结论；文档检查新增该报告 SHA-256 断言。既有报告、测试输出和视觉基线均保留。上文 45 项通过属于原交付历史，不代表覆盖本轮竞态。此节作为修复实现 commit 之后的独立文档提交，不将该文档自身 hash 写成实现 hash。
+
+### R1：绑定页面预期企业和会话上下文
+
+- 新增 0004_session_context，为既有会话填充 context_id；每次显式选择企业轮换，包括 A→B→A。CRM 成员、列表、详情、新建和编辑统一要求 X-Expected-Tenant / X-Session-Context。声明不授予权限，服务端仍验证真实会话、CSRF、有效 membership、操作权限和 RLS。
+- CRM 与切企业在同一 sessions 行锁下排序，校验和业务使用同一事务。保存先获得锁则只提交至 A，再切 B；切企业先获得锁则旧保存返回 409/CONTEXT_CHANGED。缺失声明返回 428/CONTEXT_REQUIRED，不改投、不自动重试。
+- 前端按请求捕获上下文和代次，跨标签通知及窗口重新激活检查发现变化后清除列表、详情、表单及在途状态，要求重新选择企业；不转移旧草稿。取消之外还在成功 JSON 返回后验证代次，列表、详情和两种保存全部覆盖。选择企业的 POST 与后续 session 响应也受代次和返回 context_id 校验。
+- 可重复回归在 `apps/api/tests/test_crm_context.py` 与 `apps/web/tests/context-race.test.ts`：无通知旧请求拒绝、A/B 不误新增、旧编辑不能改可见的 B 记录、缺失/ABA、保存和切企业的两个真实锁顺序，以及明确延迟 HTTP 200 成功返回的四种客户端请求。后者标注 fetch 传输替身，不以超时或失败代替成功竞态。
+
+### R2：完整客户聚合的一致性读取
+
+详情先以独立查询取得客户父记录 FOR SHARE，再读取版本、计数、联系人、项目及人员、地点、内部负责人和历史；保存沿用父记录 FOR UPDATE 后整体替换，事务提交前持锁。所有现有生产关联写路径由 save 进入并遵守该顺序；没有只补写 version。设计及未来子项写路径约束见 [ADR-008](../../architecture/adr/ADR-008.md)。
+
+真实 PG 回归在 contacts 查询后暂停读者，另一事务走正常 save 替换联系人和项目，以 pg_blocking_pids 确认写者正在等待；读者提交后才允许写者完成。断言完整旧版本的计数、联系人引用、项目、地点、内部负责人和历史，以及写后的版本 2。同步事件均有有限等待，finally 释放门控；未延长产品超时。
+
+### 本轮实际验证
+
+命令均从仓库根执行。PG 参数仍为 `/opt/homebrew/opt/postgresql@17/bin`；真实 IdP 使用 `.tools/keycloak/keycloak-26.7.3` 的独立夹具副本。没有连接、停止或写入常驻 PG，未修改 TLS 校验或证书信任。
+
+```bash
+SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3" .venv/bin/python -m pytest -v --tb=short
+node --test apps/web/tests/context-race.test.ts
+.venv/bin/python infra/export_openapi.py
+npm run api:types
+npm run typecheck
+npm run build
+.venv/bin/python infra/check_docs.py
+docker compose --env-file .env.example -f infra/compose.yaml config --quiet
+git diff --check
+git diff --cached --check
+```
+
+| 检查 | 实际结果 |
+|---|---|
+| 全部后端 | **52 passed，0 skipped，2 warnings，37.26s，exit 0**；[最终复跑输出](evidence/revision/full-tests-rerun.txt)，包括真实 Keycloak、会话/CSRF/租户切换、RLS、Worker 授权/租约/重试/持久化及全部客户回归 |
+| R1/R2 真实 PG 竞态 | 6 项（包含参数化的两个切换/保存顺序）随全套通过；新测试修复前各自失败，保留 [R1 red](evidence/revision/r1-red.txt)、[R2 red](evidence/revision/r2-red.txt) |
+| 空库及升级迁移 | passed，fixture 从空库至 0004；另外从 0002、0003 升级，既有会话得到非空 context_id、身份/membership/租户 job 保留并可被 Worker 完成 |
+| 延迟成功响应 | **5 passed，0 skipped，exit 0**；[原始输出](evidence/revision/frontend-races.txt)，使用生产请求边界，测试传输替身明确标注；已加入 CI 配置 |
+| 契约、类型、构建 | passed；OpenAPI/客户端重复生成 hash 一致，类型检查与 Vite 构建成功；[命令与 hash](evidence/revision/checks.json)、[验证记录](evidence/revision/verification.json) |
+| 双标签真实浏览器 | passed，仅指 [逐步实测记录](evidence/revision/browser-validation.md) 中场景：新建/编辑失效、明确重选后正常 CRUD/刷新、B 无误写、退出后受保护内容清除 |
+| 文档、Compose 配置、diff | passed，exit 0；文档检查含历史审查 hash、状态和相对链接，提交前检查暂存差异；Compose 未启动容器 |
+
+补强 R2 断言后的第一次全套复跑出现 **51 passed / 1 error**：同时运行的浏览器测试栈与 OIDC 夹具冲突于 Keycloak HTTP 8080。[该次输出](evidence/revision/full-tests-final.txt) 和 [端口冲突日志](evidence/revision/oidc-port-conflict.txt) 原样保留。正常关闭本次 browser_stack（BROWSER_STACK_CLEANED，exit 0）后完整复跑得到上述 52 passed；没有通过禁用 TLS、跳过真实 IdP、修改常驻服务或升级依赖消除失败。两条既有 Starlette/AnyIO 弃用提示保留。
+
+### 文件、截图与限制
+
+完整 [变更文件清单](evidence/revision/changed-files.txt) 包含相关 API/身份/CRM 事务、0004 迁移、前端状态、契约、测试、ADR/README、原审查报告及新证据。依赖锁文件、原 Demo、视觉 CSS/token、TASK-004 范围均未变更。
+
+[本轮截图清单](evidence/revision/screenshots.json) 为 3 张原始 1280×720 图片，已查看；不替换历史两视口基线。新增失效提示及重新选择状态为有意变化，没有新模板。浏览器测试标签和独立栈已关闭。
+
+- 远程 CI：**not_run**，无远程；本地通过不等于远程通过。
+- Compose 容器实测：**not_run**，本轮只验证配置，没有强制启动 Docker。
+- 浏览器网络层延迟成功响应拦截：**not_run**；该竞态已有仓库确定性 Node 测试，未冒称浏览器拦截测试。
+- 浏览器通知全丢失故障注入：**not_run**；窗口激活检查已实现，服务端无通知拒绝已由真实 PG/API 测试覆盖。后续可在受信浏览器测试能力下补充该体验层故障注入。
+- 生产启动拒绝仍保留；不部署、不更改证书信任，不开始 TASK-004。状态保持 **review_ready**，等待独立审查，不自行 accepted。
