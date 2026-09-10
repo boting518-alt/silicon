@@ -1,0 +1,3 @@
+PASS: repeated OpenAPI export and TypeScript generation produce byte-identical artifacts.
+95472f79892656500d40b0b89d48000b69c0a8b29d63c3971f542283ab607758  packages/api-client/openapi.json
+541613bd3556b2ff21187206e1ee6fefd1c3d548e73f5dbee79bd186e340bdf3  packages/api-client/schema.d.ts

@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-004 已由产品/架构负责人确认 accepted。当前 TASK-005 执行配置报价与折扣草稿；TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。报价、合同、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-004 已由产品/架构负责人确认 accepted。当前 TASK-005 已实现配置报价与折扣草稿，待独立审查；TASK-004 在原硅屿 UI 壳上增加商品目录、准系统包件/BOM 与销售价格版本；保留独立客户档案；沿用 Keycloak OIDC、租户权限和审计。正式报价发布、合同、库存等入口未启用，生产模式仍拒绝启动。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
@@ -65,7 +65,7 @@ uv run --locked --env-file .env python infra/migrate.py upgrade head
 uv run --locked --env-file .env python infra/migrate.py current
 ```
 
-必须确认 upgrade 成功且 current 显示 `0005_catalog (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
+必须确认 upgrade 成功且 current 显示 `0006_quotes (head)`，再启动下面的 API/Worker。三步分别验收：数据库启动成功 → 迁移到 head → API 启动后 `/api/v1/ready` 返回 200/ready；数据库健康检查不能代替后两步。
 
 ## 本地真实 IdP 与 HTTPS
 
@@ -132,17 +132,33 @@ health 返回 200/ok；ready 验证数据库和迁移版本，成功 200/ready�
 
 选择企业后，管理员可进入商品目录、包件/BOM 和价格维护；成员/viewer 只读。目录写入与客户一样要求页面预期企业/context_id、CSRF、幂等键与 expected_version。目录是企业共享主数据，不按客户 owner 限制。制造商、销售品牌独立，不包含供应商管理或成本字段。
 
-先建主机和部件 SKU，再建立包件（包含行）或 BOM（可含另计价行），选择版本化规则资料；缺资料显示 UNKNOWN。发布冻结快照，修订创建新草稿，旧版不变。发布仅冻结目录，不表示兼容通过。包含件不重复收费，本任务没有替换折价或报价总额计算。
+先建主机和部件 SKU，再建立包件（包含行）或 BOM（可含另计价行），选择版本化规则资料；缺资料显示 UNKNOWN。发布冻结快照，修订创建新草稿，旧版不变。发布仅冻结目录，不表示兼容通过。包含件不重复收费，目录不计算替换折价；草稿总额由 TASK-005 后端计算。
 
 价格表输入 CNY 十进制金额、明确范围、含税口径、来源和 UTC 期间；先保存再发布。当前价只使用已发布且处于左闭右开期间的条目；未知/过期不是零价。同范围/SKU/税口径的已发布期间重叠会拒绝，修订须改到不重叠期间，不缩短原版期间。没有税率或汇率换算。设计与 API 见 [ADR-009](docs/architecture/adr/ADR-009.md)。
 
-本机/Compose 都先迁移到 0005 再验证 ready。浏览器复现仍使用独立 `infra/browser_stack.py`；设置 `SILICON_BROWSER_CATALOG=1` 时虚构用户在企业 B 为只读、A 为管理员，用于权限验证。请先结束真实 OIDC pytest 再启动浏览器栈，避免现有 IdP HTTP 8080 监听冲突。不改变证书信任。目录测试：`SILICON_TEST_PG_BIN="$(pg_config --bindir)" .venv/bin/python -m pytest apps/api/tests/test_catalog.py -v`。
+本机/Compose 都先迁移到 0006 再验证 ready。浏览器复现仍使用独立 `infra/browser_stack.py`；设置 `SILICON_BROWSER_CATALOG=1` 时虚构用户在企业 B 为只读、A 为管理员，用于权限验证。请先结束真实 OIDC pytest 再启动浏览器栈，避免现有 IdP HTTP 8080 监听冲突。不改变证书信任。目录测试：`SILICON_TEST_PG_BIN="$(pg_config --bindir)" .venv/bin/python -m pytest apps/api/tests/test_catalog.py -v`。
+
+## 配置报价草稿
+
+选择“报价与利润”后，选择客户/项目、已发布包件或 BOM、整机数量与部件；点击原等距 SVG 可定位配置字段。包含件明确不另收费，取消包含件不会抵扣根包件基价；替换件另行计价。利润、正式发布与审批未启用。admin/member 可维护有权访问客户的草稿，viewer 只读；折扣应用另外要求 quote.discount（首期 admin）。
+
+“重新计价”只试算；“保存草稿”始终重新核验并持久化，刷新后从已保存列表打开。页面区分未保存配置、保存时金额和当前试算；配置改变或窗口重新激活会隐藏旧试算，要求重新计价。当前价格查询记录来源/版本/期间，未知价不当零元。金额可计算不等于可销售，真实销售/发布政策未配置，UNKNOWN 不代表兼容通过。所有请求仍绑定企业和会话上下文，切企业清空旧草稿与异步结果。
+
+开发政策见 [ADR-010](docs/architecture/adr/ADR-010.md)：CNY 原税口径、HALF_UP 到分，单码百分比/最低额/最高优惠，无税率推定、次数配额、预占或核销。未配置政策不能使用优惠。测试种子 DEMO5 为虚构 5% 优惠、5000.00 CNY 上限，只由独立测试启动脚本植入，不自动成为应用的业务配置；没有折扣维护生产接口。
+
+独立浏览器复现（已准备同版本 PG/Keycloak、可信证书和固定字体后；不执行本机 createdb/bootstrap）：
+
+```bash
+SILICON_TEST_PG_BIN="$(pg_config --bindir)" SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3" SILICON_BROWSER_CATALOG=1 SILICON_BROWSER_CATALOG_SEED=1 SILICON_BROWSER_QUOTES=1 .venv/bin/python infra/browser_stack.py
+```
+
+准确操作、限制及两视口截图见 [TASK-005 浏览器验证](docs/tasks/TASK-005/browser-acceptance.md)。报价关联项目后，CRM 保留相同项目 ID 的正常编辑可继续；直接移除被引用项目会原子拒绝，需先将草稿改关联到其他项目。最小 UI 每类别支持一个追加型号（数量可变），客户/草稿选择当前最多 100 条；更大目录检索与复杂配置器不在本任务扩展。
 
 ## 客户管理
 
 CRM 列表、详情、新建、编辑和成员查询均要求 `X-Expected-Tenant` 与 `X-Session-Context`，分别来自当前页面绑定的 tenant_id 和 GET /session 的 context_id；它们只用于错配检查，不授予访问权限。缺失返回 428/CONTEXT_REQUIRED，不一致返回 409/CONTEXT_CHANGED。切企业每次轮换 context_id（包括切回原企业）；其他标签的旧表单失效，必须明确重新选择，不自动迁移草稿或重试保存。更新到 0004 后旧页面须刷新加载新客户端。详见 [ADR-008](docs/architecture/adr/ADR-008.md)。
 
-登录并选择企业后可搜索、分页、打开档案、新增和编辑客户。客户编号在企业内唯一；联系人、项目角色、内部负责人和装机地点一起保存，刷新后仍可查询。viewer 不能保存；其他企业不可见；并发编辑冲突时先重载最新版本再合并。原合同、设备与报价入口禁用，不返回演示成功。
+登录并选择企业后可搜索、分页、打开档案、新增和编辑客户。客户编号在企业内唯一；联系人、项目角色、内部负责人和装机地点一起保存，刷新后仍可查询。viewer 不能保存；其他企业不可见；并发编辑冲突时先重载最新版本再合并。合同、设备与正式报价发布入口禁用，不返回演示成功。
 
 浏览器真实验收与固定视觉夹具的复现方法见 [浏览器验收](docs/tasks/TASK-003/browser-acceptance.md)，原始截图及有意变化见 [视觉对照](docs/design/task003-visual-comparison.md)。浏览器测试栈只创建独立临时 PG/Keycloak；不要先执行本机 createdb 或连接常驻数据库。测试客户端显式信任夹具生成的 CA 并启用主机名验证，缺失证书直接失败。
 
@@ -165,14 +181,12 @@ git diff --check
 
 没有原生 17.11 的 CI/机器可先运行 `python3 infra/build_test_postgres.py --prefix /tmp/silicon-pg17`（需要编译器/make/bison/flex），再用该目录的 bin 作为 SILICON_TEST_PG_BIN；源码下载校验固定官方 SHA-256。已有目录不会覆盖。
 
-OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py 是历史基线验证脚本，固定当时任务状态；当前状态检查使用 infra/check_docs.py。本次实际证据和限制见 [TASK-004/result.md](docs/tasks/TASK-004/result.md)，客户历史证据见 [TASK-003/result.md](docs/tasks/TASK-003/result.md)，身份历史证据见 [TASK-002/result.md](docs/tasks/TASK-002/result.md)，历史骨架证据保留于 [TASK-001/result.md](docs/tasks/TASK-001/result.md)。
+OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py 是历史基线验证脚本，固定当时任务状态；当前状态检查使用 infra/check_docs.py。本次实际证据和限制见 [TASK-005/result.md](docs/tasks/TASK-005/result.md)，目录历史证据见 [TASK-004/result.md](docs/tasks/TASK-004/result.md)，客户历史证据见 [TASK-003/result.md](docs/tasks/TASK-003/result.md)，身份历史证据见 [TASK-002/result.md](docs/tasks/TASK-002/result.md)，历史骨架证据保留于 [TASK-001/result.md](docs/tasks/TASK-001/result.md)。
 
 ## 停止、清理和恢复
 
 Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 PostgreSQL 保持运行，只有需要停止时执行 `brew services stop postgresql@17`；不要为单个项目清理而删除本机数据目录。可选容器使用 `docker compose --env-file .env -f infra/compose.yaml down`，保留卷；`down -v` 会删除该专属开发卷，仅确认数据可丢弃时手工执行。
 
-构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
+构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0006 降级会删除所有报价草稿、选择、优惠配置和幂等结果；0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
 
-TASK-004 浏览器复现及固定虚构目录夹具见 [浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。完成状态为 review_ready，等待独立审查；不自动开始 TASK-005。
-
-当前任务为 TASK-005 executing；TASK-004 增量复核已通过并由产品负责人 accepted。以上 TASK-004 review_ready 和命令记录保留历史语义。
+TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。TASK-004 已 accepted；其历史 result 的 review_ready 与验证限制保持原样。当前 TASK-005 为 review_ready，不自动开始 TASK-006。

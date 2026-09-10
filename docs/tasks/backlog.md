@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-005，status: executing。TASK-000～TASK-004 已由产品/架构负责人确认 accepted；TASK-006 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-005，status: review_ready。TASK-000～TASK-004 已由产品/架构负责人确认 accepted；TASK-006 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-004 为 accepted；TASK-005 为 executing；TASK-006～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-004 为 accepted；TASK-005 为 review_ready；TASK-006～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -81,3 +81,7 @@ TASK-008 开始提供基本期初导入，TASK-016 是工具化强化，不把�
 ## TASK-005 验收交接
 
 2026-09-10，产品负责人依据 [增量复核](../reviews/TASK-004-a8ce3e2-review.md) 明确 accepted TASK-004 并分配 TASK-005。HEAD a8ce3e2c13736a032958decf1e65fb482cd4ebf6 与被审查提交一致，main 工作树干净。保留首次报告和历史限制，未修改旧 result。原无 TASK-005 任务书，依据用户范围补齐 [任务书](TASK-005/task.md)。
+
+## TASK-005 交付待审查（2026-09-10）
+
+TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单码优惠、原 SVG 联动与独立 PG/浏览器验证已交付；结果见 [result](TASK-005/result.md)。不自行 accepted，不启动 TASK-006。TASK-004 的两轮报告与历史结果不改写。

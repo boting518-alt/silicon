@@ -370,6 +370,76 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/quotes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listing */
+        get: operations["listing_api_v1_quotes_get"];
+        put?: never;
+        /** Create */
+        post: operations["create_api_v1_quotes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/quotes/evaluate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Evaluate */
+        post: operations["evaluate_api_v1_quotes_evaluate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/quotes/discount": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Discount */
+        post: operations["discount_api_v1_quotes_discount_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/quotes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detail */
+        get: operations["detail_api_v1_quotes__id__get"];
+        /** Update */
+        put: operations["update_api_v1_quotes__id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -517,6 +587,52 @@ export interface components {
             lines?: components["schemas"]["BomLine"][];
             /** Expected Version */
             expected_version: number;
+        };
+        /** Calculation */
+        Calculation: {
+            /**
+             * Calculated At
+             * Format: date-time
+             */
+            calculated_at: string;
+            /** Config Hash */
+            config_hash: string;
+            /** Fingerprint */
+            fingerprint: string;
+            /** Priced Lines */
+            priced_lines: components["schemas"]["PricedLine"][];
+            /** Technical Lines */
+            technical_lines: components["schemas"]["TechnicalLine"][];
+            /** Checks */
+            checks: components["schemas"]["Check"][];
+            /** Subtotal */
+            subtotal: string | null;
+            /** Discount Amount */
+            discount_amount: string | null;
+            /** Total */
+            total: string | null;
+            /** Amount Complete */
+            amount_complete: boolean;
+            /**
+             * Sale Ready
+             * @default false
+             */
+            sale_ready: boolean;
+            /**
+             * Currency
+             * @default CNY
+             */
+            currency: string;
+            /** Tax Included */
+            tax_included: boolean;
+            discount?: components["schemas"]["DiscountRef"] | null;
+            /** Discount Basis Points */
+            discount_basis_points?: number | null;
+            /**
+             * Policy
+             * @default development-v1; no tax conversion; no reservation/redemption
+             */
+            policy: string;
         };
         /** Check */
         Check: {
@@ -805,6 +921,23 @@ export interface components {
             /** Expected Version */
             expected_version: number;
         };
+        /** DiscountCode */
+        DiscountCode: {
+            /** Code */
+            code: string;
+        };
+        /** DiscountRef */
+        DiscountRef: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Version */
+            version: number;
+        };
         /** Error */
         Error: {
             /** Code */
@@ -964,6 +1097,23 @@ export interface components {
             /** Expected Version */
             expected_version: number;
         };
+        /** PricedLine */
+        PricedLine: {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Name */
+            name: string;
+            /** Quantity */
+            quantity: number;
+            /** Unit Price */
+            unit_price: string | null;
+            /** Line Amount */
+            line_amount: string | null;
+            source: components["schemas"]["CurrentPrice"];
+        };
         /** Project */
         Project: {
             /**
@@ -993,6 +1143,122 @@ export interface components {
              * @enum {string}
              */
             role: "project_lead" | "key_person";
+        };
+        /** QuoteDetail */
+        QuoteDetail: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Version */
+            version: number;
+            config: components["schemas"]["QuoteInput"];
+            saved_calculation: components["schemas"]["Calculation"];
+            current_calculation: components["schemas"]["Calculation"];
+            /** Needs Reprice */
+            needs_reprice: boolean;
+        };
+        /** QuoteInput */
+        QuoteInput: {
+            /** Name */
+            name: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /**
+             * Project Id
+             * Format: uuid
+             */
+            project_id: string;
+            /**
+             * Bom Id
+             * Format: uuid
+             */
+            bom_id: string;
+            /**
+             * Quantity
+             * @default 1
+             */
+            quantity: number;
+            /**
+             * Scope
+             * @default retail
+             */
+            scope: string;
+            /**
+             * Tax Included
+             * @default true
+             */
+            tax_included: boolean;
+            /** Additions */
+            additions?: components["schemas"]["Selection"][];
+            /** Excluded Sku Ids */
+            excluded_sku_ids?: string[];
+            /** Discount Id */
+            discount_id?: string | null;
+        };
+        /** QuoteSummary */
+        QuoteSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /** Version */
+            version: number;
+        };
+        /** QuoteUpdate */
+        QuoteUpdate: {
+            /** Name */
+            name: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /**
+             * Project Id
+             * Format: uuid
+             */
+            project_id: string;
+            /**
+             * Bom Id
+             * Format: uuid
+             */
+            bom_id: string;
+            /**
+             * Quantity
+             * @default 1
+             */
+            quantity: number;
+            /**
+             * Scope
+             * @default retail
+             */
+            scope: string;
+            /**
+             * Tax Included
+             * @default true
+             */
+            tax_included: boolean;
+            /** Additions */
+            additions?: components["schemas"]["Selection"][];
+            /** Excluded Sku Ids */
+            excluded_sku_ids?: string[];
+            /** Discount Id */
+            discount_id?: string | null;
+            /** Expected Version */
+            expected_version: number;
         };
         /** Responsibility */
         Responsibility: {
@@ -1125,6 +1391,16 @@ export interface components {
              * Format: uuid
              */
             tenant_id: string;
+        };
+        /** Selection */
+        Selection: {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
         };
         /** SessionInfo */
         SessionInfo: {
@@ -2379,6 +2655,220 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CurrentPrice"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listing_api_v1_quotes_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_api_v1_quotes_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evaluate_api_v1_quotes_evaluate_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Calculation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    discount_api_v1_quotes_discount_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiscountCode"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiscountRef"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detail_api_v1_quotes__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_api_v1_quotes__id__put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteDetail"];
                 };
             };
             /** @description Validation Error */

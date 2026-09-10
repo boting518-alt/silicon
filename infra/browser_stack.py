@@ -73,6 +73,11 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
         if os.getenv('SILICON_BROWSER_CATALOG_SEED')=='1':
             from catalog_examples import seed
             seed(engine,actor,a)
+        if os.getenv('SILICON_BROWSER_QUOTES')=='1':
+            from quote_examples import seed as quote_seed
+            migration=make_engine(database.migration_url)
+            quote_seed(engine,migration,actor,a)
+            migration.dispose()
         engine.dispose()
         commands=[([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false','--https-port=8443',f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}','--import-realm','--cache=local'],issuer+'/.well-known/openid-configuration'),
                   ([sys.executable,'-m','uvicorn','silicon.main:create_app','--factory','--host','127.0.0.1','--port','8000','--no-access-log'],'http://127.0.0.1:8000/api/v1/ready'),

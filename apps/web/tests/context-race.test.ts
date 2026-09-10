@@ -10,6 +10,7 @@ for(const [surface,method,path] of [
   ['catalog list','GET','/catalog/skus'],['catalog detail','GET','/catalog/boms/one'],
   ['catalog create','POST','/catalog/skus'],['catalog edit','PUT','/catalog/boms/one'],
   ['catalog publish','POST','/catalog/price-books/one/publish'],['catalog revision','POST','/catalog/boms/one/revise'],
+  ['quote list','GET','/quotes'],['quote detail','GET','/quotes/one'],['quote trial','POST','/quotes/evaluate'],['quote save','PUT','/quotes/one'],['quote discount','POST','/quotes/discount'],
 ]) {
   test(`delayed successful ${surface} response never updates the new enterprise`,async()=>{
     const original=globalThis.fetch;

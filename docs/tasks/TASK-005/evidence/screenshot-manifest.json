@@ -1,0 +1,47 @@
+{
+  "format": "original browser JPEG; no rescaling or pixel edits",
+  "screenshots": [
+    {
+      "file": "quote-desktop-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "9a4770759b3dadbb28831d968d5d16238092720b027714749d92d5bdacff7174"
+    },
+    {
+      "file": "quote-desktop-summary-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "56dad0c11d83d283e50a21d46e3c339cd34d4e8e20004026940a117ec1ee5d8c"
+    },
+    {
+      "file": "quote-desktop-warning-1440.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "915aea03423a40c6f053de4a8dc1a62485d9624eb9b7d409b7ba1fea08d253cd"
+    },
+    {
+      "file": "quote-mobile-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "f1addf9f3b592d77ecf0ed4d35ca2775fa11ef26486684aec81f9f0f86682679"
+    },
+    {
+      "file": "quote-mobile-checks-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "888103474a9eebe1418d0f38448676a7b16e581b1f9d8ab85a9a665a5b787b51"
+    },
+    {
+      "file": "quote-mobile-summary-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "da4fc1bea8c7821289ec50cf708cdd75ed55e70db29ccf683a0e22dd449ee1b3"
+    },
+    {
+      "file": "quote-mobile-svg-390.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "997f3f1572cf112463b056330a6c9184cb1a549e16d66fec5b2660f0d5392c7f"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "quote",
+    "commit": "65e465092f0afc5519ed1a60214697fbf6a2f2a5",
+    "files_verified": 4,
+    "worktree_source_matches": true
+  },
+  {
+    "name": "workspace",
+    "commit": "09e204ec99a74a821f35d6799b9e6e00c0c8393d",
+    "files_verified": 8,
+    "worktree_source_matches": true
+  }
+]

@@ -1,0 +1,1 @@
+PASS: 7 original screenshots have required dimensions and recorded SHA-256; 9 completed browser DOM checkpoints match recorded assertions. Reopened-v1/v2 capture the loading transition; completed reopen evidence is mobile-dom and subsequent persisted configuration actions. This is artifact validation, not a replacement browser test.

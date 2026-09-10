@@ -3,7 +3,7 @@
   "project": "silicon",
   "path_base": "repository_root",
   "current_task": "TASK-005",
-  "status": "executing",
+  "status": "review_ready",
   "paths": {
     "web": "apps/web",
     "api": "apps/api",

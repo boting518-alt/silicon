@@ -1,0 +1,48 @@
+...............F                                                         [100%]
+=================================== FAILURES ===================================
+_____ test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer ______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50884/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50884/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x109a3ae80>, stop=<function database.<locals>.stop at 0x109a3af20>)
+identities = namespace(a=UUID('0eade9cb-d7d0-4e77-b07b-87120e623dc0'), b=UUID('2fd01b5d-f9d4-4691-ba2a-753b3aa76bc2'), user=UUID('6...D('88c5c21a-de8e-4f95-badf-a803bb1103a8'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50884/silicon))
+
+    def test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer(engine,database,identities):
+        from concurrent.futures import ThreadPoolExecutor
+        import threading,time
+        from sqlalchemy import event,text
+        from sqlalchemy.engine import Engine
+        i=identities;paused=threading.Event();release=threading.Event();started=threading.Event();pids={}
+        def after(db,cursor,statement,params,ctx,many):
+            if threading.current_thread().name.startswith('quote-read') and statement.startswith('SELECT * FROM quote_drafts'):
+                pids['read']=db.connection.driver_connection.info.backend_pid;paused.set();assert release.wait(2)
+            if threading.current_thread().name.startswith('quote-write') and statement.startswith('SELECT pg_advisory_xact_lock('):started.set()
+        with client(engine,database,i.user,i.a) as c,client(engine,database,i.user,i.a) as reader,client(engine,database,i.user,i.a) as writer:
+            customer,host,psu,bom=fixture(c);saved=ok(command(c,'',config(customer,bom)))
+            event.listen(Engine,'after_cursor_execute',after)
+            # before_cursor_execute identifies the waiting writer before the lock is granted.
+            def before(db,cursor,statement,params,ctx,many):
+                if threading.current_thread().name.startswith('quote-write') and statement.startswith('SELECT pg_advisory_xact_lock('):
+                    pids['write']=db.connection.driver_connection.info.backend_pid;started.set()
+            event.listen(Engine,'before_cursor_execute',before)
+            try:
+                with ThreadPoolExecutor(1,thread_name_prefix='quote-read') as rp,ThreadPoolExecutor(1,thread_name_prefix='quote-write') as wp:
+>                   pending=rp.submit(reader.get,Q+'/'+saved['id']);assert paused.wait(2)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^
+E                   assert False
+E                    +  where False = wait(2)
+E                    +    where wait = <threading.Event at 0x10d855460: unset>.wait
+
+apps/api/tests/test_quotes.py:231: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_quotes.py::test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer
+1 failed, 15 passed, 2 warnings in 7.10s

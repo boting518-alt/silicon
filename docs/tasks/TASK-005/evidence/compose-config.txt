@@ -1,0 +1,2 @@
+
+exit_code=0; configuration only, containers not started

@@ -1,0 +1,24 @@
+✔ delayed successful list response never updates the new enterprise (10.736791ms)
+✔ delayed successful detail response never updates the new enterprise (0.264792ms)
+✔ delayed successful new form response never updates the new enterprise (0.234084ms)
+✔ delayed successful edit form response never updates the new enterprise (0.197375ms)
+✔ delayed successful catalog list response never updates the new enterprise (0.185375ms)
+✔ delayed successful catalog detail response never updates the new enterprise (0.147084ms)
+✔ delayed successful catalog create response never updates the new enterprise (0.492916ms)
+✔ delayed successful catalog edit response never updates the new enterprise (0.148042ms)
+✔ delayed successful catalog publish response never updates the new enterprise (0.185791ms)
+✔ delayed successful catalog revision response never updates the new enterprise (0.21375ms)
+✔ delayed successful quote list response never updates the new enterprise (0.122708ms)
+✔ delayed successful quote detail response never updates the new enterprise (0.102833ms)
+✔ delayed successful quote trial response never updates the new enterprise (0.102916ms)
+✔ delayed successful quote save response never updates the new enterprise (0.093458ms)
+✔ delayed successful quote discount response never updates the new enterprise (0.092625ms)
+✔ a discarded form ticket cannot issue another request after A/B/A (0.066125ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 75.647208

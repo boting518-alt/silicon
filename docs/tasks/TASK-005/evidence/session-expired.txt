@@ -1,0 +1,81 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理 未启用" [disabled]:
+      - generic: ▤
+      - text: 合同管理
+      - generic: 未启用
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 硅
+  - text: 尚未登录
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /报价与利润
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "把算力，组装成你的理想形态。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - alert: 登录已失效，请重新登录。
+  - heading "进入客户工作空间" [level=2]
+  - paragraph: 使用企业身份登录后，选择企业访问客户档案。
+  - link "使用企业身份登录":
+    - /url: /api/v1/auth/login
+  - button "刷新登录状态"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

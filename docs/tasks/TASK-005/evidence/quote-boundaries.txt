@@ -1,0 +1,1168 @@
+.FF.FFF                                                                  [100%]
+=================================== FAILURES ===================================
+________ test_discount_decimal_rounding_caps_removal_and_no_redemption _________
+
+self = <sqlalchemy.engine.base.Connection object at 0x1129d5b20>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x1129d7470>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1129ecf20>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1129ed040>
+parameters = [{'t': UUID('604c84a8-6d38-45cb-b1b2-3f2c7d0064d4'), 'id': UUID('50001663-a53e-4b9e-ad6d-fd2ce23103b8'), 'hash': '028222162d9f131bc8d4f2d0da66b02b64256efccc177f590af8d625f12718e8', 'enabled': True, ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x11297db50>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('604c84a8-6d38-45cb-b1b2-3f2c7d0064d4'), 'id': UUID('50001663-a53e-4b9e-ad6d-fd2ce23103b8'), 'hash': '028222162d9f131bc8d4f2d0da66b02b64256efccc177f590af8d625f12718e8', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "quote_discounts"
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: InsufficientPrivilege
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x1115fe340>, stop=<function database.<locals>.stop at 0x1115fe3e0>)
+identities = namespace(a=UUID('604c84a8-6d38-45cb-b1b2-3f2c7d0064d4'), b=UUID('3a3775c5-4c9c-4a62-abe1-c9eaf98bf4f7'), user=UUID('2...D('d0693d8a-cdba-4f0b-9d25-ed50a0a9450f'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50164/silicon))
+
+    def test_discount_decimal_rounding_caps_removal_and_no_redemption(engine,database,identities):
+        with client(engine,database,identities.user,identities.a) as c:
+            customer,host,psu,bom=fixture(c);body=config(customer,bom)
+>           id=policy(database,identities.a)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:49:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_quotes.py:42: in policy
+    db.execute(text("INSERT INTO quote_discounts VALUES (:t,:id,:hash,'虚构优惠',1,:enabled,CAST(:start AS timestamptz),CAST(:end AS timestamptz),:scope,:tax,:bps,:minimum,:maximum)"),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x11297db50>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('604c84a8-6d38-45cb-b1b2-3f2c7d0064d4'), 'id': UUID('50001663-a53e-4b9e-ad6d-fd2ce23103b8'), 'hash': '028222162d9f131bc8d4f2d0da66b02b64256efccc177f590af8d625f12718e8', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "quote_discounts"
+E           [SQL: INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+_____________________ test_discount_round_half_up_and_cap ______________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x112b85940>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x112bc61e0>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x112b643b0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x112b65370>
+parameters = [{'t': UUID('7e1eaf78-cbcf-4b58-92f1-8fb6323e1029'), 'id': UUID('ce774bf6-cde1-43ba-b8e7-d11e5bf6ee60'), 'hash': '52aaf6a50c4eff7bc9bfb6b2761d64de557bf8dbe64174f95021dd6106398044', 'enabled': True, ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112a77050>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('7e1eaf78-cbcf-4b58-92f1-8fb6323e1029'), 'id': UUID('ce774bf6-cde1-43ba-b8e7-d11e5bf6ee60'), 'hash': '52aaf6a50c4eff7bc9bfb6b2761d64de557bf8dbe64174f95021dd6106398044', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "quote_discounts"
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: InsufficientPrivilege
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x1115fe340>, stop=<function database.<locals>.stop at 0x1115fe3e0>)
+identities = namespace(a=UUID('7e1eaf78-cbcf-4b58-92f1-8fb6323e1029'), b=UUID('72745b5f-dca0-4425-ad1c-bf5a7edd96cd'), user=UUID('7...D('ae39544f-27a9-4e41-bdf3-62018c5fd37d'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50164/silicon))
+
+    def test_discount_round_half_up_and_cap(engine,database,identities):
+        with client(engine,database,identities.user,identities.a) as c:
+            customer,host,psu,bom=fixture(c)
+>           id=policy(database,identities.a,bps=5000,maximum='5.00')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:68:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_quotes.py:42: in policy
+    db.execute(text("INSERT INTO quote_discounts VALUES (:t,:id,:hash,'虚构优惠',1,:enabled,CAST(:start AS timestamptz),CAST(:end AS timestamptz),:scope,:tax,:bps,:minimum,:maximum)"),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112a77050>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('7e1eaf78-cbcf-4b58-92f1-8fb6323e1029'), 'id': UUID('ce774bf6-cde1-43ba-b8e7-d11e5bf6ee60'), 'hash': '52aaf6a50c4eff7bc9bfb6b2761d64de557bf8dbe64174f95021dd6106398044', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "quote_discounts"
+E           [SQL: INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+_____________ test_quote_price_time_boundaries_and_reprice_history _____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x112bb1e50>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x112bb1d00>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x112bb3380>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x112bb2c30>
+parameters = [{'t': UUID('e317be9a-fbf2-491b-9af6-cfb53e50f537'), 'id': UUID('c0c00896-6417-465e-ba1c-ded799b300ef'), 'hash': 'a7431e2fd3153cfc55f635b013830ccca6bfb87c29e91ae32b7f12eabfecd1a8', 'enabled': True, ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112e91b50>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('e317be9a-fbf2-491b-9af6-cfb53e50f537'), 'id': UUID('c0c00896-6417-465e-ba1c-ded799b300ef'), 'hash': 'a7431e2fd3153cfc55f635b013830ccca6bfb87c29e91ae32b7f12eabfecd1a8', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "quote_discounts"
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: InsufficientPrivilege
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x1115fe340>, stop=<function database.<locals>.stop at 0x1115fe3e0>)
+identities = namespace(a=UUID('e317be9a-fbf2-491b-9af6-cfb53e50f537'), b=UUID('b5afaccf-4d25-487c-a124-7f31120eeb36'), user=UUID('7...D('bd998bd5-10c0-45e8-b2fb-2b2a08b58d36'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50164/silicon))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x112d108f0>
+
+    def test_quote_price_time_boundaries_and_reprice_history(engine,database,identities,monkeypatch):
+        from datetime import datetime,timezone
+        from silicon.quotes import service
+        class Clock:
+            instant=datetime(2026,12,31,23,59,59,tzinfo=timezone.utc)
+            @classmethod
+            def now(cls,tz):return cls.instant
+        monkeypatch.setattr(service,'datetime',Clock) # Clock seam only; all DB/auth/pricing are real.
+        with client(engine,database,identities.user,identities.a) as c:
+            customer=ok(c.post('/api/v1/crm/customers',json=payload('TIME'),headers={'Idempotency-Key':str(uuid4())}))
+            host=product(c,'TIME-H');bom=publish(c,'boms',package(c,host,[]));body={**config(customer,bom),'quantity':1}
+            old=publish(c,'price-books',price(c,host,'0.00'))
+            new=publish(c,'price-books',price(c,host,'0.10',valid_from='2027-01-01T00:00:00Z',valid_to='2028-01-01T00:00:00Z'))
+            saved=ok(command(c,'',body));assert saved['saved_calculation']['total']=='0.00'
+            Clock.instant=datetime(2027,1,1,tzinfo=timezone.utc)
+            reopened=ok(c.get(Q+'/'+saved['id']),200)
+            assert reopened['needs_reprice'] and reopened['saved_calculation']['total']=='0.00' and reopened['current_calculation']['total']=='0.10'
+>           id=policy(database,identities.a)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:109:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_quotes.py:42: in policy
+    db.execute(text("INSERT INTO quote_discounts VALUES (:t,:id,:hash,'虚构优惠',1,:enabled,CAST(:start AS timestamptz),CAST(:end AS timestamptz),:scope,:tax,:bps,:minimum,:maximum)"),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112e91b50>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('e317be9a-fbf2-491b-9af6-cfb53e50f537'), 'id': UUID('c0c00896-6417-465e-ba1c-ded799b300ef'), 'hash': 'a7431e2fd3153cfc55f635b013830ccca6bfb87c29e91ae32b7f12eabfecd1a8', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "quote_discounts"
+E           [SQL: INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+_______________ test_quote_permissions_context_and_tenant_links ________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x111bf5a30>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x111bf6b40>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x111852c90>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x111851e20>
+parameters = [{'t': UUID('cf934b80-0d63-4ed7-80c4-ee175479c7c9'), 'id': UUID('795754ff-816e-4307-ad31-2d67de37cb46'), 'hash': 'bb1b31769bc0c5002293104e2b37d33f3abd2bfb7679fffacc058a5ae2f3a7cb', 'enabled': True, ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112a75c10>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('cf934b80-0d63-4ed7-80c4-ee175479c7c9'), 'id': UUID('795754ff-816e-4307-ad31-2d67de37cb46'), 'hash': 'bb1b31769bc0c5002293104e2b37d33f3abd2bfb7679fffacc058a5ae2f3a7cb', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "quote_discounts"
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: InsufficientPrivilege
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x1115fe340>, stop=<function database.<locals>.stop at 0x1115fe3e0>)
+identities = namespace(a=UUID('cf934b80-0d63-4ed7-80c4-ee175479c7c9'), b=UUID('58b2b6b1-df5e-4365-adcc-62db4e474c6d'), user=UUID('a...D('48a65990-edad-49f9-83cc-3e3a5eb5ef6f'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50164/silicon))
+
+    def test_quote_permissions_context_and_tenant_links(engine,database,identities):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+>           customer,host,psu,bom=fixture(c);body=config(customer,bom);saved=ok(command(c,'',body));id=policy(database,i.a)
+                                                                                                       ^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:123:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_quotes.py:42: in policy
+    db.execute(text("INSERT INTO quote_discounts VALUES (:t,:id,:hash,'虚构优惠',1,:enabled,CAST(:start AS timestamptz),CAST(:end AS timestamptz),:scope,:tax,:bps,:minimum,:maximum)"),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x112a75c10>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('cf934b80-0d63-4ed7-80c4-ee175479c7c9'), 'id': UUID('795754ff-816e-4307-ad31-2d67de37cb46'), 'hash': 'bb1b31769bc0c5002293104e2b37d33f3abd2bfb7679fffacc058a5ae2f3a7cb', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "quote_discounts"
+E           [SQL: INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+__________ test_quote_idempotency_concurrent_edit_and_unlimited_trial __________
+
+self = <sqlalchemy.engine.base.Connection object at 0x11359ed50>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x11353e8d0>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1132dc410>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x11320cf50>
+parameters = [{'t': UUID('b40aec40-a438-47d3-80f2-d85f1f4cc613'), 'id': UUID('5bab7bed-b119-477a-87a0-00682427b26e'), 'hash': '7859efe60da0eb4e4bfdb39c55f8862757a5106a06725fe24bda0b1fde06b3db', 'enabled': True, ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x1118787d0>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('b40aec40-a438-47d3-80f2-d85f1f4cc613'), 'id': UUID('5bab7bed-b119-477a-87a0-00682427b26e'), 'hash': '7859efe60da0eb4e4bfdb39c55f8862757a5106a06725fe24bda0b1fde06b3db', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.InsufficientPrivilege: new row violates row-level security policy for table "quote_discounts"
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: InsufficientPrivilege
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50164/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x1115fe340>, stop=<function database.<locals>.stop at 0x1115fe3e0>)
+identities = namespace(a=UUID('b40aec40-a438-47d3-80f2-d85f1f4cc613'), b=UUID('a8c9c5c5-b214-4bc7-a4cf-22912dbd242a'), user=UUID('c...D('2f059b4d-8aa6-49e2-8c5c-7b575a19418b'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50164/silicon))
+
+    def test_quote_idempotency_concurrent_edit_and_unlimited_trial(engine,database,identities):
+        from concurrent.futures import ThreadPoolExecutor
+        import threading
+        i=identities
+        with client(engine,database,i.user,i.a) as c,client(engine,database,i.user,i.a) as d:
+            customer,host,psu,bom=fixture(c);body=config(customer,bom);key=str(uuid4())
+            saved=ok(command(c,'',body,key=key));assert ok(command(c,'',body,key=key))==saved
+            assert command(c,'',{**body,'name':'changed'},key=key).json()['code']=='IDEMPOTENCY_CONFLICT'
+            update={**body,'quantity':2,'expected_version':saved['version']};gate=threading.Barrier(2)
+            def run(cl):gate.wait(3);return command(cl,'/'+saved['id'],update,'put').status_code
+            with ThreadPoolExecutor(2) as pool:
+                a=pool.submit(run,c);b=pool.submit(run,d);assert sorted([a.result(),b.result()])==[200,409]
+>           id=policy(database,i.a);trial={**body,'discount_id':id};gate=threading.Barrier(2)
+               ^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_quotes.py:152:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_quotes.py:42: in policy
+    db.execute(text("INSERT INTO quote_discounts VALUES (:t,:id,:hash,'虚构优惠',1,:enabled,CAST(:start AS timestamptz),CAST(:end AS timestamptz),:scope,:tax,:bps,:minimum,:maximum)"),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=50164 user=silicon_migrator database=silicon) at 0x1118787d0>
+query = "INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)"
+params = {'t': UUID('b40aec40-a438-47d3-80f2-d85f1f4cc613'), 'id': UUID('5bab7bed-b119-477a-87a0-00682427b26e'), 'hash': '7859efe60da0eb4e4bfdb39c55f8862757a5106a06725fe24bda0b1fde06b3db', 'enabled': True, ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.InsufficientPrivilege) new row violates row-level security policy for table "quote_discounts"
+E           [SQL: INSERT INTO quote_discounts VALUES (%(t)s,%(id)s,%(hash)s,'虚构优惠',1,%(enabled)s,CAST(%(start)s AS timestamptz),CAST(%(end)s AS timestamptz),%(scope)s,%(tax)s,%(bps)s,%(minimum)s,%(maximum)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_quotes.py::test_discount_decimal_rounding_caps_removal_and_no_redemption
+FAILED apps/api/tests/test_quotes.py::test_discount_round_half_up_and_cap - s...
+FAILED apps/api/tests/test_quotes.py::test_quote_price_time_boundaries_and_reprice_history
+FAILED apps/api/tests/test_quotes.py::test_quote_permissions_context_and_tenant_links
+FAILED apps/api/tests/test_quotes.py::test_quote_idempotency_concurrent_edit_and_unlimited_trial
+5 failed, 2 passed, 2 warnings in 3.20s

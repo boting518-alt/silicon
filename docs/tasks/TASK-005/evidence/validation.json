@@ -1,0 +1,110 @@
+{
+  "task": "TASK-005",
+  "status": "review_ready",
+  "date": "2026-09-10",
+  "base": "a8ce3e2c13736a032958decf1e65fb482cd4ebf6",
+  "handoff": "b98662f74ca4fb418a06322e224a76ca0b8fa74d",
+  "code_head": "recorded in result delivery note; final HEAD in fixed archive manifest",
+  "tests": [
+    {
+      "name": "backend_full",
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest apps/api/tests -q",
+      "status": "passed",
+      "result": "87 passed, 0 skipped, 4 warnings, 46.14s",
+      "evidence": "backend-verified.txt"
+    },
+    {
+      "name": "quote_concurrency",
+      "command": "SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin .venv/bin/python -m pytest apps/api/tests/test_quotes.py -q -k aggregate",
+      "status": "passed",
+      "result": "1 passed, 15 deselected, 2 warnings, 1.86s",
+      "evidence": "quote-concurrency.txt"
+    },
+    {
+      "name": "frontend",
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "status": "passed",
+      "result": "19 passed, 0 skipped",
+      "evidence": "frontend-all-final.txt"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "result": "exit 0",
+      "evidence": "typecheck-final.txt"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "status": "passed",
+      "result": "exit 0",
+      "evidence": "build-final.txt"
+    },
+    {
+      "name": "export_openapi",
+      "command": ".venv/bin/python infra/export_openapi.py",
+      "status": "passed",
+      "result": "exit 0",
+      "evidence": "contract-export-final.txt"
+    },
+    {
+      "name": "generate_types",
+      "command": "npm run api:types",
+      "status": "passed",
+      "result": "exit 0",
+      "evidence": "contract-types-final.txt"
+    },
+    {
+      "name": "contract_repeatability",
+      "command": "Repeat both contract commands, compare bytes",
+      "status": "passed",
+      "result": "byte-identical",
+      "evidence": "contract-repeatability.txt"
+    },
+    {
+      "name": "compose_config",
+      "command": "/Applications/Docker.app/Contents/Resources/bin/docker compose --env-file .env.example -f infra/compose.yaml config --quiet",
+      "status": "passed",
+      "result": "exit 0; containers not run",
+      "evidence": "compose-config.txt"
+    }
+  ],
+  "browser": {
+    "status": "passed_for_recorded_flow",
+    "command": "SILICON_BROWSER_CATALOG=1 SILICON_BROWSER_CATALOG_SEED=1 SILICON_BROWSER_QUOTES=1 SILICON_TEST_PG_BIN=/opt/homebrew/opt/postgresql@17/bin SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python infra/browser_stack.py",
+    "method": "real CUA in-app browser, HTTPS OIDC, clicks, selects, refresh, screenshots",
+    "notes": "../browser-acceptance.md",
+    "cleanup": "BROWSER_STACK_CLEANED",
+    "trust_changed": false,
+    "tls_bypass": false,
+    "screenshot_manifest": "screenshot-manifest.json"
+  },
+  "not_run": [
+    {
+      "check": "remote CI",
+      "reason": "no remote configured"
+    },
+    {
+      "check": "Docker runtime",
+      "reason": "configuration validation only, no container required"
+    },
+    {
+      "check": "two-tab browser quote save race",
+      "reason": "not repeated in browser this task; deterministic success-delay production request-layer tests and real PG concurrency run separately"
+    },
+    {
+      "check": "production, other browsers/fonts/viewports",
+      "reason": "out of current development acceptance scope"
+    }
+  ],
+  "historical_failures": {
+    "quote-red.txt": "expected 404 before implementation",
+    "quote-boundaries.txt": "test seed missing RLS user GUC; fixed fixture",
+    "quotes-final.txt": "1 failed / 15 passed; thread-name synchronization corrected to SQL events",
+    "backend-final.txt": "sandbox local bind denied: 15 passed/72 setup errors; rerun outside restricted listener sandbox passed"
+  },
+  "warnings": "Starlette/AnyIO deprecation and Pydantic concurrent TestClient alias warning; no unrelated dependency upgrade",
+  "resident_database_used": false,
+  "old_demo_changed": false
+}

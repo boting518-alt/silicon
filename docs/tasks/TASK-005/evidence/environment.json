@@ -1,0 +1,50 @@
+[
+  {
+    "command": [
+      "node",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "v24.15.0"
+  },
+  {
+    "command": [
+      "npm",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "11.12.1"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "Python 3.12.7"
+  },
+  {
+    "command": [
+      ".tools/bin/uv",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "uv 0.12.11 (4b53f66b7 2026-09-08 aarch64-apple-darwin)"
+  },
+  {
+    "command": [
+      "/opt/homebrew/opt/postgresql@17/bin/postgres",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "postgres (PostgreSQL) 17.11 (Homebrew)"
+  },
+  {
+    "command": [
+      "java",
+      "-version"
+    ],
+    "exit_code": 0,
+    "output": "java version \"21.0.6\" 2025-01-21 LTS\nJava(TM) SE Runtime Environment (build 21.0.6+8-LTS-188)\nJava HotSpot(TM) 64-Bit Server VM (build 21.0.6+8-LTS-188, mixed mode, sharing)"
+  }
+]
