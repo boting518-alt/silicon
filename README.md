@@ -165,10 +165,12 @@ git diff --check
 
 没有原生 17.11 的 CI/机器可先运行 `python3 infra/build_test_postgres.py --prefix /tmp/silicon-pg17`（需要编译器/make/bison/flex），再用该目录的 bin 作为 SILICON_TEST_PG_BIN；源码下载校验固定官方 SHA-256。已有目录不会覆盖。
 
-OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py 是历史基线验证脚本，固定当时任务状态；当前状态检查使用 infra/check_docs.py。本次实际证据和限制见 [TASK-003/result.md](docs/tasks/TASK-003/result.md)，身份历史证据见 [TASK-002/result.md](docs/tasks/TASK-002/result.md)，历史骨架证据保留于 [TASK-001/result.md](docs/tasks/TASK-001/result.md)。
+OpenAPI JSON 和 schema.d.ts 均为生成物，不手改。TASK-000/verify.py 是历史基线验证脚本，固定当时任务状态；当前状态检查使用 infra/check_docs.py。本次实际证据和限制见 [TASK-004/result.md](docs/tasks/TASK-004/result.md)，客户历史证据见 [TASK-003/result.md](docs/tasks/TASK-003/result.md)，身份历史证据见 [TASK-002/result.md](docs/tasks/TASK-002/result.md)，历史骨架证据保留于 [TASK-001/result.md](docs/tasks/TASK-001/result.md)。
 
 ## 停止、清理和恢复
 
 Keycloak/Web/API/Worker 分别 Ctrl-C，Worker 也响应 SIGTERM。本机常驻 PostgreSQL 保持运行，只有需要停止时执行 `brew services stop postgresql@17`；不要为单个项目清理而删除本机数据目录。可选容器使用 `docker compose --env-file .env -f infra/compose.yaml down`，保留卷；`down -v` 会删除该专属开发卷，仅确认数据可丢弃时手工执行。
 
 构建产物只在 apps/web/dist，依赖环境在 node_modules/.venv/.tools；均被忽略，按需重装。两个原 Demo 的 dist 是源码，禁止删除。迁移运行器自动在临时目录排除 ._*，不清理仓库或参考仓库的磁盘元数据。测试库可重建；持久开发库降级须先备份，0005 降级会删除全部目录、BOM/规则/价格版本和目录命令记录；0004 降级会移除上下文版本列，不与新客户端兼容；0003 降级会删除全部 CRM 数据、角色历史和幂等结果；0002 降级会删除身份、membership、会话与审计；0001 降级会删除 jobs/outbox，不自动降级。
+
+TASK-004 浏览器复现及固定虚构目录夹具见 [浏览器验证](docs/tasks/TASK-004/browser-acceptance.md)。完成状态为 review_ready，等待独立审查；不自动开始 TASK-005。

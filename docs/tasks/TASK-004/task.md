@@ -1,6 +1,6 @@
 # TASK-004：SKU、准系统包件、BOM 与价格表
 
-status: executing
+status: review_ready
 owner: 执行线程
 reviewer: 独立上下文，待指定
 
