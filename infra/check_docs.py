@@ -6,13 +6,13 @@ import re
 
 root = Path(__file__).resolve().parents[1]
 config = json.loads((root/'runtime/project.json').read_text())
-assert config['current_task'] == 'TASK-006'
+assert config['current_task'] == 'TASK-007'
 assert config['status'] in {'executing', 'review_ready'}
 for path in config['paths'].values():
     assert not Path(path).is_absolute() and (root/path).is_dir(), path
 assert 'status: accepted' in (root/'docs/tasks/TASK-000/task.md').read_text()
-assert f"status: {config['status']}" in (root/'docs/tasks/TASK-006/task.md').read_text()
-assert '当前只执行已明确分配的 TASK-006' in (root/'AGENTS.md').read_text()
+assert f"status: {config['status']}" in (root/'docs/tasks/TASK-007/task.md').read_text()
+assert '当前只执行已明确分配的 TASK-007' in (root/'AGENTS.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-002/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-001/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-003/task.md').read_text()
@@ -41,3 +41,5 @@ for file in [root/'README.md', root/'AGENTS.md', *list((root/'docs').rglob('*.md
         assert (file.parent/link.split('#')[0]).exists(), (file, link)
         count += 1
 print(f'PASS task handoff/state, relative paths, unchanged reviews, {count} local links')
+
+assert 'status: accepted' in (root/'docs/tasks/TASK-006/task.md').read_text()

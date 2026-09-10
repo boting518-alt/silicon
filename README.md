@@ -194,3 +194,5 @@ TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](d
 ## TASK-006 审查入口
 
 [任务与发布边界](docs/tasks/TASK-006/task.md)、[ADR-011](docs/architecture/adr/ADR-011.md)、[验证结果](docs/tasks/TASK-006/result.md)、[两身份浏览器准备](docs/tasks/TASK-006/browser-acceptance.md)。开发政策只在独立测试栈显式种入；真实企业无政策阻断发布。所有报价须双人审批，确定性BLOCK不可绕过。已发布正文不可修改，合同只是来源草稿，不代表签约或核销。
+
+当前工作：[TASK-007 合同完善与签约登记](docs/tasks/TASK-007/task.md) executing；TASK-006 已由负责人接受，见 [交接](docs/tasks/TASK-007/handoff.md)。不开始 TASK-008。
