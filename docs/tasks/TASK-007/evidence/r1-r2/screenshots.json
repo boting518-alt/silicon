@@ -1,0 +1,54 @@
+[
+  {
+    "file": "desktop-format-error.jpg",
+    "sha256": "659e553e8ab358e21feb38bd4e76fff64c0722a5840961531b45347b11bb57a5",
+    "viewport": [
+      1440,
+      900
+    ],
+    "exported_pixels": [
+      1425,
+      891
+    ],
+    "source": "actual trusted HTTPS browser; final repair source; raw JPEG"
+  },
+  {
+    "file": "desktop-pending-cleanup.jpg",
+    "sha256": "ec1c94530948a5d716af1f263f97c6110457deda2964019c14df6a0eb6dacd84",
+    "viewport": [
+      1440,
+      900
+    ],
+    "exported_pixels": [
+      1425,
+      891
+    ],
+    "source": "actual trusted HTTPS browser; final repair source; raw JPEG"
+  },
+  {
+    "file": "mobile-format-error.jpg",
+    "sha256": "5776c50116248859e6605368fbc00f077a0ee838cb9b11b594135fae19184f76",
+    "viewport": [
+      390,
+      844
+    ],
+    "exported_pixels": [
+      375,
+      812
+    ],
+    "source": "actual trusted HTTPS browser; final repair source; raw JPEG"
+  },
+  {
+    "file": "mobile-pending-cleanup.jpg",
+    "sha256": "24b75844196f73dfe9aa42e35b1d8a80a7d80f228b887ed01c91c66197676775",
+    "viewport": [
+      390,
+      844
+    ],
+    "exported_pixels": [
+      375,
+      812
+    ],
+    "source": "actual trusted HTTPS browser; final repair source; raw JPEG"
+  }
+]

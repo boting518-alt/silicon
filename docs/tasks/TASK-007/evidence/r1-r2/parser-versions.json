@@ -1,0 +1,51 @@
+{
+  "pypdfium2": {
+    "version": "5.13.0",
+    "python": ">=3.6",
+    "source": "https://pypi.org/pypi/pypdfium2/5.13.0/json",
+    "license": "BSD-3-Clause, Apache-2.0, dependency licenses",
+    "requires_dist": null
+  },
+  "Pillow": {
+    "version": "12.3.0",
+    "python": ">=3.10",
+    "source": "https://pypi.org/pypi/Pillow/12.3.0/json",
+    "license": "MIT-CMU",
+    "requires_dist": [
+      "furo; extra == \"docs\"",
+      "olefile; extra == \"docs\"",
+      "sphinx>=8.2; extra == \"docs\"",
+      "sphinx-autobuild; extra == \"docs\"",
+      "sphinx-copybutton; extra == \"docs\"",
+      "sphinx-inline-tabs; extra == \"docs\"",
+      "sphinxext-opengraph; extra == \"docs\"",
+      "olefile; extra == \"fpx\"",
+      "olefile; extra == \"mic\"",
+      "arro3-compute; extra == \"test-arrow\"",
+      "arro3-core; extra == \"test-arrow\"",
+      "nanoarrow; extra == \"test-arrow\"",
+      "pyarrow; extra == \"test-arrow\"",
+      "coverage>=7.4.2; extra == \"tests\"",
+      "defusedxml; extra == \"tests\"",
+      "markdown2; extra == \"tests\"",
+      "olefile; extra == \"tests\"",
+      "packaging; extra == \"tests\"",
+      "pytest; extra == \"tests\"",
+      "pytest-cov; extra == \"tests\"",
+      "pytest-timeout; extra == \"tests\"",
+      "pytest-xdist; extra == \"tests\"",
+      "setuptools; extra == \"tests\"",
+      "trove-classifiers>=2024.10.12; extra == \"tests\"",
+      "defusedxml; extra == \"xmp\""
+    ]
+  },
+  "psutil": {
+    "version": "7.2.2",
+    "source": "https://pypi.org/project/psutil/7.2.2/",
+    "license": "BSD-3-Clause"
+  },
+  "actual_pdfium": {
+    "version": "153.0.7999.0",
+    "flags": []
+  }
+}

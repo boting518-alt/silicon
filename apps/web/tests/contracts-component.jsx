@@ -20,15 +20,16 @@ async function setup(){
   else if(path==='/contract/sign'){
    calls.push({path,key:new Headers(init.headers).get('Idempotency-Key')});work={...work,state:'signed',order_id:'order'};
    if(mode==='lost'){mode='';return new Response(JSON.stringify({code:'TEST_LOSS'}),{status:503});}data={id:'signed'};
-  }else throw Error('Unexpected '+path);
+  }else if(path==='/contract/files/pending/delete'){calls.push({path});work={...work,files:work.files.filter(x=>x.id!=='pending')};data=work;}else throw Error('Unexpected '+path);
   return new Response(JSON.stringify(data),{status:200});
  };
  crmRequests.bind({tenant_id:'A',context_id:'A1'});const root=createRoot(container);
  await act(async()=>root.render(<Contracts context={crmRequests.capture()} members={[{id:'a',name:'甲'}]} canWrite canSign onContextError={()=>{}}/>));await flush();
  const list=[...container.querySelectorAll('nav button')].find(b=>b.textContent.includes('CON-001'));await act(async()=>list.click());await flush();
- return {calls,setMode(v){mode=v;},defer(v){deferred=v;},async close(){await act(async()=>root.unmount());crmRequests.bind(null);globalThis.fetch=old;}};
+ return {calls,setWork(v){work=v;},setMode(v){mode=v;},defer(v){deferred=v;},async close(){await act(async()=>root.unmount());crmRequests.bind(null);globalThis.fetch=old;}};
 }
 const tests=[
+ ['old pending after signing can be deleted without enabling frozen file edits',async h=>{h.setWork({...structuredClone(base),state:'signed',files:[{id:'frozen',name:'A.pdf',size:621,state:'linked',category:'proof',sha256:'frozen-hash',supplemental:false},{id:'pending',name:'B.pdf',size:621,state:'pending',category:'proof',sha256:'pending-hash',supplemental:false}]});await click('重新载入合同');const button=t=>[...container.querySelectorAll('button')].find(x=>x.textContent===t);assert(button('删除 A.pdf').disabled,'frozen file protected');assert(button('关联 B.pdf').disabled,'cannot silently add old pending');assert(!button('删除 B.pdf').disabled,'pending can be removed');assert(container.textContent.includes('未进入签约冻结集'),'explanation');await click('删除 B.pdf');assert(!container.textContent.includes('B.pdf')&&container.textContent.includes('A.pdf'),'only pending removed');assert(container.textContent.includes('冻结内容 · v1'),'signed version retained');}],
  ['edit and unbalanced plan block confirmation',async h=>{await input('节点金额 1','299.99');assert(container.textContent.includes('未保存修改'),'dirty state');await click('保存合同资料');assert(container.textContent.includes('付款节点合计必须等于合同金额'),'unbalanced error');assert(container.querySelector('input[type=checkbox]').disabled,'cannot confirm');}],
  ['version conflict preserves edits',async h=>{h.setMode('conflict');await input('合同名称','未保存的新名称');await click('保存合同资料');assert(container.textContent.includes('版本已变化'),'conflict visible');assert([...container.querySelectorAll('input')].some(x=>x.value==='未保存的新名称'),'draft retained');}],
  ['upload failure does not claim success or signing',async h=>{const el=container.querySelector('input[type=file]');await act(async()=>{Object.defineProperty(el,'files',{configurable:true,value:[new File(['bad'],'fake.pdf',{type:'application/pdf'})]});el.dispatchEvent(new Event('change',{bubbles:true}));});await click('上传附件');for(let n=0;n<10&&!container.querySelector('[role=alert]');n++)await flush();assert(container.textContent.includes('文件内容与允许'),'actual upload failure');assert(!container.textContent.includes('上传已就绪'),'no success');}],

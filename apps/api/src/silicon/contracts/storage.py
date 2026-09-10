@@ -1,8 +1,11 @@
 """Private local adapter. Type validation is NOT malware scanning."""
-import hashlib,os,re,struct,zlib,fcntl
+import hashlib,os,re,fcntl,subprocess,sys,threading,time
+import psutil
 from pathlib import Path
 from uuid import uuid4,UUID
 from silicon.identity.access import Denied
+
+DECODERS=threading.BoundedSemaphore(2)
 
 class Store:
     def __init__(self,root,limit):
@@ -14,24 +17,33 @@ class Store:
         if not name or len(name)>160 or '/' in name or '\\' in name or any(ord(x)<32 for x in name):raise Denied(422,'INVALID_FILENAME')
         if not data or len(data)>self.limit:raise Denied(413,'FILE_SIZE_LIMIT')
         suffix=Path(name).suffix.lower()
-        if suffix=='.pdf' and re.match(rb'%PDF-1\.[0-9]',data) and data.rstrip().endswith(b'%%EOF'):
-            # Reject active PDF actions; still not a full parser/AV guarantee.
+        kind={'.pdf':'pdf','.png':'png','.jpg':'jpg','.jpeg':'jpg'}.get(suffix)
+        if not kind:raise Denied(422,'FILE_TYPE_REJECTED')
+        if kind=='pdf':
+            if not re.match(rb'%PDF-(?:1\.[0-9]|2\.0)',data) or not data.rstrip().endswith(b'%%EOF'):raise Denied(422,'FILE_TYPE_REJECTED')
             if re.search(rb'/(?:JavaScript|JS|Launch|OpenAction|EmbeddedFile)\b',data):raise Denied(422,'ACTIVE_CONTENT_REJECTED')
-            return 'application/pdf'
-        if suffix=='.png' and data.startswith(b'\x89PNG\r\n\x1a\n'):
-            pos=8;ended=False;first=True
-            while pos+12<=len(data):
-                size=struct.unpack('>I',data[pos:pos+4])[0];kind=data[pos+4:pos+8];end=pos+12+size
-                if end>len(data) or zlib.crc32(data[pos+4:end-4])&0xffffffff!=struct.unpack('>I',data[end-4:end])[0]:break
-                if first and (kind!=b'IHDR' or size!=13):break
-                if first:
-                    w,h=struct.unpack('>II',data[pos+8:pos+16])
-                    if not w or not h or w*h>40000000:break
-                first=False;pos=end
-                if kind==b'IEND':ended=pos==len(data);break
-            if ended:return 'image/png'
-        if suffix in ('.jpg','.jpeg') and data.startswith(b'\xff\xd8\xff') and data.endswith(b'\xff\xd9') and len(data)>20:return 'image/jpeg'
-        raise Denied(422,'FILE_TYPE_REJECTED')
+        if not DECODERS.acquire(timeout=1):raise Denied(503,'FILE_VALIDATOR_BUSY')
+        try:
+            with subprocess.Popen([sys.executable,str(Path(__file__).with_name('validate_file.py')),kind],stdin=subprocess.PIPE,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,env={}) as child:
+                try:
+                    process=psutil.Process(child.pid);deadline=time.monotonic()+8;pending=data
+                    while True:
+                        if time.monotonic()>deadline:raise Denied(422,'FILE_VALIDATION_LIMIT')
+                        try:
+                            if process.memory_info().rss>512*1024*1024:raise Denied(422,'FILE_VALIDATION_LIMIT')
+                        except psutil.NoSuchProcess:pass
+                        try:child.communicate(input=pending,timeout=0.02);break
+                        except subprocess.TimeoutExpired:pending=None
+                    code=child.returncode
+                    if code==12:raise Denied(503,'FILE_VALIDATOR_UNAVAILABLE')
+                    if code==11 or code<0:raise Denied(422,'FILE_VALIDATION_LIMIT')
+                    if code:raise Denied(422,'FILE_TYPE_REJECTED')
+                except psutil.Error:raise Denied(503,'FILE_VALIDATOR_UNAVAILABLE') from None
+                finally:
+                    if child.poll() is None:child.kill()
+                    child.wait()
+        finally:DECODERS.release()
+        return {'pdf':'application/pdf','jpg':'image/jpeg','png':'image/png'}[kind]
     def put(self,name,data):
         media=self.validate(name,data);id=uuid4();path=self.path(id);path.parent.mkdir(parents=True,exist_ok=True)
         with path.open('xb') as f:os.chmod(path,0o600);f.write(data);f.flush();os.fsync(f.fileno())
@@ -42,6 +54,10 @@ class Store:
         if path.is_symlink() or not path.is_file():raise Denied(503,'FILE_NOT_READY')
         data=path.read_bytes()
         if len(data)!=row['size'] or hashlib.sha256(data).hexdigest()!=row['sha256']:raise Denied(503,'FILE_NOT_READY')
+        return data
+    def revalidate(self,row):
+        data=self.read(row)
+        if self.validate(row['name'],data)!=row['media_type']:raise Denied(422,'FILE_TYPE_REJECTED')
         return data
     def remove(self,id):self.path(id).unlink(missing_ok=True)
 

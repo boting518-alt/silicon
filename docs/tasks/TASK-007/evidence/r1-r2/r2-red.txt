@@ -1,0 +1,94 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+____ test_invalid_marked_documents_rejected_before_attachment_creation[pdf] ____
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-28/test_invalid_marked_documents_0/private-files')
+identities = namespace(a=UUID('7074867e-263e-4430-abf3-3d07129ba94d'), b=UUID('6dea93a3-5d39-4218-b1df-3ca53f2fcdf8'), user=UUID('5...D('edd53fd2-49d1-46bd-8e60-028c0276c1e9'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:57893/silicon))
+kind = 'pdf'
+
+    @pytest.mark.parametrize('kind',['pdf','jpg','png'])
+    def test_invalid_marked_documents_rejected_before_attachment_creation(engine,database,identities,kind):
+        import struct,zlib
+        from pathlib import Path
+        def chunk(k,v):return struct.pack('>I',len(v))+k+v+struct.pack('>I',zlib.crc32(k+v)&0xffffffff)
+        malformed={'pdf':b'%PDF-1.4\nthis is plain text, no PDF objects or pages\n%%EOF',
+                   'jpg':b'\xff\xd8\xff'+b'not a JPEG image, plain text'+b'\xff\xd9',
+                   'png':b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',2,2,8,2,0,0,0))+chunk(b'IEND',b'')}
+        i=identities;draft,_=source(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+            r=upload(c,draft['id'],w['version'],malformed[kind],'invalid-proof.'+kind)
+>           assert r.status_code==422,r.text
+E           AssertionError: {"supplemental":false,"id":"c11968a7-9ec9-4a24-bc51-665ba735dcbe","name":"invalid-proof.pdf","category":"proof","media_type":"application/pdf","size":58,"sha256":"d2e1a91b6e622e7b126e7271ae1b4515a025c4588228e50d566dd9dc3a1adad6","state":"pending","uploaded_by":"59cad55b-26bd-47bc-b83e-e9e7ab561efa","created_at":"2026-09-11T00:49:58.094243+08:00"}
+E           assert 201 == 422
+E            +  where 201 = <Response [201 Created]>.status_code
+
+apps/api/tests/test_contracts.py:294: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+____ test_invalid_marked_documents_rejected_before_attachment_creation[jpg] ____
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-28/test_invalid_marked_documents_1/private-files')
+identities = namespace(a=UUID('c89c94fa-fd39-46c9-8214-e0fe3f65b18a'), b=UUID('2b2dc43f-1ea1-4ccf-8c7c-3c14c1406b79'), user=UUID('a...D('e4d5fd53-6a6d-4b23-98e8-03776954e451'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:57893/silicon))
+kind = 'jpg'
+
+    @pytest.mark.parametrize('kind',['pdf','jpg','png'])
+    def test_invalid_marked_documents_rejected_before_attachment_creation(engine,database,identities,kind):
+        import struct,zlib
+        from pathlib import Path
+        def chunk(k,v):return struct.pack('>I',len(v))+k+v+struct.pack('>I',zlib.crc32(k+v)&0xffffffff)
+        malformed={'pdf':b'%PDF-1.4\nthis is plain text, no PDF objects or pages\n%%EOF',
+                   'jpg':b'\xff\xd8\xff'+b'not a JPEG image, plain text'+b'\xff\xd9',
+                   'png':b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',2,2,8,2,0,0,0))+chunk(b'IEND',b'')}
+        i=identities;draft,_=source(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+            r=upload(c,draft['id'],w['version'],malformed[kind],'invalid-proof.'+kind)
+>           assert r.status_code==422,r.text
+E           AssertionError: {"supplemental":false,"id":"af77bf04-243d-4778-82a2-ff228bc39d0f","name":"invalid-proof.jpg","category":"proof","media_type":"image/jpeg","size":33,"sha256":"6ce8121ae376aef9e65a95f30d1a1a4861b79dc50fb8b2ab9fc62ef678d25f3b","state":"pending","uploaded_by":"a3dde771-edeb-4447-9f7b-ae693abee6e7","created_at":"2026-09-11T00:49:58.669680+08:00"}
+E           assert 201 == 422
+E            +  where 201 = <Response [201 Created]>.status_code
+
+apps/api/tests/test_contracts.py:294: AssertionError
+____ test_invalid_marked_documents_rejected_before_attachment_creation[png] ____
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:57893/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-28/test_invalid_marked_documents_2/private-files')
+identities = namespace(a=UUID('ee2a350c-4450-4e46-9958-5e04363f075b'), b=UUID('d231a45a-9d16-4f90-9624-82d23778a466'), user=UUID('6...D('a8e0fc06-1e81-49de-8ae2-f168f89e0ce5'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:57893/silicon))
+kind = 'png'
+
+    @pytest.mark.parametrize('kind',['pdf','jpg','png'])
+    def test_invalid_marked_documents_rejected_before_attachment_creation(engine,database,identities,kind):
+        import struct,zlib
+        from pathlib import Path
+        def chunk(k,v):return struct.pack('>I',len(v))+k+v+struct.pack('>I',zlib.crc32(k+v)&0xffffffff)
+        malformed={'pdf':b'%PDF-1.4\nthis is plain text, no PDF objects or pages\n%%EOF',
+                   'jpg':b'\xff\xd8\xff'+b'not a JPEG image, plain text'+b'\xff\xd9',
+                   'png':b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',2,2,8,2,0,0,0))+chunk(b'IEND',b'')}
+        i=identities;draft,_=source(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+            r=upload(c,draft['id'],w['version'],malformed[kind],'invalid-proof.'+kind)
+>           assert r.status_code==422,r.text
+E           AssertionError: {"supplemental":false,"id":"0abea07d-5039-4514-8603-b64eaf0847eb","name":"invalid-proof.png","category":"proof","media_type":"image/png","size":45,"sha256":"3c482c66e7967406a7d07590ff0b9d35df7e64da974391e40e21abe5f72b0e51","state":"pending","uploaded_by":"63b26a5f-43a9-452a-b8e6-eeb15eed7d74","created_at":"2026-09-11T00:49:59.223966+08:00"}
+E           assert 201 == 422
+E            +  where 201 = <Response [201 Created]>.status_code
+
+apps/api/tests/test_contracts.py:294: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[pdf]
+FAILED apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[jpg]
+FAILED apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[png]
+3 failed, 31 deselected, 2 warnings in 3.21s

@@ -112,7 +112,7 @@ def upload(db,a,id,metadata,expected):
 def associate(db,a,id,file_id,body,remove=False):
     source(db,a,id);row=workrow(db,id);f=file_row(db,a,file_id)
     if (row['version'] if row else 0)!=body.expected_version:raise Denied(409,'VERSION_CONFLICT')
-    if signed_id(db,id) and not f['supplemental']:raise Denied(409,'CONTRACT_ALREADY_SIGNED')
+    if signed_id(db,id) and not f['supplemental'] and not (remove and f['state']=='pending'):raise Denied(409,'CONTRACT_ALREADY_SIGNED')
     if str(f['contract_id'])!=str(id):raise Denied(404,'NOT_FOUND')
     if db.scalar(text('SELECT 1 FROM signed_files WHERE file_id=:id'),{'id':file_id}):raise Denied(409,'SIGNED_FILE_IMMUTABLE')
     if f['state']=='linked' and not remove:raise Denied(409,'ALREADY_LINKED')

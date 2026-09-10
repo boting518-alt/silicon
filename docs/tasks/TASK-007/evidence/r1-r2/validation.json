@@ -1,0 +1,51 @@
+{
+  "task": "TASK-007",
+  "status": "review_ready",
+  "review_base": "732089f2e812920c2e20b863cf9749b4dd6dad3e",
+  "backend_full": {
+    "command": ".venv/bin/python -m pytest apps/api/tests -q",
+    "passed": 164,
+    "warnings": 7,
+    "seconds": 107.98,
+    "log": "backend-full.txt",
+    "scope": "real isolated PG/OIDC/Worker; before two additional limit cases"
+  },
+  "additional_limits": {
+    "command": ".venv/bin/python -m pytest apps/api/tests/test_contracts.py -q -k processing_limits",
+    "passed": 2,
+    "deselected": 40,
+    "log": "limits.txt"
+  },
+  "contracts_expanded": {
+    "passed": 40,
+    "log": "contracts-expanded.txt"
+  },
+  "node": {
+    "command": "node --test apps/web/tests/*.test.*",
+    "passed": 19,
+    "log": "frontend.txt"
+  },
+  "components": {
+    "contracts": 6,
+    "publication": 5,
+    "quote": 3,
+    "transport": "HTTP test double; actual React/browser"
+  },
+  "build": "passed; build.txt includes typecheck",
+  "generated_contract": "byte-identical; contract-generation.txt",
+  "browser": "passed within browser-notes.md directed scope",
+  "red": {
+    "r1": "r1-red.txt: 1 genuine failure",
+    "r2": "r2-red.txt: 3 genuine failures"
+  },
+  "diagnostic": "r2-green.txt is NOT successful green: Darwin unsupported resource limit, fixed then parser-green.txt 5 passed",
+  "not_run": [
+    "Docker runtime",
+    "AV scan",
+    "other browser/font platforms",
+    "automatic pixel threshold comparison",
+    "remote CI verification",
+    "full backend recollection after two additional limit-only tests"
+  ],
+  "history": "preserved unchanged"
+}

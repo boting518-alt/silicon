@@ -65,7 +65,7 @@ def router(engine,settings):
             def perform():
                 # Bytes checked while same business lock excludes attachment mutation.
                 for f in s.files(db,id):
-                    if f.state=='linked':storage(a).read(s.file_row(db,a,f.id))
+                    if f.state=='linked' and not s.signed_id(db,id):storage(a).revalidate(s.file_row(db,a,f.id))
                 return s.sign(db,a,id,body,people)
             return run(db,a,'contract.sign:'+str(id),idempotency_key,body,request,perform,lambda result:s.signed(db,a,result))
     @routes.post('/{id}/uploads',response_model=File,status_code=201)
@@ -99,7 +99,7 @@ def router(engine,settings):
     @routes.post('/{id}/files/{file_id}/attach',response_model=Workspace)
     def attach(id:UUID,file_id:UUID,body:Version,request:Request,idempotency_key:str=Header('')):
         with tx(request,'contract.write',True) as (db,a,people):
-            s.source(db,a,id);row=s.file_row(db,a,file_id);storage(a).read(row)
+            s.source(db,a,id);row=s.file_row(db,a,file_id);storage(a).revalidate(row)
             return run(db,a,'contract.attach:'+str(id)+':'+str(file_id),idempotency_key,body,request,lambda:s.associate(db,a,id,file_id,body),lambda result:s.detail(db,a,result,people))
     @routes.post('/{id}/files/{file_id}/delete',response_model=Workspace)
     def remove(id:UUID,file_id:UUID,body:Version,request:Request,idempotency_key:str=Header('')):

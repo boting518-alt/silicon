@@ -1,0 +1,118 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /合同管理
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每项约定，都有清晰来源。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "合同完善与签约登记" [level=2]
+  - paragraph: 线下签约事实登记；付款节点是约定，不是已收款。订单不代表发货。
+  - button "刷新列表"
+  - navigation "合同与订单列表":
+    - button "DEMO-CON-007 · 虚构附件修复验收 · 已签虚构甲方 · 49660.01 CNY · 虚构用户甲 / 虚构审批人乙":
+      - text: DEMO-CON-007 · 虚构附件修复验收 · 已签
+      - generic: 虚构甲方 · 49660.01 CNY · 虚构用户甲 / 虚构审批人乙
+    - heading "待履行订单" [level=3]
+    - button "SO-DEMO-CON-007 · 49660.01 CNY"
+  - article:
+    - heading "SO-DEMO-CON-007 · 待履行" [level=2]
+    - paragraph: 演示数据 / 开发政策，不用于真实商务
+    - strong: 49660.01 CNY
+    - paragraph: 实际收款、开票、发货、验收：未接入。没有库存、SN 或已交付设备档案。
+    - button "返回合同"
+    - paragraph: 来源报价版本 25168c37-c2aa-4999-8320-61597da4ae8c
+    - button "查看报价版本历史"
+    - heading "冻结主体与销售配置" [level=3]
+    - paragraph: 虚构甲方 → 虚构乙方 · 合同 DEMO-CON-007
+    - paragraph: 销售：虚构用户甲 / 售后：虚构审批人乙
+    - paragraph: 含税；金额来自签约快照。
+    - paragraph: DEMO-CPU · 虚构计算 CPU · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-RAM · 虚构 ECC 内存 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-PSU · 虚构 1200W 电源 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×2 · 含于包件，不重复收费
+    - paragraph: DEMO-SSD · 虚构系统盘 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-GPU · 虚构计算 GPU · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: 虚构无电源准系统 ×1 · 9000.00 CNY
+    - paragraph: 虚构计算 CPU ×1 · 9800.01 CNY
+    - paragraph: 虚构 ECC 内存 ×1 · 1880.00 CNY
+    - paragraph: 虚构系统盘 ×1 · 980.00 CNY
+    - paragraph: 虚构计算 GPU ×1 · 28000.00 CNY
+    - heading "冻结付款约定 · 未接入实际收款" [level=3]
+    - paragraph: 预付款 · 49660.01 CNY · 2026-01-08 · 签约日起 7 日历天
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

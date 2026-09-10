@@ -50,7 +50,9 @@ def fields(i,number='CON-001'):
      'key_contacts':[{'name':'虚构关键人','contact':'contact@example.invalid'}],'sales':{'user_id':str(i.user)},'support':{'user_id':str(i.other)},
      'signing_date':'2026-01-01','delivery_note':'签约后协商，不代表已交付',
      'payments':[{'id':str(uuid4()),'name':'预付款','amount':'100.00','trigger':'signing','offset_days':7},{'id':str(uuid4()),'name':'验收款','amount':'200.00','trigger':'acceptance','offset_days':30}]}
-PDF=b'%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF\n'
+from pathlib import Path
+PDF=(Path(__file__).resolve().parents[3]/'docs/tasks/TASK-007/evidence/fictional-proof.pdf').read_bytes()
+
 def upload(c,id,v,data=PDF,name='fictional-proof.pdf',key=None):
     return c.post(P+'/'+id+'/uploads',params={'name':name,'category':'proof','expected_version':v},content=data,headers={'Idempotency-Key':key or str(uuid4()),'Content-Type':'application/octet-stream'})
 def ready(c,id,i):
@@ -253,3 +255,135 @@ def test_later_master_data_and_quote_withdrawal_preserve_signed_order(engine,dat
         reopened=c.get(P+'/'+draft['id']).json()
         assert reopened['fields']==w['fields'] and reopened['source']['source_state']=='withdrawn'
         assert reopened['source']['content']==version['content']
+
+
+def test_old_pending_can_be_deleted_after_signing_without_changing_frozen_evidence(engine,database,identities):
+    import os,time,sys
+    from pathlib import Path
+    sys.path.insert(0,str(Path(__file__).resolve().parents[3]/'infra'))
+    from clean_contract_files import clean
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w,a=ready(c,draft['id'],i)
+        b=ok(upload(c,draft['id'],w['version'],name='unused.pdf'))
+        signed=ok(request(c,'/'+draft['id']+'/sign',{'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True}))
+        order=c.get(P+'/orders/'+signed['order_id']).json();key=str(uuid4());body={'expected_version':w['version']}
+        deleted=ok(request(c,'/'+draft['id']+'/files/'+b['id']+'/delete',body,key),200)
+        assert deleted['version']==w['version'] and [x['id'] for x in deleted['files']]==[a['id']]
+        assert ok(request(c,'/'+draft['id']+'/files/'+b['id']+'/delete',body,key),200)==deleted
+        root=Path(database.files)/str(i.a)
+        for p in root.iterdir():os.utime(p,(time.time()-90000,)*2)
+        assert clean(Settings(database.url,'test',file_root=database.files),i.user,i.a,True)==1
+        assert len(list(root.iterdir()))==1
+        assert c.get(P+'/files/'+a['id']+'/download').content==PDF
+        assert c.get(P+'/files/'+b['id']+'/download').status_code==404
+        assert c.get(P+'/signed/'+signed['id']).json()==signed
+        assert c.get(P+'/orders/'+order['id']).json()==order
+
+
+@pytest.mark.parametrize('kind',['pdf','jpg','png'])
+def test_invalid_marked_documents_rejected_before_attachment_creation(engine,database,identities,kind):
+    import struct,zlib
+    from pathlib import Path
+    def chunk(k,v):return struct.pack('>I',len(v))+k+v+struct.pack('>I',zlib.crc32(k+v)&0xffffffff)
+    malformed={'pdf':b'%PDF-1.4\nthis is plain text, no PDF objects or pages\n%%EOF',
+               'jpg':b'\xff\xd8\xff'+b'not a JPEG image, plain text'+b'\xff\xd9',
+               'png':b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',2,2,8,2,0,0,0))+chunk(b'IEND',b'')}
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+        r=upload(c,draft['id'],w['version'],malformed[kind],'invalid-proof.'+kind)
+        assert r.status_code==422,r.text
+        assert r.json()['code']=='FILE_TYPE_REJECTED'
+        assert c.get(P+'/'+draft['id']).json()['files']==[]
+        assert not list(Path(database.files).rglob('*'))
+
+
+@pytest.mark.parametrize('kind',['pdf','jpg','png'])
+def test_decodable_formats_roundtrip_and_truncation_is_rejected(engine,database,identities,kind):
+    import io
+    from PIL import Image
+    if kind=='pdf':data=PDF
+    else:
+        stream=io.BytesIO();Image.new('RGB',(8,8),(30,90,60)).save(stream,format='JPEG' if kind=='jpg' else 'PNG');data=stream.getvalue()
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+        f=ok(upload(c,draft['id'],w['version'],data,'valid.'+kind))
+        w=ok(request(c,'/'+draft['id']+'/files/'+f['id']+'/attach',{'expected_version':w['version']}),200)
+        assert c.get(P+'/files/'+f['id']+'/download').content==data
+        truncated=data[:40]+(b'\n%%EOF' if kind=='pdf' else b'\xff\xd9' if kind=='jpg' else data[-12:])
+        assert upload(c,draft['id'],w['version'],truncated,'truncated.'+kind).status_code==422
+        assert len(c.get(P+'/'+draft['id']).json()['files'])==1
+
+
+def test_legacy_unfrozen_format_rechecked_on_attach_and_sign(engine,database,identities):
+    import hashlib
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w,a=ready(c,draft['id'],i);file_id=uuid4();storage=uuid4();data=b'%PDF-1.4\nnot a document\n%%EOF'
+        directory=Path(database.files)/str(i.a);(directory/str(storage)).write_bytes(data)
+        # Reconstruct an existing pre-fix row, not a mock of the current validator.
+        with i.owner.begin() as db:
+            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
+            db.execute(text("INSERT INTO contract_files(tenant_id,id,contract_id,storage_id,name,media_type,size,sha256,category,state,uploaded_by) VALUES (:t,:id,:c,:s,'legacy.pdf','application/pdf',:n,:h,'proof','pending',:u)"),{'t':i.a,'id':file_id,'c':draft['id'],'s':storage,'n':len(data),'h':hashlib.sha256(data).hexdigest(),'u':i.user})
+        assert request(c,'/'+draft['id']+'/files/'+str(file_id)+'/attach',{'expected_version':w['version']}).json()['code']=='FILE_TYPE_REJECTED'
+        with i.owner.begin() as db:
+            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
+            db.execute(text("UPDATE contract_files SET state='linked' WHERE id=:id"),{'id':file_id})
+        w=c.get(P+'/'+draft['id']).json()
+        assert request(c,'/'+draft['id']+'/sign',{'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True}).json()['code']=='FILE_TYPE_REJECTED'
+        assert c.get(P+'/orders').json()==[]
+        assert (directory/str(storage)).read_bytes()==data
+
+
+def test_pending_deletion_rechecks_current_permissions_and_tenant(engine,database,identities):
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w,a=ready(c,draft['id'],i);b=ok(upload(c,draft['id'],w['version'],name='unused.pdf'))
+        signed=ok(request(c,'/'+draft['id']+'/sign',{'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True}))
+        path='/'+draft['id']+'/files/'+b['id']+'/delete';body={'expected_version':w['version']};key=str(uuid4())
+        with client(engine,database,i.other,i.b) as other:assert request(other,path,body).status_code==404
+        with i.owner.begin() as db:db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.user})
+        assert request(c,path,body,key).status_code==403
+        with i.owner.begin() as db:db.execute(text("UPDATE memberships SET role='admin' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.user})
+        ok(request(c,path,body,key),200)
+        with i.owner.begin() as db:db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.user})
+        assert request(c,path,body,key).status_code==403
+
+
+def test_pending_delete_and_sign_serialize_without_stranding_files(engine,database,identities):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:w,a=ready(c,draft['id'],i);b=ok(upload(c,draft['id'],w['version'],name='unused.pdf'))
+    barrier=Barrier(2)
+    def job(sign):
+        with client(engine,database,i.user,i.a) as c:
+            barrier.wait(timeout=5)
+            return request(c,'/'+draft['id']+('/sign' if sign else '/files/'+b['id']+'/delete'),{'expected_version':w['version'],'content_hash':w['content_hash'],'confirmed':True} if sign else {'expected_version':w['version']})
+    with ThreadPoolExecutor(2) as pool:
+        futures=[pool.submit(job,x) for x in [True,False]];sign,delete=[f.result(timeout=15) for f in futures]
+    assert delete.status_code==200,delete.text
+    assert sign.status_code in (201,409),sign.text
+    with client(engine,database,i.user,i.a) as c:
+        current=c.get(P+'/'+draft['id']).json();assert [x['id'] for x in current['files']]==[a['id']]
+        if sign.status_code==409:
+            assert sign.json()['code']=='VERSION_CONFLICT'
+            ok(request(c,'/'+draft['id']+'/sign',{'expected_version':current['version'],'content_hash':current['content_hash'],'confirmed':True}))
+        assert len(c.get(P+'/orders').json())==1
+        assert c.get(P+'/files/'+a['id']+'/download').content==PDF
+
+
+@pytest.mark.parametrize('kind',['page_count','page_pixels'])
+def test_pdf_processing_limits_reject_without_visible_upload(engine,database,identities,kind):
+    import io,pypdfium2 as pdfium
+    doc=pdfium.PdfDocument.new()
+    for _ in range(51 if kind=='page_count' else 1):doc.new_page(100 if kind=='page_count' else 10000,100 if kind=='page_count' else 10000).close()
+    data=io.BytesIO();doc.save(data);doc.close()
+    i=identities;draft,_=source(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:
+        w=ok(request(c,'/'+draft['id']+'/save',{'expected_version':0,'fields':fields(i)}),200)
+        r=upload(c,draft['id'],w['version'],data.getvalue(),'large.pdf')
+        assert r.status_code==422 and r.json()['code']=='FILE_VALIDATION_LIMIT',r.text
+        assert c.get(P+'/'+draft['id']).json()['files']==[]

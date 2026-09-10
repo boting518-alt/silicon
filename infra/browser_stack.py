@@ -99,6 +99,10 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             from quote_review_fixture import seed as review_seed,CONTROL,EVENTS
             assert not CONTROL.exists() and not EVENTS.exists(), 'Review control files already exist; inspect before starting'
             review_seed(engine,actor,a)
+        if os.getenv('SILICON_BROWSER_CONTRACT_REPAIR')=='1':
+            assert os.getenv('SILICON_BROWSER_CONTRACTS')=='1' and os.getenv('SILICON_BROWSER_PUBLICATION')=='1'
+            from contract_review_examples import seed as contract_seed
+            contract_seed(engine,database,actor,a,temp/'contract-files')
         engine.dispose()
         commands=[([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false','--https-port=8443',f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}','--import-realm','--cache=local'],issuer+'/.well-known/openid-configuration'),
                   ([sys.executable,'-m','uvicorn','infra.quote_review_fixture:create_app' if review else 'silicon.main:create_app','--factory','--host','127.0.0.1','--port','8000','--no-access-log'],'http://127.0.0.1:8000/api/v1/ready'),

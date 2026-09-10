@@ -1,0 +1,11 @@
+Resolved 38 packages in 887ms
+   Building silicon @ file:///Volumes/Lenovo3/workspace/SILICON/silicon-workspace
+      Built silicon @ file:///Volumes/Lenovo3/workspace/SILICON/silicon-workspace
+Prepared 1 package in 228ms
+Uninstalled 1 package in 19ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 2 packages in 93ms
+ + psutil==7.2.2
+ ~ silicon==0.1.0 (from file:///Volumes/Lenovo3/workspace/SILICON/silicon-workspace)

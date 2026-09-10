@@ -1,0 +1,208 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同 未启用" [disabled]:
+      - generic: ▣
+      - text: 采购合同
+      - generic: 未启用
+    - button "▦ 库存管理 未启用" [disabled]:
+      - generic: ▦
+      - text: 库存管理
+      - generic: 未启用
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /合同管理
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每项约定，都有清晰来源。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "合同完善与签约登记" [level=2]
+  - paragraph: 线下签约事实登记；付款节点是约定，不是已收款。订单不代表发货。
+  - button "刷新列表"
+  - status: 签约事实已登记，销售订单已生成；未标记收款或交付。
+  - navigation "合同与订单列表":
+    - button "DEMO-CON-007 · 虚构附件修复验收 · 已签虚构甲方 · 49660.01 CNY · 虚构用户甲 / 虚构审批人乙":
+      - text: DEMO-CON-007 · 虚构附件修复验收 · 已签
+      - generic: 虚构甲方 · 49660.01 CNY · 虚构用户甲 / 虚构审批人乙
+    - heading "待履行订单" [level=3]
+  - article:
+    - heading "已签合同 · 冻结内容 · v2" [level=2]
+    - paragraph: 演示数据 / 开发政策，不用于真实商务
+    - paragraph: 来源 Q-000001 · 7c95adbbfd7e203dd1cb77f6fcdf421c2259f490f4d9c008a2249ba10f27cf6d
+    - button "重新载入合同"
+    - button "查看报价版本历史"
+    - text: 合同编号
+    - textbox "合同编号" [disabled]: DEMO-CON-007
+    - text: 合同名称
+    - textbox "合同名称" [disabled]: 虚构附件修复验收
+    - heading "甲方主体" [level=3]
+    - text: 甲方名称
+    - textbox "甲方名称" [disabled]: 虚构甲方
+    - text: 甲方地址
+    - textbox "甲方地址" [disabled]: 虚构甲方路1号
+    - text: 甲方主体标识（选填）
+    - textbox "甲方主体标识（选填）" [disabled]
+    - text: 甲方签约代表
+    - textbox "甲方签约代表" [disabled]: 虚构代表甲
+    - heading "乙方主体" [level=3]
+    - text: 乙方名称
+    - textbox "乙方名称" [disabled]: 虚构乙方
+    - text: 乙方地址
+    - textbox "乙方地址" [disabled]: 虚构乙方路2号
+    - text: 乙方主体标识（选填）
+    - textbox "乙方主体标识（选填）" [disabled]
+    - text: 乙方签约代表
+    - textbox "乙方签约代表" [disabled]: 虚构代表乙
+    - heading "客户联系人与内部责任人" [level=3]
+    - text: 项目负责人
+    - textbox "项目负责人" [disabled]: 虚构项目负责人
+    - text: 项目负责人联系方式
+    - textbox "项目负责人联系方式" [disabled]: test@example.invalid
+    - text: 关键联系人 1
+    - textbox "关键联系人 1" [disabled]: 虚构关键人
+    - text: 联系方式 1
+    - textbox "联系方式 1" [disabled]: contact@example.invalid
+    - button "移除联系人 1" [disabled]
+    - button "添加关键联系人" [disabled]
+    - text: 销售负责人
+    - combobox "销售负责人 历史姓名：虚构用户甲" [disabled]:
+      - option "请选择" [disabled]
+      - option "虚构只读用户" [disabled]
+      - option "虚构审批人乙" [disabled]
+      - option "虚构用户甲" [disabled] [selected]
+    - generic: 历史姓名：虚构用户甲
+    - text: 售后负责人
+    - combobox "售后负责人 历史姓名：虚构审批人乙" [disabled]:
+      - option "请选择" [disabled]
+      - option "虚构只读用户" [disabled]
+      - option "虚构审批人乙" [disabled] [selected]
+      - option "虚构用户甲" [disabled]
+    - generic: 历史姓名：虚构审批人乙
+    - text: 线下签约日期
+    - textbox "线下签约日期" [disabled]: 2026-01-01
+    - text: 约定交付日期
+    - textbox "约定交付日期" [disabled]
+    - text: 交付说明
+    - textbox "交付说明" [disabled]: 签约后协商，不代表已交付
+    - text: 商务备注
+    - textbox "商务备注" [disabled]
+    - heading "付款约定 · 合同金额 49660.01 CNY" [level=3]
+    - text: 节点名称 1
+    - textbox "节点名称 1" [disabled]: 预付款
+    - text: 节点金额 1
+    - textbox "节点金额 1" [disabled]: "49660.01"
+    - text: 到期方式 1
+    - combobox "到期方式 1" [disabled]:
+      - option "固定日期" [disabled]
+      - option "签约日期起" [disabled] [selected]
+      - option "交付后（待触发）" [disabled]
+      - option "验收后（待触发）" [disabled]
+    - text: 偏移日历天 1
+    - spinbutton "偏移日历天 1" [disabled]: "7"
+    - button "移除节点 1" [disabled]
+    - button "添加付款节点" [disabled]
+    - button "保存合同资料" [disabled]
+    - heading "来源商业内容 · 不可在合同改价" [level=3]
+    - strong: 49660.01 CNY · 含税
+    - paragraph: 变更配置或金额请返回报价修订、审批和发布流程。
+    - paragraph: DEMO-CPU · 虚构计算 CPU · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-RAM · 虚构 ECC 内存 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-PSU · 虚构 1200W 电源 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×2 · 含于包件，不重复收费
+    - paragraph: DEMO-SSD · 虚构系统盘 · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: DEMO-GPU · 虚构计算 GPU · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 独立商业行
+    - paragraph: 虚构无电源准系统 ×1 · 9000.00 CNY
+    - paragraph: 虚构计算 CPU ×1 · 9800.01 CNY
+    - paragraph: 虚构 ECC 内存 ×1 · 1880.00 CNY
+    - paragraph: 虚构系统盘 ×1 · 980.00 CNY
+    - paragraph: 虚构计算 GPU ×1 · 28000.00 CNY
+    - heading "私有附件" [level=3]
+    - paragraph: PDF/JPEG/PNG，默认最大10 MiB；类型检查不等于恶意软件扫描。上传后需显式关联。
+    - text: 附件用途
+    - combobox "附件用途":
+      - option "签约证明" [selected]
+      - option "合同文件"
+      - option "技术配置"
+      - option "其他"
+    - text: 选择附件
+    - button "选择附件"
+    - button "上传附件" [disabled]
+    - paragraph: proof-a.pdf · 621 bytes · 已关联 · proof · 原合同材料
+    - generic: SHA-256 62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace
+    - button "下载 proof-a.pdf"
+    - button "删除 proof-a.pdf" [disabled]
+    - paragraph: unused-b.pdf · 621 bytes · 待关联 · proof · 原合同材料
+    - generic: SHA-256 62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace
+    - paragraph: 此文件未进入签约冻结集，可删除；如需补充，请删除后重新上传为补充材料。
+    - button "关联 unused-b.pdf" [disabled]
+    - button "删除 unused-b.pdf" [active]
+    - paragraph: 已签内容及原附件只读；本期不支持变更或解除；后续上传仅为独立补充材料，不改变原冻结集。
+    - button "查看关联订单"
+    - heading "责任人与资料历史" [level=3]
+    - paragraph: 版本 1 · 2026-09-11T01:00:30.847443+08:00 · 销售：虚构用户甲 / 售后：虚构审批人乙
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯
