@@ -1,6 +1,6 @@
 # TASK-007 — 合同完善、签约登记、销售订单、付款节点与附件
 
-status: review_ready
+status: accepted
 前置：TASK-006 独立审查 passed，并由负责人确认 accepted。
 当前授权：负责人明确接受 TASK-006（59f55c813aba62ec8f18dc5d5e7cc649b277aeca）并授权实施 TASK-007；原任务书其余验收条件保留。
 

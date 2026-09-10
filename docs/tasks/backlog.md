@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-007，status: review_ready。TASK-000～TASK-006 已由产品/架构负责人确认 accepted；TASK-008 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-008，status: executing。TASK-000～TASK-007 已由产品/架构负责人确认 accepted；TASK-009 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-006 为 accepted；TASK-007 为 review_ready；TASK-008～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-007 为 accepted；TASK-008 为 executing；TASK-009～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -101,3 +101,7 @@ TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单
 ## TASK-007 验收交接
 
 负责人明确确认 TASK-006 accepted，审查对应 59f55c813aba62ec8f18dc5d5e7cc649b277aeca，并授权 [TASK-007](TASK-007/task.md) executing。增量报告 TASK-006-59f55c8-review.md 尚未在仓库/Downloads/附件目录找到，待原样归档；不编造审查结论正文。旧报告及结果保持原样。见 [交接记录](TASK-007/handoff.md)。
+
+## TASK-008 验收交接
+
+负责人明确接受TASK-007并授权TASK-008。基线4802fcccb739fa89cada3be5179e21e0066121a0，main工作树干净。 [增量报告](../reviews/TASK-007-4802fcc-review.md)原样归档；首次报告、旧result及验证限制不变。Reviewer未重跑完整PG/IdP/浏览器、Store父进程监控受环境限制等事实保留。见 [任务书](TASK-008/task.md) 与 [交接](TASK-008/handoff.md)。
