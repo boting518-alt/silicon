@@ -1,0 +1,61 @@
+ .gitattributes                                     |   1 +
+ README.md                                          |   6 +
+ apps/api/src/silicon/contracts/routes.py           |   4 +-
+ apps/api/src/silicon/contracts/service.py          |   2 +-
+ apps/api/src/silicon/contracts/storage.py          |  52 ++++--
+ apps/api/src/silicon/contracts/validate_file.py    |  60 ++++++
+ apps/api/tests/test_contracts.py                   | 136 +++++++++++++-
+ apps/web/src/Contracts.tsx                         |   4 +-
+ apps/web/tests/contracts-component.jsx             |   5 +-
+ docs/architecture/adr/ADR-012.md                   |  12 ++
+ docs/reviews/TASK-007-732089f-review.md            | 102 ++++++++++
+ .../tasks/TASK-007/evidence/r1-r2/backend-full.txt |  25 +++
+ .../r1-r2/browser-deleted-pending-success.txt      | 154 +++++++++++++++
+ .../evidence/r1-r2/browser-deleted-pending.txt     |  38 ++++
+ .../evidence/r1-r2/browser-invalid-jpeg.txt        | 154 +++++++++++++++
+ .../evidence/r1-r2/browser-invalid-pdf.txt         | 204 ++++++++++++++++++++
+ .../tasks/TASK-007/evidence/r1-r2/browser-notes.md |  31 +++
+ .../TASK-007/evidence/r1-r2/browser-order.txt      | 118 ++++++++++++
+ .../TASK-007/evidence/r1-r2/browser-reloaded.txt   | 153 +++++++++++++++
+ .../evidence/r1-r2/browser-signed-pending.txt      | 208 +++++++++++++++++++++
+ .../TASK-007/evidence/r1-r2/browser-stack.txt      |   5 +
+ docs/tasks/TASK-007/evidence/r1-r2/build.txt       |  18 ++
+ .../evidence/r1-r2/contract-generation.txt         |   1 +
+ .../evidence/r1-r2/contracts-components.txt        |   3 +
+ .../TASK-007/evidence/r1-r2/contracts-expanded.txt |  17 ++
+ .../evidence/r1-r2/desktop-format-error.jpg        | Bin 0 -> 79713 bytes
+ .../evidence/r1-r2/desktop-pending-cleanup.jpg     | Bin 0 -> 79772 bytes
+ docs/tasks/TASK-007/evidence/r1-r2/docs-check.txt  |   1 +
+ .../TASK-007/evidence/r1-r2/fixtures/invalid.jpg   |   1 +
+ .../TASK-007/evidence/r1-r2/fixtures/invalid.pdf   | Bin 0 -> 58 bytes
+ .../TASK-007/evidence/r1-r2/fixtures/proof-a.pdf   | Bin 0 -> 621 bytes
+ .../TASK-007/evidence/r1-r2/fixtures/unused-b.pdf  | Bin 0 -> 621 bytes
+ .../TASK-007/evidence/r1-r2/fixtures/valid.jpg     | Bin 0 -> 632 bytes
+ .../TASK-007/evidence/r1-r2/fixtures/valid.png     | Bin 0 -> 77 bytes
+ docs/tasks/TASK-007/evidence/r1-r2/frontend.txt    |  27 +++
+ docs/tasks/TASK-007/evidence/r1-r2/limits.txt      |  12 ++
+ .../evidence/r1-r2/memory-monitor-install.txt      |  11 ++
+ .../evidence/r1-r2/mobile-format-error.jpg         | Bin 0 -> 36212 bytes
+ .../evidence/r1-r2/mobile-pending-cleanup.jpg      | Bin 0 -> 39457 bytes
+ .../tasks/TASK-007/evidence/r1-r2/parser-green.txt |  12 ++
+ .../TASK-007/evidence/r1-r2/parser-install.txt     |  16 ++
+ .../TASK-007/evidence/r1-r2/parser-versions.json   |  51 +++++
+ .../TASK-007/evidence/r1-r2/precommit-checks.json  |   8 +
+ .../evidence/r1-r2/publication-components.txt      |   1 +
+ .../TASK-007/evidence/r1-r2/quote-components.txt   |   3 +
+ docs/tasks/TASK-007/evidence/r1-r2/r1-green.txt    |  12 ++
+ docs/tasks/TASK-007/evidence/r1-r2/r1-red.raw.gz   | Bin 0 -> 1526 bytes
+ docs/tasks/TASK-007/evidence/r1-r2/r1-red.txt      |  49 +++++
+ docs/tasks/TASK-007/evidence/r1-r2/r2-green.raw.gz | Bin 0 -> 1715 bytes
+ docs/tasks/TASK-007/evidence/r1-r2/r2-green.txt    |  78 ++++++++
+ docs/tasks/TASK-007/evidence/r1-r2/r2-red.txt      |  94 ++++++++++
+ .../tasks/TASK-007/evidence/r1-r2/screenshots.json |  54 ++++++
+ docs/tasks/TASK-007/evidence/r1-r2/validation.json |  51 +++++
+ docs/tasks/TASK-007/result.md                      |  19 ++
+ infra/browser_stack.py                             |   4 +
+ infra/check_docs.py                                |   1 +
+ infra/contract_review_examples.py                  |  24 +++
+ infra/create_contract_review_files.py              |  15 ++
+ pyproject.toml                                     |   3 +
+ uv.lock                                            |  68 +++++++
+ 60 files changed, 2102 insertions(+), 26 deletions(-)

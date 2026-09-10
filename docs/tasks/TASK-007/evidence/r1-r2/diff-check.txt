@@ -1,0 +1,3 @@
+PASS git diff --check
+PASS git diff --cached --check before implementation commit
+PASS original report byte equality, prior evidence byte equality, original result prefix preserved

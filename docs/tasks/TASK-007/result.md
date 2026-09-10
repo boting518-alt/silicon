@@ -84,3 +84,10 @@ R2：原头尾标记可接受伪造PDF/JPEG。新增独立有界解码进程，P
 准确命令/原始日志见 [本轮验证](evidence/r1-r2/validation.json)、[浏览器复现与边界](evidence/r1-r2/browser-notes.md)、[截图清单](evidence/r1-r2/screenshots.json)。PG/IdP均为夹具独立临时环境，无常驻数据库/证书信任/Demo改动。AV、Docker、其他浏览器和像素阈值自动对比not_run；文件解码不是安全沙箱或PDF合规认证。原生产启动保护及业务政策限制继续保留，TASK008未启动。
 
 修复实现提交及最终HEAD在后续提交登记/审查包manifest给出，避免自引用。
+
+### 本轮提交登记
+
+- 修复基准：`732089f2e812920c2e20b863cf9749b4dd6dad3e`。
+- 修复实现与验证：`9b79adf11fa31ec22e4ef27a00cf1847464d8673`。
+- 随后的交付登记提交仅更新本段与差异/检查证据。完整最终HEAD登记在审查包REVIEW_MANIFEST.md及包外checks.json。
+- 本轮 `git diff --check` 和暂存差异检查均通过；原报告、旧证据字节不变检查通过。
