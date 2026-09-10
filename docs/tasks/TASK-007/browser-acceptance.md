@@ -40,3 +40,7 @@ SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_PUBLICATION=1 SILICON_BROWSER_CATALO
 [截图清单](evidence/screenshots.json)含7张原始JPEG。实际视口1440×900及390×844，浏览器导出1425×891/375×812，不重采样。移动document宽375、innerWidth390，无横向溢出。沿用硅屿侧栏、绿色token、字体、留白和卡片；新增合同资料/只读状态/订单列表属于本任务有意新增，不冒称原Demo已有。参照 [原设计基线](../../design/demo-baseline.md) 和TASK003已存截图，未覆盖历史基线。未进行像素自动阈值比较或其他浏览器平台验证。
 
 测试栈和临时标签已关闭，视口恢复；可信证书和字体保留。未执行真实商务签约、生产政策、AV扫描、容器运行及其他浏览器，不部署。数据库全回归在本栈停止后串行运行，结果见result。
+
+### 最后视觉细化
+
+截图检查发现合同主体卡片外的输入控件仍带浏览器默认边框，最后补充仅`.contracts-panel`作用域的既有客户/目录控件配色、圆角和内边距；未改变布局、交互或token。最终类型检查/构建复跑，未为此重新执行整条浏览器业务链。截图保留细化前实况，不冒称最终逐像素一致。source-blocked-desktop截取的是该失效草稿的主体区，具体阻断提示及禁用以browser-source-blocked DOM记录为证。

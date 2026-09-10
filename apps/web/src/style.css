@@ -47,3 +47,9 @@ button:disabled{cursor:not-allowed;opacity:.5}.pre-wrap{white-space:pre-wrap;ove
 .publication-panel .line { display:flex; gap:12px; justify-content:space-between; margin:12px 0; }
 .publication-panel .line small { display:block; }
 @media(max-width:720px){.publication-layout{grid-template-columns:minmax(0,1fr)}.publication-panel{padding:16px}.publication-panel .kv{grid-template-columns:1fr}.publication-panel .line{display:block}}
+
+/* Contract fields use the same controls as the existing customer/catalog forms. */
+.contracts-panel input:not([type=checkbox]):not([type=file]),.contracts-panel select { min-width:0;max-width:100%;background:white;border:1px solid #dbe7df;border-radius:7px;padding:10px;margin:8px 0;font:inherit;color:#263c32; }
+.contracts-panel select { width:100%; }
+.contracts-panel input:disabled,.contracts-panel select:disabled { background:#f6f9f7;color:#698471; }
+.contracts-panel input[type=checkbox] { accent-color:#254f3d; }
