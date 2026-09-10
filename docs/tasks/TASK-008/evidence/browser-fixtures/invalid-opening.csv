@@ -1,0 +1,2 @@
+external_id,sku,location_id,state,ownership,quantity,serial,batch,unit_cost,cost_status,currency,opening_date,basis
+OPEN-008,UNKNOWN-SKU,e24a9922-76a8-4fcb-963d-9941e13e80f7,qualified,own,2,,FICTIONAL-OPEN,20.00,confirmed,CNY,2026-01-01,虚构期初依据

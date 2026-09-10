@@ -1,0 +1,16 @@
+
+> silicon-workspace@0.1.0 build
+> npm run build --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 build
+> tsc --noEmit && vite build
+
+src/main.tsx(91,181): error TS18047: 'session' is possibly 'null'.
+npm error Lifecycle script `build` failed with error:
+npm error code 2
+npm error path /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error workspace @silicon/web@0.1.0
+npm error location /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error command failed
+npm error command sh -c tsc --noEmit && vite build

@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_opening_preview_atomic_dedupe_and_customer_ownership ___________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62109/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62109/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x112359760>, stop=<function database.<locals>.stop at 0x112359bc0>)
+identities = namespace(a=UUID('111b2a78-7c3f-4419-8bda-5e741afa5a8b'), b=UUID('cc7126a3-4464-437a-9f06-5694019fa8ab'), user=UUID('6...D('29110a94-064a-41dd-a159-0f33fe6ae5f7'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62109/silicon))
+
+    def test_opening_preview_atomic_dedupe_and_customer_ownership(engine,database,identities):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            sku=product(c,'OPENING','memory');ok(post(c,'/tracking/'+sku['id'],{'mode':'batch'}));loc=warehouse(c)
+>           ok(post(c,'/opening/configure',{'cutoff':'2026-01-01','open':True,'reason':'首次启用','expected_version':0}))
+
+apps/api/tests/test_inventory.py:62:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [404 Not Found]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory.py::test_opening_preview_atomic_dedupe_and_customer_ownership
+1 failed, 3 deselected, 2 warnings in 1.68s

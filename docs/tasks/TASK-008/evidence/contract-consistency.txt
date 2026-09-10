@@ -1,0 +1,13 @@
+
+
+> silicon-workspace@0.1.0 api:types
+> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts
+
+✨ openapi-typescript 7.13.0
+🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [105.8ms]
+
+PASS regeneration byte-identical
+{
+  "packages/api-client/openapi.json": "6ebb9dd4a243622873b8d0787bb69ce2b563aa2125f8a3f2be2ba03d508e30d4",
+  "packages/api-client/schema.d.ts": "5196fc1df8c31bf8e485200136ae1a9e43afedc52d174b3cc063d54a6e3978a9"
+}

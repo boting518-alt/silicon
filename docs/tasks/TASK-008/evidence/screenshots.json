@@ -1,0 +1,67 @@
+[
+  {
+    "file": "inventory-desktop-all.jpg",
+    "sha256": "ba3cbd4a12e32bf65d68d0a6e3381a52e4093735f7745bc60566d8418729ea23",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "purpose": "real browser, fictional inventory"
+  },
+  {
+    "file": "inventory-desktop-layout-diagnostic.jpg",
+    "sha256": "fec8296c39d40a4dcb6059989bf4108507d4c84f400662b73d33045788a78bd8",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "purpose": "initial layout diagnostic, not final"
+  },
+  {
+    "file": "inventory-desktop.jpg",
+    "sha256": "dc7bd1f2c0af7b5b291c722755f3da74d4027076b6cea9729f8a3460007e4bf1",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "purpose": "real browser, fictional inventory"
+  },
+  {
+    "file": "inventory-mobile.jpg",
+    "sha256": "1283898e5f242758279cc0235ebea6c7bce92d984eaa2682fb0b17e2f9f066de",
+    "viewport": [
+      390,
+      844
+    ],
+    "export_size": [
+      375,
+      812
+    ],
+    "purpose": "real browser, fictional inventory"
+  },
+  {
+    "file": "warehouse-no-cost-desktop.jpg",
+    "sha256": "bb03eb2a87292a575669092d69cba602fb38b7f94ed6464482253cf9c9b28d66",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "purpose": "real browser, fictional inventory"
+  }
+]

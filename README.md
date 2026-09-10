@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-007 已由产品/架构负责人确认 accepted。当前 TASK-008 执行采购、分批到货、成本与库存移动，状态 executing。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-007 已由产品/架构负责人确认 accepted。当前 TASK-008 执行采购、分批到货、成本与库存移动，状态 review_ready。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
@@ -195,11 +195,11 @@ TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](d
 
 [任务与发布边界](docs/tasks/TASK-006/task.md)、[ADR-011](docs/architecture/adr/ADR-011.md)、[验证结果](docs/tasks/TASK-006/result.md)、[两身份浏览器准备](docs/tasks/TASK-006/browser-acceptance.md)。开发政策只在独立测试栈显式种入；真实企业无政策阻断发布。所有报价须双人审批，确定性BLOCK不可绕过。已发布正文不可修改，合同只是来源草稿，不代表签约或核销。
 
-当前工作：[TASK-008](docs/tasks/TASK-008/task.md) executing；TASK-007 已由负责人接受，见 [交接](docs/tasks/TASK-008/handoff.md)。不开始 TASK-009。
+当前工作：[TASK-008](docs/tasks/TASK-008/task.md) review_ready；TASK-007 已由负责人接受，见 [交接](docs/tasks/TASK-008/handoff.md)。不开始 TASK-009。
 
 ## TASK-007 合同与私有附件
 
-[结果与限制](docs/tasks/TASK-007/result.md)、[ADR-012](docs/architecture/adr/ADR-012.md)、[真实浏览器复现](docs/tasks/TASK-007/browser-acceptance.md)。迁移 head 为0008；仍按上述所选数据库环境执行 upgrade head 和 current，不能只启动数据库就认为ready。
+[结果与限制](docs/tasks/TASK-007/result.md)、[ADR-012](docs/architecture/adr/ADR-012.md)、[真实浏览器复现](docs/tasks/TASK-007/browser-acceptance.md)。TASK-007 当时迁移 head 为0008；当前 head 为0009；仍按上述所选数据库环境执行 upgrade head 和 current，不能只启动数据库就认为ready。
 
 在已加载的本地环境中设置 `SILICON_FILE_ROOT=.local/contract-files`（相对启动时仓库根）与 `SILICON_FILE_MAX_BYTES=10485760`，默认10 MiB，允许1 KiB～20 MiB；文件目录不公开、不入Git、不存储在原Demo中。上传PDF/JPEG/PNG后还需显式关联；类型检查不是AV扫描。未配置存储时上传/下载明确失败。viewer只读且联系方式受字段权限保护，member维护草稿/附件，admin登记线下签约。
 
@@ -218,3 +218,28 @@ TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](d
 签约前已上传但未关联的旧附件，签约后仍可由有权限的用户删除；不能再关联到冻结合同，不改变签约版本或原证明。新补充材料走原独立补充流程。
 
 `uv sync --locked` 安装固定的pypdfium2 5.13.0、Pillow 12.3.0和psutil 7.2.2。PDF实际逐页渲染、图片实际完整解码；不是仅检查文件头，也不是AV扫描。默认上传10MiB，解码器绝对20MiB；PDF最多50页、单页/图片4000万像素、PDF累计1亿像素。每API进程最多2个解码子进程，等待1秒、CPU6秒、墙钟8秒、RSS采样512MiB；Linux另加768MiB地址空间限制。macOS采样可能短暂超限，不冒称硬内存沙箱。超限、格式错误或解码器不可用明确拒绝，无降级放行。旧未冻结附件在关联/新签约时重检，已签历史字节及快照不改写。详见ADR-012及TASK-007本轮证据。
+
+## TASK-008 采购与库存
+
+当前实现新增迁移 `0009_inventory`。本地数据库或 Compose 数据库启动后，继续使用对应 `DATABASE_URL` / `MIGRATION_DATABASE_URL` 执行 `infra/migrate.py upgrade head` 和 `current`，然后检查 API ready；数据库启动并不等于迁移完成。依赖锁文件未升级。
+
+采购合同先保存草稿再确认生效，订单在合同剩余额度内创建并确认；合同增量是独立同价追加数量记录，原快照不改。收货先草稿、再过账进入待检，质检与移库留下成对移动。错误冲销仅整张，必须先逆序处理后续依赖。库存数量/成本与采购金额、付款状态独立，预留/销售出库尚未启用。
+
+库存角色 member 可处理数量，不默认获得成本权限；成本由 API 裁剪。首期 CNY、piece 整数，SN 个别计价与批次 FIFO 层；税口径和可抵扣额不自动推定。未知成本不是零，库存总金额不完整时明示。期初 CSV 使用页面模板，选择明确截止日，预校验后整批提交；关闭期初后才开始后续采购收货，首笔业务后不重新开放普通历史回填。
+
+隔离验证（不连接常驻 PostgreSQL）：
+
+```bash
+export SILICON_TEST_PG_BIN="$PG17_HOME/bin"
+export SILICON_TEST_KEYCLOAK_HOME="$KEYCLOAK_HOME"
+.venv/bin/python -m pytest apps/api/tests/test_inventory.py -q
+.venv/bin/python -m pytest apps/api/tests -q
+```
+
+真实浏览器准备沿用已有合法字体与经授权信任的开发 TLS 证书；无需修改原 Demo。先结束完整后端测试，再启动：
+
+```bash
+SILICON_BROWSER_INVENTORY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 SILICON_BROWSER_CATALOG_SEED=1 .venv/bin/python infra/browser_stack.py
+```
+
+此标志仅把虚构 carol 设为仓库 member；alice 为 A 管理员。采购、库位、收货和导入由页面操作，不在该种子中预置。退出测试栈由其夹具清理独立数据库/IdP/附件。详见 [ADR-013](docs/architecture/adr/ADR-013.md) 与 [TASK-008 结果](docs/tasks/TASK-008/result.md)。

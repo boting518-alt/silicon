@@ -1,0 +1,1 @@
+PASS git diff --cached --check; no whitespace errors in inspected implementation, generated files and evidence.

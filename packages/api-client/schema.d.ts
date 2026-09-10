@@ -831,6 +831,506 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/inventory/suppliers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Suppliers */
+        get: operations["suppliers_api_v1_inventory_suppliers_get"];
+        put?: never;
+        /** Create Supplier */
+        post: operations["create_supplier_api_v1_inventory_suppliers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/suppliers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Update Supplier */
+        post: operations["update_supplier_api_v1_inventory_suppliers__id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/tracking/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Tracking */
+        post: operations["tracking_api_v1_inventory_tracking__id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/contracts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Contracts */
+        get: operations["contracts_api_v1_inventory_contracts_get"];
+        put?: never;
+        /** New Contract */
+        post: operations["new_contract_api_v1_inventory_contracts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/contracts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Contract */
+        get: operations["contract_api_v1_inventory_contracts__id__get"];
+        put?: never;
+        /** Edit Contract */
+        post: operations["edit_contract_api_v1_inventory_contracts__id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/contracts/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Activate */
+        post: operations["activate_api_v1_inventory_contracts__id__activate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Orders */
+        get: operations["orders_api_v1_inventory_orders_get"];
+        put?: never;
+        /** New Order */
+        post: operations["new_order_api_v1_inventory_orders_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/orders/{id}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm Order */
+        post: operations["confirm_order_api_v1_inventory_orders__id__confirm_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/locations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Locations */
+        get: operations["locations_api_v1_inventory_locations_get"];
+        put?: never;
+        /** New Location */
+        post: operations["new_location_api_v1_inventory_locations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/stock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Stock */
+        get: operations["stock_api_v1_inventory_stock_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/receipts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Receipts */
+        get: operations["receipts_api_v1_inventory_receipts_get"];
+        put?: never;
+        /** New Receipt */
+        post: operations["new_receipt_api_v1_inventory_receipts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/receipts/{id}/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Receipt */
+        post: operations["post_receipt_api_v1_inventory_receipts__id__post_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/transfers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Transfer */
+        post: operations["transfer_api_v1_inventory_transfers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Movements */
+        get: operations["movements_api_v1_inventory_movements_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/movements/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Movement */
+        get: operations["get_movement_api_v1_inventory_movements__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/movements/{id}/reverse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reverse */
+        post: operations["reverse_api_v1_inventory_movements__id__reverse_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/opening/configure": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Opening State */
+        get: operations["opening_state_api_v1_inventory_opening_configure_get"];
+        put?: never;
+        /** Opening Config */
+        post: operations["opening_config_api_v1_inventory_opening_configure_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/opening/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preview */
+        post: operations["preview_api_v1_inventory_opening_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/opening/{id}/commit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Commit Import */
+        post: operations["commit_import_api_v1_inventory_opening__id__commit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/orders/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel */
+        post: operations["cancel_api_v1_inventory_orders__id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/contracts/{id}/amend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Amend */
+        post: operations["amend_api_v1_inventory_contracts__id__amend_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Reconciliation */
+        get: operations["reconciliation_api_v1_inventory_reconciliation_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/opening/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Template */
+        get: operations["template_api_v1_inventory_opening_template_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/opening/{id}/file": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Import File */
+        get: operations["import_file_api_v1_inventory_opening__id__file_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/attachments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Attachments */
+        get: operations["attachments_api_v1_inventory_attachments_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/attachments/{kind}/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload Attachment */
+        post: operations["upload_attachment_api_v1_inventory_attachments__kind___id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/attachments/{id}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Download Attachment */
+        get: operations["download_attachment_api_v1_inventory_attachments__id__download_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/context": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Inventory Context */
+        get: operations["inventory_context_api_v1_inventory_context_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/inventory/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Summary */
+        get: operations["summary_api_v1_inventory_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -869,6 +1369,22 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Amendment */
+        Amendment: {
+            /**
+             * Line Id
+             * Format: uuid
+             */
+            line_id: string;
+            /** Extra Quantity */
+            extra_quantity: number;
+            /** Reason */
+            reason: string;
+            /** Expected Version */
+            expected_version: number;
+            /** Confirmed */
+            confirmed: boolean;
+        };
         /** Assignment */
         Assignment: {
             /** User Id */
@@ -989,6 +1505,11 @@ export interface components {
             /** Expected Version */
             expected_version: number;
         };
+        /** CSVInput */
+        CSVInput: {
+            /** Csv */
+            csv: string;
+        };
         /** Calculation */
         Calculation: {
             /**
@@ -1034,6 +1555,22 @@ export interface components {
              * @default development-v1; no tax conversion; no reservation/redemption
              */
             policy: string;
+        };
+        /** Cancel */
+        Cancel: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Line Id
+             * Format: uuid
+             */
+            line_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Reason */
+            reason: string;
+            /** Confirmed */
+            confirmed: boolean;
         };
         /** Candidate */
         Candidate: {
@@ -1157,6 +1694,98 @@ export interface components {
              * Format: date-time
              */
             issued_at: string;
+        };
+        /** ContractLine */
+        ContractLine: {
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Unit Price */
+            unit_price: number | string;
+            /**
+             * Tax Basis
+             * @default unconfirmed
+             * @enum {string}
+             */
+            tax_basis: "included" | "excluded" | "unconfirmed";
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
+        };
+        /** ContractLineView */
+        ContractLineView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Unit Price */
+            unit_price?: string | null;
+            /** Tax Basis */
+            tax_basis: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
+        };
+        /** ContractView */
+        ContractView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /**
+             * Supplier Id
+             * Format: uuid
+             */
+            supplier_id: string;
+            /** Buyer */
+            buyer: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Signing Date
+             * Format: date
+             */
+            signing_date: string;
+            /** Currency */
+            currency: string;
+            /** Notes */
+            notes: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /** Lines */
+            lines: components["schemas"]["ContractLineView"][];
+            /** Snapshot */
+            snapshot?: {
+                [key: string]: unknown;
+            } | null;
+            /** Amendments */
+            amendments?: {
+                [key: string]: unknown;
+            }[];
         };
         /** Convert */
         Convert: {
@@ -1446,6 +2075,23 @@ export interface components {
             /** Version */
             version: number;
         };
+        /** EntryView */
+        EntryView: {
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** State */
+            state: string;
+            /** Quantity */
+            quantity: number;
+        };
         /** Error */
         Error: {
             /** Code */
@@ -1589,6 +2235,21 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** InventoryVersion */
+        InventoryVersion: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @default false
+             */
+            confirmed: boolean;
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
+        };
         /** Issue */
         Issue: {
             /** Expected Version */
@@ -1598,6 +2259,25 @@ export interface components {
              * @constant
              */
             confirmed: true;
+        };
+        /** Location */
+        Location: {
+            /** Warehouse */
+            warehouse: string;
+            /** Name */
+            name: string;
+        };
+        /** LocationView */
+        LocationView: {
+            /** Warehouse */
+            warehouse: string;
+            /** Name */
+            name: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
         };
         /** LogoutInfo */
         LogoutInfo: {
@@ -1613,6 +2293,55 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+        };
+        /** MovementView */
+        MovementView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Reason */
+            reason: string;
+            /**
+             * Actor Id
+             * Format: uuid
+             */
+            actor_id: string;
+            /** Request Id */
+            request_id: string;
+            /**
+             * Effective On
+             * Format: date
+             */
+            effective_on: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Receipt Id */
+            receipt_id?: string | null;
+            /** Reverse Of */
+            reverse_of?: string | null;
+            /** Entries */
+            entries: components["schemas"]["EntryView"][];
+        };
+        /** OpeningConfig */
+        OpeningConfig: {
+            /**
+             * Cutoff
+             * Format: date
+             */
+            cutoff: string;
+            /** Open */
+            open: boolean;
+            /** Reason */
+            reason: string;
+            /** Expected Version */
+            expected_version: number;
         };
         /** Order */
         Order: {
@@ -1649,6 +2378,80 @@ export interface components {
             content: {
                 [key: string]: unknown;
             };
+        };
+        /** OrderLine */
+        OrderLine: {
+            /**
+             * Contract Line Id
+             * Format: uuid
+             */
+            contract_line_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Sales Order Id */
+            sales_order_id?: string | null;
+            /** Project Id */
+            project_id?: string | null;
+        };
+        /** OrderLineView */
+        OrderLineView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Contract Line Id
+             * Format: uuid
+             */
+            contract_line_id: string;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Received */
+            received: number;
+            /** Cancelled */
+            cancelled: number;
+            /** Unit Price */
+            unit_price?: string | null;
+            /** Tax Basis */
+            tax_basis: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
+            /** Sales Order Id */
+            sales_order_id?: string | null;
+            /** Project Id */
+            project_id?: string | null;
+        };
+        /** OrderView */
+        OrderView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /** Supplier Confirmation */
+            supplier_confirmation: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /** Lines */
+            lines: components["schemas"]["OrderLineView"][];
         };
         /** Party */
         "Party-Input": {
@@ -2003,6 +2806,63 @@ export interface components {
             /** Version */
             version: number;
         };
+        /** PurchaseContract */
+        PurchaseContract: {
+            /**
+             * Expected Version
+             * @default 0
+             */
+            expected_version: number;
+            /** Number */
+            number: string;
+            /**
+             * Supplier Id
+             * Format: uuid
+             */
+            supplier_id: string;
+            /** Buyer */
+            buyer: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Signing Date
+             * Format: date
+             */
+            signing_date: string;
+            /**
+             * Currency
+             * @default CNY
+             * @constant
+             */
+            currency: "CNY";
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Lines */
+            lines: components["schemas"]["ContractLine"][];
+        };
+        /** PurchaseOrder */
+        PurchaseOrder: {
+            /** Number */
+            number: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /**
+             * Supplier Confirmation
+             * @default
+             */
+            supplier_confirmation: string;
+            /** Lines */
+            lines: components["schemas"]["OrderLine"][];
+        };
         /** QuoteDetail */
         QuoteDetail: {
             /** Published Version Id */
@@ -2120,6 +2980,116 @@ export interface components {
             discount_id?: string | null;
             /** Expected Version */
             expected_version: number;
+        };
+        /** Receipt */
+        Receipt: {
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /**
+             * Received On
+             * Format: date
+             */
+            received_on: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** Lines */
+            lines: components["schemas"]["ReceiptLine"][];
+        };
+        /** ReceiptLine */
+        ReceiptLine: {
+            /**
+             * Order Line Id
+             * Format: uuid
+             */
+            order_line_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Serials */
+            serials?: string[];
+            /**
+             * Batch
+             * @default
+             */
+            batch: string;
+            /**
+             * Cost Status
+             * @default unknown
+             * @enum {string}
+             */
+            cost_status: "unknown" | "provisional" | "confirmed";
+            /** Unit Cost */
+            unit_cost?: number | string | null;
+            /** Deductible Tax */
+            deductible_tax?: number | string | null;
+            /**
+             * Cost Basis
+             * @default
+             */
+            cost_basis: string;
+        };
+        /** ReceiptLineView */
+        ReceiptLineView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Order Line Id
+             * Format: uuid
+             */
+            order_line_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Serials */
+            serials: string[];
+            /** Batch */
+            batch: string;
+            /** Cost Status */
+            cost_status?: string | null;
+            /** Unit Cost */
+            unit_cost?: string | null;
+            /** Deductible Tax */
+            deductible_tax?: string | null;
+            /** Cost Basis */
+            cost_basis?: string | null;
+        };
+        /** ReceiptView */
+        ReceiptView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /**
+             * Received On
+             * Format: date
+             */
+            received_on: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /** Lines */
+            lines: components["schemas"]["ReceiptLineView"][];
+            /** Movement Id */
+            movement_id?: string | null;
         };
         /** Responsibility */
         Responsibility: {
@@ -2470,6 +3440,92 @@ export interface components {
              */
             status: "ok" | "ready";
         };
+        /** StockItem */
+        StockItem: {
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** State */
+            state: string;
+            /** Balance */
+            balance: number;
+            /** Ownership */
+            ownership: string;
+            /** Version */
+            version: number;
+            /** Unit Id */
+            unit_id?: string | null;
+            /** Serial Raw */
+            serial_raw?: string | null;
+            /** Batch */
+            batch?: string | null;
+            /** Warehouse */
+            warehouse: string;
+            /** Location Name */
+            location_name: string;
+            /** Number */
+            number: string;
+            /** Name */
+            name: string;
+            /**
+             * Source Movement
+             * Format: uuid
+             */
+            source_movement: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Unit Cost */
+            unit_cost?: string | null;
+            /** Deductible Tax */
+            deductible_tax?: string | null;
+            /** Cost Status */
+            cost_status?: string | null;
+            /** Cost Basis */
+            cost_basis?: string | null;
+            /** Tax Basis */
+            tax_basis: string;
+            /** Currency */
+            currency: string;
+        };
+        /** StockView */
+        StockView: {
+            /** Items */
+            items: components["schemas"]["StockItem"][];
+            /** Available Quantity */
+            available_quantity: number;
+            /** Unit */
+            unit: string;
+            /** Reservation State */
+            reservation_state: string;
+            /**
+             * As Of
+             * Format: date-time
+             */
+            as_of: string;
+            /** Known Cost */
+            known_cost?: string | null;
+            /** Total Cost */
+            total_cost?: string | null;
+            /** Unknown Quantity */
+            unknown_quantity?: number | null;
+            /** Cost Complete */
+            cost_complete?: boolean | null;
+        };
         /** Submit */
         Submit: {
             /** Expected Version */
@@ -2479,6 +3535,73 @@ export interface components {
              * Format: date-time
              */
             valid_until: string;
+        };
+        /** SupplierInput */
+        SupplierInput: {
+            /** Name */
+            name: string;
+            /**
+             * Address
+             * @default
+             */
+            address: string;
+            /**
+             * Contact
+             * @default
+             */
+            contact: string;
+            /**
+             * Phone
+             * @default
+             */
+            phone: string;
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            /**
+             * Expected Version
+             * @default 0
+             */
+            expected_version: number;
+        };
+        /** SupplierView */
+        SupplierView: {
+            /** Name */
+            name: string;
+            /**
+             * Address
+             * @default
+             */
+            address: string;
+            /**
+             * Contact
+             * @default
+             */
+            contact: string;
+            /**
+             * Phone
+             * @default
+             */
+            phone: string;
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            /**
+             * Expected Version
+             * @default 0
+             */
+            expected_version: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Version */
+            version: number;
         };
         /** TechnicalLine */
         TechnicalLine: {
@@ -2512,6 +3635,61 @@ export interface components {
              * Format: uuid
              */
             tenant_id: string;
+        };
+        /** Tracking */
+        Tracking: {
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "sn" | "batch";
+            /**
+             * Unit
+             * @default piece
+             * @constant
+             */
+            unit: "piece";
+            /**
+             * Expected Version
+             * @default 0
+             */
+            expected_version: number;
+        };
+        /** Transfer */
+        Transfer: {
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Source Location Id
+             * Format: uuid
+             */
+            source_location_id: string;
+            /**
+             * Source State
+             * @enum {string}
+             */
+            source_state: "pending" | "qualified" | "quarantine";
+            /**
+             * Target Location Id
+             * Format: uuid
+             */
+            target_location_id: string;
+            /**
+             * Target State
+             * @enum {string}
+             */
+            target_state: "pending" | "qualified" | "quarantine";
+            /** Quantity */
+            quantity: number;
+            /** Expected Version */
+            expected_version: number;
+            /** Confirmed */
+            confirmed: boolean;
+            /** Reason */
+            reason: string;
         };
         /** UserInfo */
         UserInfo: {
@@ -4714,6 +5892,1287 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Workspace"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    suppliers_api_v1_inventory_suppliers_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupplierView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_supplier_api_v1_inventory_suppliers_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupplierInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_supplier_api_v1_inventory_suppliers__id__post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupplierInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    tracking_api_v1_inventory_tracking__id__post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Tracking"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    contracts_api_v1_inventory_contracts_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContractView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    new_contract_api_v1_inventory_contracts_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseContract"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    contract_api_v1_inventory_contracts__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContractView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    edit_contract_api_v1_inventory_contracts__id__post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseContract"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activate_api_v1_inventory_contracts__id__activate_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InventoryVersion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    orders_api_v1_inventory_orders_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    new_order_api_v1_inventory_orders_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseOrder"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    confirm_order_api_v1_inventory_orders__id__confirm_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InventoryVersion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    locations_api_v1_inventory_locations_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LocationView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    new_location_api_v1_inventory_locations_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Location"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stock_api_v1_inventory_stock_get: {
+        parameters: {
+            query?: {
+                as_of?: string | null;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StockView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    receipts_api_v1_inventory_receipts_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceiptView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    new_receipt_api_v1_inventory_receipts_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Receipt"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_receipt_api_v1_inventory_receipts__id__post_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InventoryVersion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    transfer_api_v1_inventory_transfers_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Transfer"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    movements_api_v1_inventory_movements_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MovementView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_movement_api_v1_inventory_movements__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MovementView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reverse_api_v1_inventory_movements__id__reverse_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InventoryVersion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    opening_state_api_v1_inventory_opening_configure_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    opening_config_api_v1_inventory_opening_configure_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpeningConfig"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_api_v1_inventory_opening_preview_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CSVInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    commit_import_api_v1_inventory_opening__id__commit_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InventoryVersion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_api_v1_inventory_orders__id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Cancel"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    amend_api_v1_inventory_contracts__id__amend_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Amendment"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reconciliation_api_v1_inventory_reconciliation_get: {
+        parameters: {
+            query?: {
+                as_of?: string | null;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    template_api_v1_inventory_opening_template_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    import_file_api_v1_inventory_opening__id__file_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    attachments_api_v1_inventory_attachments_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_attachment_api_v1_inventory_attachments__kind___id__post: {
+        parameters: {
+            query: {
+                name: string;
+                expected_version: number;
+            };
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                kind: "contract" | "receipt";
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    download_attachment_api_v1_inventory_attachments__id__download_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    inventory_context_api_v1_inventory_context_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    summary_api_v1_inventory_summary_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

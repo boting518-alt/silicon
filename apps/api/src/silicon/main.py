@@ -47,6 +47,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     from silicon.contracts.routes import router as contract_router
     app.include_router(contract_router(engine, settings))
 
+    from silicon.inventory.routes import router as inventory_router
+    app.include_router(inventory_router(engine, settings))
+
     @app.exception_handler(SQLAlchemyError)
     async def database_failure(request, exc):
         return JSONResponse(status_code=503, content={"code": "DATABASE_UNAVAILABLE",
@@ -80,7 +83,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             with engine.connect() as connection:
                 revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
-                if revision != "0008_contracts":
+                if revision != "0009_inventory":
                     raise RuntimeError("schema revision not ready")
         except (SQLAlchemyError, RuntimeError):
             return JSONResponse(status_code=503, content={

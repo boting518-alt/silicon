@@ -1,0 +1,53 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_concurrent_receipts_reverse_replay_and_reconciliation __________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62211/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62211/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x105a59760>, stop=<function database.<locals>.stop at 0x105a59bc0>)
+identities = namespace(a=UUID('5f43d112-b8d7-4c76-9ddf-e6d186e2607c'), b=UUID('b814b228-5b93-450e-8298-96f670468a15'), user=UUID('c...D('2f3fa19b-ba9d-4ece-8278-dd8611c72ddc'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62211/silicon))
+
+    def test_concurrent_receipts_reverse_replay_and_reconciliation(engine,database,identities):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            sku,contract,order=setup_purchase(c,i,2);loc=warehouse(c)
+            r1=ok(post(c,'/receipts',receipt_body(order,loc,['S1','S2'])))
+            r2=ok(post(c,'/receipts',receipt_body(order,loc,['S3','S4'])))
+        barrier=Barrier(2)
+        def run(r):
+            with client(engine,database,i.user,i.a) as c:
+                barrier.wait(timeout=5);return post(c,'/receipts/'+r['id']+'/post',{'expected_version':1,'confirmed':True})
+        with ThreadPoolExecutor(2) as ex:
+            futures=[ex.submit(run,r) for r in (r1,r2)];responses=[f.result(timeout=15) for f in futures]
+        assert sorted(x.status_code for x in responses)==[200,409]
+        posted=next(x.json() for x in responses if x.status_code==200)
+        with client(engine,database,i.user,i.a) as c:
+>           before=ok(c.get(P+'/reconciliation'));assert before['projection_matches'] and before['stock']['known_cost']=='160.00'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_inventory.py:92:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [404 Not Found]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory.py::test_concurrent_receipts_reverse_replay_and_reconciliation
+1 failed, 4 deselected, 2 warnings in 2.17s

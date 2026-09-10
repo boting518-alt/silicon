@@ -1,0 +1,34 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_closed_opening_rejects_new_preview_and_reverse_checks_version ______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50836/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50836/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-43/test_closed_opening_rejects_ne0/private-files')
+identities = namespace(a=UUID('ce0405b1-e1ba-4c24-9996-039d75635448'), b=UUID('9079470b-0d32-49ef-ba80-104a0aaef216'), user=UUID('d...D('905c1698-17ae-40ee-8cf9-e20299b7c6f6'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50836/silicon))
+
+    def test_closed_opening_rejects_new_preview_and_reverse_checks_version(engine,database,identities):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            sku,_,o=setup_purchase(c,i,1);loc=warehouse(c)
+            ok(post(c,'/opening/configure',{'cutoff':'2026-01-01','open':False,'reason':'不导入期初','expected_version':0}))
+            csv='external_id,sku,location_id,state,ownership,quantity,serial,batch,unit_cost,cost_status,currency,opening_date,basis\n'+f'X,{sku["number"]},{loc["id"]},pending,own,1,CLOSED-SN,,,unknown,CNY,2026-01-01,测试\n'
+>           assert post(c,'/opening/preview',{'csv':csv}).json()['code']=='OPENING_CLOSED'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'code'
+
+apps/api/tests/test_inventory.py:283: KeyError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory.py::test_closed_opening_rejects_new_preview_and_reverse_checks_version
+1 failed, 17 deselected, 2 warnings in 1.92s

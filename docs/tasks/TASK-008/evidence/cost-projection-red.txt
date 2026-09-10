@@ -1,0 +1,47 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_rls_no_context_immutable_facts_and_projection_discrepancy ________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:51243/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:51243/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-44/test_rls_no_context_immutable_0/private-files')
+identities = namespace(a=UUID('fc4aadf5-2b52-4304-bcf6-8e5b13035fc6'), b=UUID('b2a7c0b9-ab30-4cfd-b7e8-4ebd34ac7d27'), user=UUID('f...D('74d60656-aee1-4040-a21a-8feaab1a9f8d'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:51243/silicon))
+
+    def test_rls_no_context_immutable_facts_and_projection_discrepancy(engine,database,identities):
+        from silicon.identity.access import tenant_transaction
+        from sqlalchemy.exc import DBAPIError
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            _,_,o=setup_purchase(c,i,1);loc=warehouse(c);r=ok(post(c,'/receipts',receipt_body(o,loc,['RLS-SN'])));ok(post(c,'/receipts/'+r['id']+'/post',{'expected_version':1,'confirmed':True}))
+            item=ok(c.get(P+'/stock'))['items'][0]
+        with engine.begin() as db:
+            role=db.execute(text('SELECT rolname,rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user')).one();assert role[0]=='silicon_app' and not role[1] and not role[2]
+            assert db.scalar(text('SELECT count(*) FROM inv_entries'))==0
+        with pytest.raises(DBAPIError):
+            with tenant_transaction(engine,i.user,i.a,'inventory.read','immutable-test') as (db,_):db.execute(text('UPDATE inv_entries SET quantity=20'))
+        # Owner-only corruption probe verifies discrepancy detection, not normal app mutation.
+        with i.owner.begin() as db:
+            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
+            assert db.execute(text('UPDATE inv_balances SET quantity=2 WHERE tenant_id=:t AND layer_id=:l'),{'t':i.a,'l':item['layer_id']}).rowcount==1
+        with client(engine,database,i.user,i.a) as c:
+            result=ok(c.get(P+'/reconciliation'));assert not result['projection_matches'] and result['differences'][0]['ledger_quantity']==1 and result['differences'][0]['projected_quantity']==2
+            assert result['stock']['known_cost']=='80.00'
+>           assert result['differences'][0]['ledger_cost']=='80.00' and result['differences'][0]['projected_cost']=='160.00'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'ledger_cost'
+
+apps/api/tests/test_inventory.py:254: KeyError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory.py::test_rls_no_context_immutable_facts_and_projection_discrepancy
+1 failed, 17 deselected, 2 warnings in 1.91s

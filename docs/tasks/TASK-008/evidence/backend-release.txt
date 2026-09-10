@@ -1,0 +1,2382 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 39%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE..............EEEEEEEEEEE.EEEEEEEEEEEE [ 78%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                                 [100%]
+==================================== ERRORS ====================================
+_____ ERROR at setup of test_sku_maintenance_unique_specs_and_idempotency ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_permissions_cross_tenant_and_context __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_packages_rules_versions_and_frozen_snapshot ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____________ ERROR at setup of test_invalid_cycle_and_unknown_rules ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_prices_unknown_zero_expiry_overlap_and_history _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_concurrent_update_and_publish_overlap _________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_real_aggregate_read_waits_for_complete_write[skus] ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_real_aggregate_read_waits_for_complete_write[boms] ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_real_aggregate_read_waits_for_complete_write[price-books] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_published_database_mutations_denied __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_context_guards_all_catalog_commands_and_csrf ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_catalog_rls_role_and_invalid_price_inputs _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_expanded_quantity_is_bounded_without_commercial_credit _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_category_change_keeps_draft_and_all_catalog_loads_repairable _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_retired_bom_reference_can_be_revised_repaired_without_history_change[subject] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_retired_bom_reference_can_be_revised_repaired_without_history_change[part] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_retired_price_line_revision_is_repairable_but_not_publishable _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_existing_source_contract_can_open_workspace ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_contract_signing_freezes_order_and_file_with_replay __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______________ ERROR at setup of test_signing_hard_gates[amount] _______________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______________ ERROR at setup of test_signing_hard_gates[date] ________________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______________ ERROR at setup of test_signing_hard_gates[missing] ______________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______________ ERROR at setup of test_signing_hard_gates[source] _______________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______________ ERROR at setup of test_signing_hard_gates[tamper] _______________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______________ ERROR at setup of test_signing_hard_gates[contact] ______________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____________ ERROR at setup of test_signing_hard_gates[responsible] ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_file_validation_and_isolation[path] __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_file_validation_and_isolation[html] __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_file_validation_and_isolation[large] __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+________ ERROR at setup of test_file_validation_and_isolation[mismatch] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_file_validation_and_isolation[active] _________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_signing_competition_is_atomic[sign] __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_signing_competition_is_atomic[edit] __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_signing_competition_is_atomic[delete] _________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+________ ERROR at setup of test_signing_competition_is_atomic[withdraw] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_signed_supplement_is_separate_from_frozen_file_set ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_payment_input_rejected[fraction] ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_payment_input_rejected[negative] ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_payment_input_rejected[currency] ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_payment_input_rejected[event_date] ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____________ ERROR at setup of test_payment_input_rejected[offset] _____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_payment_input_rejected[duplicate] ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_independent_contract_keys_and_replay_current_access __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_failed_upload_and_orphan_cleanup_never_delete_live_files _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+________ ERROR at setup of test_expired_source_and_snapshot_permissions ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_upgrade_from_task006_preserves_source_data _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_later_master_data_and_quote_withdrawal_preserve_signed_order _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_old_pending_can_be_deleted_after_signing_without_changing_frozen_evidence _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_invalid_marked_documents_rejected_before_attachment_creation[pdf] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_invalid_marked_documents_rejected_before_attachment_creation[jpg] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_invalid_marked_documents_rejected_before_attachment_creation[png] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_decodable_formats_roundtrip_and_truncation_is_rejected[pdf] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_decodable_formats_roundtrip_and_truncation_is_rejected[jpg] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_decodable_formats_roundtrip_and_truncation_is_rejected[png] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_legacy_unfrozen_format_rechecked_on_attach_and_sign __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_pending_deletion_rechecks_current_permissions_and_tenant _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_pending_delete_and_sign_serialize_without_stranding_files _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_pdf_processing_limits_reject_without_visible_upload[page_count] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_pdf_processing_limits_reject_without_visible_upload[page_pixels] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_crud_relationships_refresh_history_and_audit ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_idempotency_and_concurrent_edit_conflict ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_concurrent_duplicate_create_single_customer ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_tenants_permissions_default_rls_and_invalid_input ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_pagination_search_own_scope_and_foreign_membership ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_child_relationships_cannot_cross_customers _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_upgrade_from_task002_preserves_identity_and_tenant_job[0002_identity] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_upgrade_from_task002_preserves_identity_and_tenant_job[0003_crm] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_upgrade_from_task002_preserves_identity_and_tenant_job[0005_catalog] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_upgrade_from_task002_preserves_identity_and_tenant_job[0006_quotes] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_stale_page_requests_rejected_even_without_notification _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_detail_is_one_committed_aggregate_during_replacement __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_missing_context_and_aba_are_rejected __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_switch_and_save_follow_session_lock_order[save] ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_switch_and_save_follow_session_lock_order[switch] ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_stale_edit_cannot_touch_a_visible_record_in_other_enterprise _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_runtime_rls_default_deny_pool_and_exception ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_composite_fk_and_cross_tenant_writes __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_session_memberships_csrf_switch_and_logout _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_lists_details_fields_attachments_and_revocation ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_tenant_jobs_authorization_fencing_and_audit ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_upgrade_from_task001_preserves_queue __________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_tenant_worker_lease_expiry_rolls_back_audit ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_field_write_permissions_and_controlled_audit ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_cross_tenant_unique_detail_and_attachment_are_404 ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_expired_callback_and_inactive_user ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_dev_provisioning_is_idempotent_and_does_not_authenticate _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____________ ERROR at setup of test_supplier_persisted_and_scoped _____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_contract_orders_bound_to_frozen_quantity ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_receipt_partial_inspection_and_conserved_cost _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_opening_preview_atomic_dedupe_and_customer_ownership __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_concurrent_receipts_reverse_replay_and_reconciliation _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_serial_correction_reuses_physical_identity _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_batch_layers_unknown_zero_and_concurrent_transfer ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_two_orders_batches_cancellation_and_amendment _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_current_permission_context_cost_and_cross_tenant ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_opening_errors_closed_boundary_and_atomicity ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_attachment_private_frozen_and_original_import_download _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_________ ERROR at setup of test_upgrade_task007_keeps_signed_contract _________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_unknown_cost_and_original_supplier_snapshot ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_same_serial_concurrent_different_orders_and_case_preservation _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_rls_no_context_immutable_facts_and_projection_discrepancy _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_reverse_dependency_in_order_restores_cost_and_history _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_csv_malformed_location_is_row_error_not_database_failure _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_closed_opening_rejects_new_preview_and_reverse_checks_version _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_real_keycloak_code_callback_logout_and_expiry _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_empty_migration_and_runtime_role ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________________ ERROR at setup of test_health_and_ready ____________________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______________ ERROR at setup of test_ready_requires_migration ________________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_enqueue_deduplication_and_worker_restart ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____________ ERROR at setup of test_concurrent_claim_single_winner _____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+________ ERROR at setup of test_locked_job_does_not_block_another_claim ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_locked_exhausted_lease_does_not_block_queued_job ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_exhausted_lease_cleanup_is_bounded ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_expired_lease_fences_stale_worker ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__________ ERROR at setup of test_crash_exhaustion_and_failure_retry ___________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_http_database_stop_recovery_and_long_running_worker __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___________ ERROR at setup of test_missing_policy_blocks_submission ____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_two_people_lifecycle_replay_snapshots_and_withdrawal __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_edit_invalidates_and_reapproval_uses_new_version ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_dependency_change_requires_reapproval[policy] _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_dependency_change_requires_reapproval[discount] ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_dependency_change_requires_reapproval[expiry] _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_dependency_change_requires_reapproval[sku] _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_dependency_change_requires_reapproval[customer] ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+___ ERROR at setup of test_dependency_change_requires_reapproval[price_time] ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_risks_cannot_override_hard_errors[risks] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_risks_cannot_override_hard_errors[forbid] _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_risks_cannot_override_hard_errors[limited] _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+________ ERROR at setup of test_risks_cannot_override_hard_errors[hard] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_risks_cannot_override_hard_errors[disabled] ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_risks_cannot_override_hard_errors[missing] _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_risks_cannot_override_hard_errors[no_price] ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_concurrent_decisions_publication_conversion_and_immutable_role _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_replay_checks_revoked_permissions_and_context _____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_publish_edit_and_convert_withdraw_linear_order[edit] __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_publish_edit_and_convert_withdraw_linear_order[withdraw] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_new_validity_supersedes_old_approval_and_expiry_preserves_contract _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_customer_scope_and_current_replay_visibility ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_published_revision_gets_new_revision_number ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_new_price_boundary_and_post_issue_crm_policy_leave_content_frozen _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_current_price_version_boundary_invalidates_approval __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_member_submit_viewer_redaction_and_composite_foreign_key _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_____ ERROR at setup of test_published_draft_requires_revision_new_submit ______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_revision_keys_are_scoped_by_source[False] _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_revision_keys_are_scoped_by_source[True] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_publish_resubmit_race_and_historical_candidate_guard __
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+__ ERROR at setup of test_revision_sources_concurrent_replay_and_permissions ___
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_quote_included_not_charged_persisted_and_server_authoritative _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_discount_decimal_rounding_caps_removal_and_no_redemption _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____________ ERROR at setup of test_discount_round_half_up_and_cap _____________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_missing_prices_retirement_and_replacement_never_credit_base _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+____ ERROR at setup of test_quote_price_time_boundaries_and_reprice_history ____
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+______ ERROR at setup of test_quote_permissions_context_and_tenant_links _______
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_quote_idempotency_concurrent_edit_and_unlimited_trial _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change0] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change1] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change2] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change3] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change4] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_______ ERROR at setup of test_discount_conditions_fail_closed[change5] ________
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_quote_nested_current_retirement_and_deferred_project_relation _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_required_bom_category_cannot_disappear_on_replacement _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_selected_optional_memory_and_categories_preserve_template_requirements _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_selected_optional_power_counts_for_capacity_and_completeness[1-WARN] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_selected_optional_power_counts_for_capacity_and_completeness[2-PASS] _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+_ ERROR at setup of test_identical_create_intents_and_lost_response_replay_are_distinct _
+
+    @pytest.fixture(scope="session")
+    def database():
+        pg_bin = Path(os.environ["SILICON_TEST_PG_BIN"])
+        version = run(str(pg_bin / "postgres"), "--version").stdout.strip()
+        assert re.search(r"PostgreSQL\) 17\.11(?:\s|$)", version), f"Tests require PostgreSQL 17.11, got {version}"
+        directory = Path(tempfile.mkdtemp(prefix="silicon-test-", dir="/tmp"))
+        with socket.socket() as sock:
+>           sock.bind(("127.0.0.1", 0))
+E           PermissionError: [Errno 1] Operation not permitted
+
+apps/api/tests/conftest.py:34: PermissionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR apps/api/tests/test_catalog.py::test_sku_maintenance_unique_specs_and_idempotency
+ERROR apps/api/tests/test_catalog.py::test_permissions_cross_tenant_and_context
+ERROR apps/api/tests/test_catalog.py::test_packages_rules_versions_and_frozen_snapshot
+ERROR apps/api/tests/test_catalog.py::test_invalid_cycle_and_unknown_rules - ...
+ERROR apps/api/tests/test_catalog.py::test_prices_unknown_zero_expiry_overlap_and_history
+ERROR apps/api/tests/test_catalog.py::test_concurrent_update_and_publish_overlap
+ERROR apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[skus]
+ERROR apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[boms]
+ERROR apps/api/tests/test_catalog.py::test_real_aggregate_read_waits_for_complete_write[price-books]
+ERROR apps/api/tests/test_catalog.py::test_published_database_mutations_denied
+ERROR apps/api/tests/test_catalog.py::test_context_guards_all_catalog_commands_and_csrf
+ERROR apps/api/tests/test_catalog.py::test_catalog_rls_role_and_invalid_price_inputs
+ERROR apps/api/tests/test_catalog.py::test_expanded_quantity_is_bounded_without_commercial_credit
+ERROR apps/api/tests/test_catalog.py::test_category_change_keeps_draft_and_all_catalog_loads_repairable
+ERROR apps/api/tests/test_catalog.py::test_retired_bom_reference_can_be_revised_repaired_without_history_change[subject]
+ERROR apps/api/tests/test_catalog.py::test_retired_bom_reference_can_be_revised_repaired_without_history_change[part]
+ERROR apps/api/tests/test_catalog.py::test_retired_price_line_revision_is_repairable_but_not_publishable
+ERROR apps/api/tests/test_contracts.py::test_existing_source_contract_can_open_workspace
+ERROR apps/api/tests/test_contracts.py::test_contract_signing_freezes_order_and_file_with_replay
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[amount] - Per...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[date] - Permi...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[missing] - Pe...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[source] - Per...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[tamper] - Per...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[contact] - Pe...
+ERROR apps/api/tests/test_contracts.py::test_signing_hard_gates[responsible]
+ERROR apps/api/tests/test_contracts.py::test_file_validation_and_isolation[path]
+ERROR apps/api/tests/test_contracts.py::test_file_validation_and_isolation[html]
+ERROR apps/api/tests/test_contracts.py::test_file_validation_and_isolation[large]
+ERROR apps/api/tests/test_contracts.py::test_file_validation_and_isolation[mismatch]
+ERROR apps/api/tests/test_contracts.py::test_file_validation_and_isolation[active]
+ERROR apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[sign]
+ERROR apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[edit]
+ERROR apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[delete]
+ERROR apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[withdraw]
+ERROR apps/api/tests/test_contracts.py::test_signed_supplement_is_separate_from_frozen_file_set
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[fraction]
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[negative]
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[currency]
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[event_date]
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[offset]
+ERROR apps/api/tests/test_contracts.py::test_payment_input_rejected[duplicate]
+ERROR apps/api/tests/test_contracts.py::test_independent_contract_keys_and_replay_current_access
+ERROR apps/api/tests/test_contracts.py::test_failed_upload_and_orphan_cleanup_never_delete_live_files
+ERROR apps/api/tests/test_contracts.py::test_expired_source_and_snapshot_permissions
+ERROR apps/api/tests/test_contracts.py::test_upgrade_from_task006_preserves_source_data
+ERROR apps/api/tests/test_contracts.py::test_later_master_data_and_quote_withdrawal_preserve_signed_order
+ERROR apps/api/tests/test_contracts.py::test_old_pending_can_be_deleted_after_signing_without_changing_frozen_evidence
+ERROR apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[pdf]
+ERROR apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[jpg]
+ERROR apps/api/tests/test_contracts.py::test_invalid_marked_documents_rejected_before_attachment_creation[png]
+ERROR apps/api/tests/test_contracts.py::test_decodable_formats_roundtrip_and_truncation_is_rejected[pdf]
+ERROR apps/api/tests/test_contracts.py::test_decodable_formats_roundtrip_and_truncation_is_rejected[jpg]
+ERROR apps/api/tests/test_contracts.py::test_decodable_formats_roundtrip_and_truncation_is_rejected[png]
+ERROR apps/api/tests/test_contracts.py::test_legacy_unfrozen_format_rechecked_on_attach_and_sign
+ERROR apps/api/tests/test_contracts.py::test_pending_deletion_rechecks_current_permissions_and_tenant
+ERROR apps/api/tests/test_contracts.py::test_pending_delete_and_sign_serialize_without_stranding_files
+ERROR apps/api/tests/test_contracts.py::test_pdf_processing_limits_reject_without_visible_upload[page_count]
+ERROR apps/api/tests/test_contracts.py::test_pdf_processing_limits_reject_without_visible_upload[page_pixels]
+ERROR apps/api/tests/test_crm.py::test_crud_relationships_refresh_history_and_audit
+ERROR apps/api/tests/test_crm.py::test_idempotency_and_concurrent_edit_conflict
+ERROR apps/api/tests/test_crm.py::test_concurrent_duplicate_create_single_customer
+ERROR apps/api/tests/test_crm.py::test_tenants_permissions_default_rls_and_invalid_input
+ERROR apps/api/tests/test_crm.py::test_pagination_search_own_scope_and_foreign_membership
+ERROR apps/api/tests/test_crm.py::test_child_relationships_cannot_cross_customers
+ERROR apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0002_identity]
+ERROR apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0003_crm]
+ERROR apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context]
+ERROR apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0005_catalog]
+ERROR apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0006_quotes]
+ERROR apps/api/tests/test_crm_context.py::test_stale_page_requests_rejected_even_without_notification
+ERROR apps/api/tests/test_crm_context.py::test_detail_is_one_committed_aggregate_during_replacement
+ERROR apps/api/tests/test_crm_context.py::test_missing_context_and_aba_are_rejected
+ERROR apps/api/tests/test_crm_context.py::test_switch_and_save_follow_session_lock_order[save]
+ERROR apps/api/tests/test_crm_context.py::test_switch_and_save_follow_session_lock_order[switch]
+ERROR apps/api/tests/test_crm_context.py::test_stale_edit_cannot_touch_a_visible_record_in_other_enterprise
+ERROR apps/api/tests/test_identity.py::test_runtime_rls_default_deny_pool_and_exception
+ERROR apps/api/tests/test_identity.py::test_composite_fk_and_cross_tenant_writes
+ERROR apps/api/tests/test_identity.py::test_session_memberships_csrf_switch_and_logout
+ERROR apps/api/tests/test_identity.py::test_lists_details_fields_attachments_and_revocation
+ERROR apps/api/tests/test_identity.py::test_tenant_jobs_authorization_fencing_and_audit
+ERROR apps/api/tests/test_identity.py::test_upgrade_from_task001_preserves_queue
+ERROR apps/api/tests/test_identity.py::test_tenant_worker_lease_expiry_rolls_back_audit
+ERROR apps/api/tests/test_identity.py::test_field_write_permissions_and_controlled_audit
+ERROR apps/api/tests/test_identity.py::test_cross_tenant_unique_detail_and_attachment_are_404
+ERROR apps/api/tests/test_identity.py::test_expired_callback_and_inactive_user
+ERROR apps/api/tests/test_identity.py::test_dev_provisioning_is_idempotent_and_does_not_authenticate
+ERROR apps/api/tests/test_inventory.py::test_supplier_persisted_and_scoped - ...
+ERROR apps/api/tests/test_inventory.py::test_contract_orders_bound_to_frozen_quantity
+ERROR apps/api/tests/test_inventory.py::test_receipt_partial_inspection_and_conserved_cost
+ERROR apps/api/tests/test_inventory.py::test_opening_preview_atomic_dedupe_and_customer_ownership
+ERROR apps/api/tests/test_inventory.py::test_concurrent_receipts_reverse_replay_and_reconciliation
+ERROR apps/api/tests/test_inventory.py::test_serial_correction_reuses_physical_identity
+ERROR apps/api/tests/test_inventory.py::test_batch_layers_unknown_zero_and_concurrent_transfer
+ERROR apps/api/tests/test_inventory.py::test_two_orders_batches_cancellation_and_amendment
+ERROR apps/api/tests/test_inventory.py::test_current_permission_context_cost_and_cross_tenant
+ERROR apps/api/tests/test_inventory.py::test_opening_errors_closed_boundary_and_atomicity
+ERROR apps/api/tests/test_inventory.py::test_attachment_private_frozen_and_original_import_download
+ERROR apps/api/tests/test_inventory.py::test_upgrade_task007_keeps_signed_contract
+ERROR apps/api/tests/test_inventory.py::test_unknown_cost_and_original_supplier_snapshot
+ERROR apps/api/tests/test_inventory.py::test_same_serial_concurrent_different_orders_and_case_preservation
+ERROR apps/api/tests/test_inventory.py::test_rls_no_context_immutable_facts_and_projection_discrepancy
+ERROR apps/api/tests/test_inventory.py::test_reverse_dependency_in_order_restores_cost_and_history
+ERROR apps/api/tests/test_inventory.py::test_csv_malformed_location_is_row_error_not_database_failure
+ERROR apps/api/tests/test_inventory.py::test_closed_opening_rejects_new_preview_and_reverse_checks_version
+ERROR apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry
+ERROR apps/api/tests/test_platform.py::test_empty_migration_and_runtime_role
+ERROR apps/api/tests/test_platform.py::test_health_and_ready - PermissionErro...
+ERROR apps/api/tests/test_platform.py::test_ready_requires_migration - Permis...
+ERROR apps/api/tests/test_platform.py::test_enqueue_deduplication_and_worker_restart
+ERROR apps/api/tests/test_platform.py::test_concurrent_claim_single_winner - ...
+ERROR apps/api/tests/test_platform.py::test_locked_job_does_not_block_another_claim
+ERROR apps/api/tests/test_platform.py::test_locked_exhausted_lease_does_not_block_queued_job
+ERROR apps/api/tests/test_platform.py::test_exhausted_lease_cleanup_is_bounded
+ERROR apps/api/tests/test_platform.py::test_expired_lease_fences_stale_worker
+ERROR apps/api/tests/test_platform.py::test_crash_exhaustion_and_failure_retry
+ERROR apps/api/tests/test_platform.py::test_http_database_stop_recovery_and_long_running_worker
+ERROR apps/api/tests/test_publication.py::test_missing_policy_blocks_submission
+ERROR apps/api/tests/test_publication.py::test_two_people_lifecycle_replay_snapshots_and_withdrawal
+ERROR apps/api/tests/test_publication.py::test_edit_invalidates_and_reapproval_uses_new_version
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[policy]
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[discount]
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[expiry]
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[sku]
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[customer]
+ERROR apps/api/tests/test_publication.py::test_dependency_change_requires_reapproval[price_time]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[risks]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[forbid]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[limited]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[hard]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[disabled]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[missing]
+ERROR apps/api/tests/test_publication.py::test_risks_cannot_override_hard_errors[no_price]
+ERROR apps/api/tests/test_publication.py::test_concurrent_decisions_publication_conversion_and_immutable_role
+ERROR apps/api/tests/test_publication.py::test_replay_checks_revoked_permissions_and_context
+ERROR apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[edit]
+ERROR apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[withdraw]
+ERROR apps/api/tests/test_publication.py::test_new_validity_supersedes_old_approval_and_expiry_preserves_contract
+ERROR apps/api/tests/test_publication.py::test_customer_scope_and_current_replay_visibility
+ERROR apps/api/tests/test_publication.py::test_published_revision_gets_new_revision_number
+ERROR apps/api/tests/test_publication.py::test_new_price_boundary_and_post_issue_crm_policy_leave_content_frozen
+ERROR apps/api/tests/test_publication.py::test_current_price_version_boundary_invalidates_approval
+ERROR apps/api/tests/test_publication.py::test_member_submit_viewer_redaction_and_composite_foreign_key
+ERROR apps/api/tests/test_publication.py::test_published_draft_requires_revision_new_submit
+ERROR apps/api/tests/test_publication.py::test_revision_keys_are_scoped_by_source[False]
+ERROR apps/api/tests/test_publication.py::test_revision_keys_are_scoped_by_source[True]
+ERROR apps/api/tests/test_publication.py::test_publish_resubmit_race_and_historical_candidate_guard
+ERROR apps/api/tests/test_publication.py::test_revision_sources_concurrent_replay_and_permissions
+ERROR apps/api/tests/test_quotes.py::test_quote_included_not_charged_persisted_and_server_authoritative
+ERROR apps/api/tests/test_quotes.py::test_discount_decimal_rounding_caps_removal_and_no_redemption
+ERROR apps/api/tests/test_quotes.py::test_discount_round_half_up_and_cap - Pe...
+ERROR apps/api/tests/test_quotes.py::test_missing_prices_retirement_and_replacement_never_credit_base
+ERROR apps/api/tests/test_quotes.py::test_quote_price_time_boundaries_and_reprice_history
+ERROR apps/api/tests/test_quotes.py::test_quote_permissions_context_and_tenant_links
+ERROR apps/api/tests/test_quotes.py::test_quote_idempotency_concurrent_edit_and_unlimited_trial
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change0]
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change1]
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change2]
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change3]
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change4]
+ERROR apps/api/tests/test_quotes.py::test_discount_conditions_fail_closed[change5]
+ERROR apps/api/tests/test_quotes.py::test_quote_nested_current_retirement_and_deferred_project_relation
+ERROR apps/api/tests/test_quotes.py::test_required_bom_category_cannot_disappear_on_replacement
+ERROR apps/api/tests/test_quotes.py::test_quote_aggregate_holds_catalog_read_snapshot_against_sku_writer
+ERROR apps/api/tests/test_quotes.py::test_selected_optional_cpu_is_checked_and_excluded_cpu_is_not
+ERROR apps/api/tests/test_quotes.py::test_selected_optional_memory_and_categories_preserve_template_requirements
+ERROR apps/api/tests/test_quotes.py::test_selected_optional_power_counts_for_capacity_and_completeness[1-WARN]
+ERROR apps/api/tests/test_quotes.py::test_selected_optional_power_counts_for_capacity_and_completeness[2-PASS]
+ERROR apps/api/tests/test_quotes.py::test_identical_create_intents_and_lost_response_replay_are_distinct
+15 passed, 2 warnings, 169 errors in 2.54s

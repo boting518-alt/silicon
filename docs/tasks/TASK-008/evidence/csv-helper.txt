@@ -1,0 +1,1 @@
+PASS: fictional CSV helper created one well-formed row at requested UUID/cutoff; own temporary file cleaned; no DB connection.

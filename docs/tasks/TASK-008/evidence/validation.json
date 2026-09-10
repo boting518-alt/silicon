@@ -1,0 +1,41 @@
+{
+  "task": "TASK-008",
+  "status": "review_ready",
+  "base": "4802fcccb739fa89cada3be5179e21e0066121a0",
+  "handoff": "0992ffbf6da59ea7237d20aeac2d9c3cb6e7e9ab",
+  "backend": {
+    "command": ".venv/bin/python -m pytest apps/api/tests -q",
+    "environment": {
+      "SILICON_TEST_PG_BIN": "$PG17_HOME/bin",
+      "SILICON_TEST_KEYCLOAK_HOME": "$KEYCLOAK_HOME"
+    },
+    "passed": 184,
+    "warnings": 6,
+    "seconds": 124.88,
+    "evidence": "backend-complete.txt",
+    "database": "real isolated PostgreSQL17.11, runtime silicon_app",
+    "oidc": "real Keycloak26.7.3, owned trusted CA with hostname checks"
+  },
+  "frontend": {
+    "node_passed": 19,
+    "component_http_substitute_passed": 2,
+    "typecheck": "passed",
+    "build": "passed",
+    "openapi_regeneration": "byte_identical"
+  },
+  "browser": {
+    "status": "completed main real business flow",
+    "reproduction": "../browser-acceptance.md",
+    "screenshots": "screenshots.json",
+    "limits": "Final timeline/closed-preview/cost-projection refinements not browser-repeated"
+  },
+  "compose_configuration": "passed; no containers run",
+  "not_run": [
+    "remote CI verification",
+    "container execution",
+    "other browser engines",
+    "automated pixel comparison",
+    "production validation"
+  ],
+  "independent_acceptance": false
+}

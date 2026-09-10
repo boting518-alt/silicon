@@ -1,0 +1,3 @@
+- heading "库存组件边界回归" [level=1]
+- paragraph: 实际 React；HTTP 替身，不是数据库或真实采购证据。
+- generic: "[ { \"name\": \"lost supplier response retries same intent; no false success\", \"status\": \"passed\" }, { \"name\": \"late successful old enterprise refresh cannot repopulate new page\", \"status\": \"passed\" } ]"

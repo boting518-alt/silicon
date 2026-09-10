@@ -68,7 +68,7 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             with owner.begin() as db:
                 viewer=UUID('33333333-3333-4333-8333-333333333333')
                 db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:id,:issuer,:subject,'虚构只读用户')"),dict(id=viewer,issuer=issuer,subject=str(viewer)))
-                db.execute(text("INSERT INTO memberships VALUES (:t,:u,'viewer',true)"),dict(t=a,u=viewer))
+                db.execute(text("INSERT INTO memberships VALUES (:t,:u,:role,true)"),dict(t=a,u=viewer,role='member' if os.getenv('SILICON_BROWSER_INVENTORY')=='1' else 'viewer'))
         owner.dispose()
         engine=make_engine(database.url)
         samples=[('澄川大学 · 人工智能学院','浙江','杭州','高校','战略客户'),('栖原智能科技有限公司','江苏','苏州','企业','重点客户'),('远岑材料研究院','安徽','合肥','科研院所','重点客户'),('京澜智能研究中心','北京','北京','科研院所','战略客户'),('锦序工业科技有限公司','四川','成都','企业','重点客户'),('南序机器人有限公司','广东','深圳','企业','重点客户'),('浦澄数据技术有限公司','上海','上海','企业','重点客户')]

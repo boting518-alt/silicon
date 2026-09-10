@@ -1,0 +1,18 @@
+
+> silicon-workspace@0.1.0 build
+> npm run build --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 26 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:  0.32 kB
+dist/assets/index-BSjvK5NE.css   19.48 kB │ gzip:  4.78 kB
+dist/assets/index-D6Q_A509.js   304.90 kB │ gzip: 93.73 kB
+
+✓ built in 153ms

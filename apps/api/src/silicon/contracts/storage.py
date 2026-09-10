@@ -45,7 +45,11 @@ class Store:
         finally:DECODERS.release()
         return {'pdf':'application/pdf','jpg':'image/jpeg','png':'image/png'}[kind]
     def put(self,name,data):
-        media=self.validate(name,data);id=uuid4();path=self.path(id);path.parent.mkdir(parents=True,exist_ok=True)
+        return self.put_validated(name,data,self.validate(name,data))
+    def put_validated(self,name,data,media):
+        """Persist bytes only after caller-specific validation (document or strict CSV)."""
+        if not data or len(data)>self.limit:raise Denied(413,'FILE_SIZE_LIMIT')
+        id=uuid4();path=self.path(id);path.parent.mkdir(parents=True,exist_ok=True)
         with path.open('xb') as f:os.chmod(path,0o600);f.write(data);f.flush();os.fsync(f.fileno())
         lock=path.open('rb');fcntl.flock(lock,fcntl.LOCK_EX);self._lock=lock
         return dict(storage_id=id,name=name,media_type=media,size=len(data),sha256=hashlib.sha256(data).hexdigest())
