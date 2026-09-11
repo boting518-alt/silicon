@@ -63,3 +63,7 @@ React 覆盖 StrictMode 初始请求、显式新建相同内容的独立身份�
 - 复现需安装锁定依赖、PG17、Java21、Keycloak26.7.3；浏览器另外需要合法固定字体和可信 localhost 证书。包不含私钥、字体安装或数据库目录。准确环境见 [environment.json](evidence/environment.json)，准备、创建与清理见 [实施说明](implementation.md)。
 
 全部准确命令、结果和 not_run 见 [validation.json](evidence/validation.json)。变更路径见 [changed-files.txt](changed-files.txt)。审查包由 `infra/package_task011_review.py` 从最终提交完整导出，并验证文件哈希、增量补丁重放及历史证据不变。
+
+## 实现提交登记
+
+实现、迁移、前后端契约、测试与证据提交：`8835a6bae2dc1ce8a2f5548550b5ddac371cc799`。后续收尾提交只登记此引用；最终完整 HEAD 由打包脚本写入包内 manifest。状态保持 review_ready，远程 CI 未核实。
