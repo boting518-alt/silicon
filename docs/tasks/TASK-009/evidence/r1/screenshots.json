@@ -1,0 +1,20 @@
+[
+  {
+    "path": "device-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "e81907a311518f9c6e9a4386e7211be28d5d69a804f4347ef1ef4ac5f76b2b42"
+  },
+  {
+    "path": "history-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "7148de62bc18449ba921d9bf63f90908e9059abf8bc66367eb54b02313722868"
+  },
+  {
+    "path": "history-mobile.jpg",
+    "width": 390,
+    "height": 844,
+    "sha256": "0a764cb979f0e04171182c351afd0d09b0dbc3f6fe94bd9479484c5040e5b52d"
+  }
+]

@@ -71,5 +71,8 @@ def router(engine,settings):
     def execute(request,permission,id,body,key,action,fn):
         with tx(request,permission,True) as (db,a):
             inv.row(db,'asm_works',id)
-            return s.public(a,inv.command(db,a,'assembly.'+action+':'+str(id),key,body.model_dump(),request.state.request_id,lambda:fn(db,a)))
+            payload=body.model_dump()
+            # Preserve pre-0011 successful completion hashes when no correction is requested.
+            if action=='complete' and payload.get('correction_of') is None:payload.pop('correction_of',None)
+            return s.public(a,inv.command(db,a,'assembly.'+action+':'+str(id),key,payload,request.state.request_id,lambda:fn(db,a)))
     return api

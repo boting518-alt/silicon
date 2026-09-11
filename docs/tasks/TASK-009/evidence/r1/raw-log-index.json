@@ -1,0 +1,68 @@
+[
+  {
+    "text": "browser-corrected.txt",
+    "original": "browser-corrected.raw.gz",
+    "original_sha256": "42a67d9a39d5a03d4e524379efc78a8af0e55ed2a4e7e8f697555a87ebe12e89",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "browser-device-refreshed.txt",
+    "original": "browser-device-refreshed.raw.gz",
+    "original_sha256": "710a0c48acc25bb9df5529f99c4b0e03862e0c6eb7d5b370e8690203e69c5205",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "browser-original-device.txt",
+    "original": "browser-original-device.raw.gz",
+    "original_sha256": "bec6ef83a6e98d02ecd166837907e40dc88f36698b08d4d7a65120db201af289",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "browser-reversed.txt",
+    "original": "browser-reversed.raw.gz",
+    "original_sha256": "c11e6ee279f8bfb476ef4e9ee882d07dd80a5f1d81e3d23c4fe806c1192bc772",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "browser-stock-refreshed.txt",
+    "original": "browser-stock-refreshed.raw.gz",
+    "original_sha256": "9b6986cd4406ee8c9dbc2e69103cfa011f1382dc24989d72357fc1766e23b916",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "component-regression.txt",
+    "original": "component-regression.raw.gz",
+    "original_sha256": "45d7b60ee7fb98f7dd504809ec1e6225a2548d5f8327fe2809de45ae895fd400",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "legacy-protection-fixed.txt",
+    "original": "legacy-protection-fixed.raw.gz",
+    "original_sha256": "c4e207da12fbdd716505b573ca2e24dbd3e74e8fde39a1f79482ebac769e2757",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "legacy-protection.txt",
+    "original": "legacy-protection.raw.gz",
+    "original_sha256": "2007b4e33bf040bc8adc0e6fe396abf830075b75eb61c2b4b51490c7221bc55d",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "lifecycle-red-fixed-fixture.txt",
+    "original": "lifecycle-red-fixed-fixture.raw.gz",
+    "original_sha256": "ea4fe21a329e1311e18e170653309d6ab8f33f395bfc3b61f4be6feaebf45ab7",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "lifecycle-red.txt",
+    "original": "lifecycle-red.raw.gz",
+    "original_sha256": "c50f0f2250aa5fc3866ad77984433186c919b52fd32a2b07621a50b98a656372",
+    "normalization": "trailing whitespace/EOF only"
+  },
+  {
+    "text": "typecheck-final.txt",
+    "original": "typecheck-final.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "normalization": "trailing whitespace/EOF only"
+  }
+]

@@ -158,13 +158,15 @@ def entry(db,a,m,layer,loc,state,quantity):
     db.execute(text("INSERT INTO inv_balances VALUES (:t,:l,:p,:s,0) ON CONFLICT DO NOTHING"),args)
     db.execute(text("UPDATE inv_balances SET quantity=quantity+:q WHERE tenant_id=:t AND layer_id=:l AND location_id=:p AND state=:s"),args)
 
-def create_layer(db,a,m,sku,quantity,tracking,serial,batch,location,state,cost,source_line=None,ownership='own'):
+def create_layer(db,a,m,sku,quantity,tracking,serial,batch,location,state,cost,source_line=None,ownership='own',assembly_correction=None):
     unit=None
     if tracking=='sn':
         normal=normal_sn(serial)
         old=db.execute(text('SELECT * FROM inv_units WHERE sku_id=:s AND manufacturer_id=:m AND serial_normal=:n'),{'s':sku['id'],'m':sku['manufacturer_id'],'n':normal}).mappings().first()
         if old:
             unit=old['id']
+            device=db.scalar(text('SELECT id FROM asm_devices WHERE inventory_unit_id=:u'),{'u':unit})
+            if device and device!=assembly_correction:raise Denied(409,'ASSEMBLY_CORRECTION_REQUIRED')
             if db.scalar(text('SELECT 1 FROM asm_installations WHERE unit_id=:u AND removed_at IS NULL'),{'u':unit}):raise Denied(409,'COMPONENT_INSTALLED')
             if db.scalar(text('SELECT coalesce(sum(b.quantity),0) FROM inv_balances b JOIN inv_layers l ON l.id=b.layer_id AND l.tenant_id=b.tenant_id WHERE l.unit_id=:u'),{'u':unit}):raise Denied(409,'SERIAL_ALREADY_IN_STOCK')
         else:
@@ -203,7 +205,7 @@ def receipt_post(db,a,id,b,request_id):
 def transfer(db,a,b,request_id):
     l=row(db,'inv_layers',b.layer_id);c.expected(l,b.expected_version)
     if db.scalar(text('SELECT 1 FROM asm_works WHERE wip_location_id=:p OR wip_location_id=:s'),{'p':b.target_location_id,'s':b.source_location_id}):raise Denied(409,'ASSEMBLY_LOCATION_PROTECTED')
-    if b.source_state!=b.target_state and db.scalar(text('SELECT 1 FROM asm_devices WHERE layer_id=:l'),{'l':b.layer_id}):raise Denied(409,'DEVICE_TESTING_NOT_ENABLED')
+    if b.source_state!=b.target_state and db.scalar(text('SELECT 1 FROM asm_completions WHERE layer_id=:l'),{'l':b.layer_id}):raise Denied(409,'DEVICE_TESTING_NOT_ENABLED')
     row(db,'inv_locations',b.source_location_id);row(db,'inv_locations',b.target_location_id)
     if not b.confirmed:raise Denied(422,'CONFIRM_REQUIRED')
     if (b.source_location_id,b.source_state)==(b.target_location_id,b.target_state):raise Denied(422,'NO_MOVEMENT')
@@ -251,7 +253,7 @@ def stock(db,as_of=None):
     known=Decimal(0);unknown=0;available=0
     for x in items:
         x['layer_id']=x.pop('id')
-        x['stage']='wip' if x['state']=='wip' else ('finished' if db.scalar(text('SELECT 1 FROM asm_devices WHERE layer_id=:id'),{'id':x['layer_id']}) else 'material')
+        x['stage']='wip' if x['state']=='wip' else ('finished' if db.scalar(text('SELECT 1 FROM asm_completions WHERE layer_id=:id'),{'id':x['layer_id']}) else 'material')
         if x['ownership']=='own':
             if x['unit_cost'] is None:unknown+=x['balance']
             else:known+=x['unit_cost']*x['balance']

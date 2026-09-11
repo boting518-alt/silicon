@@ -1872,6 +1872,8 @@ export interface components {
              * @default 确认
              */
             reason: string;
+            /** Correction Of */
+            correction_of?: string | null;
             /** Serial */
             serial: string;
             /**
@@ -1879,6 +1881,38 @@ export interface components {
              * Format: uuid
              */
             location_id: string;
+        };
+        /** CompletionView */
+        CompletionView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Device Id
+             * Format: uuid
+             */
+            device_id: string;
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Movement Id
+             * Format: uuid
+             */
+            movement_id: string;
+            /**
+             * Completed At
+             * Format: date-time
+             */
+            completed_at: string;
+            /** Correction Of */
+            correction_of?: string | null;
+            /** Reversed By */
+            reversed_by?: string | null;
         };
         /** Confirmation */
         Confirmation: {
@@ -2418,6 +2452,13 @@ export interface components {
             reversed: boolean;
             /** Inventory */
             inventory: components["schemas"]["DeviceInventoryView"][];
+            /**
+             * Completion Id
+             * Format: uuid
+             */
+            completion_id: string;
+            /** Completions */
+            completions: components["schemas"]["CompletionView"][];
             /** Installations */
             installations: components["schemas"]["InstallationView"][];
             /** Cost */
@@ -2628,6 +2669,11 @@ export interface components {
         };
         /** InstallationView */
         InstallationView: {
+            /**
+             * Completion Id
+             * Format: uuid
+             */
+            completion_id: string;
             /**
              * Id
              * Format: uuid
@@ -4426,6 +4472,8 @@ export interface components {
             issues: components["schemas"]["IssueView"][];
             /** Devices */
             devices: components["schemas"]["DeviceRef"][];
+            /** Completions */
+            completions?: components["schemas"]["CompletionView"][];
             /** History */
             history: components["schemas"]["EventView"][];
             /** Wip Cost */

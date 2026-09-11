@@ -1,0 +1,162 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /设备查询
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "设备与部件档案" [level=2]
+  - button "刷新查询"
+  - paragraph: 库存预留 → 实际领料 → 完工待测试。仅实际领料成本，不含人工及其他费用。
+  - heading "设备查询" [level=3]
+  - text: 搜索整机 / 部件 SN、型号、客户、合同或订单
+  - textbox "搜索整机 / 部件 SN、型号、客户、合同或订单"
+  - button "查询设备"
+  - strong: FIN-001 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 已完工，待测试
+  - button "设备详情 FIN-001"
+  - heading "FIN-001 · FINISHED" [level=3]
+  - paragraph: 虚构制造商 / 硅屿测试品牌 / 自主品牌
+  - paragraph: 实物 95468174-9c35-40eb-a9aa-b821f6ce34bf · 设备档案引用同一库存实物
+  - paragraph: 客户 澄川大学 · 人工智能学院 · 合同 CON-001 · 订单 SO-CON-001
+  - paragraph: 报价版本 9bc06722-d6fc-47aa-84ec-abc8774a057f · 项目 bf91ed86-c810-478f-b0b8-a92a7d221b97
+  - paragraph: 待检 / 待测试 · 1 件；未发货、未验收、未收款。
+  - paragraph: 成品成本 90.00 CNY · 仅实际领料成本
+  - table:
+    - rowgroup:
+      - row "部件 位置 安装历史 库存来源":
+        - columnheader "部件"
+        - columnheader "位置"
+        - columnheader "安装历史"
+        - columnheader "库存来源"
+    - rowgroup:
+      - row "PUB-memory MEM × 2 memory:PUB-memory 2026-09-11T17:26:26.427813+08:00 有效安装 825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+        - cell "PUB-memory MEM × 2":
+          - text: PUB-memory
+          - text: MEM × 2
+        - cell "memory:PUB-memory"
+        - cell "2026-09-11T17:26:26.427813+08:00 有效安装":
+          - text: 2026-09-11T17:26:26.427813+08:00
+          - text: 有效安装
+        - cell "825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+          - text: 825b2d1e-c9ac-4991-b579-9707fac07a82
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-memory"
+      - row "PUB-H H1 × 1 host:PUB-H 2026-09-11T17:24:38.070827+08:00 拆卸 2026-09-11T17:25:38.317256+08:00 09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+        - cell "PUB-H H1 × 1":
+          - text: PUB-H
+          - text: H1 × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-11T17:24:38.070827+08:00 拆卸 2026-09-11T17:25:38.317256+08:00":
+          - text: 2026-09-11T17:24:38.070827+08:00
+          - text: 拆卸 2026-09-11T17:25:38.317256+08:00
+        - cell "09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+          - text: 09a5ab2a-8928-49f4-ba01-fbf1c2de3551
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-H"
+      - row "PUB-memory MEM × 2 memory:PUB-memory 2026-09-11T17:24:38.071476+08:00 拆卸 2026-09-11T17:25:38.317429+08:00 825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+        - cell "PUB-memory MEM × 2":
+          - text: PUB-memory
+          - text: MEM × 2
+        - cell "memory:PUB-memory"
+        - cell "2026-09-11T17:24:38.071476+08:00 拆卸 2026-09-11T17:25:38.317429+08:00":
+          - text: 2026-09-11T17:24:38.071476+08:00
+          - text: 拆卸 2026-09-11T17:25:38.317429+08:00
+        - cell "825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+          - text: 825b2d1e-c9ac-4991-b579-9707fac07a82
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-memory"
+      - row "PUB-H H1 × 1 host:PUB-H 2026-09-11T17:26:26.427481+08:00 有效安装 09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+        - cell "PUB-H H1 × 1":
+          - text: PUB-H
+          - text: H1 × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-11T17:26:26.427481+08:00 有效安装":
+          - text: 2026-09-11T17:26:26.427481+08:00
+          - text: 有效安装
+        - cell "09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+          - text: 09a5ab2a-8928-49f4-ba01-fbf1c2de3551
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-H"
+  - button "关闭设备详情"
+  - generic "全部完工记录（同一设备档案）" [active]
+  - paragraph: e23a4453-10e8-4c97-a387-4c924c5a7916 · 已逆向历史 · 成本层 4454851e-50fa-4f18-877d-257d4f104a03 · 移动 b10d7ea8-b920-4eb3-806a-ba8b7883524e
+  - paragraph: 38cd2157-b237-4631-83dc-44d0613e553e · 当前有效 · 成本层 122de3bc-0bbe-45c4-943b-7efd33a91834 · 移动 a4166e06-bea7-4c9f-97cc-347403cfa937 · 更正来源 e23a4453-10e8-4c97-a387-4c924c5a7916
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

@@ -1,0 +1,6 @@
+
+> silicon-workspace@0.1.0 api:types
+> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts
+
+✨ openapi-typescript 7.13.0
+🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [120.8ms]

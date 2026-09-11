@@ -246,7 +246,7 @@ def test_rls_installation_unique_revoked_replay_and_context(engine,database,iden
             assert not db.scalar(text('SELECT rolsuper OR rolbypassrls FROM pg_roles WHERE rolname=current_user'))
         with pytest.raises(DBAPIError):
             with tenant_transaction(engine,i.user,i.a,'assembly.read','unique') as (db,_):
-                db.execute(text('INSERT INTO asm_installations(tenant_id,id,device_id,layer_id,unit_id,quantity,position) SELECT tenant_id,:new,device_id,layer_id,unit_id,quantity,position FROM asm_installations WHERE id=:old'),{'new':uuid4(),'old':d['installations'][0]['id']})
+                db.execute(text('INSERT INTO asm_installations(tenant_id,id,device_id,completion_id,layer_id,unit_id,quantity,position) SELECT tenant_id,:new,device_id,completion_id,layer_id,unit_id,quantity,position FROM asm_installations WHERE id=:old'),{'new':uuid4(),'old':d['installations'][0]['id']})
         with i.owner.begin() as db:db.execute(text("DELETE FROM role_permissions WHERE role='admin' AND permission='assembly.complete'"))
         try:assert post(c,'/works/'+w['id']+'/complete',body,key).status_code==403
         finally:

@@ -1,0 +1,279 @@
+....FF                                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_legacy_successful_completion_replays_without_new_intent _________
+
+self = <sqlalchemy.engine.base.Connection object at 0x116f1e300>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x1151bda90>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x116abab10>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x116abaa80>
+parameters = [{'h': 'a8c53d5a418bcc0c08d6024a2d8aa9c043ffad99ada37afed5a46b7e5a5216f5', 'r': '{"id": "469b897b-fcb1-439d-a08d-2c8a3..."created_at": "2026-09-11T17:19:51.896034+08:00"}], "wip_cost": "0.00"}', 'k': 'aa74cac6-87c8-42e6-8238-846af04b7538'}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=62599 user=silicon_migrator database=silicon) at 0x1146fc1d0>
+query = 'UPDATE inv_commands SET request_hash=%(h)s,response=CAST(%(r)s AS jsonb) WHERE key=%(k)s'
+params = {'h': 'a8c53d5a418bcc0c08d6024a2d8aa9c043ffad99ada37afed5a46b7e5a5216f5', 'r': '{"id": "469b897b-fcb1-439d-a08d-2c8a3c... "created_at": "2026-09-11T17:19:51.896034+08:00"}], "wip_cost": "0.00"}', 'k': 'aa74cac6-87c8-42e6-8238-846af04b7538'}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.CheckViolation: immutable publication fact
+E           CONTEXT:  PL/pgSQL function publication_immutable() line 2 at RAISE
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: CheckViolation
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62599/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62599/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-78/test_legacy_successful_complet0/private-files')
+identities = namespace(a=UUID('af6d7bc5-8dc0-41e0-a85b-48e7e993dc33'), b=UUID('8e24b688-4e87-4d90-88d9-5dd806fe3109'), user=UUID('8...D('bf04e13d-19b2-47ef-9820-9b0980a672df'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62599/silicon))
+
+    def test_legacy_successful_completion_replays_without_new_intent(engine,database,identities):
+        """Reconstruct the documented 0010 command envelope, retaining its original digest."""
+        import hashlib,json
+        from sqlalchemy import text
+        i=identities;_,loc,b=prepared(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=issued_work(c,b);key=str(uuid4())
+            body={'expected_version':w['version'],'confirmed':True,'reason':'确认','serial':'FIN-001','location_id':loc['id']}
+            done=ok(post(c,'/works/'+w['id']+'/complete',body,key))
+            legacy={k:v for k,v in done.items() if k!='completions'}
+            digest=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+            with i.owner.begin() as db:
+                db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
+>               db.execute(text('UPDATE inv_commands SET request_hash=:h,response=CAST(:r AS jsonb) WHERE key=:k'),{'h':digest,'r':json.dumps(legacy),'k':key})
+
+apps/api/tests/test_assembly_correction.py:146:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=62599 user=silicon_migrator database=silicon) at 0x1146fc1d0>
+query = 'UPDATE inv_commands SET request_hash=%(h)s,response=CAST(%(r)s AS jsonb) WHERE key=%(k)s'
+params = {'h': 'a8c53d5a418bcc0c08d6024a2d8aa9c043ffad99ada37afed5a46b7e5a5216f5', 'r': '{"id": "469b897b-fcb1-439d-a08d-2c8a3c... "created_at": "2026-09-11T17:19:51.896034+08:00"}], "wip_cost": "0.00"}', 'k': 'aa74cac6-87c8-42e6-8238-846af04b7538'}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.IntegrityError: (psycopg.errors.CheckViolation) immutable publication fact
+E           CONTEXT:  PL/pgSQL function publication_immutable() line 2 at RAISE
+E           [SQL: UPDATE inv_commands SET request_hash=%(h)s,response=CAST(%(r)s AS jsonb) WHERE key=%(k)s]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: IntegrityError
+____________ test_old_inventory_cannot_reintroduce_reversed_device _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62599/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62599/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-78/test_old_inventory_cannot_rein0/private-files')
+identities = namespace(a=UUID('2d2ca8ec-fffb-4fff-a929-8f35e33f9b7b'), b=UUID('988baba8-095c-4fb2-b924-6226dfd69037'), user=UUID('b...D('70eb3554-37bb-4987-9775-bdcece2fd28c'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62599/silicon))
+
+    def test_old_inventory_cannot_reintroduce_reversed_device(engine,database,identities):
+        i=identities;_,loc,b=prepared(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            done=ok(finish(c,issued_work(c,b),loc['id']));restored=undo(c,done)
+            # A zero-balance historical device must not be resurrected via opening inventory.
+            csv='external_id,sku,location_id,state,ownership,quantity,serial,batch,unit_cost,cost_status,currency,opening_date,basis\n'+f'BAD,FINISHED,{loc["id"]},qualified,own,1,FIN-001,,80.00,confirmed,CNY,2026-01-01,fixture\n'
+            preview=ok(invpost(c,'/opening/preview',{'csv':csv}));assert not preview['valid']
+            assert any(x['code']=='SERIAL_DUPLICATE' for x in preview['errors'])
+            supplier=ok(invpost(c,'/suppliers',{'name':'fictional correction supplier'}))
+            contract=ok(invpost(c,'/contracts',{'number':'PC-CORRECTION','supplier_id':supplier['id'],'buyer':'fictional','manager_id':str(i.user),'signing_date':'2026-01-01','lines':[{'sku_id':b['product_sku_id'],'quantity':1,'unit_price':'80.00','tax_basis':'unconfirmed','due_date':'2026-12-01'}]}))
+            active=ok(invpost(c,'/contracts/'+contract['id']+'/activate',{'expected_version':1,'confirmed':True}))
+            order=ok(invpost(c,'/orders',{'number':'PO-CORRECTION','contract_id':active['id'],'lines':[{'contract_line_id':active['lines'][0]['id'],'quantity':1}]}))
+            order=ok(invpost(c,'/orders/'+order['id']+'/confirm',{'expected_version':1,'confirmed':True}))
+            receipt=ok(invpost(c,'/receipts',{'order_id':order['id'],'received_on':'2026-09-11','location_id':loc['id'],'lines':[{'order_line_id':order['lines'][0]['id'],'quantity':1,'serials':['FIN-001'],'batch':'','cost_status':'confirmed','unit_cost':'80.00','deductible_tax':'0.00','cost_basis':'fictional'}]}))
+            rejected=invpost(c,'/receipts/'+receipt['id']+'/post',{'expected_version':1,'confirmed':True})
+>           assert rejected.status_code==409 and rejected.json()['code']=='ASSEMBLY_CORRECTION_REQUIRED'
+E           AssertionError: assert (409 == 409 and 'OPENING_BOUNDARY' == 'ASSEMBLY_CORRECTION_REQUIRED'
+E            +  where 409 = <Response [409 Conflict]>.status_code
+E
+E             - ASSEMBLY_CORRECTION_REQUIRED
+E             + OPENING_BOUNDARY)
+
+apps/api/tests/test_assembly_correction.py:168: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_assembly_correction.py::test_legacy_successful_completion_replays_without_new_intent
+FAILED apps/api/tests/test_assembly_correction.py::test_old_inventory_cannot_reintroduce_reversed_device
+2 failed, 4 passed, 2 warnings in 10.93s

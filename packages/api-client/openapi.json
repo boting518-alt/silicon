@@ -9639,6 +9639,18 @@
             "title": "Reason",
             "default": "确认"
           },
+          "correction_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correction Of"
+          },
           "serial": {
             "type": "string",
             "maxLength": 120,
@@ -9660,6 +9672,68 @@
           "location_id"
         ],
         "title": "Complete"
+      },
+      "CompletionView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "device_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Device Id"
+          },
+          "layer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Layer Id"
+          },
+          "movement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Movement Id"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completed At"
+          },
+          "correction_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correction Of"
+          },
+          "reversed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reversed By"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "device_id",
+          "layer_id",
+          "movement_id",
+          "completed_at"
+        ],
+        "title": "CompletionView"
       },
       "Confirmation": {
         "properties": {
@@ -10770,6 +10844,18 @@
             "type": "array",
             "title": "Inventory"
           },
+          "completion_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Completion Id"
+          },
+          "completions": {
+            "items": {
+              "$ref": "#/components/schemas/CompletionView"
+            },
+            "type": "array",
+            "title": "Completions"
+          },
           "installations": {
             "items": {
               "$ref": "#/components/schemas/InstallationView"
@@ -10818,6 +10904,8 @@
           "project_id",
           "reversed",
           "inventory",
+          "completion_id",
+          "completions",
           "installations",
           "cost_scope",
           "delivery_state"
@@ -11270,6 +11358,11 @@
       },
       "InstallationView": {
         "properties": {
+          "completion_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Completion Id"
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -11380,6 +11473,7 @@
         },
         "type": "object",
         "required": [
+          "completion_id",
           "id",
           "layer_id",
           "sku_id",
@@ -15169,6 +15263,13 @@
             },
             "type": "array",
             "title": "Devices"
+          },
+          "completions": {
+            "items": {
+              "$ref": "#/components/schemas/CompletionView"
+            },
+            "type": "array",
+            "title": "Completions"
           },
           "history": {
             "items": {

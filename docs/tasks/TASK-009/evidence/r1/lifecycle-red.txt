@@ -1,0 +1,56 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_same_serial_completion_correction_retains_physical_identity _______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61531/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61531/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x107e7bce0>, stop=<function database.<locals>.stop at 0x107e7bd80>)
+identities = namespace(a=UUID('0c7e7b04-0ede-4c7d-a22d-5200caba17c4'), b=UUID('dd6f053d-ceb2-4ae5-af0b-8fe21f66322d'), user=UUID('c...D('cebf9a4a-b71a-488d-977c-23bf014ce664'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:61531/silicon))
+
+    def test_same_serial_completion_correction_retains_physical_identity(engine,database,identities):
+>       i=identities;_,loc,b=prepared(engine,database,i)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_assembly_correction.py:17:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_assembly.py:51: in prepared
+    o=order(engine,database,i,independent)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_assembly.py:20: in order
+    else:draft,_=source(engine,database,i)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:11: in source
+    with client(engine,database,i.user,i.a) as one:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61531/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61531/silicon', migration_url='postgresql+psycopg://silicon_...test'}, start=<function database.<locals>.start at 0x107e7bce0>, stop=<function database.<locals>.stop at 0x107e7bd80>)
+user = UUID('ce18a5f9-308d-4188-8909-892ca190d867')
+tenant = UUID('0c7e7b04-0ede-4c7d-a22d-5200caba17c4')
+
+    @contextmanager
+    def client(engine,database,user,tenant):
+        token,csrf=session_insert(engine,user,tenant)
+>       app=create_app(Settings(database.url,'test',file_root=database.files))
+                                                              ^^^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'files'
+
+apps/api/tests/test_contracts.py:39: AttributeError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_assembly_correction.py::test_same_serial_completion_correction_retains_physical_identity
+1 failed, 2 warnings in 1.63s

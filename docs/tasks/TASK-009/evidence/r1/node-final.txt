@@ -1,0 +1,27 @@
+✔ editing an offset price timestamp keeps the UTC instant (0.943375ms)
+✔ UTC input preserves the half-open boundary across negative offsets (0.062417ms)
+✔ clearing the date field does not crash the editor (0.050625ms)
+✔ delayed successful list response never updates the new enterprise (12.733334ms)
+✔ delayed successful detail response never updates the new enterprise (0.293666ms)
+✔ delayed successful new form response never updates the new enterprise (0.27275ms)
+✔ delayed successful edit form response never updates the new enterprise (0.217042ms)
+✔ delayed successful catalog list response never updates the new enterprise (0.201333ms)
+✔ delayed successful catalog detail response never updates the new enterprise (0.152208ms)
+✔ delayed successful catalog create response never updates the new enterprise (0.681042ms)
+✔ delayed successful catalog edit response never updates the new enterprise (0.213167ms)
+✔ delayed successful catalog publish response never updates the new enterprise (0.322542ms)
+✔ delayed successful catalog revision response never updates the new enterprise (0.257708ms)
+✔ delayed successful quote list response never updates the new enterprise (0.137459ms)
+✔ delayed successful quote detail response never updates the new enterprise (0.108333ms)
+✔ delayed successful quote trial response never updates the new enterprise (0.112583ms)
+✔ delayed successful quote save response never updates the new enterprise (0.105208ms)
+✔ delayed successful quote discount response never updates the new enterprise (0.128917ms)
+✔ a discarded form ticket cannot issue another request after A/B/A (0.139958ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.507

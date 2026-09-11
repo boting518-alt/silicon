@@ -1,0 +1,3 @@
+- heading "装配交互回归" [level=1]
+- paragraph: 实际React，HTTP替身；非PG/浏览器业务验收。
+- generic: "[ { \"name\": \"create response lost: same intent replay then explicit new intent\", \"status\": \"passed\" }, { \"name\": \"delayed successful A list does not update B\", \"status\": \"passed\" } ]"

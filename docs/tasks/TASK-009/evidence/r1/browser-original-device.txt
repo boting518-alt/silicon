@@ -1,0 +1,184 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /装配工单
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "单台装配工单" [level=2]
+  - button "刷新查询"
+  - paragraph: 库存预留 → 实际领料 → 完工待测试。仅实际领料成本，不含人工及其他费用。
+  - status: 操作已保存。完工不代表测试、交付或收款。
+  - button "新建单台工单"
+  - table:
+    - rowgroup:
+      - row "订单 / 工单 进度 需求缺口 操作":
+        - columnheader "订单 / 工单"
+        - columnheader "进度"
+        - columnheader "需求缺口"
+        - columnheader "操作"
+    - rowgroup:
+      - row "SO-CON-001 b9a76a3a 已完工 · 待测试 0 件 打开工单 b9a76a3a":
+        - cell "SO-CON-001 b9a76a3a":
+          - text: SO-CON-001
+          - text: b9a76a3a
+        - cell "已完工 · 待测试"
+        - cell "0 件"
+        - cell "打开工单 b9a76a3a":
+          - button "打开工单 b9a76a3a"
+  - heading "工单 b9a76a3a · 已完工 · 待测试" [level=3]
+  - paragraph: 版本 7 · 成品 SKU FINISHED · 2026-09-08
+  - heading "需求与准备情况" [level=4]
+  - paragraph: memory:PUB-memory · 需求 2 / 有效预留 0 / 已领 2 / 缺口 0
+  - paragraph: host:PUB-H · 需求 1 / 有效预留 0 / 已领 1 / 缺口 0
+  - generic "含于包件的技术展示（不重复领料）"
+  - text: 本次数量
+  - spinbutton "本次数量": "2"
+  - text: 预留时长（小时）
+  - spinbutton "预留时长（小时）": "24"
+  - text: 业务原因
+  - textbox "业务原因"
+  - heading "已固定的库存来源" [level=4]
+  - paragraph: 预留 284fc20f · 来源层 825b2d1e-c9ac-4991-b579-9707fac07a82 · 库位 77d07e2d-cb17-43b5-906d-bdcf27a6564e
+  - paragraph: 原预留 2 / 已消费 2 / 已释放 0 · 到期 2026/9/12 17:24:09
+  - paragraph: 预留 ae7a604f · 来源层 09a5ab2a-8928-49f4-ba01-fbf1c2de3551 · 库位 77d07e2d-cb17-43b5-906d-bdcf27a6564e
+  - paragraph: 原预留 1 / 已消费 1 / 已释放 0 · 到期 2026/9/12 17:23:54
+  - button "释放剩余预留" [disabled]
+  - button "取消未领料工单" [disabled]
+  - heading "在制与完工" [level=4]
+  - button "工单数量与成本对账"
+  - paragraph: 当前在制成本：0.00 CNY · 仅实际领料成本
+  - heading "完工与逆向历史" [level=4]
+  - paragraph: 完工 e23a4453 · 当前有效 · 2026/9/11 17:24:38
+  - paragraph: 成本层 4454851e-50fa-4f18-877d-257d4f104a03 · 移动 b10d7ea8-b920-4eb3-806a-ba8b7883524e
+  - button "逆向完工 e23a4453" [disabled]
+  - paragraph:
+    - button "查看设备 DEV-984d2050-84fb-47ba-87d4-5b6039d2a96e"
+  - generic "移动与错误更正"
+  - generic "操作历史"
+  - heading "设备查询" [level=3]
+  - text: 搜索整机 / 部件 SN、型号、客户、合同或订单
+  - textbox "搜索整机 / 部件 SN、型号、客户、合同或订单"
+  - button "查询设备"
+  - strong: FIN-001 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 已完工，待测试
+  - button "设备详情 FIN-001" [active]
+  - heading "FIN-001 · FINISHED" [level=3]
+  - paragraph: 虚构制造商 / 硅屿测试品牌 / 自主品牌
+  - paragraph: 实物 95468174-9c35-40eb-a9aa-b821f6ce34bf · 设备档案引用同一库存实物
+  - paragraph: 客户 澄川大学 · 人工智能学院 · 合同 CON-001 · 订单 SO-CON-001
+  - paragraph: 报价版本 9bc06722-d6fc-47aa-84ec-abc8774a057f · 项目 bf91ed86-c810-478f-b0b8-a92a7d221b97
+  - paragraph: 待检 / 待测试 · 1 件；未发货、未验收、未收款。
+  - paragraph: 成品成本 90.00 CNY · 仅实际领料成本
+  - table:
+    - rowgroup:
+      - row "部件 位置 安装历史 库存来源":
+        - columnheader "部件"
+        - columnheader "位置"
+        - columnheader "安装历史"
+        - columnheader "库存来源"
+    - rowgroup:
+      - row "PUB-H H1 × 1 host:PUB-H 2026-09-11T17:24:38.070827+08:00 有效安装 09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+        - cell "PUB-H H1 × 1":
+          - text: PUB-H
+          - text: H1 × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-11T17:24:38.070827+08:00 有效安装":
+          - text: 2026-09-11T17:24:38.070827+08:00
+          - text: 有效安装
+        - cell "09a5ab2a-8928-49f4-ba01-fbf1c2de3551 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-H":
+          - text: 09a5ab2a-8928-49f4-ba01-fbf1c2de3551
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-H"
+      - row "PUB-memory MEM × 2 memory:PUB-memory 2026-09-11T17:24:38.071476+08:00 有效安装 825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+        - cell "PUB-memory MEM × 2":
+          - text: PUB-memory
+          - text: MEM × 2
+        - cell "memory:PUB-memory"
+        - cell "2026-09-11T17:24:38.071476+08:00 有效安装":
+          - text: 2026-09-11T17:24:38.071476+08:00
+          - text: 有效安装
+        - cell "825b2d1e-c9ac-4991-b579-9707fac07a82 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389 追溯来源 PUB-memory":
+          - text: 825b2d1e-c9ac-4991-b579-9707fac07a82
+          - text: 入库 c44bf52f-20f7-49ae-b0a2-a244e6fd3389
+          - button "追溯来源 PUB-memory"
+  - button "关闭设备详情"
+  - generic "全部完工记录（同一设备档案）"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

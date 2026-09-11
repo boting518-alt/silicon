@@ -1,0 +1,94 @@
+{
+  "task": "TASK-009",
+  "scope": "R1",
+  "status": "review_ready",
+  "base": "c08079e0e7ce4c79c86728817a7841b4c9f214e8",
+  "environment": {
+    "Python": "3.12.7",
+    "PG": "17.11",
+    "Java": "21.0.6",
+    "Keycloak": "26.7.3",
+    "Node": "24.15.0",
+    "npm": "11.12.1",
+    "database": "temporary cluster, real silicon_app role; resident untouched",
+    "tls": "existing trusted browser certificate, verified hostname; no trust modification"
+  },
+  "checks": [
+    {
+      "name": "real PG/API correction regression",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_assembly_correction.py -q",
+      "status": "passed",
+      "result": "6 passed, 3 warnings in 11.42s",
+      "log": "legacy-protection-green.txt"
+    },
+    {
+      "name": "full final backend incl real OIDC",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "status": "passed",
+      "log": "backend-final.txt",
+      "result": "216 passed, 8 warnings in 185.41s"
+    },
+    {
+      "name": "frontend build",
+      "command": "npm run build",
+      "status": "passed",
+      "log": "build-ui.txt"
+    },
+    {
+      "name": "frontend typecheck",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "log": "typecheck-final.txt"
+    },
+    {
+      "name": "frontend node regression",
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "status": "passed",
+      "result": "19 passed",
+      "log": "node-final.txt"
+    },
+    {
+      "name": "OpenAPI and client consistency",
+      "command": ".venv/bin/python infra/export_openapi.py; npm run api:types; byte compare to saved prior generated files",
+      "status": "passed",
+      "log": "contract-final.txt"
+    },
+    {
+      "name": "React HTTP substitute regression",
+      "command": "Open /tests/assembly-component.html",
+      "status": "passed",
+      "result": "2 passed",
+      "log": "component-regression.txt"
+    },
+    {
+      "name": "real browser same-SN correction and refresh",
+      "command": "SILICON_BROWSER_ASSEMBLY=1 SILICON_BROWSER_INVENTORY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 .venv/bin/python infra/browser_stack.py; follow browser-acceptance.md",
+      "status": "passed",
+      "log": "browser-stock-refreshed.txt",
+      "screenshots": "screenshots.json"
+    },
+    {
+      "name": "documentation hashes and links",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "log": "docs-final.txt",
+      "result": "270 local links, unchanged review hashes"
+    },
+    {
+      "name": "git diff checks",
+      "command": "git diff --check; git diff --cached --check",
+      "status": "passed",
+      "log": "diff-check.txt"
+    },
+    {
+      "name": "remote CI",
+      "status": "not_run",
+      "reason": "Not independently queried; push is not CI or acceptance."
+    },
+    {
+      "name": "other browsers/production/full new procurement browser flow",
+      "status": "not_run",
+      "reason": "Outside this focused correction; historical limitations retained."
+    }
+  ]
+}

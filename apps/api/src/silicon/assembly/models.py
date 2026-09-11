@@ -31,6 +31,7 @@ class IssueLine(Input):
 class Issue(Version):
     lines:list[IssueLine]=Field(min_length=1,max_length=100)
 class Complete(Version):
+    correction_of:UUID|None=None
     serial:str=Field(min_length=1,max_length=120)
     location_id:UUID
 class Reverse(Version):
@@ -65,6 +66,14 @@ class DeviceRef(View):
     id:UUID
     number:str
     movement_id:UUID
+class CompletionView(View):
+    id:UUID
+    device_id:UUID
+    layer_id:UUID
+    movement_id:UUID
+    completed_at:datetime
+    correction_of:UUID|None=None
+    reversed_by:UUID|None=None
 class EventView(View):
     id:UUID
     action:str
@@ -87,6 +96,7 @@ class WorkView(View):
     checks:list[str]
     issues:list[IssueView]
     devices:list[DeviceRef]
+    completions:list[CompletionView]=Field(default_factory=list)
     history:list[EventView]
     wip_cost:str|None=None
 class SalesSourceView(View):
@@ -95,6 +105,7 @@ class SalesSourceView(View):
     quantity:int
     host:Sku
 class InstallationView(View):
+    completion_id:UUID
     id:UUID
     layer_id:UUID
     unit_id:UUID|None=None
@@ -133,6 +144,8 @@ class DeviceView(View):
     project_id:UUID
     reversed:bool
     inventory:list[DeviceInventoryView]
+    completion_id:UUID
+    completions:list[CompletionView]
     installations:list[InstallationView]
     cost:str|None=None
     cost_scope:str
