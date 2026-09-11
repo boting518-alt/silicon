@@ -91,5 +91,6 @@
     "1000 AR/AP sample is real PG/API; browser uses original300 contract"
   ],
   "review_report_sha256": "6ab1c748cc9ce20a19865e8558fe3729c4e3abf5b5f51f8962a9b4ea22d98873",
-  "independent_review_passed": false
+  "independent_review_passed": false,
+  "implementation_commit": "98610b6caf607954ea10eb50f25e3e4f01dca7b5"
 }

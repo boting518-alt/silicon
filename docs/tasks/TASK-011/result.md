@@ -89,3 +89,5 @@ status: review_ready。修复前基准 `680c071c96309137788671c160c1df5235fa59a6
 本轮准确命令、原始红绿和完整回归结果见 [R1 validation](evidence/r1/validation.json)；[真实浏览器与组件](evidence/r1/browser-acceptance.md)、[桌面](evidence/r1/desktop.jpg)、[移动](evidence/r1/mobile.jpg)、[变更清单](evidence/r1/changed-files.txt)。未运行其他浏览器、Docker、生产及真实金融外部系统；远程 CI 未核实。不开始 TASK-012。
 
 R1 最终验证：串行完整后端 **243 passed / 15 warnings / 252.91s**（含真实 OIDC）；资金定向 **20 passed / 5 warnings / 36.91s**（包含在完整243项内）；实际 React+HTTP替身 **5 passed**；Node **19 passed**；类型检查、构建、契约再生成一致性、文档和差异检查通过。真实浏览器误减恢复及刷新持久化通过。首次IdP启动失败原始日志未覆盖。
+
+R1 修复实现提交：`98610b6caf607954ea10eb50f25e3e4f01dca7b5`。本轮最终 HEAD 由增量审查包 REVIEW_MANIFEST.md 精确登记；完整源码、review-to-final 增量差异、原审查和新旧证据按该 HEAD 导出。
