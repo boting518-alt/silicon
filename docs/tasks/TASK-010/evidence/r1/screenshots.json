@@ -1,0 +1,54 @@
+[
+  {
+    "file": "desktop-revoked-detail.jpg",
+    "sha256": "6f22da348bb472144398883776dc1d7ba6b77170f78c27e916ff6354c258e9fc",
+    "image_pixels": [
+      1425,
+      891
+    ],
+    "css_viewport": [
+      1440,
+      900
+    ],
+    "note": "visually inspected; existing layout retained"
+  },
+  {
+    "file": "desktop-revoked.jpg",
+    "sha256": "bbc22b3ebb7079fb71b733343dc10018443d9de0319c2f32731177ad05dc7873",
+    "image_pixels": [
+      1425,
+      802
+    ],
+    "css_viewport": [
+      1440,
+      900
+    ],
+    "note": "intermediate immediately after viewport resize; use desktop-revoked-detail.jpg for settled size"
+  },
+  {
+    "file": "mobile-detail.jpg",
+    "sha256": "f9cd3e9dd670cb4369d6635ba61d84b94dc80a31dd93dea1630a56eb4db38540",
+    "image_pixels": [
+      375,
+      812
+    ],
+    "css_viewport": [
+      390,
+      844
+    ],
+    "note": "visually inspected; existing layout retained"
+  },
+  {
+    "file": "mobile-devices.jpg",
+    "sha256": "3ce33b45ab5afa6ad95230faf36eee078f548ef8b75a2780ca1b21d840a91090",
+    "image_pixels": [
+      375,
+      812
+    ],
+    "css_viewport": [
+      390,
+      844
+    ],
+    "note": "visually inspected; existing layout retained"
+  }
+]

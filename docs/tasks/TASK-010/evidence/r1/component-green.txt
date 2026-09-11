@@ -1,0 +1,3 @@
+- heading "设备权限回归" [level=1]
+- paragraph: 实际 React + HTTP 替身，不代替真实 PG 与浏览器业务验收。
+- generic: "[ { \"name\": \"device and assembly work remain usable without delivery.read\", \"status\": \"passed\" }, { \"name\": \"authorized history, revoked 403 clears history but preserves base detail\", \"status\": \"passed\" }, { \"name\": \"late successful history cannot cross enterprise or closed detail\", \"status\": \"passed\" } ]"

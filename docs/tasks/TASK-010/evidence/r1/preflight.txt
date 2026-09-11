@@ -1,0 +1,1 @@
+Changed files inspected: no excluded data, symlinks, large files or high-confidence secret matches. Original result prefix and original compressed evidence hashes match.

@@ -119,3 +119,5 @@ TASK-009实现及本地验证完成，进入review_ready；见[执行结果](TAS
 负责人依据[TASK-009增量审查](../reviews/TASK-009-17088be-review.md)确认 accepted，明确授权[TASK-010](TASK-010/task.md) executing。核对及限制见[交接](TASK-010/handoff.md)。历史记录保留。
 
 TASK-010 实现及验证进入 review_ready，见[结果](TASK-010/result.md)。等待独立审查，不自行 accepted，不开始 TASK-011。
+
+TASK-010 R1 按用户授权修复：保留基础设备权限，交付历史独立授权。原样归档[独立报告](../reviews/TASK-010-9da23ab-review.md)，实际回归与限制追加至[结果](TASK-010/result.md)。状态保持 review_ready，等待增量复核，不开始 TASK-011。

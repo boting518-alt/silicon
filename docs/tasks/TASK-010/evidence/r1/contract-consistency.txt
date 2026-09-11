@@ -1,0 +1,3 @@
+OpenAPI and generated TypeScript regenerated, byte-for-byte identical to reviewed HEAD.
+0daf68a84c5a43a0a48882aaa6cb2a99d5f793f304a36ea247f834c7b8e26e5c  packages/api-client/openapi.json
+173a820d2949171f6b8eb39ab1235bdf4a57cb6bcd1cf59df017bb75efcaf60a  packages/api-client/schema.d.ts

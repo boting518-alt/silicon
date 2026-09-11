@@ -1,0 +1,63 @@
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+_________ test_independent_device_delivery_permissions_and_cost_scope __________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:58895/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:58895/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-92/test_independent_device_delive0/private-files')
+identities = namespace(a=UUID('2b44bc7f-ac3f-4e28-839e-231de24019e5'), b=UUID('b51667cd-a49a-45ce-9de0-9d6ecf8f3499'), user=UUID('d...D('7d380cff-56fc-492b-a10e-103faf80118e'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:58895/silicon))
+
+    def test_independent_device_delivery_permissions_and_cost_scope(engine,database,identities):
+        """Real PG/non-owner runtime role + real API; OIDC login alone is substituted."""
+        from sqlalchemy import text
+        i=identities;o,loc,ids=setup(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:passing(c,ids[0])
+        with i.owner.begin() as db:
+            db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.other})
+            original=db.execute(text("SELECT permission FROM role_permissions WHERE role='viewer'")).scalars().all()
+        def permissions(*remove):
+            with i.owner.begin() as db:
+                db.execute(text("DELETE FROM role_permissions WHERE role='viewer'"))
+                for permission in original:
+                    if permission not in remove:db.execute(text("INSERT INTO role_permissions VALUES ('viewer',:p)"),{'p':permission})
+        try:
+            with client(engine,database,i.other,i.a) as c:
+                permissions('delivery.read')
+                assert 'device.read' in ok(c.get('/api/v1/inventory/context'))['permissions']
+                assert len(ok(c.get('/api/v1/assembly/devices')))==1
+                assert len(ok(c.get('/api/v1/assembly/devices',params={'q':'DEL-0'})))==1
+                assert ok(c.get('/api/v1/assembly/devices',params={'q':'absent'}))==[]
+                base=ok(c.get('/api/v1/assembly/devices/'+ids[0]))
+                assert base['serial']=='DEL-0' and base['installations']
+                assert not {'tests','deliveries','eligibility','cost'} & base.keys()
+>               assert ok(c.get('/api/v1/assembly/works'))[0]['state']=='completed'
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_delivery.py:174:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [403 Forbidden]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"FORBIDDEN","message":"身份无效或没有执行此操作的权限","request_id":"4e558488-074c-4b63-b73c-d18be07227c2"}
+E       assert 403 == 200
+E        +  where 403 = <Response [403 Forbidden]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_delivery.py::test_concurrent_shipping_return_and_permission_replays
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'idempotency-key' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_delivery.py::test_independent_device_delivery_permissions_and_cost_scope
+1 failed, 6 passed, 3 warnings in 17.05s

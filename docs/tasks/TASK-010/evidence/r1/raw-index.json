@@ -1,0 +1,122 @@
+[
+  {
+    "text": "api-types.txt",
+    "original_gzip": "api-types.raw.gz",
+    "original_sha256": "f0f82ffd4ffcf4da89e313d04dbf830d174458cc67781f5fe4217fcf8c0974aa"
+  },
+  {
+    "text": "assembly-component.txt",
+    "original_gzip": "assembly-component.raw.gz",
+    "original_sha256": "45d7b60ee7fb98f7dd504809ec1e6225a2548d5f8327fe2809de45ae895fd400"
+  },
+  {
+    "text": "browser-assembly-dom.txt",
+    "original_gzip": "browser-assembly-dom.raw.gz",
+    "original_sha256": "048f8873089b921f7737c46f55997613b7c52c68d786083a23f954a8db4d0111"
+  },
+  {
+    "text": "browser-logout-dom.txt",
+    "original_gzip": "browser-logout-dom.raw.gz",
+    "original_sha256": "1cd6b50f0e11bc6ea7a0dc0a6b5593f542fd71ac0960a3927043ac135f8fbd01"
+  },
+  {
+    "text": "browser-mobile-dom.txt",
+    "original_gzip": "browser-mobile-dom.raw.gz",
+    "original_sha256": "33fc9c161c0062d0fba91e35480ec47c4df25c9ff60c7cc458010ff4c2c6aaca"
+  },
+  {
+    "text": "browser-permissions.txt",
+    "original_gzip": "browser-permissions.raw.gz",
+    "original_sha256": "1e2145fec4b6a713aeb778929ad1cdeb030cfbecb78192352ad541794e33e6ab"
+  },
+  {
+    "text": "browser-restored-dom.txt",
+    "original_gzip": "browser-restored-dom.raw.gz",
+    "original_sha256": "8cccc7d663627aa3199433ca12fd7ea5e80eac378fd59d251ee59e3f47dc8ba1"
+  },
+  {
+    "text": "browser-revoked-dom.txt",
+    "original_gzip": "browser-revoked-dom.raw.gz",
+    "original_sha256": "d52b829af4275be98f6bb3a26ebdd746cac1ff58c84566cc8a76006ff15aaeac"
+  },
+  {
+    "text": "browser-stack.txt",
+    "original_gzip": "browser-stack.raw.gz",
+    "original_sha256": "ab9cefcb4eedc45ff82a4efb7d8232e2bb6d2c2973b8e0ebefc5a0fdc2d17c67"
+  },
+  {
+    "text": "browser-tenant-b-dom.txt",
+    "original_gzip": "browser-tenant-b-dom.raw.gz",
+    "original_sha256": "542a9520f63dfaba6d79fe686092e4aedaf8a4c06b5c0c6ebe0c9f150e2d3aa7"
+  },
+  {
+    "text": "build.txt",
+    "original_gzip": "build.raw.gz",
+    "original_sha256": "72cfa7db6b0a3d3d91911d346dc8fa638d9c7618569121a1c31c4994469dd951"
+  },
+  {
+    "text": "component-green.txt",
+    "original_gzip": "component-green.raw.gz",
+    "original_sha256": "ceb1772e37331ffe6010020c2aabf4090e83104b98e854d3932786e423364570"
+  },
+  {
+    "text": "component-red.txt",
+    "original_gzip": "component-red.raw.gz",
+    "original_sha256": "1e16bfe9bd36c893521782d1b733535880568ece0fbc581a994c3f807cbfea9d"
+  },
+  {
+    "text": "contract-consistency.txt",
+    "original_gzip": "contract-consistency.raw.gz",
+    "original_sha256": "515e5cc3770574c01b0cec0a9631b8d488e27d525df353bcce367bc1250694d7"
+  },
+  {
+    "text": "delivery-component.txt",
+    "original_gzip": "delivery-component.raw.gz",
+    "original_sha256": "5eab9ac52b649957a19b7522f35749f82143f505d13f1fcb608eeb5c38cb4c83"
+  },
+  {
+    "text": "docs-first.txt",
+    "original_gzip": "docs-first.raw.gz",
+    "original_sha256": "e76496c1f0ee6b97ec076ada2b43daa542f8b4ffb5273dbc225c20a81d96da08"
+  },
+  {
+    "text": "node-tests.txt",
+    "original_gzip": "node-tests.raw.gz",
+    "original_sha256": "5790312306e4f4f747a904076218c99122904e042aede15e4e7f3fbf87c3edea"
+  },
+  {
+    "text": "openapi.txt",
+    "original_gzip": "openapi.raw.gz",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "text": "pg-delivery-green.txt",
+    "original_gzip": "pg-delivery-green.raw.gz",
+    "original_sha256": "e35ae02690a6a6c81f56720b34577b2b06b482b3ee0aab86fa61fd090c8c3579"
+  },
+  {
+    "text": "pg-delivery.txt",
+    "original_gzip": "pg-delivery.raw.gz",
+    "original_sha256": "912b672ad3632d09cd502234ff01f4cc5fab496045d82115c9d19f1b22bf6ab6"
+  },
+  {
+    "text": "report-integrity.txt",
+    "original_gzip": "report-integrity.raw.gz",
+    "original_sha256": "20a64ee57ebb724c0fac3e2da181cba6af767c3e86eb30576040692146758476"
+  },
+  {
+    "text": "typecheck-final.txt",
+    "original_gzip": "typecheck-final.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324"
+  },
+  {
+    "text": "typecheck.txt",
+    "original_gzip": "typecheck.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324"
+  },
+  {
+    "text": "backend-full.txt",
+    "original_gzip": "backend-full.raw.gz",
+    "original_sha256": "909f0fa24198303660730952dc0a09efc30ec8daf4f019d23ac0ca75038d131b"
+  }
+]

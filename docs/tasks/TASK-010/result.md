@@ -41,3 +41,28 @@ status: review_ready
 实现与证据提交：`663725a3887c2cb15222182d661d9f9642a5aa0f`。交接提交：`c6d5bc3a2d4e1a2569ed18f3e6816f45503610d6`。随后收尾提交仅固定本登记和文件/提交索引；最终HEAD由审查包REVIEW_MANIFEST.md精确记录，避免自引用提交号。状态review_ready，等待独立审查。
 
 打包：`.venv/bin/python infra/package_task010_review.py --implementation 663725a3887c2cb15222182d661d9f9642a5aa0f --destination "$REVIEW_ZIP"`。完整源码、基线差异、逐文件Git blob比对、补丁重放、历史保留及解压SHA256SUMS均由脚本验证。GitHub推送和远程SHA在最终交付消息核实，CI未核实。
+
+## R1 增量修复（2026-09-11）
+
+本轮审查基准与修复起点：`9da23ab4aef6fdc766a68379a694c65bef3f8f4b`，main 工作树干净、无后续提交；未reset或覆盖用户修改。用户已明确授权仅修复R1。原样归档[独立审查报告](../../reviews/TASK-010-9da23ab-review.md)，SHA256固定于文档检查；旧报告、原测试结果、历史限制及发布快照保留。状态继续 **review_ready**，不自行accepted、不开始TASK-011。
+
+原因：设备及装配页面强制使用要求delivery.read的设备聚合接口，导致保留device.read但无delivery.read的用户失去基础列表、搜索、详情与装配初始加载。
+
+修复：基础列表/搜索/详情回到原 `/assembly/devices`，详情重新向后端校验读取权限；交付历史按delivery.read独立加载，独立状态与错误提示。刷新、搜索、重开/关闭先清空旧交付信息，403保留基础数据并明确提示，其他失败显示真实错误；代次/企业上下文保护拒绝关闭或切企业后迟到的成功响应。基础列表不再猜测交付状态。未更改后端生产权限、默认角色、迁移、写命令或接口契约；delivery-only的既有设备投影范围、成本另行授权和关联ID不授予对象访问，在[ADR-015](../../architecture/adr/ADR-015.md)明确。不通过扩大授权或假数据掩盖错误。
+
+### 实测
+
+- 修复前实际React测试：基础设备列表断言失败，工单数据也未加载。保存 [红灯观察](evidence/r1/component-red.txt)。这是真实浏览器运行的React+HTTP替身，不冒充PG复现。
+- 新React权限回归3 passed：无交付权的基础设备与工单交互；授权历史→实际组件403→历史清除、基础保留；确定性延迟成功历史响应在关闭详情及切企业后不得重新进入页面。原装配2、交付2也通过（创建丢响应幂等与跨企业迟到成功响应）。
+- 定向真实PG/API：7 passed /3 warnings /17.34秒。覆盖独立细粒度权限、列表/搜索/详情、无交付权创建装配草稿、交付撤权、delivery-only范围、跨租户404、成本裁剪及原交付并发/成本/迁移核心回归。新增权限测试使用真实非owner应用角色，只有OIDC登录准备使用测试替身。最初6 passed/1 failed因viewer测试夹具漏配assembly.read；只补充该测试角色权限并finally恢复，不修改生产角色策略，不算产品红灯。
+- 完整后端：**223 passed /13 warnings /205.51秒**，包括真实OIDC、会话、RLS、迁移、Worker及所有前序报价/目录/客户/库存/装配/交付回归。无失败或跳过；警告为既有依赖弃用/字段属性诊断，没有升级依赖。
+- Node19 passed；类型检查、构建、OpenAPI与客户端再生成字节一致、文档及diff检查通过。见[准确命令及结果](evidence/r1/validation.json)。
+- 真实浏览器：真实IdP登录A→保存DEL-0测试→设备基础详情及测试历史→临时集群撤交付权→重开得到403且清旧历史→装配列表和对账→按SN搜索→移动端刷新恢复→恢复原权限查历史→企业B隔离→真实退出。桌面1440×900、移动390×844证据及可重复夹具步骤见[浏览器记录](evidence/r1/browser-acceptance.md)、[截图清单](evidence/r1/screenshots.json)。测试栈已清理，无常驻库/证书信任/原Demo改动。
+
+### 限制与增量交付
+
+本轮只重复查询权限相关浏览器流程，没有重跑全部发货/验收/退货浏览器闭环（旧证据保留，真实PG核心全量已重跑）。真实浏览器成本身份为admin，成本隐藏及delivery-only边界由真实PG/API验证。非阻断“确认发货时间展示”建议只记入ADR，未扩大实现。Docker、其他浏览器、远程CI和生产环境 not_run/未核实；不宣称独立复核已通过。
+
+权限浏览器辅助脚本首次由迁移角色读取data_directory被正确拒绝，随后改为在连接前核对临时PG进程标记及端口，不提升数据库角色权限；原输出保留。截图索引制作时排除AppleDouble读取项，未删除磁盘元数据。历史局限不改写。
+
+本轮独立修复提交与后续登记提交见下方提交登记；最终HEAD由增量审查包清单固定，避免自引用。使用 `infra/package_task010_repair.py --implementation <修复提交> --destination "$REVIEW_ZIP"`，从最终干净commit导出完整源码、相对本轮审查基准的binary diff/文件清单/日志、全部历史与新增证据，验证逐文件Git blob、补丁重放、旧证据不变、秘密排除及解压SHA256SUMS。旧审查包不覆盖。

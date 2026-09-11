@@ -147,3 +147,54 @@ def test_latest_failure_move_invalidation_and_line_boundaries(engine,database,id
         assert cmd(c,'/shipments/'+other['id']+'/accept',{**ab,'expected_version':1}).status_code==409
         assert cmd(c,'/shipments/'+s['id']+'/accept',{**ab,'line_ids':[s['lines'][0]['id']]*2}).status_code==422
         assert ok(c.get(P+'/reconciliation'))['matches']
+
+def test_independent_device_delivery_permissions_and_cost_scope(engine,database,identities):
+    """Real PG/non-owner runtime role + real API; OIDC login alone is substituted."""
+    from sqlalchemy import text
+    i=identities;o,loc,ids=setup(engine,database,i)
+    with client(engine,database,i.user,i.a) as c:passing(c,ids[0])
+    with i.owner.begin() as db:
+        db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.other})
+        original=db.execute(text("SELECT permission FROM role_permissions WHERE role='viewer'")).scalars().all()
+    def permissions(*remove):
+        with i.owner.begin() as db:
+            db.execute(text("DELETE FROM role_permissions WHERE role='viewer'"))
+            for permission in set(original)|{'assembly.read','assembly.write'}:
+                if permission not in remove:db.execute(text("INSERT INTO role_permissions VALUES ('viewer',:p)"),{'p':permission})
+    try:
+        with client(engine,database,i.other,i.a) as c:
+            permissions('delivery.read')
+            assert 'device.read' in ok(c.get('/api/v1/inventory/context'))['permissions']
+            assert len(ok(c.get('/api/v1/assembly/devices')))==1
+            assert len(ok(c.get('/api/v1/assembly/devices',params={'q':'DEL-0'})))==1
+            assert ok(c.get('/api/v1/assembly/devices',params={'q':'absent'}))==[]
+            base=ok(c.get('/api/v1/assembly/devices/'+ids[0]))
+            assert base['serial']=='DEL-0' and base['installations']
+            assert not {'tests','deliveries','eligibility','cost'} & base.keys()
+            work=ok(c.get('/api/v1/assembly/works'))[0];assert work['state']=='completed'
+            plan={k:work[k] for k in ('order_id','product_sku_id','manager_id','planned_on')}
+            created=ok(c.post('/api/v1/assembly/works',json=plan,headers={'Idempotency-Key':str(uuid4())}));assert created['state']=='draft'
+            assert c.get(P+'/devices').status_code==403
+            assert c.get(P+'/devices/'+ids[0]).status_code==403
+            permissions()
+            enriched=ok(c.get(P+'/devices/'+ids[0]));assert enriched['tests'] and enriched['eligibility']=='pass' and 'cost' not in enriched
+            permissions('delivery.read')
+            assert c.get(P+'/devices/'+ids[0]).status_code==403
+            assert ok(c.get('/api/v1/assembly/devices/'+ids[0]))==base
+            # Existing delivery-specific read grant remains explicit: base fields plus
+            # tests/history are available there, but it grants no assembly endpoint access.
+            permissions('device.read')
+            assert c.get('/api/v1/assembly/devices').status_code==403
+            assert c.get('/api/v1/assembly/devices/'+ids[0]).status_code==403
+            delivery_only=ok(c.get(P+'/devices/'+ids[0]))
+            assert delivery_only['inventory_unit_id']==base['inventory_unit_id']
+            assert delivery_only['installations']==base['installations'] and 'cost' not in delivery_only
+        with client(engine,database,i.other,i.b) as c:
+            permissions()
+            assert ok(c.get('/api/v1/assembly/devices'))==[]
+            assert c.get('/api/v1/assembly/devices/'+ids[0]).status_code==404
+            assert c.get(P+'/devices/'+ids[0]).status_code==404
+    finally:
+        with i.owner.begin() as db:
+            db.execute(text("DELETE FROM role_permissions WHERE role='viewer'"))
+            for permission in original:db.execute(text("INSERT INTO role_permissions VALUES ('viewer',:p)"),{'p':permission})

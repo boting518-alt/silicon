@@ -1,0 +1,95 @@
+{
+  "task": "TASK-010",
+  "status": "review_ready",
+  "review_base": "9da23ab4aef6fdc766a68379a694c65bef3f8f4b",
+  "environment": {
+    "postgresql": "17.11",
+    "python": "3.12.7",
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "java": "21.0.6",
+    "keycloak": "26.7.3",
+    "isolation": "random-port temporary PG; separate real IdP/browser stack; no resident database"
+  },
+  "checks": [
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_delivery.py -q",
+      "result": "7 passed, 3 warnings in 17.34s",
+      "log": "pg-delivery-green.txt"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$PWD/.tools/keycloak/keycloak-26.7.3\" .venv/bin/python -m pytest apps/api/tests -q",
+      "result": "223 passed, 13 warnings in 205.51s",
+      "log": "backend-full.txt"
+    },
+    {
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "result": "19 passed",
+      "log": "node-tests.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "log": "typecheck-final.txt"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "log": "build.txt"
+    },
+    {
+      "command": ".venv/bin/python infra/export_openapi.py; npm run api:types",
+      "result": "passed; both generated files byte-identical to review base",
+      "log": "contract-consistency.txt"
+    },
+    {
+      "command": ".venv/bin/python infra/check_docs.py",
+      "result": "passed",
+      "log": "docs.txt"
+    },
+    {
+      "command": "git diff --check; git diff --cached --check",
+      "result": "passed",
+      "log": "diff-check.txt"
+    },
+    {
+      "command": "Browser: /tests/device-permissions.html",
+      "result": "3 passed, actual React + HTTP substitutes",
+      "log": "component-green.txt"
+    },
+    {
+      "command": "Browser: /tests/assembly-component.html",
+      "result": "2 passed, actual React + HTTP substitutes",
+      "log": "assembly-component.txt"
+    },
+    {
+      "command": "Browser: /tests/delivery-component.html",
+      "result": "2 passed, actual React + HTTP substitutes",
+      "log": "delivery-component.txt"
+    },
+    {
+      "command": "SILICON_BROWSER_DELIVERY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 .venv/bin/python infra/browser_stack.py; browser-acceptance.md steps",
+      "result": "passed; true IdP/API/PG; desktop/mobile; B isolation/logout; stack cleaned",
+      "log": "browser-acceptance.md"
+    }
+  ],
+  "failures_retained": {
+    "component-red.txt": "product R1 reproduced before implementation; observer captured DOM result",
+    "pg-delivery.txt": "6 passed/1 failed: test fixture omitted assembly.read; fixed fixture only",
+    "browser-permissions.txt": "initial SHOW data_directory privilege failure before any mutation; replaced with preconnection disposable PG marker guard, no role escalation"
+  },
+  "not_run": [
+    {
+      "item": "full delivery transaction browser flow",
+      "reason": "R1-only scope; old evidence retained, full backend repeated"
+    },
+    {
+      "item": "Docker/other browsers/production",
+      "reason": "not needed or authorized for R1"
+    },
+    {
+      "item": "remote CI",
+      "reason": "not verified; local tests only"
+    }
+  ]
+}

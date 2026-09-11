@@ -1,0 +1,4 @@
+Actual React with HTTP substitutes, browser https://localhost:5173/tests/device-permissions.html
+Source: reviewed HEAD 9da23ab4aef6fdc766a68379a694c65bef3f8f4b plus new test only.
+[{"name":"device and assembly work remain usable without delivery.read","status":"failed","message":"Error: base device list visible"}]
+The real page requested the denied delivery endpoint; work list and device list were empty.

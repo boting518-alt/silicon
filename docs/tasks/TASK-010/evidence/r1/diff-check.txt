@@ -1,0 +1,2 @@
+git diff --check: exit 0; no whitespace errors
+git diff --cached --check: exit 0; no whitespace errors
