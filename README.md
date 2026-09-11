@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-009 已由负责人确认 accepted。当前 TASK-010 设备测试、分批发货、验收与退货已授权，状态 executing；见 [任务书](docs/tasks/TASK-010/task.md)。生产模式保护保留，验收和收款独立。
+TASK-000～TASK-009 已由负责人确认 accepted。当前 TASK-010 设备测试、分批发货、验收与退货已授权，状态 review_ready；见 [结果](docs/tasks/TASK-010/result.md) 与 [任务书](docs/tasks/TASK-010/task.md)。生产模式保护保留，验收和收款独立。
 
 ## 入口与边界
 

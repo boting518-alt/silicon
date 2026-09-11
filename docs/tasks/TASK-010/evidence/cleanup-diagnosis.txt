@@ -1,0 +1,8 @@
+Read-only pg_stat_activity for this temporary database: 0 remaining sessions.
+2026-09-11 20:23:38.908 CST [97761] LOG:  checkpoint starting: immediate force wait
+2026-09-11 20:23:41.907 CST [98607] ERROR:  canceling statement due to statement timeout
+2026-09-11 20:23:41.907 CST [98607] STATEMENT:  DROP DATABASE silicon_crm_upgrade WITH (FORCE)
+2026-09-11 20:23:42.065 CST [98614] ERROR:  database "silicon_crm_upgrade" already exists
+2026-09-11 20:23:42.065 CST [98614] STATEMENT:  CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator
+2026-09-11 20:23:42.084 CST [97761] LOG:  checkpoint complete: wrote 2074 buffers (12.7%); 0 WAL file(s) added, 0 removed, 4 recycled; write=0.025 s, sync=1.178 s, total=3.176 s; sync files=62270, longest=0.001 s, average=0.001 s; distance=70464 kB, estimate=70464 kB; lsn=0/59EA970, redo lsn=0/59EA918
+2026-09-11 20:23:42.149 CST [98615] ERROR:  database "silicon_crm_upgrade" already exists

@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-010，status: executing。TASK-000～TASK-009 已由产品/架构负责人确认 accepted；TASK-011 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-010，status: review_ready。TASK-000～TASK-009 已由产品/架构负责人确认 accepted；TASK-011 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-009 为 accepted；TASK-010 为 executing；TASK-011～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-009 为 accepted；TASK-010 为 review_ready；TASK-011～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -117,3 +117,5 @@ TASK-009实现及本地验证完成，进入review_ready；见[执行结果](TAS
 ## TASK-010 验收交接
 
 负责人依据[TASK-009增量审查](../reviews/TASK-009-17088be-review.md)确认 accepted，明确授权[TASK-010](TASK-010/task.md) executing。核对及限制见[交接](TASK-010/handoff.md)。历史记录保留。
+
+TASK-010 实现及验证进入 review_ready，见[结果](TASK-010/result.md)。等待独立审查，不自行 accepted，不开始 TASK-011。

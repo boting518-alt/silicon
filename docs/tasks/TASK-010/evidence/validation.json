@@ -1,0 +1,69 @@
+{
+  "status": "review_ready",
+  "base": "17088be77dd1472ce11287f7b6ae88cfcb0bf721",
+  "handoff": "c6d5bc3a2d4e1a2569ed18f3e6816f45503610d6",
+  "environment": {
+    "postgresql": "17.11",
+    "python": "3.12.7",
+    "node": "24.15.0",
+    "keycloak": "26.7.3",
+    "java": "21.0.6",
+    "database": "independent temporary clusters; real silicon_app role"
+  },
+  "checks": [
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "result": "222 passed, 10 warnings, 201.73s; no skips",
+      "log": "backend-verified.txt"
+    },
+    {
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "result": "19 passed",
+      "log": "node-final.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "log": "typecheck-final.txt"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "log": "build-final-device.txt"
+    },
+    {
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types (compare bytes before/after)",
+      "result": "passed, exact bytes",
+      "log": "contract-consistency.txt"
+    },
+    {
+      "command": "python3 infra/check_docs.py",
+      "result": "passed",
+      "log": "docs-final.txt"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed",
+      "log": "diff-check.txt"
+    },
+    {
+      "command": "Browser /tests/delivery-component.html",
+      "result": "2 passed; real React, HTTP substitutes",
+      "log": "component.txt"
+    },
+    {
+      "command": "SILICON_BROWSER_DELIVERY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 .venv/bin/python infra/browser_stack.py",
+      "result": "real OIDC/API/PG browser flow passed; owned stack cleaned",
+      "log": "browser-stack.txt"
+    }
+  ],
+  "not_run": [
+    "remote CI not verified",
+    "Docker containers",
+    "other browsers",
+    "production deployment",
+    "later device-summary-only browser recheck"
+  ],
+  "browser": "../browser-acceptance.md",
+  "history": "intermediate failed runs are retained separately; not added to final count"
+}

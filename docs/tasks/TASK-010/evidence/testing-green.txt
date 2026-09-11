@@ -1,0 +1,128 @@
+E                                                                        [100%]
+==================================== ERRORS ====================================
+________ ERROR at setup of test_test_history_eligibility_and_ship_gate _________
+Traceback (most recent call last):
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "users" does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/infra/migrate.py", line 33, in <module>
+    main()
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/infra/migrate.py", line 27, in main
+    operation(config, args.revision)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/command.py", line 487, in upgrade
+    script.run_env()
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/script/base.py", line 550, in run_env
+    util.load_python_file(self.dir, "env.py")
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 114, in load_python_file
+    module = load_module_py(module_id, path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/util/pyfiles.py", line 132, in load_module_py
+    spec.loader.exec_module(module)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/silicon-migrations-22zb3dtk/migrations/env.py", line 21, in <module>
+  File "/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/silicon-migrations-22zb3dtk/migrations/env.py", line 17, in run_migrations
+  File "<string>", line 8, in run_migrations
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/runtime/environment.py", line 970, in run_migrations
+    self.get_context().run_migrations(**kw)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/runtime/migration.py", line 621, in run_migrations
+    step.migration_fn(**kw)
+  File "/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/silicon-migrations-22zb3dtk/migrations/versions/0012_delivery.py", line 8, in upgrade
+  File "<string>", line 8, in execute
+  File "<string>", line 3, in execute
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/operations/ops.py", line 2645, in execute
+    return operations.invoke(op)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/operations/base.py", line 448, in invoke
+    return fn(self, operation)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/operations/toimpl.py", line 259, in execute_sql
+    operations.migration_context.impl.execute(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 259, in execute
+    self._exec(sql, execution_options)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/alembic/ddl/impl.py", line 252, in _exec
+    return conn.execute(construct, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "users" does not exist
+[SQL:
+    INSERT INTO permissions VALUES ('delivery.read'),('delivery.test'),('delivery.ship'),('delivery.accept'),('delivery.return'),('delivery.correct');
+    INSERT INTO role_permissions SELECT 'admin',name FROM permissions WHERE name LIKE 'delivery.%%';
+    INSERT INTO role_permissions SELECT 'member',name FROM permissions WHERE name LIKE 'delivery.%%' AND name<>'delivery.correct';
+    INSERT INTO role_permissions VALUES ('viewer','delivery.read');
+    ALTER TABLE inv_movements DROP CONSTRAINT inv_movements_kind_check;
+    ALTER TABLE inv_movements ADD CHECK(kind IN ('receipt','opening','inspection','transfer','reverse','assembly_issue','assembly_complete','delivery_ship','delivery_return','delivery_reverse'));
+    CREATE TABLE del_tests(tenant_id uuid,id uuid,device_id uuid NOT NULL,completion_id uuid NOT NULL,layer_version int NOT NULL CHECK(layer_version>0),
+      result text NOT NULL CHECK(result IN ('pass','fail')),items jsonb NOT NULL,performed_at timestamptz NOT NULL,actor_id uuid NOT NULL,
+      notes text NOT NULL,report_ref text NOT NULL,created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,id,device_id,completion_id),
+      FOREIGN KEY(tenant_id,completion_id,device_id) REFERENCES asm_completions(tenant_id,id,device_id),FOREIGN KEY(actor_id) REFERENCES users(id));
+    CREATE TABLE del_shipments(tenant_id uuid,id uuid,order_id uuid NOT NULL,recipient text NOT NULL,address text NOT NULL,contact text NOT NULL,
+      state text NOT NULL DEFAULT 'draft' CHECK(state IN ('draft','confirmed','cancelled')),version int NOT NULL DEFAULT 1 CHECK(version>0),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,id,order_id),FOREIGN KEY(tenant_id,order_id) REFERENCES sales_orders(tenant_id,id));
+    CREATE TABLE del_lines(tenant_id uuid,id uuid,shipment_id uuid NOT NULL,order_id uuid NOT NULL,device_id uuid NOT NULL,completion_id uuid NOT NULL,
+      layer_id uuid NOT NULL,location_id uuid,test_id uuid,movement_id uuid,PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,shipment_id,device_id),
+      UNIQUE(tenant_id,id,device_id),FOREIGN KEY(tenant_id,shipment_id,order_id) REFERENCES del_shipments(tenant_id,id,order_id),
+      FOREIGN KEY(tenant_id,completion_id,device_id) REFERENCES asm_completions(tenant_id,id,device_id),
+      FOREIGN KEY(tenant_id,layer_id) REFERENCES inv_layers(tenant_id,id),FOREIGN KEY(tenant_id,location_id) REFERENCES inv_locations(tenant_id,id),
+      FOREIGN KEY(tenant_id,test_id,device_id,completion_id) REFERENCES del_tests(tenant_id,id,device_id,completion_id),FOREIGN KEY(tenant_id,movement_id) REFERENCES inv_movements(tenant_id,id),
+      CHECK((movement_id IS NULL AND test_id IS NULL AND location_id IS NULL) OR (movement_id IS NOT NULL AND test_id IS NOT NULL AND location_id IS NOT NULL)));
+    CREATE TABLE del_acceptances(tenant_id uuid,id uuid,line_id uuid NOT NULL,accepted bool NOT NULL,corrects uuid,performed_at timestamptz NOT NULL,actor_id uuid NOT NULL,confirmation text NOT NULL,notes text NOT NULL,evidence_ref text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,id,line_id),UNIQUE(tenant_id,corrects),FOREIGN KEY(tenant_id,line_id) REFERENCES del_lines(tenant_id,id),FOREIGN KEY(tenant_id,corrects,line_id) REFERENCES del_acceptances(tenant_id,id,line_id),FOREIGN KEY(actor_id) REFERENCES users(id));
+    CREATE TABLE del_returns(tenant_id uuid,id uuid,line_id uuid NOT NULL,location_id uuid NOT NULL,movement_id uuid NOT NULL,performed_at timestamptz NOT NULL,actor_id uuid NOT NULL,reason text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,line_id),FOREIGN KEY(tenant_id,line_id) REFERENCES del_lines(tenant_id,id),FOREIGN KEY(tenant_id,location_id) REFERENCES inv_locations(tenant_id,id),FOREIGN KEY(tenant_id,movement_id) REFERENCES inv_movements(tenant_id,id),FOREIGN KEY(actor_id) REFERENCES users(id));
+    CREATE TABLE del_reversals(tenant_id uuid,id uuid,shipment_id uuid NOT NULL,movement_id uuid NOT NULL,actor_id uuid NOT NULL,reason text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),PRIMARY KEY(tenant_id,id),UNIQUE(tenant_id,shipment_id),FOREIGN KEY(tenant_id,shipment_id) REFERENCES del_shipments(tenant_id,id),FOREIGN KEY(tenant_id,movement_id) REFERENCES inv_movements(tenant_id,id),FOREIGN KEY(actor_id) REFERENCES users(id));
+    CREATE FUNCTION del_ship_guard() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN
+      IF TG_OP='DELETE' OR (OLD.state<>'draft' AND (to_jsonb(NEW)-'version')<>(to_jsonb(OLD)-'version')) OR NEW.order_id<>OLD.order_id THEN RAISE EXCEPTION 'frozen delivery' USING ERRCODE='23514'; END IF; RETURN NEW; END $$;
+    CREATE TRIGGER frozen BEFORE UPDATE OR DELETE ON del_shipments FOR EACH ROW EXECUTE FUNCTION del_ship_guard();
+    CREATE FUNCTION del_line_guard() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN
+      IF TG_OP='DELETE' OR OLD.movement_id IS NOT NULL OR (to_jsonb(NEW)-'movement_id'-'test_id'-'location_id')<>(to_jsonb(OLD)-'movement_id'-'test_id'-'location_id') THEN RAISE EXCEPTION 'frozen delivery line' USING ERRCODE='23514'; END IF; RETURN NEW; END $$;
+    CREATE TRIGGER frozen BEFORE UPDATE OR DELETE ON del_lines FOR EACH ROW EXECUTE FUNCTION del_line_guard();
+    GRANT UPDATE ON del_lines,del_shipments TO silicon_app;
+    ]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR apps/api/tests/test_delivery.py::test_test_history_eligibility_and_ship_gate
+2 warnings, 1 error in 1.59s

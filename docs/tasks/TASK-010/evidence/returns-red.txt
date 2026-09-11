@@ -1,0 +1,42 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+__________ test_split_accept_return_retest_original_cost_and_history ___________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50779/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50779/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-83/test_split_accept_return_retes0/private-files')
+identities = namespace(a=UUID('5cd64c91-11fe-489f-a86c-a73dd12862dc'), b=UUID('5eca4d21-69d5-40b7-92c9-827f4265868f'), user=UUID('0...D('33d7738d-23e8-419f-9903-267d579e5bce'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50779/silicon))
+
+    def test_split_accept_return_retest_original_cost_and_history(engine,database,identities):
+        i=identities;o,loc,ids=setup(engine,database,i,3)
+        with client(engine,database,i.user,i.a) as c:
+            for id in ids:passing(c,id)
+            first=send(c,make_ship(c,o,ids[:2]));second=send(c,make_ship(c,o,ids[2:]));assert second['progress']['remaining']==0
+            body={'expected_version':first['version'],'confirmed':True,'line_ids':[first['lines'][0]['id']],'performed_at':'2026-09-11T00:00:00Z','confirmation':'虚构签收'}
+>           accepted=ok(cmd(c,'/shipments/'+first['id']+'/accept',body));assert accepted['progress']['accepted']==1
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_delivery.py:38:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [404 Not Found]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_delivery.py::test_split_accept_return_retest_original_cost_and_history
+1 failed, 1 passed, 2 warnings in 4.77s

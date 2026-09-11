@@ -182,7 +182,7 @@ def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_r
                     old_app.dispose()
         app=make_engine(str(make_url(database.url).set(database=name)))
         with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
-            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0011_assembly_corrections'
+            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0012_delivery'
             assert db.scalar(text("SELECT context_id IS NOT NULL FROM sessions WHERE token_hash='legacy-session'"))
             assert db.scalar(text('SELECT count(*) FROM crm_customers'))==(1 if start_revision in ('0004_session_context','0005_catalog','0006_quotes') else 0)
             if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
@@ -202,5 +202,10 @@ def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_r
         app.dispose()
     finally:
         owner.dispose()
-        with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'DROP DATABASE {name}'))
+        # DROP checkpoints all prior test activity: observed 3.176s after the full
+        # suite, exceeding the application's 3s query budget. Maintenance only;
+        # business requests and concurrency tests retain their original timeout.
+        with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:
+            db.execute(text("SET statement_timeout='30s'"))
+            db.execute(text(f'DROP DATABASE {name}'))
         bootstrap.dispose()

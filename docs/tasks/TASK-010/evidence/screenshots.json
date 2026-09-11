@@ -1,0 +1,32 @@
+[
+  {
+    "path": "batch-mobile.jpg",
+    "sha256": "e35d90919bc333c1fb67c9e14c5ae0a91167c7ea575c3caf7b1199b2e2e19c2f",
+    "final": true
+  },
+  {
+    "path": "delivery-desktop-final.jpg",
+    "sha256": "3b5b002ad0649a6b9dad9e4637f1142937a02aa371cf9adb641fe23f00eed79e",
+    "final": true
+  },
+  {
+    "path": "delivery-desktop.jpg",
+    "sha256": "2446ecba3b9a32d4e0329c1370ee3f3b111dfbdd9c0c1c40219a5538df3f3a7e",
+    "final": false
+  },
+  {
+    "path": "delivery-mobile-data.jpg",
+    "sha256": "9e251fd15de6cfd170ff6a81cd30cb37b47c17248defca700f85404f3f7d4109",
+    "final": true
+  },
+  {
+    "path": "delivery-mobile-final.jpg",
+    "sha256": "7481be19ff00d111e51fbec82d467d230ad1660f8855429dbd53e8cf78ebce6d",
+    "final": false
+  },
+  {
+    "path": "delivery-mobile.jpg",
+    "sha256": "ca6c669970581b3abea75e275ebad19fbffa29f87eb1d19b63c9bbabe066ecff",
+    "final": false
+  }
+]

@@ -1,0 +1,59 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+____________ test_concurrent_shipping_return_and_permission_replays ____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:50911/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:50911/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-85/test_concurrent_shipping_retur0/private-files')
+identities = namespace(a=UUID('108da643-f15d-4616-ab31-0e0e92d753ac'), b=UUID('fab5ffde-a8e0-4476-9995-b65bc46b0c4b'), user=UUID('9...D('0d0870a9-84c8-4cb0-966d-f5cc0689d1c0'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:50911/silicon))
+
+    def test_concurrent_shipping_return_and_permission_replays(engine,database,identities):
+        from concurrent.futures import ThreadPoolExecutor
+        from threading import Barrier
+        from sqlalchemy import text
+        i=identities;o,loc,ids=setup(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            passing(c,ids[0]);drafts=[make_ship(c,o,ids) for _ in range(2)]
+        barrier=Barrier(2)
+        def attempt(s):
+            with client(engine,database,i.user,i.a) as c:
+                barrier.wait(5);return cmd(c,'/shipments/'+s['id']+'/confirm',{'expected_version':1,'confirmed':True})
+        with ThreadPoolExecutor(2) as pool:
+            futures=[pool.submit(attempt,x) for x in drafts];results=[f.result(timeout=15) for f in futures]
+        assert sorted(x.status_code for x in results)==[200,409]
+        s=next(x.json() for x in results if x.status_code==200)
+        rb={'expected_version':s['version'],'confirmed':True,'line_ids':[s['lines'][0]['id']],'performed_at':'2026-09-11T00:00:00Z','location_id':loc['id'],'reason':'实收'}
+        barrier=Barrier(2)
+        def back(key):
+            with client(engine,database,i.user,i.a) as c:
+                barrier.wait(5);return key,cmd(c,'/shipments/'+s['id']+'/return',rb,key)
+        with ThreadPoolExecutor(2) as pool:
+            fs=[pool.submit(back,str(uuid4())) for _ in range(2)];results=[f.result(timeout=15) for f in fs]
+        assert sorted(r.status_code for _,r in results)==[200,409]
+        key,r=next(x for x in results if x[1].status_code==200)
+        with client(engine,database,i.user,i.a) as c:
+            assert ok(cmd(c,'/shipments/'+s['id']+'/return',rb,key))==r.json()
+>           assert ok(c.get('/api/v1/inventory/stock'))['known_cost']=='80.00'
+E           AssertionError: assert '180.00' == '80.00'
+E
+E             - 80.00
+E             + 180.00
+E             ? +
+
+apps/api/tests/test_delivery.py:76: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_delivery.py::test_concurrent_shipping_return_and_permission_replays
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'idempotency-key' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_delivery.py::test_concurrent_shipping_return_and_permission_replays
+1 failed, 2 passed, 3 warnings in 7.76s

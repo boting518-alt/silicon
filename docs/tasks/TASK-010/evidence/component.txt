@@ -1,0 +1,10 @@
+[
+  {
+    "name": "lost successful create replays; explicit new draft creates a distinct intent",
+    "status": "passed"
+  },
+  {
+    "name": "delayed successful A aggregate cannot enter B after enterprise change",
+    "status": "passed"
+  }
+]

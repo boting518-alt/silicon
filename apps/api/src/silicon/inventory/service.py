@@ -226,6 +226,7 @@ def movement_detail(db,id):
 
 def reverse(db,a,id,b,request_id):
     m=movement_detail(db,id)
+    if m['kind'].startswith('delivery_'):raise Denied(409,'USE_DELIVERY_CORRECTION')
     if m['kind'].startswith('assembly_'):raise Denied(409,'USE_ASSEMBLY_REVERSAL')
     if b.expected_version != 1:raise Denied(409,'VERSION_CONFLICT')
     if not b.confirmed or not b.reason.strip():raise Denied(422,'CONFIRM_REASON_REQUIRED')

@@ -1,0 +1,50 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_history_correction_and_assembly_dependency ________________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:51006/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:51006/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-86/test_history_correction_and_as0/private-files')
+identities = namespace(a=UUID('3f2b134a-af80-494b-9f5a-413c3bc4de54'), b=UUID('4fde637f-814c-4388-8cc6-215322c119e8'), user=UUID('b...D('59b03990-6fbf-4c96-8a87-870747fe3481'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:51006/silicon))
+
+    def test_history_correction_and_assembly_dependency(engine,database,identities):
+        from test_assembly_correction import undo
+        from test_assembly import post as asmcmd,P as AP
+        i=identities;o,loc,ids=setup(engine,database,i,2)
+        with client(engine,database,i.user,i.a) as c:
+            d=passing(c,ids[0]);oldtest=d['tests'][0]
+>           w=ok(c.get(AP+'/works/'+d['work_id']));undone=undo(c,w)
+                                                          ^^^^^^^^^
+
+apps/api/tests/test_delivery.py:95:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_assembly_correction.py:15: in undo
+    return ok(post(c,'/works/'+w['id']+'/reverse',{'expected_version':w['version'],'confirmed':True,'reason':'更正录错库位','movement_id':w['devices'][0]['movement_id']}))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"MOVEMENT_DEPENDENCY:72fd5027-973f-431d-85c1-3e1dcb4cb384","message":"身份无效或没有执行此操作的权限","request_id":"bd736f0c-33aa-49b5-bcbf-26c2b58a926a"}
+E       assert 409 == 200
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_delivery.py::test_concurrent_shipping_return_and_permission_replays
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'id' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_delivery.py::test_history_correction_and_assembly_dependency
+1 failed, 3 passed, 3 warnings in 9.73s

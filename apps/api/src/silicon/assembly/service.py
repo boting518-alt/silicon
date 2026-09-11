@@ -200,6 +200,7 @@ def reverse(db,a,id,b,request_id):
     device=db.execute(text('SELECT * FROM asm_completions WHERE work_id=:w AND movement_id=:m'),{'w':id,'m':b.movement_id}).mappings().first()
     if not issue and not device:raise Denied(404,'NOT_FOUND')
     if db.scalar(text('SELECT 1 FROM inv_movements WHERE reverse_of=:id'),{'id':m['id']}):raise Denied(409,'ALREADY_REVERSED')
+    if device and db.scalar(text('SELECT 1 FROM del_lines WHERE device_id=:id AND movement_id IS NOT NULL'),{'id':device['device_id']}):raise Denied(409,'DELIVERY_DEPENDENCY')
     if issue and w['state']=='completed':raise Denied(409,'MOVEMENT_DEPENDENCY')
     # Check each positive destination is intact; later live movements must reverse first.
     for e in m['entries']:
