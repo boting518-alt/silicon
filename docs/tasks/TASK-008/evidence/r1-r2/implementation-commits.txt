@@ -1,0 +1,7 @@
+commit 4e625e42954fcabf774c8f3994eb924cf133b0ce
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 13:47:44 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 13:47:44 2026 +0800
+
+    fix(task008): preserve shared files and bound authorized uploads

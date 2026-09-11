@@ -116,3 +116,5 @@ R2：采购附件入口改为先会话/CSRF/预期企业/对象/操作授权，�
 真实浏览器定向：登录A、无效PDF拒绝、合法PDF关联、合同冻结及上传禁用；对本次临时根执行清理仅删特设孤儿，原件哈希保持。最终采购来源时间线、关闭期初预览、库存对账及两视口截图已补查。下载点击的真实服务端审计allowed，但IAB未返回落盘产物，**下载文件落盘checksum not_run**；PG/API下载字节与服务端hash验证另列，不替代它。详见[定向浏览器记录](evidence/r1-r2/browser-notes.md)与[新截图](evidence/r1-r2/screenshots.json)。此前完整浏览器历史不改写，本轮未重复全部历史流程。
 
 新浏览器前置脚本仅在SILICON_BROWSER_INVENTORY_REPAIR=1启用，明确使用隔离测试API/session夹具准备数据；浏览器操作仍真实OIDC。结束已恢复视口并正常清理自建栈。未操作常驻数据库、原Demo、TLS信任或部署。远程CI、容器、其他浏览器仍not_run/未核实。旧产品功能限制保持，本轮不扩大范围。
+
+本轮独立修复实现与证据提交：4e625e42954fcabf774c8f3994eb924cf133b0ce。文件/统计/日志见 evidence/r1-r2/implementation-*；后续登记提交只固定交付信息。最终HEAD由审查包REVIEW_MANIFEST.md精确记录，避免自引用提交号。使用 `.venv/bin/python infra/package_task008_repair.py --implementation 4e625e42954fcabf774c8f3994eb924cf133b0ce --destination "$REVIEW_ZIP"` 从干净最终HEAD导出；原TASK008审查包保留，新包放入独立task008-r1-r2目录。预检已验证完整源码blob、增量补丁重放、历史证据及解压SHA256SUMS一致；无高可信秘密模式匹配。文档与git diff --check通过；推送与远程SHA核验在最终交付消息报告，CI未核实。

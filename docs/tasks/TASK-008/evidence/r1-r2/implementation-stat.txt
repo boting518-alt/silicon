@@ -1,0 +1,60 @@
+ README.md                                          |    4 +-
+ apps/api/src/silicon/inventory/routes.py           |   40 +-
+ apps/api/tests/test_inventory_files.py             |  189 ++++
+ docs/architecture/adr/ADR-013.md                   |   10 +
+ docs/reviews/TASK-008-dd4031f-review.md            |   95 ++
+ .../tasks/TASK-008/evidence/r1-r2/backend-full.txt |   32 +
+ .../TASK-008/evidence/r1-r2/browser-cleanup.json   |   11 +
+ .../TASK-008/evidence/r1-r2/browser-download.json  |   14 +
+ .../TASK-008/evidence/r1-r2/browser-frozen.txt     |  177 ++++
+ .../evidence/r1-r2/browser-frozen.txt.raw.gz       |  Bin 0 -> 1962 bytes
+ .../TASK-008/evidence/r1-r2/browser-invalid.txt    |  166 ++++
+ .../evidence/r1-r2/browser-invalid.txt.raw.gz      |  Bin 0 -> 1826 bytes
+ .../tasks/TASK-008/evidence/r1-r2/browser-notes.md |   25 +
+ .../evidence/r1-r2/browser-opening-closed.txt      |  112 +++
+ .../r1-r2/browser-opening-closed.txt.raw.gz        |  Bin 0 -> 1413 bytes
+ .../evidence/r1-r2/browser-reconciliation.txt      |  126 +++
+ .../r1-r2/browser-reconciliation.txt.raw.gz        |  Bin 0 -> 1623 bytes
+ .../TASK-008/evidence/r1-r2/browser-stack.txt      |    5 +
+ .../TASK-008/evidence/r1-r2/browser-timeline.txt   |  176 ++++
+ .../evidence/r1-r2/browser-timeline.txt.raw.gz     |  Bin 0 -> 1968 bytes
+ .../TASK-008/evidence/r1-r2/browser-uploaded.txt   |  166 ++++
+ .../evidence/r1-r2/browser-uploaded.txt.raw.gz     |  Bin 0 -> 1827 bytes
+ docs/tasks/TASK-008/evidence/r1-r2/build.txt       |   18 +
+ docs/tasks/TASK-008/evidence/r1-r2/components.txt  |    3 +
+ .../TASK-008/evidence/r1-r2/components.txt.raw.gz  |  Bin 0 -> 296 bytes
+ .../evidence/r1-r2/contract-consistency.txt        |    1 +
+ .../TASK-008/evidence/r1-r2/contract-export.txt    |    1 +
+ .../evidence/r1-r2/contract-export.txt.raw.gz      |  Bin 0 -> 20 bytes
+ .../TASK-008/evidence/r1-r2/contract-types.txt     |    6 +
+ docs/tasks/TASK-008/evidence/r1-r2/docs.txt        |    1 +
+ .../TASK-008/evidence/r1-r2/expanded-green.txt     |   12 +
+ docs/tasks/TASK-008/evidence/r1-r2/expanded.txt    | 1020 ++++++++++++++++++++
+ .../TASK-008/evidence/r1-r2/expanded.txt.raw.gz    |  Bin 0 -> 7336 bytes
+ .../TASK-008/evidence/r1-r2/fixtures/invalid.pdf   |    3 +
+ docs/tasks/TASK-008/evidence/r1-r2/node-green.txt  |   27 +
+ docs/tasks/TASK-008/evidence/r1-r2/node.txt        |    1 +
+ docs/tasks/TASK-008/evidence/r1-r2/node.txt.raw.gz |  Bin 0 -> 1227 bytes
+ .../TASK-008/evidence/r1-r2/opening-mobile.jpg     |  Bin 0 -> 32500 bytes
+ docs/tasks/TASK-008/evidence/r1-r2/r1-green.txt    |   12 +
+ .../TASK-008/evidence/r1-r2/r1-red-confirmed.txt   |   45 +
+ docs/tasks/TASK-008/evidence/r1-r2/r1-red.txt      |   41 +
+ .../TASK-008/evidence/r1-r2/r1-red.txt.raw.gz      |  Bin 0 -> 1390 bytes
+ docs/tasks/TASK-008/evidence/r1-r2/r2-green.txt    |   12 +
+ .../TASK-008/evidence/r1-r2/r2-red-confirmed.txt   |   58 ++
+ docs/tasks/TASK-008/evidence/r1-r2/r2-red.txt      |   58 ++
+ .../TASK-008/evidence/r1-r2/raw-log-index.json     |   62 ++
+ .../evidence/r1-r2/reconciliation-desktop.jpg      |  Bin 0 -> 80270 bytes
+ .../evidence/r1-r2/reconciliation-mobile.jpg       |  Bin 0 -> 34954 bytes
+ .../tasks/TASK-008/evidence/r1-r2/screenshots.json |   50 +
+ .../TASK-008/evidence/r1-r2/timeline-desktop.jpg   |  Bin 0 -> 55434 bytes
+ docs/tasks/TASK-008/evidence/r1-r2/typecheck.txt   |    7 +
+ .../TASK-008/evidence/r1-r2/typecheck.txt.raw.gz   |  Bin 0 -> 101 bytes
+ docs/tasks/TASK-008/evidence/r1-r2/validation.json |   52 +
+ docs/tasks/TASK-008/result.md                      |   16 +
+ infra/browser_stack.py                             |    6 +-
+ infra/check_docs.py                                |    1 +
+ infra/clean_contract_files.py                      |   20 +-
+ infra/inventory_review_examples.py                 |   21 +
+ infra/package_task008_repair.py                    |  166 ++++
+ 59 files changed, 3051 insertions(+), 17 deletions(-)
