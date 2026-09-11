@@ -1,0 +1,60 @@
+.F.................                                                      [100%]
+=================================== FAILURES ===================================
+__________ test_return_location_binding_and_missing_stock_fail_closed __________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49494/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49494/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-133/test_return_location_binding_a0/private-files')
+identities = namespace(a=UUID('52ba3f40-6e95-4208-a832-df8c6c2a81b5'), b=UUID('cf300083-5d67-4402-9666-a0c8214882c0'), user=UUID('4...D('f93382ba-563b-40eb-8eb7-59924a251c21'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49494/silicon))
+
+    def test_return_location_binding_and_missing_stock_fail_closed(engine,database,identities):
+        i=identities;w,r,loc=batch_rma(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            other=ok(invpost(c,'/locations',{'warehouse':'虚构原料','name':'R1-B'}))
+            r,first=return_one(c,r,loc);r,second=return_one(c,r,other)
+            w=get(c,'/works/'+w['id'])
+            assert cmd(c,'/works/'+w['id']+'/dispose',dispose_body(w,first)).status_code==409
+            # Reverse chronological inspection must still use each receipt's location.
+            r=hold(c,r,second);r=hold(c,r,first)
+            assert held_balance(c,first['layer_id'],loc)==held_balance(c,first['layer_id'],other)==1
+            layer=next(x for x in ok(c.get('/api/v1/inventory/stock'))['items'] if x['layer_id']==first['layer_id'])
+            move=ok(invpost(c,'/transfers',{'layer_id':first['layer_id'],'source_location_id':loc['id'],'target_location_id':other['id'],'source_state':'quarantine','target_state':'quarantine','quantity':1,'expected_version':layer['version'],'confirmed':True,'reason':'虚构测试移离原保管库位'}))
+            assert held_balance(c,first['layer_id'],loc)==0 and held_balance(c,first['layer_id'],other)==2
+            w=get(c,'/works/'+w['id'])
+            assert cmd(c,'/works/'+w['id']+'/dispose',dispose_body(w,first)).json()['code']=='SERVICE_PART_DEPENDENCY'
+            w=ok(cmd(c,'/works/'+w['id']+'/dispose',dispose_body(w,second)))
+            assert held_balance(c,first['layer_id'],other)==1
+>           ok(invpost(c,'/movements/'+move['id']+'/reverse',{'expected_version':1,'confirmed':True,'reason':'恢复测试库位'}))
+
+apps/api/tests/test_service_disposition.py:91:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"MOVEMENT_DEPENDENCY","message":"身份无效或没有执行此操作的权限","request_id":"4b19e40e-9220-4085-831a-1061eb253648"}
+E       assert 409 == 200
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_service_disposition.py::test_disposition_concurrent_commands_and_tenant_boundaries
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'idempotency-key' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_service.py::test_concurrent_issue_and_unused_return
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service_disposition.py::test_return_location_binding_and_missing_stock_fail_closed
+1 failed, 18 passed, 4 warnings in 50.16s

@@ -1,0 +1,67 @@
+[
+  {
+    "file": "desktop-refreshed.jpg",
+    "css_viewport": [
+      1440,
+      900
+    ],
+    "image_pixels": [
+      1425,
+      891
+    ],
+    "sha256": "c6aa1a909dadad486283ef146b0e01b1c543a992b30ac5dc4c68e51f65187016",
+    "note": "原图未裁剪或缩放；mobile-refreshed.jpg 为选择控件中间状态，最终对照使用 mobile-refreshed-final.jpg"
+  },
+  {
+    "file": "desktop-two-held.jpg",
+    "css_viewport": [
+      1440,
+      900
+    ],
+    "image_pixels": [
+      1425,
+      891
+    ],
+    "sha256": "bea8d8b1518c6f04741c8f151a5a5368ef702395da006b7db9438f2c48888ee8",
+    "note": "原图未裁剪或缩放；mobile-refreshed.jpg 为选择控件中间状态，最终对照使用 mobile-refreshed-final.jpg"
+  },
+  {
+    "file": "mobile-disposed.jpg",
+    "css_viewport": [
+      390,
+      844
+    ],
+    "image_pixels": [
+      375,
+      812
+    ],
+    "sha256": "71bfe0fa9b01620e238a73d445b9aeaee26759e78d48897b7223acd614f52ef7",
+    "note": "原图未裁剪或缩放；mobile-refreshed.jpg 为选择控件中间状态，最终对照使用 mobile-refreshed-final.jpg"
+  },
+  {
+    "file": "mobile-refreshed-final.jpg",
+    "css_viewport": [
+      390,
+      844
+    ],
+    "image_pixels": [
+      375,
+      812
+    ],
+    "sha256": "094462d24c71c354d90b39e4757d3fc672dab03c94c5265af0abf409c43b7cf9",
+    "note": "原图未裁剪或缩放；mobile-refreshed.jpg 为选择控件中间状态，最终对照使用 mobile-refreshed-final.jpg"
+  },
+  {
+    "file": "mobile-refreshed.jpg",
+    "css_viewport": [
+      390,
+      844
+    ],
+    "image_pixels": [
+      375,
+      812
+    ],
+    "sha256": "292aa54b8f4f7f4a772bc9483003a1c72b0b384eba18f47d7fa627454e99d261",
+    "note": "原图未裁剪或缩放；mobile-refreshed.jpg 为选择控件中间状态，最终对照使用 mobile-refreshed-final.jpg"
+  }
+]

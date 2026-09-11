@@ -281,7 +281,7 @@ def rma_inspect(db,a,id,b,request_id):
     r=rma(db,a,id);inv.c.expected(r,b.expected_version);rr=row(db,'svc_rma_returns',b.return_id);line=row(db,'svc_rma_lines',rr['line_id'])
     if line['rma_id']!=id:raise Denied(404,'NOT_FOUND')
     if rows(db,'svc_rma_inspections','return_id',rr['id']):raise Denied(409,'RMA_ALREADY_INSPECTED')
-    layer=row(db,'inv_layers',rr['layer_id']);balance=next((x for x in balances_for(db,layer['id']) if x['state']=='pending' and x['quantity']>=rr['quantity']),None)
+    layer=row(db,'inv_layers',rr['layer_id']);balance=custody_balance(db,rr['movement_id'],layer['id'],'pending',rr['quantity'])
     if not balance:raise Denied(409,'RMA_PHYSICAL_MISMATCH')
     if b.disposition=='own_spare':
         a.require('inventory.cost');a.require('service.correct')
@@ -382,6 +382,21 @@ def rma_access(db,a,id,b):
     if line and row(db,'svc_rma_lines',line)['rma_id']!=id:raise Denied(404,'NOT_FOUND')
 
 
+def custody_balance(db, movement_id, layer_id, state, quantity):
+    """Consume only at the location recorded by this immutable custody fact.
+
+    Caller holds the inventory domain exclusive command lock. Aggregate stock can exceed
+    one return's entitlement; it cannot substitute stock at another location.
+    Ambiguous/missing historical entries fail closed instead of guessing.
+    """
+    entries=[e for e in inv.movement_detail(db,movement_id)['entries']
+             if e['layer_id']==layer_id and e['state']==state and e['quantity']>0]
+    if len(entries)!=1 or entries[0]['quantity']!=quantity:return None
+    return next((x for x in balances_for(db,layer_id)
+                 if x['location_id']==entries[0]['location_id']
+                 and x['state']==state and x['quantity']>=quantity),None)
+
+
 def dispose(db,a,id,b,request_id):
     w,d=scoped(db,a,id);inv.c.expected(w,b.expected_version)
     if bool(b.old_part_id)==bool(b.return_id):raise Denied(422,'SERVICE_DISPOSITION_SOURCE_REQUIRED')
@@ -390,14 +405,14 @@ def dispose(db,a,id,b,request_id):
         p=row(db,'svc_old_parts',b.old_part_id)
         if p['work_id']!=id:raise Denied(404,'NOT_FOUND')
         if rows(db,'svc_dispositions','old_part_id',p['id']) or rows(db,'svc_rma_lines','old_part_id',p['id']) or reversed_change(db,p['change_id']):raise Denied(409,'SERVICE_PART_DEPENDENCY')
-        layer=p['layer_id'];quantity=p['quantity']
+        layer=p['layer_id'];quantity=p['quantity'];custody_movement=row(db,'svc_changes',p['change_id'])['movement_id']
     else:
         rr=row(db,'svc_rma_returns',b.return_id);r=row(db,'svc_rmas',row(db,'svc_rma_lines',rr['line_id'])['rma_id'])
         if r['work_id']!=id:raise Denied(404,'NOT_FOUND')
         inspections=rows(db,'svc_rma_inspections','return_id',rr['id'])
         if not inspections or inspections[0]['disposition']!='hold' or rows(db,'svc_dispositions','return_id',rr['id']):raise Denied(409,'SERVICE_PART_DEPENDENCY')
-        layer=rr['layer_id'];quantity=rr['quantity']
-    balance=next((x for x in balances_for(db,layer) if x['state']=='quarantine' and x['quantity']==quantity),None)
+        layer=rr['layer_id'];quantity=rr['quantity'];custody_movement=inspections[0]['movement_id']
+    balance=custody_balance(db,custody_movement,layer,'quarantine',quantity)
     if not balance:raise Denied(409,'SERVICE_PART_DEPENDENCY')
     m=inv.movement(db,a,'service_rma_inspect',b.reason,request_id,date.today());inv.entry(db,a,m,layer,balance['location_id'],'quarantine',-quantity)
     insert(db,a,'svc_dispositions',{'id':uuid4(),'work_id':id,'actor_id':a.actor_id,'movement_id':m,**b.model_dump(exclude={'expected_version','confirmed'})})

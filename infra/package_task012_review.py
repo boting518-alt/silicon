@@ -4,6 +4,7 @@ from pathlib import Path
 
 p=argparse.ArgumentParser()
 p.add_argument('--implementation',required=True)
+p.add_argument('--review-base',default='a7072825c8b1885ad7d5320471d13c5613470af7')
 p.add_argument('--destination',type=Path,required=True)
 args=p.parse_args()
 repo=Path(__file__).resolve().parents[1]
@@ -12,7 +13,7 @@ base='6d89a1023d06b795686bfbc1504da7dde0baf099'
 handoff='a7072825c8b1885ad7d5320471d13c5613470af7'
 implementation=git('rev-parse',args.implementation).decode().strip()
 head=git('rev-parse','HEAD').decode().strip()
-review=handoff
+review=git('rev-parse',args.review_base).decode().strip()
 for a,b in [(base,handoff),(handoff,review),(review,implementation),(implementation,head)]:
     subprocess.run(['git','merge-base','--is-ancestor',a,b],cwd=repo,check=True)
 status=git('status','--porcelain=v1','--untracked-files=all')
@@ -38,8 +39,14 @@ with tempfile.TemporaryDirectory(prefix='silicon-task012-review-') as temporary:
         result=subprocess.run(['git','show',base+':'+name],cwd=repo,capture_output=True)
         if result.returncode==0:dest.write_bytes(result.stdout)
         else:dest.with_suffix('.absent.txt').write_text(f'{name} absent at {base}\n')
+    if review!=handoff:
+        for line in git('ls-tree','-rz',review,'docs/reviews','docs/tasks/TASK-012/evidence').split(b'\0'):
+            if not line:continue
+            _,name=line.split(b'\t',1);name=name.decode()
+            assert (source/name).read_bytes()==git('show',review+':'+name),name
+        assert (source/'docs/tasks/TASK-012/result.md').read_bytes().startswith(git('show',review+':docs/tasks/TASK-012/result.md'))
     evidence=root/'evidence';evidence.mkdir()
-    (evidence/'INDEX.md').write_text('# Evidence index\n\n- [TASK-012 result](../source/docs/tasks/TASK-012/result.md)\n- [Validation and exact commands](../source/docs/tasks/TASK-012/evidence/validation.json)\n- [Browser procedure and limitations](../source/docs/tasks/TASK-012/browser-acceptance.md)\n- [Screenshots](../source/docs/tasks/TASK-012/evidence/screenshots.json)\n- [Task](../source/docs/tasks/TASK-012/task.md)\n- [ADR-017](../source/docs/architecture/adr/ADR-017.md)\n- [Original design baseline](../source/docs/design/demo-baseline.md)\n\nFull raw logs and screenshots are under source/docs/tasks/TASK-012/evidence. Prior reports and evidence are retained under source without duplicate copies.\n')
+    (evidence/'INDEX.md').write_text('# Evidence index\n\n- [TASK-012 result](../source/docs/tasks/TASK-012/result.md)\n- [Validation and exact commands](../source/docs/tasks/TASK-012/evidence/validation.json)\n- [Browser procedure and limitations](../source/docs/tasks/TASK-012/browser-acceptance.md)\n- [Screenshots](../source/docs/tasks/TASK-012/evidence/screenshots.json)\n- [Task](../source/docs/tasks/TASK-012/task.md)\n- [ADR-017](../source/docs/architecture/adr/ADR-017.md)\n- [Original design baseline](../source/docs/design/demo-baseline.md)\n\n[R1 incremental evidence](../source/docs/tasks/TASK-012/evidence/r1/validation.json) and [R1 browser reproduction](../source/docs/tasks/TASK-012/evidence/r1/browser-acceptance.md) apply when reviewing the R1 repair. Full raw logs and screenshots are under source/docs/tasks/TASK-012/evidence. Prior reports and evidence are retained under source without duplicate copies.\n')
     (root/'REVIEW_MANIFEST.md').write_text(f'''# SILICON TASK-012 independent review package
 
 Status: review_ready, not accepted. TASK-013 not started.
@@ -86,6 +93,10 @@ SILICON_BROWSER_SERVICE=1 .venv/bin/python infra/browser_stack.py
 ```
 
 Open https://localhost:5173 and use fictional alice/Fictional-alice-17!; choose enterprise A. B is admin with no service/device business data in this fixture. Follow browser-acceptance.md for actual receive→reserve→issue→swap→test→return→close→RMA send/return/inspect and service charge→plan→cash→allocation→refresh flow and two viewports. `/tests/service-component.html` runs actual React with HTTP substitutes and is separately labelled, never substitutes for real PG/browser evidence.
+
+## R1 incremental reproduction
+
+For the R1 repair, run `python -m pytest apps/api/tests/test_service_disposition.py -q` with the same isolated PG configuration. Read `docs/tasks/TASK-012/evidence/r1/validation.json` for actual results and raw red/green logs. Original results/evidence are unchanged. For browser regression use `SILICON_BROWSER_SERVICE_REPAIR=1 .venv/bin/python infra/browser_stack.py`: this alternative fixture seeds a two-piece old installation, replacement and sent RMA through real APIs; it does NOT seed returns, inspections or final dispositions. Follow `docs/tasks/TASK-012/evidence/r1/browser-acceptance.md` to perform those through the UI. No source history or system trust changes are required.
 
 ## Evidence and limitations
 

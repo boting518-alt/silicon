@@ -1,0 +1,102 @@
+{
+  "status": "review_ready",
+  "review_base": "3907e6fa104d5910394f64249f1b12ab1578141e",
+  "review_report": "../../../../reviews/TASK-012-3907e6f-review.md",
+  "environment": {
+    "postgresql": "17.11",
+    "python": "3.12.7",
+    "java": "21.0.6",
+    "keycloak": "26.7.3",
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "database": "temporary clusters, no resident database",
+    "tls": "existing trusted localhost certificate, no trust changes"
+  },
+  "checks": [
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_service_disposition.py -q",
+      "log": "red.txt",
+      "result": "1 failed / 2 warnings / 4.03s; actual R1 SERVICE_PART_DEPENDENCY after two real same-layer holds"
+    },
+    {
+      "command": "same targeted command after initial fix",
+      "log": "green-first.txt",
+      "result": "1 passed / 2 warnings / 4.25s"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "log": "backend-full.txt",
+      "result": "262 passed / 21 warnings / 337.65s; collected before fourth added regression, includes original259 and first3 R1 tests; real OIDC/PG/Worker/migration regressions"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_service_disposition.py -q",
+      "log": "green-final-history.txt",
+      "result": "4 passed / 3 warnings / 14.51s; final tests including cross-work/revocation and immutable history assertions; overlaps first3 in full run, do not sum"
+    },
+    {
+      "command": "npm run typecheck",
+      "log": "typecheck.txt",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "log": "build.txt",
+      "result": "passed"
+    },
+    {
+      "command": "node --test apps/web/tests/*.test.ts",
+      "log": "node-tests.txt",
+      "result": "19 passed"
+    },
+    {
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types; compare original bytes",
+      "log": "contracts.txt",
+      "result": "passed, OpenAPI and client unchanged"
+    },
+    {
+      "command": ".venv/bin/python infra/check_docs.py",
+      "log": "docs.txt",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check and git diff --cached --check",
+      "log": "diff-check.txt",
+      "result": "passed"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" SILICON_BROWSER_SERVICE_REPAIR=1 .venv/bin/python infra/browser_stack.py; IAB UI operations",
+      "log": "browser-acceptance.md",
+      "result": "passed, real IdP/API/PG browser partial-return and per-return dispositions plus refresh and reconciliation"
+    },
+    {
+      "command": "open https://localhost:5173/tests/service-component.html in browser",
+      "log": "react-components.txt",
+      "result": "4 passed, actual React with HTTP substitutes"
+    }
+  ],
+  "preparation_errors": {
+    "fixture-error.txt": "wrong stock field id instead of layer_id, not defect reproduction",
+    "green-expanded.txt": "18 passed/1 failed: test tried to reverse an inventory move after downstream disposition; existing MOVEMENT_DEPENDENCY correctly rejected. Fixed test to use controlled move back, no product relaxation",
+    "browser-stack.txt": "initial navigation preceded READY; retried after readiness"
+  },
+  "not_run": [
+    {
+      "check": "remote CI",
+      "reason": "not verified"
+    },
+    {
+      "check": "Docker and other browser engines",
+      "reason": "native isolated PG/IdP and IAB used"
+    },
+    {
+      "check": "production/vendor integrations",
+      "reason": "outside task scope"
+    }
+  ],
+  "limits": [
+    "No new migration; unchanged0015 empty and upgrade/downgrade coverage included in full run.",
+    "Existing manual labor/other cost reversal limitation retained.",
+    "Relocated custody must be restored through controlled movement before disposition at original recorded location.",
+    "No TASK013, deployment, dependency upgrades or original Demo changes."
+  ]
+}

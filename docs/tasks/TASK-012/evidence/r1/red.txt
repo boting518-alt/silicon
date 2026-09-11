@@ -1,0 +1,46 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_same_layer_partial_returns_dispose_individually _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49420/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49420/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-131/test_same_layer_partial_return0/private-files')
+identities = namespace(a=UUID('9ae4f857-9b52-49fc-858c-dee7ff84200c'), b=UUID('67691f0e-c108-488b-a11c-c3d78dbd6994'), user=UUID('6...D('23d63255-9c0f-4cc8-a2ea-8b279a8a650c'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49420/silicon))
+
+    def test_same_layer_partial_returns_dispose_individually(engine,database,identities):
+        i=identities;w,r,loc=batch_rma(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            r,first=return_one(c,r,loc);r=hold(c,r,first)
+            r,second=return_one(c,r,loc);r=hold(c,r,second)
+            assert held_balance(c,first['layer_id'],loc)==2
+            cost=ok(c.get('/api/v1/inventory/stock'))['known_cost']
+            w=get(c,'/works/'+w['id']);body=dispose_body(w,first);key=str(uuid4())
+>           w=ok(cmd(c,'/works/'+w['id']+'/dispose',body,key))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_service_disposition.py:62:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"SERVICE_PART_DEPENDENCY","message":"身份无效或没有执行此操作的权限","request_id":"e69851dc-1aa3-4eff-96a9-de1e8d58d43d"}
+E       assert 409 == 200
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service_disposition.py::test_same_layer_partial_returns_dispose_individually
+1 failed, 2 warnings in 4.03s
