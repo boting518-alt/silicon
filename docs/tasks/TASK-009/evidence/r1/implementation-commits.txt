@@ -1,0 +1,7 @@
+commit a7ea5b6e5ab34178e8b6f480544e5e3894fde9f1
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 17:36:24 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 17:36:24 2026 +0800
+
+    fix(assembly): preserve device identity through completion corrections

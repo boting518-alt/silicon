@@ -93,3 +93,5 @@ review_ready，等待独立增量复核，不自行accepted，不开始TASK010�
 实现commit与最终HEAD由随后提交登记及审查包固定。新包从最终HEAD导出全部受审源码，附相对c08079e增量diff、提交日志、文件清单、原报告与新证据、相对路径复现和SHA256SUMS；旧审查包保留。
 
 本轮最终实现完整后端：**216 passed / 8 warnings /185.41秒**，见evidence/r1/backend-final.txt；包含本轮6项更正测试与全部前序回归。不是把历史209与59相加。文档检查270个本地链接及报告哈希通过。
+
+R1实现提交：`a7ea5b6e5ab34178e8b6f480544e5e3894fde9f1`。后续收尾提交只登记提交与文件索引；最终HEAD以新审查包REVIEW_MANIFEST.md为准，源码全部从该固定提交导出。

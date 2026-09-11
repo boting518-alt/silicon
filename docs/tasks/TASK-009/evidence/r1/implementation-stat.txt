@@ -1,0 +1,64 @@
+ .../versions/0011_assembly_corrections.py          |  61 +++++
+ apps/api/src/silicon/assembly/models.py            |  13 +
+ apps/api/src/silicon/assembly/routes.py            |   5 +-
+ apps/api/src/silicon/assembly/service.py           |  54 +++-
+ apps/api/src/silicon/inventory/service.py          |   8 +-
+ apps/api/src/silicon/main.py                       |   2 +-
+ apps/api/tests/conftest.py                         |   2 +-
+ apps/api/tests/test_assembly.py                    |   2 +-
+ apps/api/tests/test_assembly_correction.py         | 176 +++++++++++++
+ apps/api/tests/test_crm.py                         |   2 +-
+ apps/api/tests/test_identity.py                    |   2 +-
+ apps/api/tests/test_platform.py                    |   4 +-
+ apps/web/src/Assembly.tsx                          |  18 +-
+ docs/architecture/adr/ADR-014.md                   |  12 +
+ docs/reviews/TASK-009-c08079e-review.md            |  75 ++++++
+ docs/tasks/TASK-009/evidence/r1/backend-final.txt  |  32 +++
+ .../TASK-009/evidence/r1/boundaries-green.txt      |  24 ++
+ docs/tasks/TASK-009/evidence/r1/boundaries.txt     |  70 ++++++
+ .../TASK-009/evidence/r1/browser-acceptance.md     |  28 +++
+ .../TASK-009/evidence/r1/browser-corrected.raw.gz  | Bin 0 -> 2239 bytes
+ .../TASK-009/evidence/r1/browser-corrected.txt     | 146 +++++++++++
+ .../evidence/r1/browser-device-refreshed.raw.gz    | Bin 0 -> 2156 bytes
+ .../evidence/r1/browser-device-refreshed.txt       | 162 ++++++++++++
+ .../evidence/r1/browser-original-device.raw.gz     | Bin 0 -> 2584 bytes
+ .../evidence/r1/browser-original-device.txt        | 184 ++++++++++++++
+ .../TASK-009/evidence/r1/browser-reversed.raw.gz   | Bin 0 -> 2205 bytes
+ .../TASK-009/evidence/r1/browser-reversed.txt      | 153 +++++++++++
+ docs/tasks/TASK-009/evidence/r1/browser-stack.txt  |   5 +
+ .../evidence/r1/browser-stock-refreshed.raw.gz     | Bin 0 -> 1679 bytes
+ .../evidence/r1/browser-stock-refreshed.txt        | 132 ++++++++++
+ docs/tasks/TASK-009/evidence/r1/build-ui.txt       |  18 ++
+ docs/tasks/TASK-009/evidence/r1/build.txt          |  18 ++
+ .../evidence/r1/component-regression.raw.gz        | Bin 0 -> 280 bytes
+ .../TASK-009/evidence/r1/component-regression.txt  |   3 +
+ docs/tasks/TASK-009/evidence/r1/contract-final.txt |   7 +
+ docs/tasks/TASK-009/evidence/r1/contract.txt       |   6 +
+ docs/tasks/TASK-009/evidence/r1/device-desktop.jpg | Bin 0 -> 106605 bytes
+ docs/tasks/TASK-009/evidence/r1/diff-check.txt     |   3 +
+ docs/tasks/TASK-009/evidence/r1/docs-final.txt     |   1 +
+ docs/tasks/TASK-009/evidence/r1/docs.txt           |   1 +
+ .../tasks/TASK-009/evidence/r1/history-desktop.jpg | Bin 0 -> 121216 bytes
+ docs/tasks/TASK-009/evidence/r1/history-mobile.jpg | Bin 0 -> 42207 bytes
+ .../evidence/r1/legacy-protection-fixed.raw.gz     | Bin 0 -> 4234 bytes
+ .../evidence/r1/legacy-protection-fixed.txt        | 279 +++++++++++++++++++++
+ .../evidence/r1/legacy-protection-green.txt        |  16 ++
+ .../TASK-009/evidence/r1/legacy-protection.raw.gz  | Bin 0 -> 4019 bytes
+ .../TASK-009/evidence/r1/legacy-protection.txt     | 273 ++++++++++++++++++++
+ .../tasks/TASK-009/evidence/r1/lifecycle-green.txt |  16 ++
+ .../evidence/r1/lifecycle-red-fixed-fixture.raw.gz | Bin 0 -> 1404 bytes
+ .../evidence/r1/lifecycle-red-fixed-fixture.txt    |  45 ++++
+ .../TASK-009/evidence/r1/lifecycle-red.raw.gz      | Bin 0 -> 1268 bytes
+ docs/tasks/TASK-009/evidence/r1/lifecycle-red.txt  |  56 +++++
+ docs/tasks/TASK-009/evidence/r1/node-final.txt     |  27 ++
+ docs/tasks/TASK-009/evidence/r1/raw-log-index.json |  68 +++++
+ docs/tasks/TASK-009/evidence/r1/screenshots.json   |  20 ++
+ .../TASK-009/evidence/r1/typecheck-final.raw.gz    | Bin 0 -> 101 bytes
+ .../tasks/TASK-009/evidence/r1/typecheck-final.txt |   7 +
+ docs/tasks/TASK-009/evidence/r1/validation.json    |  94 +++++++
+ docs/tasks/TASK-009/result.md                      |  32 +++
+ infra/check_docs.py                                |   1 +
+ infra/package_task009_repair.py                    | 143 +++++++++++
+ packages/api-client/openapi.json                   | 101 ++++++++
+ packages/api-client/schema.d.ts                    |  48 ++++
+ 63 files changed, 2629 insertions(+), 26 deletions(-)
