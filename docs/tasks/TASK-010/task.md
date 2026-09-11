@@ -1,4 +1,4 @@
-status: review_ready
+status: accepted
 
 # TASK-010 — 设备测试、分批发货、交付验收与销售退货
 
