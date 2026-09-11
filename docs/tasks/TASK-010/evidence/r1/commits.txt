@@ -1,0 +1,11 @@
+Review base: 9da23ab4aef6fdc766a68379a694c65bef3f8f4b
+Implementation: a95b23b2735cb6b538044f89bfb1cde1ddd063cc
+Final: package REVIEW_MANIFEST.md (post-registration HEAD).
+
+commit a95b23b2735cb6b538044f89bfb1cde1ddd063cc
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 21:22:30 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 21:22:30 2026 +0800
+
+    fix(devices): preserve base queries without delivery permission

@@ -66,3 +66,7 @@ status: review_ready
 权限浏览器辅助脚本首次由迁移角色读取data_directory被正确拒绝，随后改为在连接前核对临时PG进程标记及端口，不提升数据库角色权限；原输出保留。截图索引制作时排除AppleDouble读取项，未删除磁盘元数据。历史局限不改写。
 
 本轮独立修复提交与后续登记提交见下方提交登记；最终HEAD由增量审查包清单固定，避免自引用。使用 `infra/package_task010_repair.py --implementation <修复提交> --destination "$REVIEW_ZIP"`，从最终干净commit导出完整源码、相对本轮审查基准的binary diff/文件清单/日志、全部历史与新增证据，验证逐文件Git blob、补丁重放、旧证据不变、秘密排除及解压SHA256SUMS。旧审查包不覆盖。
+
+### R1 提交登记
+
+修复实现与验证证据提交：`a95b23b2735cb6b538044f89bfb1cde1ddd063cc`。本轮审查基准：`9da23ab4aef6fdc766a68379a694c65bef3f8f4b`。后续收尾提交仅追加本登记及增量文件/提交索引；最终HEAD、精确提交日志及差异由新审查包REVIEW_MANIFEST.md记录。
