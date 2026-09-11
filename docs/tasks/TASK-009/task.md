@@ -1,10 +1,10 @@
-status: review_ready
+status: accepted
 
 # TASK-009：库存预留、装配与设备档案
 
 **项目：** 硅屿 SILICON
 **前置：** TASK-008 accepted
-**交付状态：** `review_ready`，等待独立审查
+**交付状态：** `accepted`，依据负责人2026-09-11验收授权及TASK-009-17088be增量审查
 
 ## 1. 验收交接与授权
 

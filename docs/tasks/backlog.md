@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-009，status: review_ready。TASK-000～TASK-008 已由产品/架构负责人确认 accepted；TASK-010 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-010，status: executing。TASK-000～TASK-009 已由产品/架构负责人确认 accepted；TASK-011 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-008 为 accepted；TASK-009 为 review_ready；TASK-010～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-009 为 accepted；TASK-010 为 executing；TASK-011～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -113,3 +113,7 @@ TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单
 TASK-009完整任务书与TASK-008增量报告现已补齐，见[任务书](TASK-009/task.md)、[增量报告](../reviews/TASK-008-b56ed65-review.md)。缺失记录保留为历史，继续实施。
 
 TASK-009实现及本地验证完成，进入review_ready；见[执行结果](TASK-009/result.md)。TASK-010及后续仍为planned，等待独立审查。
+
+## TASK-010 验收交接
+
+负责人依据[TASK-009增量审查](../reviews/TASK-009-17088be-review.md)确认 accepted，明确授权[TASK-010](TASK-010/task.md) executing。核对及限制见[交接](TASK-010/handoff.md)。历史记录保留。

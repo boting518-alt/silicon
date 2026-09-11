@@ -1,12 +1,12 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-008 已由产品/架构负责人确认 accepted。当前 TASK-009 库存预留、装配与设备档案已授权，状态 review_ready；实现、测试与审查材料见 [结果](docs/tasks/TASK-009/result.md)。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-009 已由负责人确认 accepted。当前 TASK-010 设备测试、分批发货、验收与退货已授权，状态 executing；见 [任务书](docs/tasks/TASK-010/task.md)。生产模式保护保留，验收和收款独立。
 
 ## 入口与边界
 
-先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-009 任务书](docs/tasks/TASK-009/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
+先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-010 任务书](docs/tasks/TASK-010/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
 
-所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。已配置 GitHub 远程，未部署。CI 文件已提供，本轮远程运行结果未核实。当前仅 TASK-009；不自动开始 TASK-010。
+所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。已配置 GitHub 远程，未部署。CI 文件已提供，本轮远程运行结果未核实。当前仅 TASK-010；不自动开始 TASK-011。
 
 ## 安装锁定依赖
 
