@@ -35,3 +35,9 @@ status: review_ready
 迁移空库及0011升级验证保留身份、订单、完工、实物和原成本；交付表非空时降级拒绝，不能删除历史来降级。普通恢复走既有备份恢复规程，本轮没有重建业务数据库。测试栈结束记录BROWSER_STACK_CLEANED。
 
 实现提交与最终HEAD在提交登记及审查包中固定，审查包从干净commit导出全部tracked源码与相对基线差异；不包含依赖、私钥、数据库、环境秘密或AppleDouble。不自行accepted，不开始TASK-011。
+
+## 提交登记
+
+实现与证据提交：`663725a3887c2cb15222182d661d9f9642a5aa0f`。交接提交：`c6d5bc3a2d4e1a2569ed18f3e6816f45503610d6`。随后收尾提交仅固定本登记和文件/提交索引；最终HEAD由审查包REVIEW_MANIFEST.md精确记录，避免自引用提交号。状态review_ready，等待独立审查。
+
+打包：`.venv/bin/python infra/package_task010_review.py --implementation 663725a3887c2cb15222182d661d9f9642a5aa0f --destination "$REVIEW_ZIP"`。完整源码、基线差异、逐文件Git blob比对、补丁重放、历史保留及解压SHA256SUMS均由脚本验证。GitHub推送和远程SHA在最终交付消息核实，CI未核实。

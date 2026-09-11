@@ -1,0 +1,15 @@
+commit c6d5bc3a2d4e1a2569ed18f3e6816f45503610d6
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 19:52:39 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 19:52:39 2026 +0800
+
+    docs(task010): accept task009 and hand off delivery scope
+
+commit 663725a3887c2cb15222182d661d9f9642a5aa0f
+Author:     boting518-alt <boting518@icloud.com>
+AuthorDate: Fri Sep 11 20:30:49 2026 +0800
+Commit:     boting518-alt <boting518@icloud.com>
+CommitDate: Fri Sep 11 20:30:49 2026 +0800
+
+    feat(delivery): add tested batch shipment acceptance and returns
