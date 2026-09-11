@@ -34,3 +34,17 @@
 所有会产生副作用的命令要求 `Idempotency-Key`。唯一域为租户、操作者、操作类型与 key；保存请求 hash 和结果，命令与幂等结果同事务提交。同 key 同内容返回原结果，同 key 不同内容返回 409。版本字段必须与后端条件更新一起检查；仅用 ORM 版本号不能取代跨请求的 expected_version 校验。[SQLAlchemy 版本控制](https://docs.sqlalchemy.org/en/20/orm/versioning.html)
 
 业务事务写 outbox 后提交，异步消费者才执行附件生成、通知候选或报表刷新。不要在数据库事务内等待 LLM 或外部邮件。外部系统不支持幂等、请求超时但可能已经发送时，转 uncertain 待核对，不能盲目重发。
+
+## TASK-011 经营资金
+
+`/api/v1/finance` 独立使用 `finance.read` 及相应命令权限，沿用预期企业 / 会话上下文和 CSRF。原合同、订单、设备查询不要求财务权限；其摘要单独访问资金来源接口。
+
+- `sources` / `sources/{direction}/{id}` / `parties`：既有身份和商业来源，不返回库存成本或无关联系方式。
+- `plans`、`cash`、`refunds`、`invoices`：列表 / 详情 / 新草稿；`confirm` 明确确认，`cancel` 只取消草稿。
+- `plans/import` 导入冻结合同节点；`plans/{id}/adjust` 追加有依据金额；`release` 登记满足条件和到期日。
+- `cash/{id}/allocate` 一次原子提交多行目标及各自版本；`allocations/{id}/reverse` 的 expected_version 是原资金当前版本。
+- `refunds/{id}/confirm` 同时提交退款与原资金版本；确认前按原来源重新计算可退额。
+- `reverse` 为不可变事实的受控逆向；不删除事实，不代表外部退款或作废税务票。
+- `source-adjustments` 保存商业依据和当前来源版本；`summary` / `reconciliation` 为当前经营口径及明细守恒，不是法定收入或利润。
+
+所有写入保留幂等键，同一次响应丢失重试复用；显式新建意图使用新键。金额为最多两位小数的精确字符串；不接受 JSON 浮点数、非有限值或 CNY 以外币种。拒绝使用 `FIN_*` 稳定代码；409 表示版本、额度或业务约束冲突，422 表示输入/方向/金额关系错误，403 权限不足，404 对象不可见。

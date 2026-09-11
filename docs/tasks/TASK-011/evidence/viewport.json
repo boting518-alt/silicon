@@ -1,0 +1,13 @@
+{
+  "desktop": {
+    "height": 900,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  "mobile": {
+    "height": 844,
+    "scrollWidth": 375,
+    "width": 390
+  },
+  "note": "Verified on sole business tab; initial measurement targeted another selected tab and is retained separately."
+}

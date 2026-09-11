@@ -1,0 +1,572 @@
+...F..F..F                                                               [100%]
+=================================== FAILURES ===================================
+_____ test_atomic_failure_duplicate_target_precision_and_party_boundaries ______
+
+self = <sqlalchemy.engine.base.Connection object at 0x108ca6f90>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x1084b85f0>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x108c6a6f0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x108e0f6e0>
+parameters = [{'tenant_id': UUID('b42ef9e5-ef22-4119-9af9-1b84c722266c'), 'id': UUID('a7dfdd76-243d-4b69-96a5-c07172cb967a'), 'direction': 'receivable', 'node': 'fb22a959-0fc7-4cf6-a6bf-064956535479', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [BAD] at 0x108bdebd0>
+query = 'INSERT INTO fin_plans (tenant_id,id,direction,node,amount,currency,due_date,retention,release_condition,notes,custome...rency)s,%(due_date)s,%(retention)s,%(release_condition)s,%(notes)s,%(customer_id)s,%(sales_contract_id)s,%(order_id)s)'
+params = {'tenant_id': UUID('b42ef9e5-ef22-4119-9af9-1b84c722266c'), 'id': UUID('a7dfdd76-243d-4b69-96a5-c07172cb967a'), 'direction': 'receivable', 'node': 'fb22a959-0fc7-4cf6-a6bf-064956535479', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.NumericValueOutOfRange: numeric field overflow
+E           DETAIL:  A field with precision 18, scale 2 must round to an absolute value less than 10^16.
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: NumericValueOutOfRange
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-98/test_atomic_failure_duplicate_0/private-files')
+identities = namespace(a=UUID('b42ef9e5-ef22-4119-9af9-1b84c722266c'), b=UUID('8a87d719-60e7-46ed-aecd-ddc4932b4f57'), user=UUID('1...D('14535a72-a331-42e7-94c2-86b02c26fbdb'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:61987/silicon))
+
+    def test_atomic_failure_duplicate_target_precision_and_party_boundaries(engine,database,identities):
+        i=identities;order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            s=get(c,'sources')[0];p=new_plan(c,s,'100');p2=new_plan(c,s,'200');cash=new_cash(c,s,'200')
+            assert alloc(c,cash,(p,'50'),(p2,'201')).status_code==409
+            assert get(c,'plans',p['id'])['allocated']=='0.00' and get(c,'cash',cash['id'])['version']==cash['version']
+            assert alloc(c,cash,(p,'10'),(p,'10')).status_code==422
+            # An earlier valid line must roll back when a later target fails remaining validation.
+            assert alloc(c,cash,(p2,'50'),(p,'101')).json()['code']=='FIN_REMAINING_EXCEEDED'
+            assert get(c,'plans',p2['id'])['allocated']=='0.00'
+            _,_,po=setup_purchase(c,i);sp=next(x for x in get(c,'sources') if x['direction']=='payable');ap=new_plan(c,sp,'100')
+            assert alloc(c,cash,(ap,'20')).json()['code']=='FIN_PARTY_DIRECTION_MISMATCH'
+            for amount in [0,-1,1.25,'0.001','NaN','Infinity','10000000000000000']:
+>               assert cmd(c,'/plans',{'direction':'receivable','source_id':s['id'],'node':str(uuid4()),'amount':amount,'due_date':'2026-01-01'}).status_code==422
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_finance.py:93:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_finance.py:8: in cmd
+    def cmd(c,path,body,key=None):return c.post(P+path,json=body,headers={'Idempotency-Key':key or str(uuid4())})
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/testclient.py:556: in post
+    return super().post(
+.venv/lib/python3.12/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+.venv/lib/python3.12/site-packages/starlette/testclient.py:455: in request
+    return super().request(
+.venv/lib/python3.12/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+.venv/lib/python3.12/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+.venv/lib/python3.12/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/testclient.py:354: in handle_request
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/testclient.py:351: in handle_request
+    portal.call(self.app, scope, receive, send)
+.venv/lib/python3.12/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/concurrent/futures/_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/concurrent/futures/_base.py:401: in __get_result
+    raise self._exception
+.venv/lib/python3.12/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/applications.py:1163: in __call__
+    await super().__call__(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/main.py:77: in request_id
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: in wrapped_app
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:41: in database_error
+    async def database_error(request,exc):raise exc
+                                          ^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/routing.py:670: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:2734: in app
+    await route.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1780: in handle
+    await self.original_router.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:2789: in handle
+    await included_router._handle_selected(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1800: in _handle_selected
+    await original_route.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1279: in handle
+    await app(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:158: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:59: in wrapped_app
+    response = await handler(conn, exc)  # type: ignore[arg-type]
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:41: in database_error
+    async def database_error(request,exc):raise exc
+                                          ^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:144: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/routing.py:706: in app
+    raw_response = await run_endpoint_function(
+.venv/lib/python3.12/site-packages/fastapi/routing.py:354: in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/concurrency.py:34: in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/anyio/to_thread.py:65: in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:2706: in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:1100: in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/finance/routes.py:53: in plan
+    return execute(request,body,idempotency_key,'plan.create:'+str(body.source_id),'finance.plan',lambda db,a:s.source(db,a,body.direction,body.source_id),lambda db,a:s.create_plan(db,a,body))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/finance/routes.py:25: in execute
+    return s.command(db,a,'finance.'+action,key,body.model_dump(),request.state.request_id,lambda:perform(db,a))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/finance/service.py:37: in command
+    result=inv.serial(perform())
+                      ^^^^^^^^^
+apps/api/src/silicon/finance/routes.py:25: in <lambda>
+    return s.command(db,a,'finance.'+action,key,body.model_dump(),request.state.request_id,lambda:perform(db,a))
+                                                                                                  ^^^^^^^^^^^^^
+apps/api/src/silicon/finance/routes.py:53: in <lambda>
+    return execute(request,body,idempotency_key,'plan.create:'+str(body.source_id),'finance.plan',lambda db,a:s.source(db,a,body.direction,body.source_id),lambda db,a:s.create_plan(db,a,body))
+                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/finance/service.py:133: in create_plan
+    id=uuid4();insert(db,a,'fin_plans',{'id':id,**values,**party_fields(b.direction,s['party_id']),**source_fields(b.direction,b.source_id),
+apps/api/src/silicon/inventory/service.py:17: in insert
+    def insert(db,a,table,values):c.insert(db,table,{'tenant_id':a.tenant_id,**values})
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/catalog/service.py:29: in insert
+    db.execute(text(f'INSERT INTO {table} ({columns}) VALUES ({params})'),values)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [BAD] at 0x108bdebd0>
+query = 'INSERT INTO fin_plans (tenant_id,id,direction,node,amount,currency,due_date,retention,release_condition,notes,custome...rency)s,%(due_date)s,%(retention)s,%(release_condition)s,%(notes)s,%(customer_id)s,%(sales_contract_id)s,%(order_id)s)'
+params = {'tenant_id': UUID('b42ef9e5-ef22-4119-9af9-1b84c722266c'), 'id': UUID('a7dfdd76-243d-4b69-96a5-c07172cb967a'), 'direction': 'receivable', 'node': 'fb22a959-0fc7-4cf6-a6bf-064956535479', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.DataError: (psycopg.errors.NumericValueOutOfRange) numeric field overflow
+E           DETAIL:  A field with precision 18, scale 2 must round to an absolute value less than 10^16.
+E           [SQL: INSERT INTO fin_plans (tenant_id,id,direction,node,amount,currency,due_date,retention,release_condition,notes,customer_id,sales_contract_id,order_id) VALUES (%(tenant_id)s,%(id)s,%(direction)s,%(node)s,%(amount)s,%(currency)s,%(due_date)s,%(retention)s,%(release_condition)s,%(notes)s,%(customer_id)s,%(sales_contract_id)s,%(order_id)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/9h9h)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: DataError
+_____________ test_invoice_partial_red_void_cap_and_no_cash_effect _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-98/test_invoice_partial_red_void_0/private-files')
+identities = namespace(a=UUID('43569b33-f357-4fab-b532-d493c9bf0675'), b=UUID('2f91128e-7f52-4293-85f4-b2a32143a742'), user=UUID('7...D('a3b4422e-32af-4eda-96f8-ae3cd24e26bb'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:61987/silicon))
+
+    def test_invoice_partial_red_void_cap_and_no_cash_effect(engine,database,identities):
+        i=identities;order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+>           s=get(c,'sources')[0];body=invoice_body(s,'200',net_amount='180',tax_amount='20');v=ok(cmd(c,'/invoices',body));v=ok(cmd(c,'/invoices/'+v['id']+'/confirm',version(v)))
+                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_finance.py:146:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_finance.py:8: in cmd
+    def cmd(c,path,body,key=None):return c.post(P+path,json=body,headers={'Idempotency-Key':key or str(uuid4())})
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/testclient.py:556: in post
+    return super().post(
+.venv/lib/python3.12/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+.venv/lib/python3.12/site-packages/starlette/testclient.py:455: in request
+    return super().request(
+.venv/lib/python3.12/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+.venv/lib/python3.12/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+.venv/lib/python3.12/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/testclient.py:354: in handle_request
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/testclient.py:351: in handle_request
+    portal.call(self.app, scope, receive, send)
+.venv/lib/python3.12/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/concurrent/futures/_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/concurrent/futures/_base.py:401: in __get_result
+    raise self._exception
+.venv/lib/python3.12/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/applications.py:1163: in __call__
+    await super().__call__(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/src/silicon/main.py:77: in request_id
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+.venv/lib/python3.12/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/routing.py:670: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:2734: in app
+    await route.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1780: in handle
+    await self.original_router.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:2789: in handle
+    await included_router._handle_selected(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1800: in _handle_selected
+    await original_route.handle(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:1279: in handle
+    await app(scope, receive, send)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:158: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.12/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.12/site-packages/fastapi/routing.py:144: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/routing.py:727: in app
+    content = await serialize_response(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+field = ModelField(field_info=FieldInfo(annotation=InvoiceView, required=True), name='Response_invoice_api_v1_finance_invoices_post', mode='serialization', config=None)
+response_content = {'tenant_id': '43569b33-f357-4fab-b532-d493c9bf0675', 'id': 'ed34d263-c26b-4199-9f5d-907732a90934', 'direction': 'receivable', 'customer_id': '813ef840-d4fb-4a7e-82e7-699fdf699304', ...}
+include = None, exclude = None, by_alias = True, exclude_unset = False
+exclude_defaults = False, exclude_none = False, is_coroutine = False
+endpoint_ctx = {'file': '/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/src/silicon/finance/routes.py', 'line': 66, 'function': 'invoice', 'path': 'POST /api/v1/finance/invoices'}
+dump_json = True
+
+    async def serialize_response(
+        *,
+        field: ModelField | None = None,
+        response_content: Any,
+        include: IncEx | None = None,
+        exclude: IncEx | None = None,
+        by_alias: bool = True,
+        exclude_unset: bool = False,
+        exclude_defaults: bool = False,
+        exclude_none: bool = False,
+        is_coroutine: bool = True,
+        endpoint_ctx: EndpointContext | None = None,
+        dump_json: bool = False,
+    ) -> Any:
+        if field:
+            if is_coroutine:
+                value, errors = field.validate(response_content, {}, loc=("response",))
+            else:
+                value, errors = await run_in_threadpool(
+                    field.validate, response_content, {}, loc=("response",)
+                )
+            if errors:
+                ctx = endpoint_ctx or EndpointContext()
+>               raise ResponseValidationError(
+                    errors=errors,
+                    body=response_content,
+                    endpoint_ctx=ctx,
+                )
+E               fastapi.exceptions.ResponseValidationError: 5 validation errors:
+E                 {'type': 'extra_forbidden', 'loc': ('response', 'lines', 0, 'tenant_id'), 'msg': 'Extra inputs are not permitted', 'input': '43569b33-f357-4fab-b532-d493c9bf0675'}
+E                 {'type': 'extra_forbidden', 'loc': ('response', 'lines', 0, 'invoice_id'), 'msg': 'Extra inputs are not permitted', 'input': 'ed34d263-c26b-4199-9f5d-907732a90934'}
+E                 {'type': 'extra_forbidden', 'loc': ('response', 'lines', 0, 'direction'), 'msg': 'Extra inputs are not permitted', 'input': 'receivable'}
+E                 {'type': 'extra_forbidden', 'loc': ('response', 'lines', 0, 'sales_contract_id'), 'msg': 'Extra inputs are not permitted', 'input': '6218147a-93e3-40dd-a1e4-c3dd6ef8168a'}
+E                 {'type': 'extra_forbidden', 'loc': ('response', 'lines', 0, 'purchase_contract_id'), 'msg': 'Extra inputs are not permitted', 'input': None}
+E
+E                 File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/src/silicon/finance/routes.py", line 66, in invoice
+E                   POST /api/v1/finance/invoices
+
+.venv/lib/python3.12/site-packages/fastapi/routing.py:324: ResponseValidationError
+______________ test_permission_recheck_rls_and_cost_independence _______________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61987/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-98/test_permission_recheck_rls_an0/private-files')
+identities = namespace(a=UUID('5cce530a-ae5f-4593-a927-fa5392990f3f'), b=UUID('ae0e0ad6-00e3-4c55-bddc-81a82aa4c2b9'), user=UUID('2...D('8c0fa14e-5a35-486c-8fbb-6aa680927e9b'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:61987/silicon))
+
+    def test_permission_recheck_rls_and_cost_independence(engine,database,identities):
+        from sqlalchemy.exc import DBAPIError
+        import pytest
+        i=identities;o=order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            s=get(c,'sources')[0];key=str(uuid4());body={'direction':'receivable','source_id':s['id'],'node':'权限测试','amount':'100','due_date':'2026-01-01'};p=ok(cmd(c,'/plans',body,key))
+            with i.owner.begin() as db:db.execute(text("DELETE FROM role_permissions WHERE role='admin' AND permission IN ('inventory.cost','finance.plan')"))
+            try:
+                assert get(c,'sources')[0]['amount']=='300.00'
+                assert cmd(c,'/plans',body,key).status_code==403
+            finally:
+                with i.owner.begin() as db:db.execute(text("INSERT INTO role_permissions VALUES('admin','inventory.cost'),('admin','finance.plan')"))
+            c.headers['X-Expected-Tenant']=str(i.b);assert cmd(c,'/plans',body,key).status_code==409
+        with client(engine,database,i.other,i.b) as c:assert c.get(P+'/plans/'+p['id']).status_code==404
+        with i.owner.begin() as db:db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.other})
+        with client(engine,database,i.other,i.a) as c:
+            assert c.get(P+'/summary').status_code==403
+            assert c.get('/api/v1/contracts/orders/'+o['id']).status_code==200
+            assert c.get('/api/v1/assembly/devices').status_code==200
+        with engine.begin() as db:
+            assert db.scalar(text('SELECT count(*) FROM fin_plans'))==0
+            assert db.scalar(text("SELECT NOT rolsuper AND NOT rolbypassrls FROM pg_roles WHERE rolname=current_user"))
+            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true)"),{'t':str(i.a)})
+>           with pytest.raises(DBAPIError):db.execute(text("UPDATE fin_plans SET amount=1 WHERE id=:id"),{'id':p['id']})
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE DBAPIError
+
+apps/api/tests/test_finance.py:215: Failed
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_finance.py::test_concurrent_allocations_and_refunds_and_confirm_dedup
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'id' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_finance.py::test_same_cash_concurrency_and_lost_response_retry
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_finance.py::test_atomic_failure_duplicate_target_precision_and_party_boundaries
+FAILED apps/api/tests/test_finance.py::test_invoice_partial_red_void_cap_and_no_cash_effect
+FAILED apps/api/tests/test_finance.py::test_permission_recheck_rls_and_cost_independence
+3 failed, 7 passed, 4 warnings in 18.85s

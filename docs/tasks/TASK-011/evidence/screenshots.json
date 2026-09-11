@@ -1,0 +1,100 @@
+[
+  {
+    "file": "finance-desktop.jpg",
+    "sha256": "745c53ad61db9ca72a5204e10df3bc1915f91afe694f0b353b66ce6ee93908ca",
+    "format": "JPEG",
+    "actual_pixels": [
+      1425,
+      891
+    ],
+    "status": "final",
+    "requested_css_viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "file": "finance-mobile-invoice.jpg",
+    "sha256": "e0637f607a5661bbac0f6c97f3fbf9792fb3e6f57cceec51c17c871edc9d28fe",
+    "format": "JPEG",
+    "actual_pixels": [
+      375,
+      812
+    ],
+    "status": "final",
+    "requested_css_viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "file": "finance-mobile.jpg",
+    "sha256": "921ded16af1e00426bad246f070dae69a9871f2bead25a5efcef41860f04df16",
+    "format": "JPEG",
+    "actual_pixels": [
+      375,
+      812
+    ],
+    "status": "final",
+    "requested_css_viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "file": "finance-permission-order.jpg",
+    "sha256": "5ad8419293ef1040d78d42d3be8517b08c7822c38cf313d20670414cf8e14544",
+    "format": "JPEG",
+    "actual_pixels": [
+      1425,
+      891
+    ],
+    "status": "final",
+    "requested_css_viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "file": "intermediate-desktop.jpg",
+    "sha256": "70250dea4e3b8b29a29bd304f60028cc547327a5323e2f9da5e2bbf0ab81cee3",
+    "format": "JPEG",
+    "actual_pixels": [
+      1425,
+      891
+    ],
+    "status": "intermediate",
+    "requested_css_viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "file": "intermediate-mobile-invoice.jpg",
+    "sha256": "6972e57b267be42ec66defe4c24a32c79dee96b4b7863d74c6baa9a5a34e526b",
+    "format": "JPEG",
+    "actual_pixels": [
+      375,
+      812
+    ],
+    "status": "intermediate",
+    "requested_css_viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "file": "intermediate-mobile.jpg",
+    "sha256": "834a3218a599564278ef96a958933c4f03a1e548911606799d4c4636d0fb749a",
+    "format": "JPEG",
+    "actual_pixels": [
+      375,
+      812
+    ],
+    "status": "intermediate",
+    "requested_css_viewport": [
+      390,
+      844
+    ]
+  }
+]

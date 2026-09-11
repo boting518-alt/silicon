@@ -53,6 +53,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(assembly_router(engine, settings))
     from silicon.delivery.routes import router as delivery_router
     app.include_router(delivery_router(engine, settings))
+    from silicon.finance.routes import router as finance_router
+    app.include_router(finance_router(engine, settings))
 
     @app.exception_handler(SQLAlchemyError)
     async def database_failure(request, exc):
@@ -87,7 +89,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         try:
             with engine.connect() as connection:
                 revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
-                if revision != "0012_delivery":
+                if revision != "0013_finance":
                     raise RuntimeError("schema revision not ready")
         except (SQLAlchemyError, RuntimeError):
             return JSONResponse(status_code=503, content={

@@ -1,0 +1,4 @@
+git diff --check: PASS
+git diff --cached --check: PASS
+Original log whitespace initially rejected; exact raw output retained as .txt.raw.gz, readable text whitespace normalized only.
+Explicit task file allowlist staged. No high-confidence secret match or excluded dependency/database paths in new materials.

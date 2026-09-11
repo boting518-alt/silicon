@@ -1,4 +1,4 @@
-status: executing
+status: review_ready
 
 # TASK-011 — 应收应付、发票登记、收付款核销
 

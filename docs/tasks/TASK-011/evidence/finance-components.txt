@@ -1,0 +1,2 @@
+- heading "TASK-011 React interaction regressions (HTTP substitutes)" [level=1]
+- generic: "[ { \"name\": \"actual new intent, lost creation response and retry create only one fact\", \"status\": \"passed\" }, { \"name\": \"late successful creation cannot replace new enterprise state\", \"status\": \"passed\" }, { \"name\": \"finance summary revocation clears protected values and preserves base page\", \"status\": \"passed\" }, { \"name\": \"integer-cent display subtraction stays exact\", \"status\": \"passed\" } ]"

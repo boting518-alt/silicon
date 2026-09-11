@@ -1,0 +1,85 @@
+...........F.F                                                           [100%]
+=================================== FAILURES ===================================
+___________ test_aggregate_read_blocks_write_until_complete_snapshot ___________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62298/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62298/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-100/test_aggregate_read_blocks_wri0/private-files')
+identities = namespace(a=UUID('0e209c80-505a-40e0-86e3-6ca2a177a50f'), b=UUID('6f48a979-f874-4403-9a4a-e29254146b49'), user=UUID('2...D('d954359c-652f-4df5-9ad3-06f1b0aeaf6c'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62298/silicon))
+
+    def test_aggregate_read_blocks_write_until_complete_snapshot(engine,database,identities):
+        from threading import Event
+        from sqlalchemy import event
+        import time
+        i=identities;order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            s=get(c,'sources')[0];p=new_plan(c,s,'100');cash=new_cash(c,s,'100')
+        reading=Event();release=Event();once=Event()
+        def pause(conn,cursor,statement,parameters,context,executemany):
+            if statement.startswith('SELECT * FROM fin_adjustments') and not once.is_set():
+                once.set();reading.set();assert release.wait(8)
+        event.listen(engine,'after_cursor_execute',pause)
+        def read():
+            with client(engine,database,i.user,i.a) as c:return get(c,'plans',p['id'])
+        def write():
+            with client(engine,database,i.user,i.a) as c:return ok(alloc(c,cash,(p,'100')))
+        try:
+            with ThreadPoolExecutor(2) as pool:
+>               old=pool.submit(read);assert reading.wait(5);mutation=pool.submit(write)
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+E               assert False
+E                +  where False = wait(5)
+E                +    where wait = <threading.Event at 0x10b456ab0: unset>.wait
+
+apps/api/tests/test_finance.py:247: AssertionError
+____________ test_cross_party_and_multi_source_invoice_with_replays ____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62298/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62298/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-100/test_cross_party_and_multi_sou0/private-files')
+identities = namespace(a=UUID('76f8b86c-80a8-4bb4-ae32-11a3af1cdfa3'), b=UUID('43c79295-01a2-460a-949c-f3def5464f2b'), user=UUID('d...D('2ad3a3d2-e0b5-4a28-9cbe-fa56f44727d9'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62298/silicon))
+
+    def test_cross_party_and_multi_source_invoice_with_replays(engine,database,identities):
+        i=identities;order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            s=get(c,'sources')[0];p=new_plan(c,s,'100')
+            from test_crm import payload
+            # Existing fictional CRM source helper is not needed: a new customer is created through API.
+            customer=ok(c.post('/api/v1/crm/customers',json={'number':'FIN-OTHER','name':'另一虚构客户','contacts':[],'projects':[]},headers={'Idempotency-Key':str(uuid4())}),201)
+            other={**s,'party_id':customer['id']};cash=new_cash(c,other,'100')
+            assert alloc(c,cash,(p,'1')).json()['code']=='FIN_PARTY_DIRECTION_MISMATCH'
+            assert cmd(c,'/invoices',invoice_body(other)).json()['code']=='FIN_PARTY_DIRECTION_MISMATCH'
+            # Same supplier, two distinct active contracts; invoice spans both without merging sources.
+            sku,co,po=setup_purchase(c,i)
+            from test_inventory import post as purchase
+>           co2=ok(purchase(c,'/contracts',{'number':'FIN-SECOND','supplier_id':co['supplier_id'],'buyer':'虚构买方','manager_id':str(i.user),'signing_date':'2026-01-01','lines':[{'sku_id':sku['id'],'quantity':2,'unit_price':'100','tax_basis':'unconfirmed'}]}))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_finance.py:289:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [422 Unprocessable Entity]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":[{"type":"missing","loc":["body","lines",0,"due_date"],"msg":"Field required","input":{"sku_id":"cd82e6f5-9d3c-415e-8979-6b5a5184800e","quantity":2,"unit_price":"100","tax_basis":"unconfirmed"}}]}
+E       assert 422 == 200
+E        +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_finance.py::test_concurrent_plan_confirmation_cannot_exceed_contract
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_finance.py::test_aggregate_read_blocks_write_until_complete_snapshot
+FAILED apps/api/tests/test_finance.py::test_cross_party_and_multi_source_invoice_with_replays
+2 failed, 12 passed, 3 warnings in 31.22s

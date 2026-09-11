@@ -1,0 +1,103 @@
+{
+  "task": "TASK-011",
+  "status": "review_ready",
+  "accepted_base": "b6ca2feab718614d407897e1d0b3762633ba1fe3",
+  "handoff": "d136c1b80f78d41df174446174a8b0fb444a2cb6",
+  "design_commit": "0a65225e9668784915e3c5bd8f3c2dc255590ef1",
+  "final_head_location": "Package REVIEW_MANIFEST.md; final source is git archive of that HEAD",
+  "checks": [
+    {
+      "name": "full_backend",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "status": "passed",
+      "passed": 237,
+      "warnings": 14,
+      "seconds": 242.17,
+      "evidence": "backend-final.txt",
+      "kind": "real isolated PostgreSQL; real OIDC integration included; API identity fixtures separately labelled"
+    },
+    {
+      "name": "finance_targeted",
+      "command": ".venv/bin/python -m pytest apps/api/tests/test_finance.py -q",
+      "status": "passed",
+      "passed": 14,
+      "warnings": 3,
+      "seconds": 29.48,
+      "evidence": "finance-final.txt",
+      "note": "Final full suite also covers final added source-scoped invoice idempotency assertion."
+    },
+    {
+      "name": "node",
+      "command": "node --test apps/web/tests/*.test.ts",
+      "status": "passed",
+      "passed": 19,
+      "evidence": "frontend-node.txt"
+    },
+    {
+      "name": "react_components",
+      "command": "Open https://localhost:5173/tests/finance-component.html in browser stack",
+      "status": "passed",
+      "passed": 4,
+      "evidence": "finance-components.txt",
+      "kind": "actual React event lifecycle with HTTP substitutes; not PG or real business E2E"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "frontend-typecheck.txt"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "frontend-build-final.txt"
+    },
+    {
+      "name": "contract_generation",
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types",
+      "status": "passed",
+      "evidence": "contract-generation.txt",
+      "note": "Both generated file SHA-256 values identical before/after regeneration"
+    },
+    {
+      "name": "docs",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "evidence": "docs-final.txt"
+    },
+    {
+      "name": "diff",
+      "command": "git diff --check; git diff --cached --check",
+      "status": "passed",
+      "evidence": "diff-check.txt"
+    },
+    {
+      "name": "real_browser",
+      "command": "SILICON_BROWSER_FINANCE=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 .venv/bin/python infra/browser_stack.py",
+      "status": "passed",
+      "evidence": "../browser-acceptance.md",
+      "kind": "trusted HTTPS; real Keycloak/PG/API; fictional data; desktop 1440x900/mobile 390x844"
+    }
+  ],
+  "not_run": [
+    {
+      "name": "remote_CI",
+      "reason": "Remote workflow run not independently queried; local commands only"
+    },
+    {
+      "name": "Docker and additional browser engines",
+      "reason": "Used isolated native PG/IdP and in-app browser; no container or cross-engine claim"
+    },
+    {
+      "name": "production / bank / tax integration",
+      "reason": "Outside authorization and scope; no real business policy inferred"
+    },
+    {
+      "name": "browser red/void invoice and 1000 retention example",
+      "reason": "Covered in real PG/API tests; browser evidence covers receipt/payment allocation/refunds and positive invoice only"
+    }
+  ],
+  "historical_failures": "Original red, trigger failure and test-fixture errors retained; see implementation.md",
+  "independent_review_passed": false
+}

@@ -1,0 +1,169 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台" [active]:
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /资金工作台
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每笔往来，都有清晰依据。" [level=1]
+  - paragraph: 应收应付、实收实付与核销分别登记，保留完整依据与历史。
+  - generic: 工作台 / 2026.09.08
+  - text: SILICON / FINANCE
+  - heading "资金工作台" [level=2]
+  - button "刷新台账"
+  - paragraph: 经营资金子台账 · CNY · 人工事实登记。合同额、应收和净现金流均不代表收入或利润。
+  - article:
+    - text: 未结应收
+    - strong: 0.00 CNY
+  - article:
+    - text: 未结应付
+    - strong: 0.00 CNY
+  - article:
+    - text: 逾期应收
+    - strong: 0.00 CNY
+  - article:
+    - text: 逾期应付
+    - strong: 0.00 CNY
+  - article:
+    - text: 实际收款
+    - strong: 300.00 CNY
+  - article:
+    - text: 实际付款
+    - strong: 250.00 CNY
+  - article:
+    - text: 预收可用
+    - strong: 0.00 CNY
+  - article:
+    - text: 预付可用
+    - strong: 0.00 CNY
+  - article:
+    - text: 收款待分配
+    - strong: 0.00 CNY
+  - article:
+    - text: 付款待分配
+    - strong: 0.00 CNY
+  - article:
+    - text: 客户退款
+    - strong: 50.00 CNY
+  - article:
+    - text: 供应商退款
+    - strong: 50.00 CNY
+  - article:
+    - text: 净现金流
+    - strong: 50.00 CNY
+  - generic: 统计时间 2026-09-11T14:19:59.937633Z · 经营资金登记；非收入或利润
+  - generic "资金模块":
+    - button "应收应付" [pressed]
+    - button "实收实付与核销"
+    - button "退款登记"
+    - button "发票登记"
+  - navigation "资金记录列表":
+    - button "新建计划草稿"
+    - button "尾款 200.00 CNY · 已确认 · 3c6bcae7":
+      - strong: 尾款
+      - generic: 200.00 CNY · 已确认 · 3c6bcae7
+    - button "首期款 100.00 CNY · 已确认 · e162cf2a":
+      - strong: 首期款
+      - generic: 100.00 CNY · 已确认 · e162cf2a
+    - button "采购首期 200.00 CNY · 已确认 · e301efa0":
+      - strong: 采购首期
+      - generic: 200.00 CNY · 已确认 · e301efa0
+  - article:
+    - heading "建立应收 / 应付计划草稿" [level=3]
+    - text: 来源合同
+    - combobox "来源合同":
+      - option "请选择有效合同" [selected]
+      - option "销售 · CON-001 · 澄川大学 · 人工智能学院 · 300.00 CNY"
+      - option "采购 · PC-2ac9bd5e · 虚构供应商 · 500.00 CNY"
+    - text: 业务节点
+    - textbox "业务节点"
+    - text: 计划金额 CNY
+    - textbox "计划金额 CNY"
+    - text: 到期日
+    - textbox "到期日"
+    - checkbox "质保金（原合同金额内拆分）"
+    - text: 质保金（原合同金额内拆分）
+    - text: 释放条件（无到期日时必填）
+    - textbox "释放条件（无到期日时必填）"
+    - text: 计划说明
+    - textbox "计划说明"
+    - button "保存计划草稿" [disabled]
+    - paragraph: 草稿不进入债权债务或现金汇总。修改内容请取消草稿后重新建立。
+  - generic "往来单位明细与经营对账"
+  - generic "有商业依据的来源额度调整"
+  - option "请选择有效合同" [selected]
+  - option "销售 · CON-001 · 澄川大学 · 人工智能学院 · 300.00 CNY"
+  - option "采购 · PC-2ac9bd5e · 虚构供应商 · 500.00 CNY"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

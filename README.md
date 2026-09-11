@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-010 已由负责人确认 accepted。当前 TASK-011 应收应付、发票登记与收付款核销已授权，状态 executing；见 [交接](docs/tasks/TASK-011/handoff.md) 与 [任务书](docs/tasks/TASK-011/task.md)。生产模式保护保留，资金仅人工登记，不执行外部转账。
+TASK-000～TASK-010 已由负责人确认 accepted。当前 TASK-011 应收应付、发票登记与收付款核销已授权，状态 review_ready；见 [交接](docs/tasks/TASK-011/handoff.md) 、[任务书](docs/tasks/TASK-011/task.md) 与 [结果](docs/tasks/TASK-011/result.md)。生产模式保护保留，资金仅人工登记，不执行外部转账。
 
 ## 入口与边界
 

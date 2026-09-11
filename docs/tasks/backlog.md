@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-011，status: executing。TASK-000～TASK-010 已由产品/架构负责人确认 accepted；TASK-012 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-011，status: review_ready。TASK-000～TASK-010 已由产品/架构负责人确认 accepted；TASK-012 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-010 为 accepted；TASK-011 为 executing；TASK-012～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-010 为 accepted；TASK-011 为 review_ready；TASK-012～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -125,3 +125,5 @@ TASK-010 R1 按用户授权修复：保留基础设备权限，交付历史独�
 ## TASK-011 验收交接
 
 负责人依据[TASK-010增量报告](../reviews/TASK-010-b6ca2fe-review.md)确认accepted，并授权[TASK-011](TASK-011/task.md) executing。见[交接](TASK-011/handoff.md)；历史报告及验证限制保持不变。
+
+TASK-011 实现与本地验证完成，进入 review_ready，见[结果](TASK-011/result.md)。完整后端 237 项、React 组件 4 项和 Node 19 项通过；真实资金浏览器闭环及两视口证据已保存。等待独立审查，不自行 accepted，不开始 TASK-012。

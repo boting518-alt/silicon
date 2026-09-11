@@ -1,0 +1,179 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台":
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /资金工作台
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每笔往来，都有清晰依据。" [level=1]
+  - paragraph: 应收应付、实收实付与核销分别登记，保留完整依据与历史。
+  - generic: 工作台 / 2026.09.08
+  - text: SILICON / FINANCE
+  - heading "资金工作台" [level=2]
+  - button "刷新台账"
+  - paragraph: 经营资金子台账 · CNY · 人工事实登记。合同额、应收和净现金流均不代表收入或利润。
+  - alert: 输入格式不正确，请检查必填项、邮箱和关联关系。 [FIN_TAX_SUM_INVALID]
+  - article:
+    - text: 未结应收
+    - strong: 0.00 CNY
+  - article:
+    - text: 未结应付
+    - strong: 0.00 CNY
+  - article:
+    - text: 逾期应收
+    - strong: 0.00 CNY
+  - article:
+    - text: 逾期应付
+    - strong: 0.00 CNY
+  - article:
+    - text: 实际收款
+    - strong: 300.00 CNY
+  - article:
+    - text: 实际付款
+    - strong: 250.00 CNY
+  - article:
+    - text: 预收可用
+    - strong: 0.00 CNY
+  - article:
+    - text: 预付可用
+    - strong: 0.00 CNY
+  - article:
+    - text: 收款待分配
+    - strong: 0.00 CNY
+  - article:
+    - text: 付款待分配
+    - strong: 0.00 CNY
+  - article:
+    - text: 客户退款
+    - strong: 50.00 CNY
+  - article:
+    - text: 供应商退款
+    - strong: 50.00 CNY
+  - article:
+    - text: 净现金流
+    - strong: 50.00 CNY
+  - generic: 统计时间 2026-09-11T14:22:13.014124Z · 经营资金登记；非收入或利润
+  - generic "资金模块":
+    - button "应收应付"
+    - button "实收实付与核销"
+    - button "退款登记"
+    - button "发票登记" [pressed]
+  - navigation "资金记录列表":
+    - button "新建发票草稿"
+    - paragraph: 暂无登记记录。
+  - article:
+    - heading "发票人工登记" [level=3]
+    - text: 资金方向
+    - combobox "资金方向":
+      - option "客户收款 / 销项"
+      - option "供应商付款 / 进项" [selected]
+    - text: 往来单位
+    - combobox "往来单位":
+      - option "请选择"
+      - option "虚构供应商" [selected]
+    - text: 发票标识
+    - textbox "发票标识": FICTIONAL-INVOICE-001
+    - text: 发票类型
+    - textbox "发票类型": 人工发票登记
+    - text: 开票日期
+    - textbox "开票日期": 2026-09-08
+    - text: 购方名称
+    - textbox "购方名称": 虚构企业 A
+    - text: 销方名称
+    - textbox "销方名称": 虚构供应商
+    - text: 含税金额 CNY
+    - textbox "含税金额 CNY": "100.00"
+    - text: 不含税金额（可选，需与税额同时提供）
+    - textbox "不含税金额（可选，需与税额同时提供）": "90.00"
+    - text: 税额（不默认税率）
+    - textbox "税额（不默认税率）": "11.00"
+    - text: 红字原发票（正向登记留空）
+    - combobox "红字原发票（正向登记留空）":
+      - option "正向发票" [selected]
+    - heading "分配到业务来源 · 总和须等于票面金额" [level=4]
+    - text: 开票分配 PC-2ac9bd5e
+    - textbox "开票分配 PC-2ac9bd5e": "100.00"
+    - text: 发票档案登记编号
+    - textbox "发票档案登记编号"
+    - text: 发票备注
+    - textbox "发票备注"
+    - button "保存发票草稿"
+    - paragraph: 仅内部登记，不等于税务开票、验真或收款。
+  - generic "往来单位明细与经营对账"
+  - generic "有商业依据的来源额度调整"
+  - option "请选择有效合同" [selected]
+  - option "销售 · CON-001 · 澄川大学 · 人工智能学院 · 300.00 CNY"
+  - option "采购 · PC-2ac9bd5e · 虚构供应商 · 500.00 CNY"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

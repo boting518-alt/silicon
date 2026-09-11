@@ -1,0 +1,45 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_explicit_source_plan_and_cash_are_distinct ________________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:61905/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:61905/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-96/test_explicit_source_plan_and_0/private-files')
+identities = namespace(a=UUID('2e6347c9-5b38-450a-8d8d-b324b3a794c4'), b=UUID('ad2b4ed6-8ce3-4041-881e-dc95672ac986'), user=UUID('4...D('6ee97846-a683-4a03-9584-6bac6ed7f84b'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:61905/silicon))
+
+    def test_explicit_source_plan_and_cash_are_distinct(engine,database,identities):
+        i=identities;o=order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            sources=ok(c.get(P+'/sources'));s=next(x for x in sources if x['direction']=='receivable')
+            assert s['order_ids']==[o['id']]
+            plan=ok(cmd(c,'/plans',{'direction':'receivable','source_id':s['id'],'node':'首期','amount':s['amount'],'due_date':'2026-10-01'}))
+            assert plan['state']=='draft' and plan['effective']=='0.00'
+>           plan=ok(cmd(c,'/plans/'+plan['id']+'/confirm',version(plan)))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_finance.py:17:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"FIN_CONSTRAINT","message":"身份无效或没有执行此操作的权限","request_id":"5f12c714-87bb-4ec7-ac85-60b97479e28a"}
+E       assert 409 == 200
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_finance.py::test_explicit_source_plan_and_cash_are_distinct
+1 failed, 2 warnings in 3.36s
