@@ -2340,6 +2340,483 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/service/context": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Permissions */
+        get: operations["permissions_api_v1_service_context_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Devices */
+        get: operations["devices_api_v1_service_devices_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Works */
+        get: operations["works_api_v1_service_works_get"];
+        put?: never;
+        /** Create */
+        post: operations["create_api_v1_service_works_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detail */
+        get: operations["detail_api_v1_service_works__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/receive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Receive */
+        post: operations["service_receive_api_v1_service_works__id__receive_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/return": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Return */
+        post: operations["service_return_api_v1_service_works__id__return_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/diagnose": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Diagnose */
+        post: operations["service_diagnose_api_v1_service_works__id__diagnose_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service State */
+        post: operations["service_state_api_v1_service_works__id__state_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Test */
+        post: operations["service_test_api_v1_service_works__id__test_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/reserve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Reserve */
+        post: operations["service_reserve_api_v1_service_works__id__reserve_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/release": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Release */
+        post: operations["service_release_api_v1_service_works__id__release_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Issue */
+        post: operations["service_issue_api_v1_service_works__id__issue_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/spare-return": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Spare-Return */
+        post: operations["service_spare_return_api_v1_service_works__id__spare_return_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/replace": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Replace */
+        post: operations["service_replace_api_v1_service_works__id__replace_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/dispose": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Dispose */
+        post: operations["service_dispose_api_v1_service_works__id__dispose_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/cost": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Cost */
+        post: operations["service_cost_api_v1_service_works__id__cost_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/charge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Charge */
+        post: operations["charge_api_v1_service_works__id__charge_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/charges": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Charges */
+        get: operations["charges_api_v1_service_works__id__charges_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Rma */
+        post: operations["create_rma_api_v1_service_rmas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Rma */
+        get: operations["rma_api_v1_service_rmas__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}/reopen": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Rma Reopen */
+        post: operations["service_rma_reopen_api_v1_service_rmas__id__reopen_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Rma Send */
+        post: operations["service_rma_send_api_v1_service_rmas__id__send_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Rma Cancel */
+        post: operations["service_rma_cancel_api_v1_service_rmas__id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}/return": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Rma Return */
+        post: operations["service_rma_return_api_v1_service_rmas__id__return_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/rmas/{id}/inspect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Rma Inspect */
+        post: operations["service_rma_inspect_api_v1_service_rmas__id__inspect_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/works/{id}/reverse-change": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Service Reverse-Change */
+        post: operations["service_reverse_change_api_v1_service_works__id__reverse_change_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Options */
+        get: operations["options_api_v1_service_options_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/service/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Reconciliation */
+        get: operations["reconciliation_api_v1_service_reconciliation_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -5525,6 +6002,140 @@ export interface components {
              */
             movement_id: string;
         };
+        /** RmaInput */
+        RmaInput: {
+            /**
+             * Work Id
+             * Format: uuid
+             */
+            work_id: string;
+            /** Expected Version */
+            expected_version: number;
+            /** Number */
+            number: string;
+            /**
+             * Supplier Id
+             * Format: uuid
+             */
+            supplier_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /** Supplier Number */
+            supplier_number: string;
+            /** Fault */
+            fault: string;
+            /**
+             * Expected On
+             * Format: date
+             */
+            expected_on: string;
+            /**
+             * Authorization Basis
+             * @default
+             */
+            authorization_basis: string;
+            /** Old Part Ids */
+            old_part_ids: string[];
+        };
+        /** RmaReturn */
+        RmaReturn: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Line Id
+             * Format: uuid
+             */
+            line_id: string;
+            /** Quantity */
+            quantity: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "repair" | "replacement";
+            /**
+             * Serial
+             * @default
+             */
+            serial: string;
+            /**
+             * Batch
+             * @default
+             */
+            batch: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /**
+             * Performed At
+             * Format: date-time
+             */
+            performed_at: string;
+            /** Result */
+            result: string;
+        };
+        /** RmaView */
+        RmaView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Work Id
+             * Format: uuid
+             */
+            work_id: string;
+            /** Number */
+            number: string;
+            /**
+             * Supplier Id
+             * Format: uuid
+             */
+            supplier_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /** Supplier Number */
+            supplier_number: string;
+            /** Fault */
+            fault: string;
+            /**
+             * Expected On
+             * Format: date
+             */
+            expected_on: string;
+            /** Authorization Basis */
+            authorization_basis: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /** Lines */
+            lines: {
+                [key: string]: unknown;
+            }[];
+            /** Outside Quantity */
+            outside_quantity: number;
+            /** Pending Quantity */
+            pending_quantity: number;
+            /** Overdue */
+            overdue: boolean;
+        };
         /** RoleHistory */
         RoleHistory: {
             /**
@@ -5672,6 +6283,641 @@ export interface components {
             sku_id: string;
             /** Quantity */
             quantity: number;
+        };
+        /** ServiceChargeInput */
+        ServiceChargeInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "customer_service" | "supplier_repair";
+            /** Rma Id */
+            rma_id?: string | null;
+            /** Amount */
+            amount: number | string;
+            /** Basis Ref */
+            basis_ref: string;
+            /** Number */
+            number: string;
+        };
+        /** ServiceChargeView */
+        ServiceChargeView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Work Id
+             * Format: uuid
+             */
+            work_id: string;
+            /** Kind */
+            kind: string;
+            /** Direction */
+            direction: string;
+            /** Amount */
+            amount: string;
+            /** Number */
+            number: string;
+            /** Basis Ref */
+            basis_ref: string;
+            /** Rma Id */
+            rma_id?: string | null;
+        };
+        /** ServiceContext */
+        ServiceContext: {
+            /** Permissions */
+            permissions: string[];
+            /** People */
+            people: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** ServiceCostInput */
+        ServiceCostInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "labor" | "other";
+            /** Person Id */
+            person_id?: string | null;
+            /** Hours */
+            hours?: (number | string) | null;
+            /** Amount */
+            amount: number | string;
+            /** Basis */
+            basis: string;
+            /**
+             * Occurred On
+             * Format: date
+             */
+            occurred_on: string;
+        };
+        /** ServiceDevice */
+        ServiceDevice: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Serial */
+            serial: string;
+            /** Customer Name */
+            customer_name: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /** Order Number */
+            order_number: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /**
+             * Line Id
+             * Format: uuid
+             */
+            line_id: string;
+        };
+        /** ServiceDiagnose */
+        ServiceDiagnose: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /** Diagnosis */
+            diagnosis: string;
+            /** Solution */
+            solution: string;
+            /**
+             * Warranty
+             * @default pending
+             * @enum {string}
+             */
+            warranty: "pending" | "inside" | "outside" | "special";
+            /**
+             * Warranty Basis
+             * @default
+             */
+            warranty_basis: string;
+        };
+        /** ServiceDispose */
+        ServiceDispose: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /** Old Part Id */
+            old_part_id?: string | null;
+            /** Return Id */
+            return_id?: string | null;
+            /**
+             * Disposition
+             * @enum {string}
+             */
+            disposition: "customer" | "scrap";
+            /** Basis */
+            basis: string;
+        };
+        /** ServiceInspect */
+        ServiceInspect: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Return Id
+             * Format: uuid
+             */
+            return_id: string;
+            /** Passed */
+            passed: boolean;
+            /**
+             * Disposition
+             * @enum {string}
+             */
+            disposition: "customer" | "hold" | "scrap" | "own_spare";
+            /** Ownership Basis */
+            ownership_basis: string;
+            /** Unit Cost */
+            unit_cost?: (number | string) | null;
+        };
+        /** ServiceIssue */
+        ServiceIssue: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Reservation Id
+             * Format: uuid
+             */
+            reservation_id: string;
+            /** Quantity */
+            quantity: number;
+        };
+        /** ServiceManualTestItem */
+        ServiceManualTestItem: {
+            /** Name */
+            name: string;
+            /**
+             * Result
+             * @enum {string}
+             */
+            result: "pass" | "fail";
+        };
+        /** ServiceOptions */
+        ServiceOptions: {
+            /** Locations */
+            locations: {
+                [key: string]: unknown;
+            }[];
+            /** Suppliers */
+            suppliers: {
+                [key: string]: unknown;
+            }[];
+            /** Stock */
+            stock: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** ServiceReceive */
+        ServiceReceive: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /**
+             * Performed At
+             * Format: date-time
+             */
+            performed_at: string;
+            /** Appearance */
+            appearance: string;
+            /** Accessories */
+            accessories: string;
+        };
+        /** ServiceReconciliation */
+        ServiceReconciliation: {
+            /** Matches */
+            matches: boolean;
+            /** Differences */
+            differences: string[];
+        };
+        /** ServiceReplace */
+        ServiceReplace: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Old Installation Id
+             * Format: uuid
+             */
+            old_installation_id: string;
+            /**
+             * Issue Id
+             * Format: uuid
+             */
+            issue_id: string;
+            /**
+             * Old Destination
+             * @enum {string}
+             */
+            old_destination: "customer" | "quarantine" | "dispose";
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** Compatibility Basis */
+            compatibility_basis: string;
+            /**
+             * Manual Compatibility Confirmed
+             * @constant
+             */
+            manual_compatibility_confirmed: true;
+        };
+        /** ServiceReserve */
+        ServiceReserve: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
+            /**
+             * Hours
+             * @default 24
+             */
+            hours: number;
+        };
+        /** ServiceReturnDevice */
+        ServiceReturnDevice: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Receipt Id
+             * Format: uuid
+             */
+            receipt_id: string;
+            /**
+             * Performed At
+             * Format: date-time
+             */
+            performed_at: string;
+            /** Customer Confirmation */
+            customer_confirmation: string;
+        };
+        /** ServiceReverseChange */
+        ServiceReverseChange: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Change Id
+             * Format: uuid
+             */
+            change_id: string;
+        };
+        /** ServiceSpareReturn */
+        ServiceSpareReturn: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Issue Id
+             * Format: uuid
+             */
+            issue_id: string;
+            /** Quantity */
+            quantity: number;
+        };
+        /** ServiceTestInput */
+        ServiceTestInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Performed At
+             * Format: date-time
+             */
+            performed_at: string;
+            /** Items */
+            items: components["schemas"]["ServiceManualTestItem"][];
+            /**
+             * Report Ref
+             * @default
+             */
+            report_ref: string;
+        };
+        /** ServiceTransition */
+        ServiceTransition: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Reopen
+             * @default false
+             */
+            reopen: boolean;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "working" | "waiting" | "verify" | "resolved" | "closed" | "cancelled";
+            /**
+             * Customer Confirmation
+             * @default
+             */
+            customer_confirmation: string;
+        };
+        /** ServiceWorkInput */
+        ServiceWorkInput: {
+            /**
+             * Device Id
+             * Format: uuid
+             */
+            device_id: string;
+            /** Number */
+            number: string;
+            /** Fault */
+            fault: string;
+            /**
+             * Reported At
+             * Format: date-time
+             */
+            reported_at: string;
+            /** Contact */
+            contact: string;
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "remote" | "onsite" | "return";
+            /**
+             * Priority
+             * @default normal
+             * @enum {string}
+             */
+            priority: "normal" | "urgent";
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Planned On
+             * Format: date
+             */
+            planned_on: string;
+        };
+        /** ServiceWorkView */
+        ServiceWorkView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /**
+             * Device Id
+             * Format: uuid
+             */
+            device_id: string;
+            /**
+             * Line Id
+             * Format: uuid
+             */
+            line_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /** Fault */
+            fault: string;
+            /** Contact */
+            contact: string;
+            /** Mode */
+            mode: string;
+            /** Priority */
+            priority: string;
+            /**
+             * Planned On
+             * Format: date
+             */
+            planned_on: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /** Config Version */
+            config_version: number;
+            /** Diagnosis */
+            diagnosis: string;
+            /** Solution */
+            solution: string;
+            /** Warranty */
+            warranty: string;
+            /** Warranty Basis */
+            warranty_basis: string;
+            /** Customer Confirmation */
+            customer_confirmation: string;
+            /**
+             * Reported At
+             * Format: date-time
+             */
+            reported_at: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Serial */
+            serial: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /** Customer Name */
+            customer_name: string;
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /** Order Number */
+            order_number: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /** Custody */
+            custody: string;
+            /** Receipts */
+            receipts: {
+                [key: string]: unknown;
+            }[];
+            /** Returns */
+            returns: {
+                [key: string]: unknown;
+            }[];
+            /** Tests */
+            tests: {
+                [key: string]: unknown;
+            }[];
+            /** Test Valid */
+            test_valid: boolean;
+            /** History */
+            history: {
+                [key: string]: unknown;
+            }[];
+            /** Reservations */
+            reservations: {
+                [key: string]: unknown;
+            }[];
+            /** Issues */
+            issues: {
+                [key: string]: unknown;
+            }[];
+            /** Changes */
+            changes: {
+                [key: string]: unknown;
+            }[];
+            /** Old Parts */
+            old_parts: {
+                [key: string]: unknown;
+            }[];
+            /** Rmas */
+            rmas: {
+                [key: string]: unknown;
+            }[];
+            /** Installations */
+            installations: {
+                [key: string]: unknown;
+            }[];
+            /** Original Configuration */
+            original_configuration: {
+                [key: string]: unknown;
+            }[];
+            /** Material Cost */
+            material_cost?: string | null;
+            /** Labor Cost */
+            labor_cost?: string | null;
+            /** Other Cost */
+            other_cost?: string | null;
+            /** Costs */
+            costs?: {
+                [key: string]: unknown;
+            }[] | null;
         };
         /** SessionInfo */
         SessionInfo: {
@@ -5926,6 +7172,11 @@ export interface components {
         };
         /** SourceView */
         SourceView: {
+            /**
+             * Kind
+             * @default contract
+             */
+            kind: string;
             /**
              * Id
              * Format: uuid
@@ -12396,6 +13647,1085 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InvoiceView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    permissions_api_v1_service_context_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceContext"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    devices_api_v1_service_devices_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDevice"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    works_api_v1_service_works_get: {
+        parameters: {
+            query?: {
+                device_id?: string | null;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_api_v1_service_works_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceWorkInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detail_api_v1_service_works__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_receive_api_v1_service_works__id__receive_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceReceive"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_return_api_v1_service_works__id__return_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceReturnDevice"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_diagnose_api_v1_service_works__id__diagnose_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceDiagnose"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_state_api_v1_service_works__id__state_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTransition"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_test_api_v1_service_works__id__test_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTestInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_reserve_api_v1_service_works__id__reserve_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceReserve"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_release_api_v1_service_works__id__release_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__finance__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_issue_api_v1_service_works__id__issue_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceIssue"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_spare_return_api_v1_service_works__id__spare_return_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceSpareReturn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_replace_api_v1_service_works__id__replace_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceReplace"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_dispose_api_v1_service_works__id__dispose_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceDispose"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_cost_api_v1_service_works__id__cost_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceCostInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    charge_api_v1_service_works__id__charge_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceChargeInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceChargeView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    charges_api_v1_service_works__id__charges_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceChargeView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_rma_api_v1_service_rmas_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RmaInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    rma_api_v1_service_rmas__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_rma_reopen_api_v1_service_rmas__id__reopen_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__finance__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_rma_send_api_v1_service_rmas__id__send_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__finance__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_rma_cancel_api_v1_service_rmas__id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__finance__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_rma_return_api_v1_service_rmas__id__return_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RmaReturn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_rma_inspect_api_v1_service_rmas__id__inspect_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceInspect"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RmaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_reverse_change_api_v1_service_works__id__reverse_change_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceReverseChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceWorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    options_api_v1_service_options_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceOptions"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reconciliation_api_v1_service_reconciliation_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceReconciliation"];
                 };
             };
             /** @description Validation Error */

@@ -101,6 +101,7 @@ class NodeView(View):
     resolved_due_date:date|None=None
     trigger:str
 class SourceView(View):
+    kind:str="contract"
     id:UUID
     direction:Direction
     party_id:UUID

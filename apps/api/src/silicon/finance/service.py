@@ -42,11 +42,18 @@ def command(db,a,op,key,body,request_id,perform):
 def party(db,a,direction,id):
     p=row(db,'crm_customers' if direction=='receivable' else 'inv_suppliers',id)
     if direction=='receivable':visible=a.owns(p['owner_id'])
-    else:visible=a.data_scope=='all' or any(a.owns(x['manager_id']) for x in rows(db,'inv_contracts','supplier_id',id))
+    else:visible=a.data_scope=='all' or any(a.owns(x['manager_id']) for x in [*rows(db,'inv_contracts','supplier_id',id),*rows(db,'svc_rmas','supplier_id',id)])
     if not visible:raise Denied(404,'NOT_FOUND')
     return p
 
 def source(db,a,direction,id):
+    service=db.execute(text('SELECT * FROM svc_charges WHERE id=:id'),{'id':id}).mappings().first()
+    if service:
+        if service['direction']!=direction:raise Denied(404,'NOT_FOUND')
+        p=party(db,a,direction,service['customer_id'] or service['supplier_id'])
+        w=row(db,'svc_works',service['work_id'])
+        if direction=='payable' and not a.owns(row(db,'svc_rmas',service['rma_id'])['manager_id']):raise Denied(404,'NOT_FOUND')
+        return {'id':id,'kind':service['kind'],'direction':direction,'party_id':p['id'],'party_name':p['name'],'number':service['number'],'amount':money(service['amount']),'base_amount':money(service['amount']),'version':1,'order_ids':[],'nodes':[],'tax_basis':'manual service commercial amount; no tax inference'}
     if direction=='receivable':
         co=row(db,'signed_contracts',id);content=co['content'];party_id=UUID(content['commercial']['config']['customer_id'])
         orders=rows(db,'sales_orders','contract_version_id',id)
@@ -71,10 +78,16 @@ def sources(db,a):
             try:result.append(source(db,a,direction,x['id']))
             except Denied as e:
                 if e.code not in ('NOT_FOUND','FIN_SOURCE_INACTIVE'):raise
+    for x in rows(db,'svc_charges'):
+        try:result.append(source(db,a,x['direction'],x['id']))
+        except Denied as e:
+            if e.code!='NOT_FOUND':raise
     return result
 
 def party_fields(direction,id):return {'customer_id' if direction=='receivable' else 'supplier_id':id}
-def source_fields(direction,id):return {'sales_contract_id' if direction=='receivable' else 'purchase_contract_id':id}
+def source_fields(direction,id,db):
+    if db.scalar(text('SELECT 1 FROM svc_charges WHERE id=:id'),{'id':id}):return {'service_source_id':id}
+    return {'sales_contract_id' if direction=='receivable' else 'purchase_contract_id':id}
 def reversed_fact(db,kind,id):return bool(db.scalar(text(f'SELECT 1 FROM fin_reversals WHERE {kind}_id=:id'),{'id':id}))
 def allocations(db,parent,id):return [{**x,'amount':money(x['amount']),'reversed':reversed_fact(db,'allocation',x['id'])} for x in rows(db,'fin_allocations',parent,id)]
 def total(values):return sum((D(x['amount']) for x in values),D(0))
@@ -133,7 +146,7 @@ def create_plan(db,a,b):
     if b.due_date is None and not b.release_condition.strip():raise Denied(422,'FIN_DUE_OR_CONDITION_REQUIRED')
     if b.retention and not (b.due_date or b.release_condition.strip()):raise Denied(422,'FIN_RELEASE_CONDITION_REQUIRED')
     values=b.model_dump(exclude={'source_id','order_id'})
-    id=uuid4();insert(db,a,'fin_plans',{'id':id,**values,**party_fields(b.direction,s['party_id']),**source_fields(b.direction,b.source_id),
+    id=uuid4();insert(db,a,'fin_plans',{'id':id,**values,**party_fields(b.direction,s['party_id']),**source_fields(b.direction,b.source_id,db),
             'order_id' if b.direction=='receivable' else 'purchase_order_id':b.order_id})
     return plan(db,a,id)
 
@@ -240,8 +253,9 @@ def cancel(db,a,kind,id,b):
 
 def source_adjustment(db,a,b):
     s=source(db,a,b.direction,b.source_id);cat.expected(s,b.expected_version)
+    if s.get('kind','contract')!='contract':raise Denied(409,'SERVICE_SOURCE_IMMUTABLE')
     if not b.amount or D(s['amount'])+b.amount<max(occupied(db,b.source_id),invoiced(db,b.direction,b.source_id)):raise Denied(409,'FIN_SOURCE_CAP_BELOW_FACTS')
-    insert(db,a,'fin_source_adjustments',{'id':uuid4(),'direction':b.direction,**source_fields(b.direction,b.source_id),'amount':b.amount,'basis_ref':b.basis_ref,'reason':b.reason,'actor_id':a.actor_id})
+    insert(db,a,'fin_source_adjustments',{'id':uuid4(),'direction':b.direction,**source_fields(b.direction,b.source_id,db),'amount':b.amount,'basis_ref':b.basis_ref,'reason':b.reason,'actor_id':a.actor_id})
     return source(db,a,b.direction,b.source_id)
 
 def invoiced(db,direction,id,original=None):
@@ -266,7 +280,7 @@ def create_invoice(db,a,b):
         original=invoice(db,a,b.original_id)
         if original['party_id']!=b.party_id or original['direction']!=b.direction or original['original_id']:raise Denied(422,'FIN_INVOICE_ORIGINAL_INVALID')
     id=uuid4();insert(db,a,'fin_invoices',{'id':id,**b.model_dump(exclude={'party_id','lines'}),**party_fields(b.direction,b.party_id)})
-    for l in b.lines:insert(db,a,'fin_invoice_lines',{'id':uuid4(),'invoice_id':id,'direction':b.direction,**source_fields(b.direction,l.source_id),'amount':l.amount})
+    for l in b.lines:insert(db,a,'fin_invoice_lines',{'id':uuid4(),'invoice_id':id,'direction':b.direction,**source_fields(b.direction,l.source_id,db),'amount':l.amount})
     return invoice(db,a,id)
 
 def confirm_invoice(db,a,id,b):

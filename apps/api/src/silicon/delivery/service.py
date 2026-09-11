@@ -118,6 +118,7 @@ def receive_return(db,a,id,b,request_id):
     s=posted(db,id,b);when(b.performed_at);inv.row(db,'inv_locations',b.location_id)
     if db.scalar(text('SELECT 1 FROM asm_works WHERE wip_location_id=:id'),{'id':b.location_id}):raise Denied(422,'FINISHED_LOCATION_REQUIRED')
     for x in selected(s,b.line_ids):
+        if db.scalar(text("SELECT 1 FROM svc_works WHERE line_id=:id AND state NOT IN('closed','cancelled')"),{'id':x['id']}):raise Denied(409,'SERVICE_ACTIVE_CUSTODY_DEPENDENCY')
         # Original immutable issue entry is the cost and physical source; no current pricing.
         original=inv.movement_detail(db,x['movement_id'])
         entry=next(e for e in original['entries'] if e['layer_id']==x['layer_id'])
@@ -135,6 +136,7 @@ def cancel(db,a,id,b):
 def reverse(db,a,id,b,request_id):
     s=posted(db,id,b)
     if any(x['acceptances'] or x['returns'] for x in s['lines']):raise Denied(409,'DELIVERY_DOWNSTREAM_DEPENDENCY')
+    if any(db.scalar(text('SELECT 1 FROM svc_works WHERE line_id=:id'),{'id':x['id']}) for x in s['lines']):raise Denied(409,'SERVICE_HISTORY_DEPENDENCY')
     original=s['lines'][0]['movement_id'];m=inv.movement(db,a,'delivery_reverse',b.reason,request_id,date.today(),reverse=original)
     for e in inv.movement_detail(db,original)['entries']:
         inv.entry(db,a,m,e['layer_id'],e['location_id'],'pending',1)

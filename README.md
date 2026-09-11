@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-011 已由负责人确认 accepted。当前 TASK-012 售后工单、备件、设备换件与供应商 RMA 已授权，状态 executing；见 [交接](docs/tasks/TASK-012/handoff.md) 与 [任务书](docs/tasks/TASK-012/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
+TASK-000～TASK-011 已由负责人确认 accepted。当前 TASK-012 售后工单、备件、设备换件与供应商 RMA 已授权，状态 review_ready；见 [交接](docs/tasks/TASK-012/handoff.md) 与 [任务书](docs/tasks/TASK-012/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
 
 ## 入口与边界
 
@@ -252,3 +252,7 @@ TASK-008附件上传先授权再限量流式读取，写入前重新授权/核�
 侧栏装配工单：选择已签约来源销售订单与SN成品SKU，每张工单一台。确认需求后预留自有合格物料，按固定SN/FIFO来源分批领用，完工转待测试成品。included展示不额外领料。设备详情可查询安装及库存来源；成本只向有权限的人员显示。到期按服务器UTC计算，Worker按当前授权处理。逆向仅用于无后续依赖的整次错误更正，填写原因；不删除历史。
 
 开发验收使用 `SILICON_BROWSER_ASSEMBLY=1` 配合既有浏览器测试栈，详见 [复现步骤](docs/tasks/TASK-009/browser-acceptance.md)。禁止用常驻数据库进行测试。完工不代表测试合格、发货、验收或收款。
+
+## 售后与供应商维修
+
+TASK-012使用已交付设备、共享库存移动和安装历史；客户代管、备件消耗、服务收费及资金核销分别登记。入口为“售后与部件”及设备详情独立售后摘要。复现使用隔离测试环境，见 [实施说明](docs/tasks/TASK-012/implementation.md)、[浏览器闭环](docs/tasks/TASK-012/browser-acceptance.md) 和 [执行结果](docs/tasks/TASK-012/result.md)。不使用常驻业务库跑测试，不自动向客户或供应商发送。

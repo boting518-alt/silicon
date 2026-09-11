@@ -127,3 +127,11 @@ PostgreSQL 用 RLS 作为第二道防线。运行角色不能是超级用户、�
 原出库成本、销售退货实物状态及设备身份不改动；退货只是金额调整的可引用依据，不自动退款。经营现金流不是收入或利润，当前 CNY 单币种，不推定税费政策。
 
 TASK-011 R1（0014）：fin_adjustment_corrections 通过 tenant/plan/adjustment 复合外键关联原不可变负向调整，唯一原调整限制完整恢复一次。无客户端金额列；恢复额由原负额取反。计划有效额=原确认额+全部原调整+更正恢复额；额度占用仍为原计划+普通正向调整，更正不释放新计划空间。退货及现金退款事实不随更正改变。新增表强制 RLS、不可变；有更正事实拒绝降级，原0013历史不回填/覆盖。
+
+## TASK-012 售后事实与资金来源
+
+依据 [ADR-017](adr/ADR-017.md)，售后工单svc_works引用稳定asm_devices和实际del_lines，客户设备收件/归还只改变保管事实，不改变销售退货或所有权。svc_reservations与装配预留共用可用量；svc_issues将合格库存移至service_issued，svc_changes安装时消费，原安装事实闭合并追加同slot_id后继。svc_change_reversals受后续依赖保护，按原移动逆向。技术原完工配置、现行安装和已发布报价分别保留。
+
+svc_old_parts区分客户旧件与本方消耗的备件；代管层ownership=customer不计自有库存成本。svc_rmas/lines、returns、inspections与dispositions记录送修、部分返回、原SN修复或新SN替换、待检及最终归还/报废/明确转自有。状态投影必须能回到移动明细，不能把在供应商、待检和可用库存重复相加。
+
+svc_costs保存有依据的人工/其他费用；材料成本来自未逆向安装消耗。svc_charges保存customer_service/supplier_repair冻结来源；资金表service_source_id与旧合同来源互斥，继续统一source_id和原额度/核销规则。收费确认不等于应收确认，更不等于实际收款。成员属于全局身份表，服务查询显式限定当前租户；新增业务表FORCE RLS，确认事实不可变。

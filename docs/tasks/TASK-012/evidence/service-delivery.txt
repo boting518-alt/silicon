@@ -1,0 +1,37 @@
+.............F..                                                         [100%]
+=================================== FAILURES ===================================
+____________ test_shared_reservations_block_assembly_and_inventory _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:62328/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:62328/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-127/test_shared_reservations_block0/private-files')
+identities = namespace(a=UUID('62547758-5947-4fa8-bd4c-9c915dbb3d24'), b=UUID('0d30c5a4-9fe2-4711-af38-e0e820463cf9'), user=UUID('5...D('4a266840-79f6-416d-bdd8-e79b75f44b0c'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:62328/silicon))
+
+    def test_shared_reservations_block_assembly_and_inventory(engine,database,identities):
+        from test_assembly import post as ac
+        from test_inventory import post as ic
+        i=identities;o,loc,id,_=shipped(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=new_work(c,i,id);sku=w['installations'][0]['sku_id']
+            w=ok(cmd(c,'/works/'+w['id']+'/reserve',v(w,sku_id=sku,quantity=2)))
+            dev=ok(c.get('/api/v1/assembly/devices/'+id));aw=ok(ac(c,'/works',{'order_id':o['id'],'product_sku_id':dev['product']['id'],'manager_id':str(i.user),'planned_on':'2026-09-11'}))
+            assert ac(c,'/works/'+aw['id']+'/reserve',{'expected_version':aw['version'],'confirmed':True,'requirement_id':aw['requirements'][0]['id'],'quantity':1,'duration_hours':24}).status_code==409
+            w=ok(cmd(c,'/works/'+w['id']+'/release',v(w)))
+>           assert ac(c,'/works/'+aw['id']+'/reserve',{'expected_version':aw['version'],'confirmed':True,'requirement_id':aw['requirements'][0]['id'],'quantity':1,'duration_hours':24}).status_code==200
+E           AssertionError: assert 409 == 200
+E            +  where 409 = <Response [409 Conflict]>.status_code
+E            +    where <Response [409 Conflict]> = <function post at 0x110f79b20>(<starlette.testclient.TestClient object at 0x114275280>, (('/works/' + '3994f5e0-e743-48f9-905e-ced3455adcc1') + '/reserve'), {'expected_version': 1, 'confirmed': True, 'requirement_id': '271ba7ae-5453-43c6-9c06-993e1e28affc', 'quantity': 1, ...})
+
+apps/api/tests/test_service.py:235: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service.py::test_shared_reservations_block_assembly_and_inventory
+1 failed, 15 passed, 2 warnings in 43.10s

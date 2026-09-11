@@ -1,0 +1,40 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+____________ test_spare_issue_return_and_install_cost_counted_once _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:56203/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:56203/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-111/test_spare_issue_return_and_in0/private-files')
+identities = namespace(a=UUID('c328258a-8e63-42a2-90fb-3990a59908ca'), b=UUID('c0bf5a01-e170-455a-9653-96449b75447f'), user=UUID('0...D('24075384-02f7-48ae-abbf-bdc9240d7395'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:56203/silicon))
+
+    def test_spare_issue_return_and_install_cost_counted_once(engine,database,identities):
+        i=identities;o,loc,id,sh=shipped(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=new_work(c,i,id);old=w['installations'][0]
+>           w=ok(cmd(c,'/works/'+w['id']+'/reserve',v(w,sku_id=old['sku_id'],quantity=old['quantity'])))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_service.py:31:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [404 Not Found]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service.py::test_spare_issue_return_and_install_cost_counted_once
+1 failed, 1 passed, 2 warnings in 5.79s

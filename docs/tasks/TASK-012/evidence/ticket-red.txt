@@ -1,0 +1,42 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_shipped_device_source_and_customer_custody_not_sales_return _______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:56041/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:56041/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-109/test_shipped_device_source_and0/private-files')
+identities = namespace(a=UUID('a0996d6c-c776-41de-943a-0a299b54c1ef'), b=UUID('2caa956d-1aa8-468e-a4f6-74c0d372bbc6'), user=UUID('a...D('685199dd-d106-4b3f-aa3d-f3b3ee43508f'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:56041/silicon))
+
+    def test_shipped_device_source_and_customer_custody_not_sales_return(engine,database,identities):
+        i=identities;o,loc,id,sh=shipped(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            stock=ok(c.get('/api/v1/inventory/stock'));body={'device_id':id,'number':'SV-TEST','fault':'虚构启动故障','reported_at':'2026-09-11T00:00:00Z','contact':'虚构联系人','mode':'return','priority':'normal','manager_id':str(i.user),'planned_on':'2026-10-01'}
+>           w=ok(cmd(c,'/works',body));assert w['order_id']==o['id'] and w['customer_name']==sh['progress']['customer_name']
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_service.py:20:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [404 Not Found]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service.py::test_shipped_device_source_and_customer_custody_not_sales_return
+1 failed, 2 warnings in 3.96s

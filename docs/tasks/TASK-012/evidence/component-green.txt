@@ -1,0 +1,2 @@
+- heading "TASK-012 actual React regressions (HTTP substitutes)" [level=1]
+- generic: "[ { \"name\": \"StrictMode initializes and lost create response retries identical operation\", \"status\": \"passed\" }, { \"name\": \"delayed successful service response cannot populate another tenant\", \"status\": \"passed\" }, { \"name\": \"focus revocation removes previously visible service facts\", \"status\": \"passed\" } ]"

@@ -1,0 +1,6 @@
+- banner:
+  - generic: silicon-dev
+- main:
+  - heading "Logging out" [level=1]
+  - paragraph: Do you want to log out?
+  - button "Logout"

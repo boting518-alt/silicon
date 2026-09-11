@@ -1,0 +1,11 @@
+{
+  "python": "3.12.7",
+  "node": "24.15.0",
+  "npm": "11.12.1",
+  "postgresql": "17.11",
+  "java": "21.0.6",
+  "keycloak": "26.7.3",
+  "browser": "Codex IAB",
+  "database": "isolated temporary clusters; silicon_app role no BYPASSRLS",
+  "tls": "existing trusted localhost certificate; no trust changes"
+}

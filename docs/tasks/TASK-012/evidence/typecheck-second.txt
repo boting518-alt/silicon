@@ -1,0 +1,32 @@
+
+> silicon-workspace@0.1.0 typecheck
+> npm run typecheck --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 typecheck
+> tsc --noEmit
+
+src/Assembly.tsx(5,42): error TS2339: Property 'WorkView' does not exist on type '{ AcceptInput: { expected_version: number; confirmed: true; reason: string; line_ids: string[]; performed_at: string; confirmation: string; notes: string; evidence_ref: string; }; AcceptanceView: { ...; }; ... 191 more ...; silicon__service__models__WorkView: { ...; }; }'.
+src/Assembly.tsx(67,279): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+src/Assembly.tsx(67,283): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/Assembly.tsx(68,214): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/Assembly.tsx(69,592): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/Assembly.tsx(69,1108): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/Assembly.tsx(69,1110): error TS7006: Parameter 'n' implicitly has an 'any' type.
+src/Assembly.tsx(71,42): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/Assembly.tsx(75,41): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/Assembly.tsx(76,20): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/Assembly.tsx(77,54): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/Assembly.tsx(77,454): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/Service.tsx(7,18): error TS2339: Property 'WorkView' does not exist on type '{ AcceptInput: { expected_version: number; confirmed: true; reason: string; line_ids: string[]; performed_at: string; confirmation: string; notes: string; evidence_ref: string; }; AcceptanceView: { ...; }; ... 191 more ...; silicon__service__models__WorkView: { ...; }; }'.
+src/Service.tsx(29,81): error TS2345: Argument of type 'Work' is not assignable to parameter of type '{ version: number; }'.
+  Property 'version' is missing in type 'Work' but required in type '{ version: number; }'.
+src/Service.tsx(48,792): error TS2345: Argument of type 'Work' is not assignable to parameter of type '{ version: number; }'.
+  Property 'version' is missing in type 'Work' but required in type '{ version: number; }'.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error workspace @silicon/web@0.1.0
+npm error location /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error command failed
+npm error command sh -c tsc --noEmit

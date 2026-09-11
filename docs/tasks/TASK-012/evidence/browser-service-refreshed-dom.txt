@@ -1,0 +1,264 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件":
+      - generic: ⚙
+      - text: 售后与部件
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台":
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /售后与部件
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每次维修，都有完整履历。" [level=1]
+  - paragraph: 设备代管、备件消耗与服务收费分开登记，保留安装和维修历史。
+  - generic: 工作台 / 2026.09.08
+  - region "售后与部件":
+    - heading "售后与部件" [level=2]
+    - paragraph: 客户设备代管 · 备件履历 · 服务费用
+    - button "新建售后工单"
+    - button "刷新售后"
+    - navigation "售后工单列表":
+      - heading "售后工单" [level=3]
+      - button "SV-BROWSER-012 · DEL-1 · 已关闭" [active]
+    - article:
+      - heading "SV-BROWSER-012 · DEL-1" [level=3]
+      - paragraph: 澄川大学 · 人工智能学院 · 订单 SO-CON-001 · 已关闭 · v13
+      - paragraph: 设备所在：客户处 · 验证：本次配置人工复测通过 · 保修：待核实
+      - text: 本次操作原因
+      - textbox "本次操作原因"
+      - heading "诊断与责任" [level=4]
+      - paragraph: 已保存：虚构主机部件异常 / 经人工兼容核验后更换同型号部件
+      - text: 诊断负责人
+      - combobox "诊断负责人":
+        - option "请选择" [selected]
+        - option "虚构用户甲"
+        - option "虚构用户甲"
+        - option "虚构前置审批人"
+      - text: 诊断结果
+      - textbox "诊断结果"
+      - text: 处理方案
+      - textbox "处理方案"
+      - text: 保修判定
+      - combobox "保修判定":
+        - option "请选择"
+        - option "待核实" [selected]
+        - option "保内"
+        - option "保外"
+        - option "特批"
+      - text: 判定 / 授权依据
+      - textbox "判定 / 授权依据"
+      - button "保存诊断"
+      - heading "客户设备交接" [level=4]
+      - text: 交接 / 旧件库位
+      - combobox "交接 / 旧件库位":
+        - option "请选择" [selected]
+        - option "虚构原料 / A"
+      - text: 收件外观
+      - textbox "收件外观"
+      - text: 随件清单
+      - textbox "随件清单"
+      - button "确认返修收件"
+      - text: 客户确认说明
+      - textbox "客户确认说明"
+      - button "确认归还客户" [disabled]
+      - paragraph: 交接只登记代管事实，不计为自有库存或销售退回。
+      - heading "备件预留与领用" [level=4]
+      - text: 备件 SKU
+      - combobox "备件 SKU":
+        - option "请选择" [selected]
+        - option "PUB-H · 虚构 PUB-H"
+      - text: 本次数量
+      - spinbutton "本次数量": "1"
+      - button "预留备件"
+      - button "释放未领预留"
+      - text: 待领预留
+      - combobox "待领预留":
+        - option "请选择" [selected]
+      - button "确认领用"
+      - text: 已领备件
+      - combobox "已领备件":
+        - option "请选择" [selected]
+        - option "虚构 PUB-H · 批次 · 未用 0"
+      - button "未用备件退回待检"
+      - paragraph: 领用仍计库存；安装消耗时才计材料费用。已安装件不能按未使用退料。
+      - heading "设备配置与换件" [level=4]
+      - paragraph: 原完工配置（历史）：host:PUB-H × 1
+      - paragraph: 当前安装：host:PUB-H 批次 × 1（售后安装）
+      - text: 待替换安装位置
+      - combobox "待替换安装位置":
+        - option "请选择" [selected]
+        - option "host:PUB-H · 部件 × 1"
+      - text: 人工兼容核验依据
+      - textbox "人工兼容核验依据"
+      - text: 拆下旧件去向
+      - combobox "拆下旧件去向":
+        - option "请选择"
+        - option "客户所有，隔离待处理" [selected]
+        - option "直接留交客户"
+        - option "隔离待批准处置"
+      - button "确认人工核验并换件"
+      - paragraph: 有限校验，资料状态 UNKNOWN；需人工核验依据，不显示自动兼容通过。
+      - button "更正换件 7a1f0099"
+      - heading "复测与关闭" [level=4]
+      - text: 人工测试项
+      - textbox "人工测试项"
+      - text: 测试结果
+      - combobox "测试结果":
+        - option "请选择"
+        - option "通过" [selected]
+        - option "不通过"
+      - text: 测试报告档案编号
+      - textbox "测试报告档案编号"
+      - button "记录人工复测"
+      - button "登记处理中"
+      - button "登记等待"
+      - button "登记待验证"
+      - button "登记已解决"
+      - button "登记已关闭"
+      - button "登记已取消"
+      - paragraph: 关闭前须处理设备、未用件和旧件责任；重开需更正权限，历史保留。
+      - heading "旧件与供应商 RMA" [level=4]
+      - checkbox "客户旧件 批次 × 1 · 隔离"
+      - text: 客户旧件 批次 × 1 · 隔离
+      - button "确认所选旧件归还客户"
+      - text: 维修供应商
+      - combobox "维修供应商":
+        - option "请选择" [selected]
+        - option "虚构供应商"
+      - text: RMA 编号
+      - textbox "RMA 编号"
+      - text: 供应商受理编号
+      - textbox "供应商受理编号"
+      - text: 预计返回日期
+      - textbox "预计返回日期"
+      - button "建立旧件 RMA"
+      - text: 当前 RMA
+      - combobox "当前 RMA":
+        - option "请选择"
+        - option "RMA-BROWSER-012 · 处置完成" [selected]
+      - paragraph: RMA-BROWSER-012 · 在外 0 · 待检 0 · 未逾期
+      - button "确认 RMA 发出"
+      - button "取消未发 RMA"
+      - text: 本次返回旧件行
+      - combobox "本次返回旧件行":
+        - option "请选择" [selected]
+        - option "数量 1 · 尚未返回 0"
+      - text: 返回方式
+      - combobox "返回方式":
+        - option "请选择"
+        - option "原件修复 / 原 SN" [selected]
+        - option "供应商换新 / 新 SN"
+      - text: 换新 SN（原件留空）
+      - textbox "换新 SN（原件留空）"
+      - text: 供应商处理结果
+      - textbox "供应商处理结果"
+      - button "确认实际返回待检"
+      - text: 待检查返回记录
+      - combobox "待检查返回记录":
+        - option "请选择" [selected]
+      - text: 检查后去向
+      - combobox "检查后去向":
+        - option "请选择"
+        - option "归还客户" [selected]
+        - option "继续隔离"
+        - option "有依据报废"
+        - option "有所有权与成本依据转自有备件"
+      - text: 所有权 / 处置依据
+      - textbox "所有权 / 处置依据"
+      - text: 转自有单件成本
+      - textbox "转自有单件成本"
+      - button "确认返回检查与处置"
+      - heading "服务费用" [level=4]
+      - paragraph: 材料消耗 80.00 CNY
+      - paragraph: 人工 0.00 · 其他 0.00 CNY
+      - text: 费用金额
+      - textbox "费用金额"
+      - text: 费用类别
+      - combobox "费用类别":
+        - option "请选择"
+        - option "人工" [selected]
+        - option "其他"
+      - text: 人工工时
+      - textbox "人工工时"
+      - text: 费用 / 收费依据
+      - textbox "费用 / 收费依据"
+      - button "登记实际服务费用"
+      - text: 收费来源类型
+      - combobox "收费来源类型":
+        - option "请选择"
+        - option "客户服务收费" [selected]
+        - option "供应商维修收费"
+      - text: 收费确认编号
+      - textbox "收费确认编号"
+      - button "确认收费来源"
+      - button "查询收费来源"
+      - paragraph: 费用、收费来源、应收应付及实际核销分别登记，不自动收费。
+      - generic "完整处理历史"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

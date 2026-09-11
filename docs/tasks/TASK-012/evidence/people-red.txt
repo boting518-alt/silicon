@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_people_options_only_current_tenant_memberships ______________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:60563/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:60563/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-124/test_people_options_only_curre0/private-files')
+identities = namespace(a=UUID('53ca4c38-6f40-43bc-8a8e-745813cceebe'), b=UUID('0252b42d-3068-4310-be4c-5d62e46924bb'), user=UUID('4...D('d7e932cf-0f08-42b3-8818-eb7077603333'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:60563/silicon))
+
+    def test_people_options_only_current_tenant_memberships(engine,database,identities):
+        from sqlalchemy import text
+        i=identities;extra=uuid4()
+        with i.owner.begin() as db:
+            db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:id,'fixture',:s,'仅 A 售后人员')"),{'id':extra,'s':str(extra)})
+            db.execute(text("INSERT INTO memberships VALUES (:a,:u,'member',true)"),{'a':i.a,'u':extra})
+>       with client(engine,database,i.other,i.b) as c:assert str(extra) not in {x['id'] for x in get(c,'/context')['people']}
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'f89844a4-d23e-4b41-949a-bc923eb56ac5' not in {'40aee2ab-a971-4ec2-8b4f-192f74607d30', '9d68994c-1ba4-478e-9087-1372d94a9fe7', 'f89844a4-d23e-4b41-949a-bc923eb56ac5'}
+E        +  where 'f89844a4-d23e-4b41-949a-bc923eb56ac5' = str(UUID('f89844a4-d23e-4b41-949a-bc923eb56ac5'))
+
+apps/api/tests/test_service.py:223: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service.py::test_people_options_only_current_tenant_memberships
+1 failed, 2 warnings in 2.19s

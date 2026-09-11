@@ -204,6 +204,7 @@ def receipt_post(db,a,id,b,request_id):
 
 def transfer(db,a,b,request_id):
     l=row(db,'inv_layers',b.layer_id);c.expected(l,b.expected_version)
+    if db.scalar(text('SELECT 1 FROM svc_works WHERE parts_location_id=:p OR parts_location_id=:s'),{'p':b.target_location_id,'s':b.source_location_id}):raise Denied(409,'SERVICE_LOCATION_PROTECTED')
     if db.scalar(text('SELECT 1 FROM asm_works WHERE wip_location_id=:p OR wip_location_id=:s'),{'p':b.target_location_id,'s':b.source_location_id}):raise Denied(409,'ASSEMBLY_LOCATION_PROTECTED')
     if b.source_state!=b.target_state and db.scalar(text('SELECT 1 FROM asm_completions WHERE layer_id=:l'),{'l':b.layer_id}):raise Denied(409,'DEVICE_TESTING_NOT_ENABLED')
     row(db,'inv_locations',b.source_location_id);row(db,'inv_locations',b.target_location_id)
@@ -226,6 +227,7 @@ def movement_detail(db,id):
 
 def reverse(db,a,id,b,request_id):
     m=movement_detail(db,id)
+    if m['kind'].startswith('service_'):raise Denied(409,'USE_SERVICE_CORRECTION')
     if m['kind'].startswith('delivery_'):raise Denied(409,'USE_DELIVERY_CORRECTION')
     if m['kind'].startswith('assembly_'):raise Denied(409,'USE_ASSEMBLY_REVERSAL')
     if b.expected_version != 1:raise Denied(409,'VERSION_CONFLICT')

@@ -1,0 +1,39 @@
+.............F.                                                          [100%]
+=================================== FAILURES ===================================
+____________ test_shared_reservations_block_assembly_and_inventory _____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:60662/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:60662/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-125/test_shared_reservations_block0/private-files')
+identities = namespace(a=UUID('c87d68c6-8a1f-47e2-8893-ce9d35a05c64'), b=UUID('b890329e-254e-41bf-b1ce-27c22ffda4a0'), user=UUID('f...D('385ac365-7575-4c27-9cbd-4c6bf6c5edd0'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:60662/silicon))
+
+    def test_shared_reservations_block_assembly_and_inventory(engine,database,identities):
+        from test_assembly import post as ac
+        from test_inventory import post as ic
+        i=identities;o,loc,id,_=shipped(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=new_work(c,i,id);sku=w['installations'][0]['sku_id']
+            w=ok(cmd(c,'/works/'+w['id']+'/reserve',v(w,sku_id=sku,quantity=2)))
+            dev=ok(c.get('/api/v1/assembly/devices/'+id));aw=ok(ac(c,'/works',{'order_id':o['id'],'product_sku_id':dev['product']['id'],'manager_id':str(i.user),'planned_on':'2026-09-11'}))
+>           assert ac(c,'/works/'+aw['id']+'/reserve',{'expected_version':aw['version'],'hours':24}).status_code==409
+E           AssertionError: assert 422 == 409
+E            +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+E            +    where <Response [422 Unprocessable Entity]> = <function post at 0x111779b20>(<starlette.testclient.TestClient object at 0x113a1abd0>, (('/works/' + 'f16ac45e-0415-40a2-abe9-7c58a978bc09') + '/reserve'), {'expected_version': 1, 'hours': 24})
+
+apps/api/tests/test_service.py:233: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_service.py::test_concurrent_issue_and_unused_return
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'tax_included' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_service.py::test_shared_reservations_block_assembly_and_inventory
+1 failed, 14 passed, 3 warnings in 36.47s

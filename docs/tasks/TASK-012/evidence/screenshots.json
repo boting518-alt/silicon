@@ -1,0 +1,137 @@
+[
+  {
+    "path": "desktop-final.jpg",
+    "sha256": "56bf5da7a10708dd53ccaab72fa96999b20e8b0333a5914b7108df169d840618",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "kind": "real browser; fictional data",
+    "final": true,
+    "image_pixels": {
+      "width": 1425,
+      "height": 891
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "desktop-service-final.jpg",
+    "sha256": "6c11aa30e4fa3ac8ad0982ce572bf22df1e9beebea7c69f67941c4a42ee16eb2",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 1425,
+      "height": 891
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "desktop-service-finance.jpg",
+    "sha256": "4837deef4f8faa6a06a23a198eebd0973766cd073fb1aca9f4d05320abbc6a07",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "kind": "real browser; fictional data",
+    "final": true,
+    "image_pixels": {
+      "width": 1425,
+      "height": 891
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "desktop-service-verified.jpg",
+    "sha256": "5aaf2143f7a9a6fc9fccdc276c2181ede3ff14a6f3d21c9a8f701bf4e6739971",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 1425,
+      "height": 891
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "desktop-service.jpg",
+    "sha256": "15818dc53d655880ddceaaff59da103ba2cdd7f418c2cc12e41c2e5301fe8558",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 1425,
+      "height": 891
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "mobile-final.jpg",
+    "sha256": "545a70ddd64b62c74d04f70c98c6d19dfc4d22b2fac16a7787b74c3f7aa400a4",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "kind": "real browser; fictional data",
+    "final": true,
+    "image_pixels": {
+      "width": 375,
+      "height": 812
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "mobile-rma.jpg",
+    "sha256": "5468056918fef0de18c8cfb3645bb4da79398a9b435b082af7d070cbc14c5fdd",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 375,
+      "height": 812
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "mobile-service-final.jpg",
+    "sha256": "3d000e9ff70a5d228ff807301998972326145befd0a1e1c4aa02a9c4f67f5a92",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 375,
+      "height": 812
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  },
+  {
+    "path": "mobile-service.jpg",
+    "sha256": "75c313ef815799ca250dcab1b3a271ec312a3a0cd279f0bf16f31692e3989e1e",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "kind": "real browser; fictional data",
+    "final": false,
+    "image_pixels": {
+      "width": 375,
+      "height": 812
+    },
+    "viewport_note": "Requested CSS viewport; capture JPEG pixels recorded separately. See viewport-verification.json."
+  }
+]

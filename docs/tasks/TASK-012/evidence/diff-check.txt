@@ -1,0 +1,1 @@
+PASS git diff --cached --check and git diff --check after staging; original terminal whitespace retained in .raw.gz where normalization was needed.

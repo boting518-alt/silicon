@@ -1,0 +1,102 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - navigation "主导航":
+    - button "业务驾驶舱" [disabled]
+    - button "报价与利润"
+    - button "报价审批"
+    - button "交付与验收"
+    - button "售后与部件"
+    - button "续保与扩容" [disabled]
+    - button "资金工作台"
+    - button "客户管理"
+    - button "商品目录"
+    - button "包件 / BOM"
+    - button "价格维护"
+    - button "合同管理"
+    - button "销售订单"
+    - button "装配工单"
+    - button "设备查询"
+    - button "采购合同"
+    - button "库存管理"
+    - button "周转分析" [disabled]
+- banner:
+  - generic: 业务管理 /设备查询
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - heading "设备与部件档案" [level=2]
+  - button "刷新查询"
+  - paragraph: 库存预留 → 实际领料 → 完工待测试。仅实际领料成本，不含人工及其他费用。
+  - heading "设备查询" [level=3]
+  - text: 搜索整机 / 部件 SN、型号、客户、合同或订单
+  - textbox "搜索整机 / 部件 SN、型号、客户、合同或订单"
+  - button "查询设备"
+  - strong: DEL-1 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 设备资料 · 测试与交付状态请打开详情查询
+  - button "设备详情 DEL-1"
+  - strong: DEL-0 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 设备资料 · 测试与交付状态请打开详情查询
+  - button "设备详情 DEL-0"
+  - strong: DEL-2 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 设备资料 · 测试与交付状态请打开详情查询
+  - button "设备详情 DEL-2"
+  - heading "DEL-1 · FINISHED" [level=3]
+  - paragraph: 虚构制造商 / 硅屿测试品牌 / 自主品牌
+  - paragraph: 实物 d4b9076a-371e-468a-975e-2d80a4a5ec22 · 设备档案引用同一库存实物
+  - paragraph: 客户 澄川大学 · 人工智能学院 · 合同 CON-001 · 订单 SO-CON-001
+  - paragraph: 报价版本 6adbac1e-ca60-47b5-9c86-464b7fc40bbf · 项目 36c20e56-fc1b-4f3e-9a47-fb7bb3b0016c
+  - paragraph: ；当前已发货。收款尚未接入。
+  - paragraph: 成品成本 80.00 CNY · 仅实际领料成本
+  - table:
+    - rowgroup:
+      - row "部件 位置 安装历史 库存来源":
+        - columnheader "部件"
+        - columnheader "位置"
+        - columnheader "安装历史"
+        - columnheader "库存来源"
+    - rowgroup:
+      - row "PUB-H SVC-LOT × 1 host:PUB-H 2026-09-12T00:10:48.806429+08:00 有效安装 65ce17e5-1d94-4f82-b125-f24b8195e02d 入库 71865a84-351a-4fc1-b812-c9ac8fdb4e72 追溯来源 PUB-H":
+        - cell "PUB-H SVC-LOT × 1":
+          - text: PUB-H
+          - text: SVC-LOT × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-12T00:10:48.806429+08:00 有效安装":
+          - text: 2026-09-12T00:10:48.806429+08:00
+          - text: 有效安装
+        - cell "65ce17e5-1d94-4f82-b125-f24b8195e02d 入库 71865a84-351a-4fc1-b812-c9ac8fdb4e72 追溯来源 PUB-H":
+          - text: 65ce17e5-1d94-4f82-b125-f24b8195e02d
+          - text: 入库 71865a84-351a-4fc1-b812-c9ac8fdb4e72
+          - button "追溯来源 PUB-H"
+      - row "PUB-H LOT1 × 1 host:PUB-H 2026-09-12T00:07:20.064255+08:00 拆卸 2026-09-12T00:10:48.805904+08:00 f429846a-935a-4949-ad9e-2a6545c862a4 入库 f059bb29-f51b-4d85-8a99-4664dc6ff523 追溯来源 PUB-H":
+        - cell "PUB-H LOT1 × 1":
+          - text: PUB-H
+          - text: LOT1 × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-12T00:07:20.064255+08:00 拆卸 2026-09-12T00:10:48.805904+08:00":
+          - text: 2026-09-12T00:07:20.064255+08:00
+          - text: 拆卸 2026-09-12T00:10:48.805904+08:00
+        - cell "f429846a-935a-4949-ad9e-2a6545c862a4 入库 f059bb29-f51b-4d85-8a99-4664dc6ff523 追溯来源 PUB-H":
+          - text: f429846a-935a-4949-ad9e-2a6545c862a4
+          - text: 入库 f059bb29-f51b-4d85-8a99-4664dc6ff523
+          - button "追溯来源 PUB-H"
+  - region "售后摘要":
+    - heading "售后履历" [level=4]
+    - paragraph: SV-BROWSER-012 · 已关闭
+    - button "为此设备建立 / 查询售后工单"
+  - heading "测试与交付履历" [level=4]
+  - paragraph: 测试通过 · 2026-09-11T08:00:00+08:00 · 完工 3584ae12-d115-4f60-a2a7-b2837928f198
+  - paragraph: 发货批次 64300666-f9c1-4628-a3c0-5cdc9748eb34 · 已发货
+  - button "关闭设备详情"
+  - generic "全部完工记录（同一设备档案）"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

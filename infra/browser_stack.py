@@ -107,7 +107,10 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             assert os.getenv('SILICON_BROWSER_CONTRACTS')=='1'
             from inventory_review_examples import seed as inventory_seed
             inventory_seed(engine,database,actor,a,temp/'contract-files')
-        if os.getenv('SILICON_BROWSER_FINANCE')=='1':
+        if os.getenv('SILICON_BROWSER_SERVICE')=='1':
+            from service_examples import seed as service_seed
+            service_seed(engine,database,actor,a,temp/'contract-files',issuer)
+        elif os.getenv('SILICON_BROWSER_FINANCE')=='1':
             from finance_examples import seed as finance_seed
             finance_seed(engine,database,actor,a,temp/'contract-files',issuer)
         elif os.getenv('SILICON_BROWSER_DELIVERY')=='1':

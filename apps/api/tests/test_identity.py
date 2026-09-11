@@ -249,7 +249,7 @@ def test_upgrade_from_task001_preserves_queue(database):
                 with owner.begin() as db:
                     db.execute(text("INSERT INTO jobs(id,kind,dedupe_key) VALUES (:id,'smoke','legacy')"),{'id':uuid4()})
         with owner.connect() as db:
-            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0014_finance_corrections'
+            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0015_service'
             row=db.execute(text("SELECT status,tenant_id,actor_id FROM jobs WHERE dedupe_key='legacy'")).one()
             assert tuple(row)==('queued',None,None)
     finally:

@@ -1,0 +1,119 @@
+{
+  "task": "TASK-012",
+  "status": "review_ready",
+  "base": "6d89a1023d06b795686bfbc1504da7dde0baf099",
+  "handoff": "a7072825c8b1885ad7d5320471d13c5613470af7",
+  "final_head": "See package REVIEW_MANIFEST.md",
+  "checks": [
+    {
+      "name": "complete backend with real PG and OIDC",
+      "status": "passed",
+      "result": "259 passed, 15 warnings, 326.23s",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "evidence": "backend-final.txt"
+    },
+    {
+      "name": "service PG/API",
+      "status": "passed",
+      "result": "16 passed, 2 warnings, 40.76s",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_service.py -q",
+      "evidence": "service-verified.txt"
+    },
+    {
+      "name": "React with HTTP substitutes",
+      "status": "passed",
+      "result": "4 passed",
+      "command": "Open /tests/service-component.html on isolated browser stack",
+      "evidence": "component-final.txt"
+    },
+    {
+      "name": "real browser",
+      "status": "passed",
+      "result": "Service custody/swap/return/close, RMA, service receivable and allocation, persistence, tenant switch, device link, logout",
+      "evidence": "../browser-acceptance.md"
+    },
+    {
+      "name": "Node regressions",
+      "status": "passed",
+      "result": "19 passed",
+      "command": "node --test apps/web/tests/*.test.ts",
+      "evidence": "node.txt"
+    },
+    {
+      "name": "TypeScript",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "typecheck-delivery.txt"
+    },
+    {
+      "name": "frontend build",
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "build-delivery.txt"
+    },
+    {
+      "name": "contract repeat generation",
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types (compare hashes before/after)",
+      "status": "passed",
+      "evidence": "contract-consistency.txt"
+    },
+    {
+      "name": "documents",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "evidence": "docs-final.txt"
+    },
+    {
+      "name": "diff whitespace",
+      "command": "git diff --cached --check; git diff --check",
+      "status": "passed",
+      "evidence": "diff-check.txt"
+    },
+    {
+      "name": "first complete backend",
+      "status": "failed",
+      "result": "1 failed, 257 passed, 14 warnings, 320.87s",
+      "evidence": "backend-full.txt",
+      "reason": "New shared-reservation test omitted assembly ready prerequisite; fixture corrected, not counted as business defect red"
+    }
+  ],
+  "not_run": [
+    {
+      "name": "remote CI",
+      "reason": "not queried; local tests are not remote CI"
+    },
+    {
+      "name": "Docker",
+      "reason": "native isolated PG/IdP used"
+    },
+    {
+      "name": "other browser engines",
+      "reason": "IAB only"
+    },
+    {
+      "name": "production / vendor / bank / hardware integrations",
+      "reason": "outside authorization and task scope"
+    },
+    {
+      "name": "every RMA/permission/concurrency branch through browser",
+      "reason": "PG/API and component coverage separately recorded; browser primary closed loop only"
+    }
+  ],
+  "preparatory_failures": {
+    "rma-red.txt": "test collection typo, not business red",
+    "rma-green.txt": "same collection typo",
+    "ticket-green.txt": "implementation indentation import error",
+    "disposition-green.txt": "test cleanup omitted new table",
+    "service-expanded.txt": "same cleanup omission",
+    "service-final.txt": "assembly request format fixture error",
+    "service-delivery.txt": "assembly ready-state fixture omitted"
+  },
+  "meaningful_red": [
+    "ticket-red.txt",
+    "spares-red.txt",
+    "disposition-red.txt",
+    "people-red.txt",
+    "component-red.txt"
+  ],
+  "browser_note": "CSS viewports requested 1440x900 and 390x844; screenshot pixel dimensions differ, explicitly indexed."
+}

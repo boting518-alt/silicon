@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-012，status: executing。TASK-000～TASK-011 已由产品/架构负责人确认 accepted；TASK-013 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-012，status: review_ready。TASK-000～TASK-011 已由产品/架构负责人确认 accepted；TASK-013 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-011 为 accepted；TASK-012 为 executing；TASK-013～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-011 为 accepted；TASK-012 为 review_ready；TASK-013～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|

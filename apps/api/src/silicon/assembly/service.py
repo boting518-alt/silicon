@@ -45,7 +45,7 @@ from datetime import datetime,timezone,timedelta
 def bump(db,id):db.execute(text('UPDATE asm_works SET version=version+1 WHERE id=:id'),{'id':id})
 def event(db,a,id,action,reason):inv.insert(db,a,'asm_events',{'id':uuid4(),'work_id':id,'action':action,'reason':reason,'actor_id':a.actor_id})
 def active(db,layer,location=None):
-    return db.scalar(text("SELECT coalesce(sum(quantity-consumed-released),0) FROM asm_reservations WHERE layer_id=:l AND expires_at>clock_timestamp()"+(' AND location_id=:p' if location else '')),{'l':layer,'p':location})
+    return sum(db.scalar(text("SELECT coalesce(sum(quantity-consumed-released),0) FROM "+table+" WHERE layer_id=:l AND expires_at>clock_timestamp()"+(' AND location_id=:p' if location else '')),{'l':layer,'p':location}) for table in ('asm_reservations','svc_reservations'))
 def expire(db,a):
     rows=list(db.execute(text('SELECT * FROM asm_reservations WHERE expires_at<=clock_timestamp() AND quantity>consumed+released')).mappings())
     for r in rows:

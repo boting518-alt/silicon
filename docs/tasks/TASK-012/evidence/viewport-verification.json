@@ -1,0 +1,14 @@
+{
+  "method": "same CUA viewport capability + DOM innerWidth/innerHeight; independent blank page probe after acceptance",
+  "desktop": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 1
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "dpr": 1
+  },
+  "note": "Acceptance used these viewport settings. Exported JPEG dimensions differ and are recorded separately; no claim that JPEG pixels equal CSS pixels."
+}
