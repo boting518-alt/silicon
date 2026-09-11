@@ -69,3 +69,5 @@ status: review_ready，等待独立增量复核；不自行 accepted。
 准确命令、原始红绿日志、夹具准备错误及未运行项见 [validation.json](evidence/r1/validation.json)。首次stock字段错误及尝试逆向已有下游移动的测试准备错误均单独保留，不算R1红测。移库后原库位不足时需先受控移回；不新增自动库位分配。原人工/其他费用暂无独立冲销入口等限制继续有效。远程CI未核实，Docker/其他浏览器/生产外部系统not_run。
 
 修复提交及最终HEAD在后续登记和审查包manifest记录；增量包从最终commit完整导出，基于本轮受审提交产生diff，验证历史证据原样、源码blob和解压校验和。保持review_ready，不开始TASK013。
+
+R1 修复实现提交：`694064e741740b34d75e23051579090b2db247cd`。收尾提交仅登记引用；最终HEAD由审查包manifest及最终交付消息精确提供，避免自引用。

@@ -98,5 +98,6 @@
     "Existing manual labor/other cost reversal limitation retained.",
     "Relocated custody must be restored through controlled movement before disposition at original recorded location.",
     "No TASK013, deployment, dependency upgrades or original Demo changes."
-  ]
+  ],
+  "implementation_commit": "694064e741740b34d75e23051579090b2db247cd"
 }
