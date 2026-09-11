@@ -21,3 +21,7 @@ TASK-008 task登记accepted，runtime/current_task、backlog及AGENTS切换TASK-
 ## 本次验证边界
 
 文档交接检查和git diff --check执行；完整TASK-009任务书存在性检查明确MISSING，不计作通过。业务测试、迁移、浏览器及TASK-009完整审查包not_run：缺完整任务书，未实施。未启动测试栈、修改常驻数据库、证书信任或原Demo。TASK-010仍planned。
+
+## 补齐原件
+
+用户随后补齐完整TASK-009任务书及增量报告；核对HEAD为8a3cac4690272b40ec82ec1c0b0ee1467c499ce8（仅前次交接），未跟踪报告是用户新增，原样纳入。original-task.md逐字节保存附件，task.md仅增加执行状态、移除附件前言并将不可移植报告链接改为仓库相对路径，业务条款完整保留。增量报告passed仅指R1/R2范围；Reviewer未独立重跑完整PG/IdP、React DOM、真实浏览器，下载落盘checksum not_run等历史限制仍有效。前述缺失已解除，继续实施。

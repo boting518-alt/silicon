@@ -13,12 +13,7 @@ for path in config['paths'].values():
 assert 'status: accepted' in (root/'docs/tasks/TASK-000/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-008/task.md').read_text()
 current_task = root/'docs/tasks/TASK-009/task.md'
-if current_task.exists():
-    assert f"status: {config['status']}" in current_task.read_text()
-else:
-    assert config['status'] == 'executing'
-    assert '缺失材料与恢复条件' in (root/'docs/tasks/TASK-009/handoff.md').read_text()
-    print('MISSING TASK-009/task.md: handoff only; task readiness NOT validated')
+assert f"status: {config['status']}" in current_task.read_text()
 assert '当前只执行已明确分配的 TASK-009' in (root/'AGENTS.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-002/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-001/task.md').read_text()
@@ -27,6 +22,7 @@ assert 'status: accepted' in (root/'docs/tasks/TASK-004/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-005/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-007/task.md').read_text()
 for name, digest in {
+ 'TASK-008-b56ed65-review.md': 'e60e48a6175fc7f2517ab56ae9a4555117a3c69e55291b6474c0fb72167213b0',
  'TASK-008-dd4031f-review.md': 'df954797318527495b7cf0b5eaa966740f85422e9d45247f6f80e0fc5f7deaad',
  'TASK-007-4802fcc-review.md': '713038cfbec303e650904470326a1cf3b1e64c5602d2b8bc0ff0d63261d496a7',
  'TASK-007-732089f-review.md': 'fc607a71ccad6119daf7258a11b9069f252adabd4b96998ac27e82ca93cf703e',

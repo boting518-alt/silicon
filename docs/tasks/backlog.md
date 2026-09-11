@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-009，status: executing（完整任务书待提供，未开始业务实现）。TASK-000～TASK-008 已由产品/架构负责人确认 accepted；TASK-010 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-009，status: executing。TASK-000～TASK-008 已由产品/架构负责人确认 accepted；TASK-010 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-008 为 accepted；TASK-009 为 executing（等待完整任务书）；TASK-010～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-008 为 accepted；TASK-009 为 executing；TASK-010～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -109,3 +109,5 @@ TASK-005 status: review_ready。配置报价草稿、服务端计价、开发单
 ## TASK-009 验收交接
 
 负责人明确接受TASK-008并授权TASK-009。核对main/HEAD为b56ed65f2a234a956f75102b1320f7658dddfd71，工作树干净，无后续提交。passed结论及审查HEAD依据本次用户声明；增量报告TASK-008-b56ed65-review.md尚未找到，不能声称已读取或归档。完整TASK-009任务书同样未找到，业务实现等待原件，不以摘要补造规则。首次报告、TASK-008 result及全部历史证据保持原样。见[交接与缺失记录](TASK-009/handoff.md)。
+
+TASK-009完整任务书与TASK-008增量报告现已补齐，见[任务书](TASK-009/task.md)、[增量报告](../reviews/TASK-008-b56ed65-review.md)。缺失记录保留为历史，继续实施。
