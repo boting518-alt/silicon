@@ -1,0 +1,166 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /采购合同
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每批到货，到清晰库存。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "采购与库存" [level=2]
+  - paragraph: 采购金额、库存成本和付款分别记录；预留与出库尚未启用。
+  - button "刷新"
+  - navigation:
+    - button "采购" [pressed]
+    - button "到货与质检"
+    - button "库存与移动"
+    - button "期初导入"
+    - button "基础资料"
+  - button "未到 1 件"
+  - button "待检 0 件 / 隔离 0 件"
+  - paragraph: CNY · 含税 · 采购签约 0.00 / 净到货 0.00（不是付款或库存成本）
+  - paragraph: CNY · 不含税 · 采购签约 0.00 / 净到货 0.00（不是付款或库存成本）
+  - paragraph: CNY · 税口径待确认 · 采购签约 100.00 / 净到货 0.00（不是付款或库存成本）
+  - navigation:
+    - button "PC-72f06ffd · 已生效"
+    - button "REPAIR-ATTACH · 草稿"
+    - button "新建采购合同"
+  - article:
+    - heading "采购合同 REPAIR-ATTACH · 草稿" [level=3]
+    - text: 采购合同编号
+    - textbox "采购合同编号": REPAIR-ATTACH
+    - text: 供应商
+    - combobox "供应商":
+      - option "请选择"
+      - option "虚构供应商" [selected]
+    - text: 我方主体
+    - textbox "我方主体": 虚构修复验收买方
+    - text: 采购负责人
+    - combobox "采购负责人":
+      - option "请选择"
+      - option "虚构只读用户"
+      - option "虚构用户甲" [selected]
+    - text: 签订日期
+    - textbox "签订日期": 2026-01-01
+    - text: 采购备注
+    - textbox "采购备注"
+    - text: 商品 1
+    - combobox "商品 1":
+      - option "请选择"
+      - option "DEMO-BARE · 虚构无电源准系统"
+      - option "DEMO-HOST · 虚构双路准系统"
+      - option "DEMO-PSU · 虚构 1200W 电源"
+      - option "INV-89274572 · 虚构 INV-89274572" [selected]
+    - text: 合同数量 1
+    - spinbutton "合同数量 1": "1"
+    - text: 采购单价 1
+    - textbox "采购单价 1": "100.00"
+    - text: 税口径 1
+    - combobox "税口径 1":
+      - option "请选择"
+      - option "含税"
+      - option "不含税"
+      - option "待确认" [selected]
+    - text: 交期 1
+    - textbox "交期 1": 2026-12-01
+    - button "移除商业行 1"
+    - button "添加商业行"
+    - button "保存采购合同"
+    - button "确认生效"
+    - heading "来源附件" [level=4]
+    - text: 采购合同附件
+    - button "采购合同附件"
+    - button "查询附件" [active]
+    - button "fictional-proof.pdf · 下载"
+    - heading "采购来源时间线" [level=4]
+    - paragraph: 2026-01-01 · 合同 REPAIR-ATTACH · 草稿
+    - paragraph: 尚无关联采购订单。
+  - heading "采购订单" [level=3]
+  - text: 来源采购合同
+  - combobox "来源采购合同":
+    - option "请选择" [selected]
+    - option "PC-72f06ffd"
+  - text: 采购订单编号
+  - textbox "采购订单编号"
+  - button "创建采购订单"
+  - heading "PO-82c390b6 · 已确认" [level=3]
+  - paragraph: INV-89274572 · 订购 1 / 净到货 0 / 取消 0 / 未到 1
+  - text: 取消未到数量 PO-82c390b6
+  - spinbutton "取消未到数量 PO-82c390b6": "1"
+  - text: 取消原因 PO-82c390b6
+  - textbox "取消原因 PO-82c390b6"
+  - button "取消未到 PO-82c390b6"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

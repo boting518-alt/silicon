@@ -1,0 +1,14 @@
+{
+  "real_browser_click": true,
+  "allowed_file_download_audit": [
+    {
+      "action": "inventory.download",
+      "outcome": "allowed",
+      "object_id": "e276fcd5-9e10-4b5c-b083-4fbd6bd37ea4",
+      "request_id": "bf274b45-5e5e-4d3d-98b4-ae6157e1fe9b"
+    }
+  ],
+  "browser_download_event": "not_observed: timed out after 10 seconds",
+  "saved_download_checksum": "not_run: no downloaded artifact returned; server files and PG/API byte equality independently verified",
+  "audit_probe_corrections": "set tenant context, distinguish permission checks from file-object download action"
+}

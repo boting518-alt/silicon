@@ -1,0 +1,50 @@
+[
+  {
+    "file": "opening-mobile.jpg",
+    "viewport": [
+      390,
+      844
+    ],
+    "export_size": [
+      375,
+      812
+    ],
+    "sha256": "ada83b7936a9f8afb552c5cafb0f73e868829e772976e3a2f3948c2888b35417"
+  },
+  {
+    "file": "reconciliation-desktop.jpg",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "sha256": "1043bdc1ec9e6f4e9de595b6b7f85631d8f31a9a7fbb518b6ac051f3d30f3f7a"
+  },
+  {
+    "file": "reconciliation-mobile.jpg",
+    "viewport": [
+      390,
+      844
+    ],
+    "export_size": [
+      375,
+      812
+    ],
+    "sha256": "ff78370f8cc130af30d00de270d1f6ecdc0928f1fc6498521a8039d849e5ef92"
+  },
+  {
+    "file": "timeline-desktop.jpg",
+    "viewport": [
+      1440,
+      900
+    ],
+    "export_size": [
+      1425,
+      891
+    ],
+    "sha256": "7255b58ac248cf5510b224c8d13bffe3c85f10ded80abc55043b107b2396ce2f"
+  }
+]

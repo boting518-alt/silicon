@@ -100,3 +100,19 @@ final-boundary-red真实显示关闭期初仍接受新预览；已拒绝新预�
 ## 提交与增量交付登记
 
 实现及全部测试证据提交：e7e1e326023d0a2ffbc9c6b156fc52fa75724d7f。其父提交为上述独立交接；此后的本次提交仅登记本节及提交/变更索引，不改变实现。完整变更见 [文件清单](evidence/implementation-changed-files.txt)、[统计](evidence/implementation-stat.txt)、[提交记录](evidence/implementation-commits.txt)。实现暂存差异检查通过，提交后工作树干净。最终提交号与完整基线二进制差异由审查包固定；GitHub同步结果在最终交付消息核对，CI仍未核实。
+
+## R1/R2 独立审查修复追加
+
+status: review_ready。修复基准dd4031fb6950e28446855131642cc01e54095991，main，开始工作树干净；无后续提交需要回退。原样新增[独立报告](../../reviews/TASK-008-dd4031f-review.md)，历史结论、上文结果及全部旧证据保留。不自行accepted，不开始TASK009。
+
+R1：clean_contract_files原只认识contract_files，现统一认识采购/收货附件及所有导入原件，兼容已有storage_id和目录。清理锁顺序为身份/membership → catalog共享 → quotes排他 → inventory排他；获取全部领域锁后才读共享引用，库存没有反向quotes锁。缺表/查询失败直接终止，至少24小时、无引用、非符号链接及文件非阻塞锁条件同时满足才删除。真实PG/临时文件证明只回收孤儿和可删除合同文件，冻结原件/hash、预览提交保持；另测缺表、跨租户、在途flock和实际上传提交时清理等待。
+
+R2：采购附件入口改为先会话/CSRF/预期企业/对象/操作授权，释放事务再读取有界字节流，超过真实字节上限立即413且不消费后续块；不信Content-Length。写入前再次授权并在原幂等命令中核对版本/冻结状态，成功重放可返回旧对象。格式解码不变，文件锁保持至事务退出；重放临时副本删除，提交不确定时保留至引用感知清理。读取期间撤权和冻结不会被旧授权绕过。无迁移、无依赖升级、无产品UI改动。
+
+测试边界：新增test_inventory_files.py共8项真实PG/文件/API测试；ASGI传输夹具用于精确控制分块/消耗计数，身份及业务DB不mock。最终定向8 passed/2 warnings/6.62s；完整后端**192 passed/8 warnings/138.34s**，包括所有先前184项身份、真实OIDC、Worker、合同、目录、报价及库存回归。前端Node19、实际React+HTTP替身2通过；类型检查/构建通过，OpenAPI/生成类型与受审基线字节一致。命令/原始日志见[增量验证](evidence/r1-r2/validation.json)。
+
+红绿：r1-red最初是测试误期待上传200而实际201，不算缺陷证据；r1-red-confirmed真实选中6而非2，修复后r1-green通过。r2-red部分受ASGI头大小写夹具错误影响；规范化后r2-red-confirmed真实显示未授权读3块而非0、超限读3而非2；r2-green通过。expanded的4失败来自缺少第二管理员membership与同步钩子参数索引，修正夹具后expanded-green8通过；不把这些准备失败说成产品缺陷。首次Node glob误选AppleDouble并失败，排除附属文件名重跑19通过，未清理参考仓库元数据。日志准确保留，必要规范化显示版以.raw.gz保留原字节。
+
+真实浏览器定向：登录A、无效PDF拒绝、合法PDF关联、合同冻结及上传禁用；对本次临时根执行清理仅删特设孤儿，原件哈希保持。最终采购来源时间线、关闭期初预览、库存对账及两视口截图已补查。下载点击的真实服务端审计allowed，但IAB未返回落盘产物，**下载文件落盘checksum not_run**；PG/API下载字节与服务端hash验证另列，不替代它。详见[定向浏览器记录](evidence/r1-r2/browser-notes.md)与[新截图](evidence/r1-r2/screenshots.json)。此前完整浏览器历史不改写，本轮未重复全部历史流程。
+
+新浏览器前置脚本仅在SILICON_BROWSER_INVENTORY_REPAIR=1启用，明确使用隔离测试API/session夹具准备数据；浏览器操作仍真实OIDC。结束已恢复视口并正常清理自建栈。未操作常驻数据库、原Demo、TLS信任或部署。远程CI、容器、其他浏览器仍not_run/未核实。旧产品功能限制保持，本轮不扩大范围。

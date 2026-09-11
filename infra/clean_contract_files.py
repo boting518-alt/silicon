@@ -1,7 +1,7 @@
-"""Explicit tenant-scoped local orphan cleanup; dry-run by default.
+"""Tenant-scoped shared-file orphan cleanup; dry-run by default.
 
 Requires a current authorized admin, isolated root and DATABASE_URL. Does not
-remove live pending/linked records; draft deletion is an audited API command.
+remove live contract, procurement or import references. Missing schemas fail closed.
 """
 import argparse,fcntl,os,time
 from pathlib import Path
@@ -13,6 +13,7 @@ from silicon.identity.access import tenant_transaction,audit
 from silicon.publication.service import prelock
 from silicon.quotes.service import guard
 from silicon.contracts.storage import Store
+from silicon.inventory.service import guard as inventory_guard
 
 def clean(settings,actor,tenant,apply=False,minimum_age=86400):
     if minimum_age<86400:raise ValueError('Minimum grace period is one day')
@@ -22,13 +23,24 @@ def clean(settings,actor,tenant,apply=False,minimum_age=86400):
     try:
         with tenant_transaction(engine,actor,tenant,'contract.sign','file-cleanup') as (db,a):
             prelock(db,a);guard(db,a,True)
-            rows={str(r['storage_id']):r['state'] for r in db.execute(text('SELECT storage_id,state FROM contract_files')).mappings()}
+            # Global order: identities -> catalog(shared) -> quotes -> inventory.
+            # Inventory never takes quote locks. Acquire all domain guards BEFORE
+            # reading references so committed uploads cannot be missed.
+            inventory_guard(db,a,True)
+            references={str(id) for id in db.scalars(text('''
+                SELECT storage_id FROM contract_files f
+                WHERE state<>'deleted' OR EXISTS(
+                    SELECT 1 FROM signed_files s WHERE s.tenant_id=f.tenant_id AND s.file_id=f.id)
+                UNION SELECT storage_id FROM inv_attachments
+                UNION SELECT storage_id FROM inv_imports
+            '''))}
+            # Missing tables / query errors propagate before any unlink. No fallback.
             if not root.exists():return 0
             for path in root.iterdir():
                 if path.is_symlink() or not path.is_file():continue
                 try:UUID(path.name)
                 except ValueError:continue
-                if rows.get(path.name) in ('linked','pending') or time.time()-path.stat().st_mtime<minimum_age:continue
+                if path.name in references or time.time()-path.stat().st_mtime<minimum_age:continue
                 with path.open('rb') as f:
                     try:fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
                     except BlockingIOError:continue

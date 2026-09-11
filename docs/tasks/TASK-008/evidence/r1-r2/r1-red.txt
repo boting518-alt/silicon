@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_cleanup_preserves_every_shared_reference_and_frozen_download _______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:65438/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:65438/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-47/test_cleanup_preserves_every_s0/private-files')
+identities = namespace(a=UUID('306287e8-362a-4159-b672-77e7ee24e0b5'), b=UUID('69ad0d6f-eedf-4165-a2f2-83eaab696b3f'), user=UUID('3...D('168ca044-3dec-4d3d-9b51-abdbbd261ff0'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:65438/silicon))
+
+    def test_cleanup_preserves_every_shared_reference_and_frozen_download(engine,database,identities):
+        i=identities;sales,_=source(engine,database,i);settings=Settings(database.url,'test',file_root=database.files)
+        with client(engine,database,i.user,i.a) as c:
+>           w,linked=ready(c,sales['id'],i);pending=ok(upload(c,sales['id'],w['version']))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_inventory_files.py:28:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [201 Created]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"supplemental":false,"id":"c86bc036-12cc-4edd-84d5-bc5bb45c6f5a","name":"fictional-proof.pdf","category":"proof","media_type":"application/pdf","size":621,"sha256":"62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace","state":"pending","uploaded_by":"3aba907e-1982-41e3-8235-bc14461a3885","created_at":"2026-09-11T13:23:00.250769+08:00"}
+E       assert 201 == 200
+E        +  where 201 = <Response [201 Created]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory_files.py::test_cleanup_preserves_every_shared_reference_and_frozen_download
+1 failed, 2 warnings in 4.01s

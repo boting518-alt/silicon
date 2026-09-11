@@ -1,0 +1,1020 @@
+...FFF.F                                                                 [100%]
+=================================== FAILURES ===================================
+____ test_upload_rechecks_after_unlocked_stream_and_retries_safely[revoke] _____
+
+self = <sqlalchemy.engine.base.Connection object at 0x1057a4830>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x106ecdb50>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1054c3e60>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1052fc0b0>
+parameters = [{'h': '46f5cffc98e6727010a3e1b87164c1e8b495fcc8bffff69f74b6473fff454fd3', 'u': UUID('848b4728-656e-4987-a5f7-32f633fd...'64eaace4-b568-4dd7-9cdb-14b997eebf2a'), 'c': '52980c9f24c852f87ec8fe00944cb91b0e91a28e4d4a47080cded70c836f583a', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x1066a37d0>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': '46f5cffc98e6727010a3e1b87164c1e8b495fcc8bffff69f74b6473fff454fd3', 'u': UUID('848b4728-656e-4987-a5f7-32f633fd6...('64eaace4-b568-4dd7-9cdb-14b997eebf2a'), 'c': '52980c9f24c852f87ec8fe00944cb91b0e91a28e4d4a47080cded70c836f583a', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.ForeignKeyViolation: insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(64eaace4-b568-4dd7-9cdb-14b997eebf2a, 848b4728-656e-4987-a5f7-32f633fd635e) is not present in table "memberships".
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ForeignKeyViolation
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-53/test_upload_rechecks_after_unl0/private-files')
+identities = namespace(a=UUID('64eaace4-b568-4dd7-9cdb-14b997eebf2a'), b=UUID('c456732e-304e-4e3b-a5df-6f29ca2166ac'), user=UUID('1...D('d952224a-24e4-482e-a4fb-34e7ba0b6853'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49299/silicon))
+change = 'revoke'
+
+    @pytest.mark.parametrize('change',['revoke','freeze'])
+    def test_upload_rechecks_after_unlocked_stream_and_retries_safely(engine,database,identities,change):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            _,active,_=setup_purchase(c,i);draft=purchase_draft(c,i,active)
+            url=P+'/attachments/contract/'+draft['id']+'?name=proof.pdf&expected_version=1'
+            async def alter(index):
+                if index!=1:return
+                def run():
+                    if change=='revoke':
+                        with i.owner.begin() as db:
+                            db.execute(text("SET LOCAL lock_timeout='2s'"))
+                            db.execute(text("UPDATE memberships SET role='viewer' WHERE tenant_id=:t AND user_id=:u"),{'t':i.a,'u':i.user})
+                    else:
+                        with client(engine,database,i.other,i.a) as other:
+                            ok(post(other,'/contracts/'+draft['id']+'/activate',{'expected_version':1,'confirmed':True}))
+                await asyncio.wait_for(asyncio.to_thread(run),timeout=5)
+            status,body,consumed=asyncio.run(stream_request(c,url,[PDF[:100],PDF[100:]],before_chunk=alter))
+            assert status==(403 if change=='revoke' else 409),body
+            assert consumed==2
+>       with client(engine,database,i.other,i.a) as c:assert ok(c.get(P+'/attachments'))==[] and ok(c.get(P+'/stock'))['items']==[]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_inventory_files.py:107:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/anaconda3/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:38: in client
+    token,csrf=session_insert(engine,user,tenant)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_identity.py:63: in session_insert
+    db.execute(text('''INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x1066a37d0>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': '46f5cffc98e6727010a3e1b87164c1e8b495fcc8bffff69f74b6473fff454fd3', 'u': UUID('848b4728-656e-4987-a5f7-32f633fd6...('64eaace4-b568-4dd7-9cdb-14b997eebf2a'), 'c': '52980c9f24c852f87ec8fe00944cb91b0e91a28e4d4a47080cded70c836f583a', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.IntegrityError: (psycopg.errors.ForeignKeyViolation) insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(64eaace4-b568-4dd7-9cdb-14b997eebf2a, 848b4728-656e-4987-a5f7-32f633fd635e) is not present in table "memberships".
+E           [SQL: INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+E                    VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: IntegrityError
+____ test_upload_rechecks_after_unlocked_stream_and_retries_safely[freeze] _____
+
+self = <sqlalchemy.engine.base.Connection object at 0x1067cbcb0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x10679a330>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1075031a0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1066c94c0>
+parameters = [{'h': '333a32de0cf139c2898fd0825e7b5fca02b4aea60b1fd96a026b8f66f6e57c8f', 'u': UUID('452b771d-b584-45b8-93e7-4ae53012...'13ffff52-c9c0-41ab-8685-cf4e44dc3b0f'), 'c': 'd4721cb2ad0546bdb884411230ec363c29c4c0d655460a487d34f886af3d0cb5', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x107492510>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': '333a32de0cf139c2898fd0825e7b5fca02b4aea60b1fd96a026b8f66f6e57c8f', 'u': UUID('452b771d-b584-45b8-93e7-4ae530129...('13ffff52-c9c0-41ab-8685-cf4e44dc3b0f'), 'c': 'd4721cb2ad0546bdb884411230ec363c29c4c0d655460a487d34f886af3d0cb5', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.ForeignKeyViolation: insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(13ffff52-c9c0-41ab-8685-cf4e44dc3b0f, 452b771d-b584-45b8-93e7-4ae5301290a6) is not present in table "memberships".
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ForeignKeyViolation
+
+The above exception was the direct cause of the following exception:
+
+    async def receive():
+        nonlocal consumed
+        if consumed==len(chunks):await asyncio.Event().wait()
+>       if before_chunk:await before_chunk(consumed)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_inventory_files.py:64:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+apps/api/tests/test_inventory_files.py:103: in alter
+    await asyncio.wait_for(asyncio.to_thread(run),timeout=5)
+/opt/anaconda3/lib/python3.12/asyncio/tasks.py:520: in wait_for
+    return await fut
+           ^^^^^^^^^
+/opt/anaconda3/lib/python3.12/asyncio/threads.py:25: in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/concurrent/futures/thread.py:58: in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_inventory_files.py:101: in run
+    with client(engine,database,i.other,i.a) as other:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:38: in client
+    token,csrf=session_insert(engine,user,tenant)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_identity.py:63: in session_insert
+    db.execute(text('''INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x107492510>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': '333a32de0cf139c2898fd0825e7b5fca02b4aea60b1fd96a026b8f66f6e57c8f', 'u': UUID('452b771d-b584-45b8-93e7-4ae530129...('13ffff52-c9c0-41ab-8685-cf4e44dc3b0f'), 'c': 'd4721cb2ad0546bdb884411230ec363c29c4c0d655460a487d34f886af3d0cb5', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.IntegrityError: (psycopg.errors.ForeignKeyViolation) insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(13ffff52-c9c0-41ab-8685-cf4e44dc3b0f, 452b771d-b584-45b8-93e7-4ae5301290a6) is not present in table "memberships".
+E           [SQL: INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+E                    VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: IntegrityError
+
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 125, in receive_or_disconnect
+    message = await wrap(wrapped_receive)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 120, in wrap
+    result = await func()
+             ^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 84, in wrapped_receive
+    chunk = await stream.__anext__()
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/requests.py", line 242, in stream
+    message = await self._receive()
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 64, in receive
+    if before_chunk:await before_chunk(consumed)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 103, in alter
+    await asyncio.wait_for(asyncio.to_thread(run),timeout=5)
+  File "/opt/anaconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 101, in run
+    with client(engine,database,i.other,i.a) as other:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_contracts.py", line 38, in client
+    token,csrf=session_insert(engine,user,tenant)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_identity.py", line 63, in session_insert
+    db.execute(text('''INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.IntegrityError: (psycopg.errors.ForeignKeyViolation) insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+DETAIL:  Key (tenant_id, user_id)=(13ffff52-c9c0-41ab-8685-cf4e44dc3b0f, 452b771d-b584-45b8-93e7-4ae5301290a6) is not present in table "memberships".
+[SQL: INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)]
+[SQL parameters hidden due to hide_parameters=True]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+The above exception was the direct cause of the following exception:
+
+  + Exception Group Traceback (most recent call last):
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 104, in test_upload_rechecks_after_unlocked_stream_and_retries_safely
+  |     status,body,consumed=asyncio.run(stream_request(c,url,[PDF[:100],PDF[100:]],before_chunk=alter))
+  |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/opt/anaconda3/lib/python3.12/asyncio/runners.py", line 194, in run
+  |     return runner.run(main)
+  |            ^^^^^^^^^^^^^^^^
+  |   File "/opt/anaconda3/lib/python3.12/asyncio/runners.py", line 118, in run
+  |     return self._loop.run_until_complete(task)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/opt/anaconda3/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+  |     return future.result()
+  |            ^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 68, in stream_request
+  |     await asyncio.wait_for(c.app(scope,receive,send),timeout=15)
+  |   File "/opt/anaconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+  |     return await fut
+  |            ^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1163, in __call__
+  |     await super().__call__(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/applications.py", line 96, in __call__
+  |     await self.middleware_stack(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+  |     raise exc
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+  |     await self.app(scope, receive, _send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 193, in __call__
+  |     response = await self.dispatch_func(request, call_next)
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/src/silicon/main.py", line 71, in request_id
+  |     response = await call_next(request)
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 168, in call_next
+  |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 144, in coro
+  |     await self.app(scope, receive_or_disconnect, send_no_error)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+  |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+  |     raise exc
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+  |     await app(scope, receive, sender)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+  |     await self.app(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/routing.py", line 670, in __call__
+  |     await self.middleware_stack(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2734, in app
+  |     await route.handle(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1780, in handle
+  |     await self.original_router.handle(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2789, in handle
+  |     await included_router._handle_selected(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1800, in _handle_selected
+  |     await original_route.handle(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1279, in handle
+  |     await app(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 158, in app
+  |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+  |     raise exc
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+  |     await app(scope, receive, sender)
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 144, in app
+  |     response = await f(request)
+  |                ^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 706, in app
+  |     raw_response = await run_endpoint_function(
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 352, in run_endpoint_function
+  |     return await dependant.call(**values)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/src/silicon/inventory/routes.py", line 174, in upload_attachment
+  |     async for chunk in request.stream():
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/requests.py", line 242, in stream
+  |     message = await self._receive()
+  |               ^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 117, in receive_or_disconnect
+  |     async with anyio.create_task_group() as task_group:
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    |     self.dialect.do_execute(
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    |     cursor.execute(statement, parameters)
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    |     raise ex.with_traceback(None)
+    | psycopg.errors.ForeignKeyViolation: insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+    | DETAIL:  Key (tenant_id, user_id)=(13ffff52-c9c0-41ab-8685-cf4e44dc3b0f, 452b771d-b584-45b8-93e7-4ae5301290a6) is not present in table "memberships".
+    |
+    | The above exception was the direct cause of the following exception:
+    |
+    | Traceback (most recent call last):
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 125, in receive_or_disconnect
+    |     message = await wrap(wrapped_receive)
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 120, in wrap
+    |     result = await func()
+    |              ^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/middleware/base.py", line 84, in wrapped_receive
+    |     chunk = await stream.__anext__()
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/requests.py", line 242, in stream
+    |     message = await self._receive()
+    |               ^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 64, in receive
+    |     if before_chunk:await before_chunk(consumed)
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 103, in alter
+    |     await asyncio.wait_for(asyncio.to_thread(run),timeout=5)
+    |   File "/opt/anaconda3/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    |     return await fut
+    |            ^^^^^^^^^
+    |   File "/opt/anaconda3/lib/python3.12/asyncio/threads.py", line 25, in to_thread
+    |     return await loop.run_in_executor(None, func_call)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/opt/anaconda3/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    |     result = self.fn(*self.args, **self.kwargs)
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_inventory_files.py", line 101, in run
+    |     with client(engine,database,i.other,i.a) as other:
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/opt/anaconda3/lib/python3.12/contextlib.py", line 137, in __enter__
+    |     return next(self.gen)
+    |            ^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_contracts.py", line 38, in client
+    |     token,csrf=session_insert(engine,user,tenant)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/api/tests/test_identity.py", line 63, in session_insert
+    |     db.execute(text('''INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    |     return meth(
+    |            ^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    |     return connection._execute_clauseelement(
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    |     ret = self._execute_context(
+    |           ^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    |     return self._exec_single_context(
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    |     self._handle_dbapi_exception(
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    |     raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    |     self.dialect.do_execute(
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    |     cursor.execute(statement, parameters)
+    |   File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/psycopg/cursor.py", line 117, in execute
+    |     raise ex.with_traceback(None)
+    | sqlalchemy.exc.IntegrityError: (psycopg.errors.ForeignKeyViolation) insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+    | DETAIL:  Key (tenant_id, user_id)=(13ffff52-c9c0-41ab-8685-cf4e44dc3b0f, 452b771d-b584-45b8-93e7-4ae5301290a6) is not present in table "memberships".
+    | [SQL: INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+    |          VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)]
+    | [SQL parameters hidden due to hide_parameters=True]
+    | (Background on this error at: https://sqlalche.me/e/20/gkpj)
+    +------------------------------------
+___________ test_upload_limit_boundary_replay_after_freeze_and_scope ___________
+
+self = <sqlalchemy.engine.base.Connection object at 0x106cbd8b0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x10653c320>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x106cbcc20>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1055aaba0>
+parameters = [{'h': 'd464668be25c4871f7b363d8c3ea379149224ab0509fe7849b32b6d5749e9be5', 'u': UUID('cf49f256-9d75-45b6-b7f5-f4b45655...'973becb2-5665-4302-a31f-7b9ae6ed42c5'), 'c': '08b87292093fde00e453922a595c5e681a953238a59f883c8147cea68ea5d0ea', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x1069fc650>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': 'd464668be25c4871f7b363d8c3ea379149224ab0509fe7849b32b6d5749e9be5', 'u': UUID('cf49f256-9d75-45b6-b7f5-f4b45655b...('973becb2-5665-4302-a31f-7b9ae6ed42c5'), 'c': '08b87292093fde00e453922a595c5e681a953238a59f883c8147cea68ea5d0ea', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.ForeignKeyViolation: insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(973becb2-5665-4302-a31f-7b9ae6ed42c5, cf49f256-9d75-45b6-b7f5-f4b45655bc3d) is not present in table "memberships".
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ForeignKeyViolation
+
+The above exception was the direct cause of the following exception:
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-53/test_upload_limit_boundary_rep0/private-files')
+identities = namespace(a=UUID('973becb2-5665-4302-a31f-7b9ae6ed42c5'), b=UUID('26d4fdba-4a67-47ab-b7a2-dedfb20bcf2c'), user=UUID('9...D('9faf414f-af95-44e0-84af-7bdc2b8fc1fd'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49299/silicon))
+
+    def test_upload_limit_boundary_replay_after_freeze_and_scope(engine,database,identities):
+        from silicon.main import create_app
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            _,active,_=setup_purchase(c,i);draft=purchase_draft(c,i,active)
+            url=P+'/attachments/contract/'+draft['id']+'?name=proof.pdf&expected_version=1';key=str(uuid4())
+            # Real route configured to its legal minimum; valid PDF padded to exact limit.
+            c.app=create_app(Settings(database.url,'test',file_root=database.files,file_max_bytes=1024))
+            data=PDF+b' '*(1024-len(PDF))
+            status,first,n=asyncio.run(stream_request(c,url,[data[:512],data[512:]],key));assert status==200 and n==2,first
+>           with client(engine,database,i.other,i.a) as other:ok(post(other,'/contracts/'+draft['id']+'/activate',{'expected_version':1,'confirmed':True}))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_inventory_files.py:123:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/anaconda3/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+apps/api/tests/test_contracts.py:38: in client
+    token,csrf=session_insert(engine,user,tenant)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apps/api/tests/test_identity.py:63: in session_insert
+    db.execute(text('''INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=49299 user=silicon_app database=silicon) at 0x1069fc650>
+query = 'INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)\n         VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)'
+params = {'h': 'd464668be25c4871f7b363d8c3ea379149224ab0509fe7849b32b6d5749e9be5', 'u': UUID('cf49f256-9d75-45b6-b7f5-f4b45655b...('973becb2-5665-4302-a31f-7b9ae6ed42c5'), 'c': '08b87292093fde00e453922a595c5e681a953238a59f883c8147cea68ea5d0ea', ...}
+prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.IntegrityError: (psycopg.errors.ForeignKeyViolation) insert or update on table "sessions" violates foreign key constraint "sessions_tenant_id_user_id_fkey"
+E           DETAIL:  Key (tenant_id, user_id)=(973becb2-5665-4302-a31f-7b9ae6ed42c5, cf49f256-9d75-45b6-b7f5-f4b45655bc3d) is not present in table "memberships".
+E           [SQL: INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at)
+E                    VALUES (%(h)s,%(u)s,%(t)s,%(c)s,%(e)s)]
+E           [SQL parameters hidden due to hide_parameters=True]
+E           (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: IntegrityError
+_____ test_cleanup_waits_for_inventory_commit_and_preserves_new_reference ______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49299/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-53/test_cleanup_waits_for_invento0/private-files')
+identities = namespace(a=UUID('0f068d0e-e571-4061-be76-26e8170b844a'), b=UUID('0216d873-0532-4cf4-858b-f9cf3e0cc48d'), user=UUID('8...D('64cf942d-2eb5-4aa7-980a-36bf01aca827'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49299/silicon))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106afd730>
+
+    def test_cleanup_waits_for_inventory_commit_and_preserves_new_reference(engine,database,identities,monkeypatch):
+        from concurrent.futures import ThreadPoolExecutor
+        from threading import Event
+        from silicon.inventory import service
+        i=identities;written=Event();release=Event();original=service.audit
+        with client(engine,database,i.user,i.a) as c:
+            _,_,order=setup_purchase(c,i);loc=warehouse(c);receipt=ok(post(c,'/receipts',receipt_body(order,loc,['INFLIGHT'])))
+        def gated(*args,**kwargs):
+            original(*args,**kwargs)
+            if str(args[4]).startswith('attachment.'):
+                age(Path(database.files)/str(i.a));written.set();assert release.wait(10)
+        # SQL audit remains real; synchronization pauses the actual upload before commit.
+        monkeypatch.setattr(service,'audit',gated)
+        def uploader():
+            with client(engine,database,i.user,i.a) as c:return ok(attach(c,'receipt',receipt['id']))
+        settings=Settings(database.url,'test',file_root=database.files)
+        with ThreadPoolExecutor(2) as pool:
+            upload_future=pool.submit(uploader)
+            try:
+>               assert written.wait(8)
+E               assert False
+E                +  where False = wait(8)
+E                +    where wait = <threading.Event at 0x106afe810: unset>.wait
+
+apps/api/tests/test_inventory_files.py:172: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory_files.py::test_upload_rechecks_after_unlocked_stream_and_retries_safely[revoke]
+FAILED apps/api/tests/test_inventory_files.py::test_upload_rechecks_after_unlocked_stream_and_retries_safely[freeze]
+FAILED apps/api/tests/test_inventory_files.py::test_upload_limit_boundary_replay_after_freeze_and_scope
+FAILED apps/api/tests/test_inventory_files.py::test_cleanup_waits_for_inventory_commit_and_preserves_new_reference
+4 failed, 4 passed, 2 warnings in 13.87s

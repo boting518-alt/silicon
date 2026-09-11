@@ -205,7 +205,7 @@ TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](d
 
 已有签约和附件冻结集只读，后续补充附件不改变原签约内容。正金额付款节点必须精确配平；零金额合同签约政策未配置，保留草稿并阻断签约。正式政策与生产模式保护未解除。
 
-孤儿清理先用dry-run；需要实际对象权限的管理员、所选数据库URL和同一文件根，只扫描明确企业，至少24小时，保留pending/linked文件。确认结果后显式加 `--apply`；本轮测试只用独立临时目录：
+孤儿清理先用dry-run；需要实际对象权限的管理员、所选数据库URL和同一文件根，只扫描明确企业，至少24小时，保留合同pending/linked/冻结引用、采购合同及收货附件、期初预览及已提交CSV。共享引用查询失败（包括缺表）直接停止，先升级到当前迁移再清理。确认结果后显式加 `--apply`；本轮测试只用独立临时目录：
 
 ```bash
 .venv/bin/python infra/clean_contract_files.py --actor "$TEST_ACTOR_ID" --tenant "$TEST_TENANT_ID"
@@ -243,3 +243,5 @@ SILICON_BROWSER_INVENTORY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=
 ```
 
 此标志仅把虚构 carol 设为仓库 member；alice 为 A 管理员。采购、库位、收货和导入由页面操作，不在该种子中预置。退出测试栈由其夹具清理独立数据库/IdP/附件。详见 [ADR-013](docs/architecture/adr/ADR-013.md) 与 [TASK-008 结果](docs/tasks/TASK-008/result.md)。
+
+TASK-008附件上传先授权再限量流式读取，写入前重新授权/核对版本。文件锁跨越业务提交，失败孤儿按以上统一引用规则回收。详见 [R1/R2审查](docs/reviews/TASK-008-dd4031f-review.md) 与 [ADR-013](docs/architecture/adr/ADR-013.md)。

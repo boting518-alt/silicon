@@ -1,0 +1,45 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_cleanup_preserves_every_shared_reference_and_frozen_download _______
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:65473/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:65473/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-48/test_cleanup_preserves_every_s0/private-files')
+identities = namespace(a=UUID('ce0f82c9-b659-42a6-8f62-b4c624bd9698'), b=UUID('c3a848b5-991a-4fb4-8398-637a524faefb'), user=UUID('5...D('75937e70-4581-4acc-ad2d-9fe63665d876'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:65473/silicon))
+
+    def test_cleanup_preserves_every_shared_reference_and_frozen_download(engine,database,identities):
+        i=identities;sales,_=source(engine,database,i);settings=Settings(database.url,'test',file_root=database.files)
+        with client(engine,database,i.user,i.a) as c:
+            w,linked=ready(c,sales['id'],i);pending=ok(upload(c,sales['id'],w['version']),201)
+            deleted=ok(upload(c,sales['id'],w['version']),201)
+            ok(contract_post(c,'/'+sales['id']+'/files/'+deleted['id']+'/delete',{'expected_version':w['version']}))
+            sku,active,order=setup_purchase(c,i,1);loc=warehouse(c);purchase=purchase_draft(c,i,active)
+            pa=ok(attach(c,'contract',purchase['id']));frozen=ok(post(c,'/contracts/'+purchase['id']+'/activate',{'expected_version':1,'confirmed':True}))
+            receipt=ok(post(c,'/receipts',receipt_body(order,loc,['RECEIPT'])));ra=ok(attach(c,'receipt',receipt['id']))
+            ok(post(c,'/opening/configure',{'cutoff':'2026-01-01','open':True,'reason':'测试','expected_version':0}))
+            preview,raw1=csv_preview(c,sku,loc,'PREVIEW');posted,raw2=csv_preview(c,sku,loc,'POSTED')
+            ok(post(c,'/opening/'+posted['id']+'/commit',{'expected_version':1,'confirmed':True}))
+            root=Path(database.files)/str(i.a);orphan=root/str(uuid4());orphan.write_bytes(b'fictional orphan');age(root)
+            other=Path(database.files)/str(i.b);other.mkdir();foreign=other/str(uuid4());foreign.write_bytes(b'other tenant');age(other)
+            originals={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir()}
+>           assert clean(settings,i.user,i.a)==2
+E           AssertionError: assert 6 == 2
+E            +  where 6 = clean(Settings(environment='test', oidc_issuer='', oidc_client_id='silicon-web', public_origin='https://localhost:5173', ses...tzkqxvw73sm0000gn/T/pytest-of-boting/pytest-48/test_cleanup_preserves_every_s0/private-files', file_max_bytes=10485760), UUID('510b5b71-54cb-4059-bd7f-f0ef8eb832f4'), UUID('ce0f82c9-b659-42a6-8f62-b4c624bd9698'))
+E            +    where UUID('510b5b71-54cb-4059-bd7f-f0ef8eb832f4') = namespace(a=UUID('ce0f82c9-b659-42a6-8f62-b4c624bd9698'), b=UUID('c3a848b5-991a-4fb4-8398-637a524faefb'), user=UUID('5...D('75937e70-4581-4acc-ad2d-9fe63665d876'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:65473/silicon)).user
+E            +    and   UUID('ce0f82c9-b659-42a6-8f62-b4c624bd9698') = namespace(a=UUID('ce0f82c9-b659-42a6-8f62-b4c624bd9698'), b=UUID('c3a848b5-991a-4fb4-8398-637a524faefb'), user=UUID('5...D('75937e70-4581-4acc-ad2d-9fe63665d876'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:65473/silicon)).a
+
+apps/api/tests/test_inventory_files.py:40: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory_files.py::test_cleanup_preserves_every_shared_reference_and_frozen_download
+1 failed, 2 warnings in 2.81s

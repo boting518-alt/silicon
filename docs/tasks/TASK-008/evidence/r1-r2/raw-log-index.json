@@ -1,0 +1,62 @@
+[
+  {
+    "log": "browser-frozen.txt",
+    "raw": "browser-frozen.txt.raw.gz",
+    "sha256": "b17d27f79a6c3c85a6ecc8fdcbdca025e902a0dc3a639a7b77069e01211a197c"
+  },
+  {
+    "log": "browser-invalid.txt",
+    "raw": "browser-invalid.txt.raw.gz",
+    "sha256": "374c1f818489d646262c19c19b45853fe7adf4db24987380a857e3ecf3f36781"
+  },
+  {
+    "log": "browser-opening-closed.txt",
+    "raw": "browser-opening-closed.txt.raw.gz",
+    "sha256": "2c72dcf9c77e10ca1f186668bdaa80c2bdeb2ba4ff25a79a693f780d7de62b57"
+  },
+  {
+    "log": "browser-reconciliation.txt",
+    "raw": "browser-reconciliation.txt.raw.gz",
+    "sha256": "a6fb66438b5a8804a560955f5059e20ec347cb6ea468d9aee2fa81efd44e9aa3"
+  },
+  {
+    "log": "browser-timeline.txt",
+    "raw": "browser-timeline.txt.raw.gz",
+    "sha256": "acd18685675a8aa525cf0e327e617bfc824f0c3e93d4c956b5d6674a47afb090"
+  },
+  {
+    "log": "browser-uploaded.txt",
+    "raw": "browser-uploaded.txt.raw.gz",
+    "sha256": "eb99dda037241ba8ceb2e5bf107627bb9150e0422cfb61a1f0bf09869498079f"
+  },
+  {
+    "log": "components.txt",
+    "raw": "components.txt.raw.gz",
+    "sha256": "0b946de3168445db5ec2503b91d17d4a0261dfa45a3e9f18a23e72b77ed3a310"
+  },
+  {
+    "log": "contract-export.txt",
+    "raw": "contract-export.txt.raw.gz",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "log": "expanded.txt",
+    "raw": "expanded.txt.raw.gz",
+    "sha256": "cf95b9715ebc9cbecb7148914596c4960237ca749b1325d18ec16d1db19b4cbb"
+  },
+  {
+    "log": "node.txt",
+    "raw": "node.txt.raw.gz",
+    "sha256": "05b3e095d08c7580271aa34e74c8a60e5c2b7c0ce48e11a45ad12d921ffd0310"
+  },
+  {
+    "log": "r1-red.txt",
+    "raw": "r1-red.txt.raw.gz",
+    "sha256": "b208c714c2dca299b2ab3f25dcd87c3314a9fd3dda322a4931acdeed748d1ca6"
+  },
+  {
+    "log": "typecheck.txt",
+    "raw": "typecheck.txt.raw.gz",
+    "sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324"
+  }
+]

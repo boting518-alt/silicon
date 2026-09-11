@@ -1,0 +1,126 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "▥ 设备查询 未启用" [disabled]:
+      - generic: ▥
+      - text: 设备查询
+      - generic: 未启用
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /采购合同
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每批到货，到清晰库存。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "采购与库存" [level=2]
+  - paragraph: 采购金额、库存成本和付款分别记录；预留与出库尚未启用。
+  - button "刷新"
+  - navigation:
+    - button "采购"
+    - button "到货与质检"
+    - button "库存与移动" [pressed]
+    - button "期初导入"
+    - button "基础资料"
+  - button "未到 1 件"
+  - button "待检 0 件 / 隔离 0 件"
+  - paragraph: CNY · 含税 · 采购签约 0.00 / 净到货 0.00（不是付款或库存成本）
+  - paragraph: CNY · 不含税 · 采购签约 0.00 / 净到货 0.00（不是付款或库存成本）
+  - paragraph: CNY · 税口径待确认 · 采购签约 200.00 / 净到货 0.00（不是付款或库存成本）
+  - heading "库存台账" [level=3]
+  - paragraph: 合格自有数量：1 件；预留系统尚未启用。已知成本 10.00 CNY；未知成本 0 件；成本完整
+  - text: 搜索 SN / SKU / 批号
+  - textbox "搜索 SN / SKU / 批号"
+  - table:
+    - rowgroup:
+      - row "商品 / SN或批号 库位 状态 / 所有权 数量 单位成本 操作":
+        - columnheader "商品 / SN或批号"
+        - columnheader "库位"
+        - columnheader "状态 / 所有权"
+        - columnheader "数量"
+        - columnheader "单位成本"
+        - columnheader "操作"
+    - rowgroup:
+      - row "INV-89274572 REPAIR-OPEN 虚构仓/A-01 合格 / 自有 1 10.00 · 已确认 质检 / 移库":
+        - cell "INV-89274572 REPAIR-OPEN":
+          - text: INV-89274572
+          - text: REPAIR-OPEN
+        - cell "虚构仓/A-01"
+        - cell "合格 / 自有"
+        - cell "1"
+        - cell "10.00 · 已确认"
+        - cell "质检 / 移库":
+          - button "质检 / 移库"
+  - button "库存对账"
+  - status: 台账与当前余额投影一致 · 差异 0
+  - heading "移动详情与逆向" [level=3]
+  - paragraph: 仅整张错误单据冲销；有后续移动时必须先逆序恢复。不用于采购退货或报损。
+  - generic "期初入库 · 2026-01-01 · 期初原子导入"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

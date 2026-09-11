@@ -1,0 +1,58 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_________ test_upload_rejects_before_consuming_unbounded_stream[True] __________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49198/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49198/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-51/test_upload_rejects_before_con0/private-files')
+identities = namespace(a=UUID('1ef80d8f-9cbe-4490-a23a-b5fb4ee47583'), b=UUID('d139abd6-38a6-4edb-afee-18951a74915f'), user=UUID('c...D('868a1978-10bd-4eca-92f5-215023d39d61'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49198/silicon))
+unauthorized = True
+
+    @pytest.mark.parametrize('unauthorized',[True,False])
+    def test_upload_rejects_before_consuming_unbounded_stream(engine,database,identities,unauthorized):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            _,active,_=setup_purchase(c,i);draft=purchase_draft(c,i,active)
+            url=P+'/attachments/contract/'+draft['id']+'?name=proof.pdf&expected_version=1'
+            if unauthorized:c.cookies.clear()
+            status,body,consumed=asyncio.run(stream_request(c,url,[b'x'*(6*1024*1024),b'y'*(6*1024*1024),b'never consume']))
+            assert status==(401 if unauthorized else 413),body
+>           assert consumed==(0 if unauthorized else 2)
+E           assert 3 == 0
+
+apps/api/tests/test_inventory_files.py:83: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+_________ test_upload_rejects_before_consuming_unbounded_stream[False] _________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:49198/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:49198/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-51/test_upload_rejects_before_con1/private-files')
+identities = namespace(a=UUID('16d58c83-73da-4e65-9fca-5ad4baf7c5d5'), b=UUID('ab14a973-de87-41b6-a241-be0effc7bbb3'), user=UUID('8...D('8a79c53e-04cc-49c7-a620-0d9357c73353'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:49198/silicon))
+unauthorized = False
+
+    @pytest.mark.parametrize('unauthorized',[True,False])
+    def test_upload_rejects_before_consuming_unbounded_stream(engine,database,identities,unauthorized):
+        i=identities
+        with client(engine,database,i.user,i.a) as c:
+            _,active,_=setup_purchase(c,i);draft=purchase_draft(c,i,active)
+            url=P+'/attachments/contract/'+draft['id']+'?name=proof.pdf&expected_version=1'
+            if unauthorized:c.cookies.clear()
+            status,body,consumed=asyncio.run(stream_request(c,url,[b'x'*(6*1024*1024),b'y'*(6*1024*1024),b'never consume']))
+            assert status==(401 if unauthorized else 413),body
+>           assert consumed==(0 if unauthorized else 2)
+E           assert 3 == 2
+
+apps/api/tests/test_inventory_files.py:83: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_inventory_files.py::test_upload_rejects_before_consuming_unbounded_stream[True]
+FAILED apps/api/tests/test_inventory_files.py::test_upload_rejects_before_consuming_unbounded_stream[False]
+2 failed, 1 deselected, 2 warnings in 2.23s

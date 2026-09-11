@@ -164,19 +164,37 @@ def router(engine,settings):
         with tx(request,'inventory.download') as (db,a):return s.serial(s.rows(db,'inv_attachments'))
     @routes.post('/attachments/{kind}/{id}')
     async def upload_attachment(kind:Literal['contract','receipt'],id:UUID,request:Request,name:str,expected_version:int,idempotency_key:str=Header('')):
-        data=await request.body()
-        with tx(request,'purchase.write' if kind=='contract' else 'inventory.receive',True) as (db,a):
-            r=s.row(db,'inv_contracts' if kind=='contract' else 'inv_receipts',id)
-            body={'name':name,'sha256':__import__('hashlib').sha256(data).hexdigest(),'expected_version':expected_version}
-            def perform():
-                s.c.expected(r,expected_version)
-                if r['state']!='draft':raise Denied(409,'FROZEN_ATTACHMENTS')
-                store=storage(a);metadata=store.put(name,data)
-                try:
+        permission='purchase.write' if kind=='contract' else 'inventory.receive'
+        table='inv_contracts' if kind=='contract' else 'inv_receipts'
+        # Authenticate before touching the stream, then release all transaction
+        # locks while the client uploads. Headers are context assertions only.
+        with tx(request,permission,True) as (db,a):
+            s.row(db,table,id);store=storage(a)
+        data=bytearray()
+        async for chunk in request.stream():
+            if len(data)+len(chunk)>store.limit:raise Denied(413,'FILE_SIZE_LIMIT')
+            data.extend(chunk)
+        metadata=store.put(name,bytes(data));kept=False
+        try:
+            with tx(request,permission,True) as (db,a):
+                r=s.row(db,table,id)
+                body={'name':name,'sha256':metadata['sha256'],'expected_version':expected_version}
+                def perform():
+                    s.c.expected(r,expected_version)
+                    if r['state']!='draft':raise Denied(409,'FROZEN_ATTACHMENTS')
                     fid=__import__('uuid').uuid4();s.insert(db,a,'inv_attachments',{'id':fid,kind+'_id':id,'actor_id':a.actor_id,**metadata})
                     return s.row(db,'inv_attachments',fid)
-                finally:store.release()
-            return s.command(db,a,'attachment.'+kind+':'+str(id),idempotency_key,body,request.state.request_id,perform)
+                result=s.command(db,a,'attachment.'+kind+':'+str(id),idempotency_key,body,request.state.request_id,perform)
+                kept=str(result['storage_id'])==str(metadata['storage_id'])
+            return result
+        except Exception:
+            # Ambiguous commit: keep the protected object for reference-aware
+            # reconciliation after the grace period; never delete committed data.
+            kept=True
+            raise
+        finally:
+            if not kept:store.remove(metadata['storage_id'])
+            store.release()
     @routes.get('/attachments/{id}/download')
     def download_attachment(id:UUID,request:Request):
         with tx(request,'inventory.download') as (db,a):

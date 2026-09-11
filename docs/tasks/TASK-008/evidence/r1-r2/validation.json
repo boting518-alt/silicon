@@ -1,0 +1,52 @@
+{
+  "task": "TASK-008",
+  "status": "review_ready",
+  "review_base": "dd4031fb6950e28446855131642cc01e54095991",
+  "report": "../../../../reviews/TASK-008-dd4031f-review.md",
+  "targeted_real_pg_files": {
+    "passed": 8,
+    "warnings": 2,
+    "seconds": 6.62,
+    "log": "expanded-green.txt",
+    "command": ".venv/bin/python -m pytest apps/api/tests/test_inventory_files.py -q"
+  },
+  "full_backend": {
+    "command": ".venv/bin/python -m pytest apps/api/tests -q",
+    "environment": [
+      "SILICON_TEST_PG_BIN=$PG17_HOME/bin",
+      "SILICON_TEST_KEYCLOAK_HOME=$KEYCLOAK_HOME"
+    ],
+    "passed": 192,
+    "warnings": 8,
+    "seconds": 138.34,
+    "log": "backend-full.txt"
+  },
+  "frontend": {
+    "node": 19,
+    "react_http_substitute": 2,
+    "typecheck": "passed",
+    "build": "passed",
+    "openapi_types": "byte-identical",
+    "commands": [
+      "node --test $(git ls-files apps/web/tests/\\*.test.ts)",
+      "npm run typecheck",
+      "npm run build",
+      ".venv/bin/python infra/export_openapi.py",
+      "npm run api:types"
+    ]
+  },
+  "browser": {
+    "directed_checks": "completed; see browser-notes.md",
+    "download_saved_artifact": "not_run: download event unavailable",
+    "tls_bypass": false,
+    "resident_db_used": false
+  },
+  "not_run": [
+    "saved browser download checksum",
+    "remote CI verification",
+    "container execution",
+    "other browser engines",
+    "repeat entire original browser flow"
+  ],
+  "independent_acceptance": false
+}

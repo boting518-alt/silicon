@@ -1,0 +1,11 @@
+{
+  "isolated_browser_stack": true,
+  "dry_run": 1,
+  "applied": 1,
+  "protected_files": 2,
+  "hashes_unchanged": true,
+  "sha256": {
+    "d06f5585-df7d-4677-a227-d23e6849cb6b": "62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace",
+    "2fda09af-f2ba-4611-afcd-3949abd25edd": "0788e012de1e095e8e3a59d4df4cbfdb583282405568beb738ad7cbe09958389"
+  }
+}

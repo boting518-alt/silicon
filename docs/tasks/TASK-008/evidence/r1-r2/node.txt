@@ -1,0 +1,1 @@
+Environment invocation failure: Python glob included AppleDouble ._*.test.ts files; Node rejected NUL. Exact original in node.txt.raw.gz. Corrected invocation excludes metadata, node-green.txt has 19 passes.
