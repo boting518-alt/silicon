@@ -1,4 +1,4 @@
-status: review_ready
+status: accepted
 
 # TASK-008 任务发布书：采购、分批到货、成本与库存移动
 

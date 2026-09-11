@@ -6,13 +6,20 @@ import re
 
 root = Path(__file__).resolve().parents[1]
 config = json.loads((root/'runtime/project.json').read_text())
-assert config['current_task'] == 'TASK-008'
+assert config['current_task'] == 'TASK-009'
 assert config['status'] in {'executing', 'review_ready'}
 for path in config['paths'].values():
     assert not Path(path).is_absolute() and (root/path).is_dir(), path
 assert 'status: accepted' in (root/'docs/tasks/TASK-000/task.md').read_text()
-assert f"status: {config['status']}" in (root/'docs/tasks/TASK-008/task.md').read_text()
-assert '当前只执行已明确分配的 TASK-008' in (root/'AGENTS.md').read_text()
+assert 'status: accepted' in (root/'docs/tasks/TASK-008/task.md').read_text()
+current_task = root/'docs/tasks/TASK-009/task.md'
+if current_task.exists():
+    assert f"status: {config['status']}" in current_task.read_text()
+else:
+    assert config['status'] == 'executing'
+    assert '缺失材料与恢复条件' in (root/'docs/tasks/TASK-009/handoff.md').read_text()
+    print('MISSING TASK-009/task.md: handoff only; task readiness NOT validated')
+assert '当前只执行已明确分配的 TASK-009' in (root/'AGENTS.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-002/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-001/task.md').read_text()
 assert 'status: accepted' in (root/'docs/tasks/TASK-003/task.md').read_text()
