@@ -1946,6 +1946,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/finance/plans/{id}/correct-adjustment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Correct Adjustment */
+        post: operations["correct_adjustment_api_v1_finance_plans__id__correct_adjustment_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/finance/cash": {
         parameters: {
             query?: never;
@@ -2432,6 +2449,64 @@ export interface components {
             notes: string;
             /** Evidence Ref */
             evidence_ref: string;
+        };
+        /** AdjustmentCorrectionInput */
+        AdjustmentCorrectionInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Reason */
+            reason: string;
+            /**
+             * Adjustment Id
+             * Format: uuid
+             */
+            adjustment_id: string;
+            /** Basis Ref */
+            basis_ref: string;
+        };
+        /** AdjustmentCorrectionView */
+        AdjustmentCorrectionView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Amount */
+            amount?: string | null;
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
+            /**
+             * Basis Ref
+             * @default
+             */
+            basis_ref: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Actor Id
+             * Format: uuid
+             */
+            actor_id: string;
+            /** Return Id */
+            return_id?: string | null;
+            /** Due Date */
+            due_date?: string | null;
+            /**
+             * Adjustment Id
+             * Format: uuid
+             */
+            adjustment_id: string;
         };
         /** AdjustmentInput */
         AdjustmentInput: {
@@ -4617,6 +4692,8 @@ export interface components {
             overdue: boolean;
             /** Adjustments */
             adjustments: components["schemas"]["silicon__finance__models__EventView"][];
+            /** Corrections */
+            corrections?: components["schemas"]["AdjustmentCorrectionView"][];
             /** Releases */
             releases: components["schemas"]["silicon__finance__models__EventView"][];
             /** Allocations */
@@ -11352,6 +11429,45 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SourceView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    correct_adjustment_api_v1_finance_plans__id__correct_adjustment_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdjustmentCorrectionInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlanView"];
                 };
             };
             /** @description Validation Error */

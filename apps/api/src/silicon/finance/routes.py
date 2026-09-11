@@ -58,6 +58,9 @@ def router(engine,settings):
     @api.post('/source-adjustments',response_model=SourceView)
     def source_adjust(body:SourceAdjustment,request:Request,idempotency_key:str=Header('')):
         return execute(request,body,idempotency_key,'source.adjust:'+str(body.source_id),'finance.correct',lambda db,a:s.source(db,a,body.direction,body.source_id),lambda db,a:s.source_adjustment(db,a,body))
+    @api.post('/plans/{id}/correct-adjustment',response_model=PlanView)
+    def correct_adjustment(id:UUID,body:AdjustmentCorrectionInput,request:Request,idempotency_key:str=Header('')):
+        return execute(request,body,idempotency_key,'plan.correct-adjustment:'+str(id)+':'+str(body.adjustment_id),'finance.correct',lambda db,a:s.correction_original(db,a,id,body.adjustment_id),lambda db,a:s.correct_adjustment(db,a,id,body))
     @api.post('/cash',response_model=CashView)
     def cash(body:CashInput,request:Request,idempotency_key:str=Header('')):
         return execute(request,body,idempotency_key,'cash.create:'+str(body.party_id),'finance.cash',lambda db,a:s.party(db,a,body.direction,body.party_id),lambda db,a:s.create_cash(db,a,body))

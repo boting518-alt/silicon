@@ -1,0 +1,3 @@
+git diff --check: PASS
+git diff --cached --check: PASS
+Explicit R1 file list only. Raw terminal whitespace preserved in .raw.gz; old evidence untouched.

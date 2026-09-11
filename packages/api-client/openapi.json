@@ -10819,6 +10819,101 @@
         }
       }
     },
+    "/api/v1/finance/plans/{id}/correct-adjustment": {
+      "post": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Correct Adjustment",
+        "operationId": "correct_adjustment_api_v1_finance_plans__id__correct_adjustment_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjustmentCorrectionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/finance/cash": {
       "post": {
         "tags": [
@@ -13183,6 +13278,124 @@
           "evidence_ref"
         ],
         "title": "AcceptanceView"
+      },
+      "AdjustmentCorrectionInput": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason"
+          },
+          "adjustment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Adjustment Id"
+          },
+          "basis_ref": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Basis Ref"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed",
+          "reason",
+          "adjustment_id",
+          "basis_ref"
+        ],
+        "title": "AdjustmentCorrectionInput"
+      },
+      "AdjustmentCorrectionView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "default": ""
+          },
+          "basis_ref": {
+            "type": "string",
+            "title": "Basis Ref",
+            "default": ""
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Actor Id"
+          },
+          "return_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Id"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "adjustment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Adjustment Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "actor_id",
+          "adjustment_id"
+        ],
+        "title": "AdjustmentCorrectionView"
       },
       "AdjustmentInput": {
         "properties": {
@@ -18035,6 +18248,13 @@
             },
             "type": "array",
             "title": "Adjustments"
+          },
+          "corrections": {
+            "items": {
+              "$ref": "#/components/schemas/AdjustmentCorrectionView"
+            },
+            "type": "array",
+            "title": "Corrections"
           },
           "releases": {
             "items": {

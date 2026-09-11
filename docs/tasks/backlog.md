@@ -127,3 +127,5 @@ TASK-010 R1 按用户授权修复：保留基础设备权限，交付历史独�
 负责人依据[TASK-010增量报告](../reviews/TASK-010-b6ca2fe-review.md)确认accepted，并授权[TASK-011](TASK-011/task.md) executing。见[交接](TASK-011/handoff.md)；历史报告及验证限制保持不变。
 
 TASK-011 实现与本地验证完成，进入 review_ready，见[结果](TASK-011/result.md)。完整后端 237 项、React 组件 4 项和 Node 19 项通过；真实资金浏览器闭环及两视口证据已保存。等待独立审查，不自行 accepted，不开始 TASK-012。
+
+TASK-011 R1 按用户授权修复：原样归档[独立报告](../reviews/TASK-011-680c071-review.md)，新增负向调整完整更正、兼容迁移及真实PG/页面回归。追加证据见[结果](TASK-011/result.md)，状态保持review_ready，等待增量复核，不开始TASK-012。

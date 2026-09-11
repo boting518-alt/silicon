@@ -4,6 +4,7 @@ from pathlib import Path
 
 p=argparse.ArgumentParser()
 p.add_argument('--implementation',required=True)
+p.add_argument('--review-base',default=None)
 p.add_argument('--destination',type=Path,required=True)
 args=p.parse_args()
 repo=Path(__file__).resolve().parents[1]
@@ -12,7 +13,8 @@ base='b6ca2feab718614d407897e1d0b3762633ba1fe3'
 handoff='d136c1b80f78d41df174446174a8b0fb444a2cb6'
 implementation=git('rev-parse',args.implementation).decode().strip()
 head=git('rev-parse','HEAD').decode().strip()
-for a,b in [(base,handoff),(handoff,implementation),(implementation,head)]:
+review=git('rev-parse',args.review_base).decode().strip() if args.review_base else handoff
+for a,b in [(base,handoff),(handoff,review),(review,implementation),(implementation,head)]:
     subprocess.run(['git','merge-base','--is-ancestor',a,b],cwd=repo,check=True)
 status=git('status','--porcelain=v1','--untracked-files=all')
 assert not status,'Inspect and preserve uncommitted files before exporting'
@@ -28,7 +30,7 @@ def extract(commit,destination):
 with tempfile.TemporaryDirectory(prefix='silicon-task011-review-') as temporary:
     root=Path(temporary);source=root/'source';source.mkdir();extract(head,source)
     changes=root/'changes';changes.mkdir()
-    for label,a,b in [('base-to-final',base,head),('review-to-implementation',handoff,implementation),('implementation-to-final',implementation,head)]:
+    for label,a,b in [('base-to-final',base,head),('review-to-final',review,head),('review-to-implementation',review,implementation),('implementation-to-final',implementation,head)]:
         for suffix,command in [('patch',['diff','--binary','--full-index',a,b]),('log.txt',['log','--format=fuller','--reverse',a+'..'+b]),('changed-files.txt',['diff','--name-status',a,b]),('stat.txt',['diff','--stat',a,b])]:
             (changes/(label+'.'+suffix)).write_bytes(git(*command))
     (changes/'worktree-status.txt').write_bytes(status)
@@ -45,11 +47,12 @@ Status: review_ready, not accepted. TASK-012 not started.
 
 - Accepted base: {base}
 - Complete-task handoff: {handoff}
+- Incremental review base: {review}
 - Implementation: {implementation}
 - Final HEAD: {head}
 - Worktree: clean at export; branch main. Ancestry verified.
 
-source/ is ALL tracked files archived from final HEAD. changes/ has binary full-index patches, file status, stats and logs for base→final, handoff→implementation, implementation→final. review-base contains prior AGENTS/backlog and explicitly marks TASK011 task absent. SHA256SUMS excludes itself. PACKAGE_CHECKS validates blobs, patch replay, historical evidence and full unpacked checksums. No uncommitted content is included.
+source/ is ALL tracked files archived from final HEAD. changes/ has binary full-index patches, file status, stats and logs for base→final, review→final, review→implementation, implementation→final. review-base contains prior AGENTS/backlog and explicitly marks TASK011 task absent. SHA256SUMS excludes itself. PACKAGE_CHECKS validates blobs, patch replay, historical evidence and full unpacked checksums. No uncommitted content is included.
 
 ## Preparation and reproduction
 
@@ -69,7 +72,7 @@ export SILICON_TEST_KEYCLOAK_HOME="$PWD/.tools/keycloak/keycloak-26.7.3"
 .venv/bin/python -m pytest apps/api/tests -q
 npm run typecheck
 npm run build
-node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts
+node --test apps/web/tests/*.test.ts
 .venv/bin/python infra/export_openapi.py
 npm run api:types
 .venv/bin/python infra/check_docs.py
@@ -87,7 +90,7 @@ Open https://localhost:5173 and use fictional alice/Fictional-alice-17!; choose 
 
 ## Evidence and limitations
 
-Read validation.json and result.md for exact test outcomes and intermediate failures. Local passing commands do not imply remote CI or independent review passed. TASK008 historical download-artifact limit remains; no new file flow. No Docker, other-browser, production deployment or real supplier/tax-policy verification. Finance is manual operating ledger registration, not a bank transfer, statutory general ledger, tax platform or revenue recognition. CNY only; drafts require explicit confirmation. Invoice evidence references are archive registration numbers, not uploaded or verified tax documents. See implementation.md for migration downgrade restrictions and reproducible fixtures. Historical absolute paths in raw logs are evidence only.
+For an incremental package, read docs/tasks/TASK-011/evidence/r1/validation.json and browser-acceptance.md first; original evidence/validation.json is historical. Read result.md for exact test outcomes and intermediate failures. Local passing commands do not imply remote CI or independent review passed. TASK008 historical download-artifact limit remains; no new file flow. No Docker, other-browser, production deployment or real supplier/tax-policy verification. Finance is manual operating ledger registration, not a bank transfer, statutory general ledger, tax platform or revenue recognition. CNY only; drafts require explicit confirmation. Invoice evidence references are archive registration numbers, not uploaded or verified tax documents. See implementation.md for migration downgrade restrictions and reproducible fixtures. Historical absolute paths in raw logs are evidence only.
 
 No .env, secrets, private keys, sessions/tokens, database files, dependency directories, .git or AppleDouble. Safe env examples, locks, CI, scripts, migrations, fictional fixtures and screenshots remain. High-confidence secret scan stops export on a match; no silent rewriting of source.
 ''')
@@ -119,6 +122,14 @@ No .env, secrets, private keys, sessions/tokens, database files, dependency dire
         for name in tree:assert (old/name).read_bytes()==(source/name).read_bytes(),name
     for name in ['apps/api/migrations/versions/0013_finance.py','apps/api/tests/test_finance.py','apps/web/src/Finance.tsx','docs/tasks/TASK-011/task.md','docs/tasks/TASK-011/evidence/validation.json','docs/tasks/TASK-011/evidence/screenshots.json']:
         assert (source/name).is_file(),name
+    if args.review_base:
+        with tempfile.TemporaryDirectory(prefix='silicon-task011-prior-') as d:
+            prior=Path(d);extract(review,prior)
+            for f in (prior/'docs/tasks/TASK-011/evidence').rglob('*'):
+                if f.is_file():assert f.read_bytes()==(source/f.relative_to(prior)).read_bytes(),str(f)
+            historical=prior/'docs/tasks/TASK-011/result.md'
+            assert (source/'docs/tasks/TASK-011/result.md').read_bytes().startswith(historical.read_bytes())
+        (evidence/'R1.md').write_text('# R1 incremental evidence\n\nSee ../source/docs/tasks/TASK-011/evidence/r1/validation.json and browser-acceptance.md. Original report: ../source/docs/reviews/TASK-011-680c071-review.md. Full previous evidence is unchanged.\n')
     (root/'PACKAGE_CHECKS.json').write_text(json.dumps({'final':head,'tracked_files':len(tree),'commit_blobs_exact':True,'binary_patch_replay_exact':True,'prior_reports_and_task010_history_unchanged':True,'task010_historical_evidence_and_result_prefix_unchanged':True,'symlinks':0,'secret_scan':'no high-confidence matches; fictional fixtures retained','independent_acceptance':False},indent=2)+'\n')
     files=sorted(f for f in root.rglob('*') if f.is_file())
     (root/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root))+'\n' for f in files))

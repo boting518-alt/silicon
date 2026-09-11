@@ -1,0 +1,95 @@
+{
+  "task": "TASK-011",
+  "status": "review_ready",
+  "review_base": "680c071c96309137788671c160c1df5235fa59a6",
+  "final_head": "See package REVIEW_MANIFEST.md; full committed source is archived from final HEAD",
+  "checks": [
+    {
+      "name": "real PG/API targeted",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_finance_corrections.py apps/api/tests/test_finance.py -q",
+      "status": "passed",
+      "result": "20 passed, 5 warnings, 36.91s",
+      "evidence": "targeted.txt"
+    },
+    {
+      "name": "complete backend",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "status": "passed",
+      "result": "243 passed, 15 warnings, 252.91s",
+      "evidence": "backend-final.txt",
+      "note": "After stopping independent browser stack; PG and real OIDC included."
+    },
+    {
+      "name": "initial complete backend",
+      "status": "environment_error",
+      "result": "242 passed, 15 warnings, 1 error, 253.87s",
+      "evidence": "backend.txt",
+      "reason": "IdP port8080 occupied during parallel browser stack; exact Keycloak startup log preserved"
+    },
+    {
+      "name": "React component page",
+      "command": "Open /tests/finance-component.html on isolated browser stack",
+      "status": "passed",
+      "result": "5 passed",
+      "evidence": "components.txt",
+      "kind": "actual React with HTTP substitutes"
+    },
+    {
+      "name": "Node tests",
+      "command": "node --test apps/web/tests/*.test.ts",
+      "status": "passed",
+      "result": "19 passed",
+      "evidence": "node.txt"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "typecheck.txt"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "build.txt"
+    },
+    {
+      "name": "generated contract consistency",
+      "command": ".venv/bin/python infra/export_openapi.py; npm run api:types",
+      "status": "passed",
+      "result": "both file SHA-256 identical before/after regeneration",
+      "evidence": "contract-consistency.txt"
+    },
+    {
+      "name": "docs",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "evidence": "docs.txt"
+    },
+    {
+      "name": "diff",
+      "command": "git diff --check; git diff --cached --check",
+      "status": "passed",
+      "evidence": "diff-check.txt"
+    },
+    {
+      "name": "real browser",
+      "command": "SILICON_BROWSER_FINANCE=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python infra/browser_stack.py",
+      "status": "passed",
+      "evidence": "browser-acceptance.md",
+      "kind": "real IdP/PG/API, trusted HTTPS, original300→100→300, refresh persisted; both viewports"
+    }
+  ],
+  "red_green": {
+    "red": "2 failed (correction endpoint missing), 14 existing tests accidentally recollected via star import passed; red.txt original retained",
+    "first_green": "2 passed, 2 warnings, 3.66s; green-first.txt"
+  },
+  "limitations": [
+    "Full correction of original negative adjustment only; no partial amount or positive adjustment reversal",
+    "Correction does not reverse real refunds/physical returns; may restore unpaid balance",
+    "Other browsers, Docker, production, external financial systems not_run; remote CI not verified",
+    "1000 AR/AP sample is real PG/API; browser uses original300 contract"
+  ],
+  "review_report_sha256": "6ab1c748cc9ce20a19865e8558fe3729c4e3abf5b5f51f8962a9b4ea22d98873",
+  "independent_review_passed": false
+}

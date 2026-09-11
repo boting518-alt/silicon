@@ -188,6 +188,14 @@ def test_real_return_deallocate_adjust_and_customer_refund(engine,database,ident
         assert get(c,'plans',ret['id'])['effective']=='100.00' and not get(c,'plans',ret['id'])['overdue']
         assert ok(c.get('/api/v1/delivery/shipments/'+sh['id']))==returned
         assert get(c,'reconciliation')['matches'] and adjusted['effective']=='0.00'
+        # Correct mistaken commercial reduction after real refund: neither physical return nor cash is undone.
+        corrected=ok(cmd(c,'/plans/'+p2['id']+'/correct-adjustment',version(adjusted,adjustment_id=adjusted['adjustments'][0]['id'],basis_ref='误减复核商业依据')))
+        assert corrected['effective']=='200.00' and corrected['remaining']=='200.00'
+        assert get(c,'summary')['net_cash_flow']=='700.00' and get(c,'summary')['customer_refunds']=='200.00'
+        assert ok(c.get('/api/v1/delivery/shipments/'+sh['id']))==returned
+        assert cmd(c,'/plans/'+p2['id']+'/adjust',version(corrected,amount='-200',basis_ref='不得重复引用退货',return_id=rid)).status_code==409
+        assert get(c,'reconciliation')['matches']
+
 
 def test_permission_recheck_rls_and_cost_independence(engine,database,identities):
     from sqlalchemy.exc import DBAPIError

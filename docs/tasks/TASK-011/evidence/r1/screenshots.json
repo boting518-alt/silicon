@@ -1,0 +1,58 @@
+[
+  {
+    "file": "desktop.jpg",
+    "sha256": "1be3e7a457fa12ac0eae90618b85476569d58ef91c72ed6244e7616636b8ad84",
+    "pixels": [
+      1425,
+      891
+    ],
+    "format": "JPEG",
+    "status": "final",
+    "css_viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "file": "intermediate-desktop-full.jpg",
+    "sha256": "7c01080372615476e7623759dbb09700708a4e21faf237f54dce387e07672719",
+    "pixels": [
+      1425,
+      1892
+    ],
+    "format": "JPEG",
+    "status": "intermediate stitching artifact",
+    "css_viewport": [
+      1440,
+      900
+    ]
+  },
+  {
+    "file": "intermediate-mobile-full.jpg",
+    "sha256": "3ec611ea4d7b9812fc553de0bc8bd13fc2b4875564fea2b58276fee31d6f5a40",
+    "pixels": [
+      375,
+      2783
+    ],
+    "format": "JPEG",
+    "status": "intermediate stitching artifact",
+    "css_viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "file": "mobile.jpg",
+    "sha256": "931d9e393c52b9c20851745c9590ba610dd68a4c384ab07f10f5e8014b26a970",
+    "pixels": [
+      375,
+      812
+    ],
+    "format": "JPEG",
+    "status": "final",
+    "css_viewport": [
+      390,
+      844
+    ]
+  }
+]

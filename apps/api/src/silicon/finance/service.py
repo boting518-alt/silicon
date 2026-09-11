@@ -89,12 +89,14 @@ def occurred(at):
 def plan(db,a,id):
     v=row(db,'fin_plans',id);s=source(db,a,v['direction'],v['source_id'])
     adjustments=rows(db,'fin_adjustments','plan_id',id);releases=rows(db,'fin_releases','plan_id',id);alloc=allocations(db,'plan_id',id)
-    adj=total(adjustments);effective=v['amount']+adj if v['state']=='confirmed' else D(0);used=total(x for x in alloc if not x['reversed'])
+    originals={x['id']:x for x in adjustments}
+    corrections=[{**x,'amount':money(-originals[x['adjustment_id']]['amount'])} for x in rows(db,'fin_adjustment_corrections','plan_id',id)]
+    adj=total(adjustments)+total(corrections);effective=v['amount']+adj if v['state']=='confirmed' else D(0);used=total(x for x in alloc if not x['reversed'])
     released=bool(releases) or (not v['retention'] and not v['release_condition'] and v['due_date'] is not None)
     due=releases[0]['due_date'] if releases else v['due_date'] if released else None
     return {**v,'party_name':s['party_name'],'amount':money(v['amount']),'effective':money(effective),'adjustment':money(adj),'allocated':money(used),'remaining':money(effective-used),
             'due_date':due,'released':released,'overdue':bool(due and due<now().astimezone(ZoneInfo('Asia/Shanghai')).date() and effective>used),
-            'adjustments':[{**x,'amount':money(x['amount'])} for x in adjustments],'releases':releases,'allocations':alloc}
+            'adjustments':[{**x,'amount':money(x['amount'])} for x in adjustments],'corrections':corrections,'releases':releases,'allocations':alloc}
 
 def cash(db,a,id):
     v=row(db,'fin_cash',id);p=party(db,a,v['direction'],v['party_id']);alloc=allocations(db,'cash_id',id)
@@ -187,6 +189,23 @@ def adjust(db,a,id,b):
         r=row(db,'del_returns',b.return_id);l=row(db,'del_lines',r['line_id']);o=row(db,'sales_orders',l['order_id'])
         if b.amount>=0 or v['direction']!='receivable' or o['contract_version_id']!=v['source_id']:raise Denied(422,'FIN_RETURN_SOURCE_MISMATCH')
     insert(db,a,'fin_adjustments',{'id':uuid4(),'plan_id':id,'amount':b.amount,'reason':b.reason,'basis_ref':b.basis_ref,'return_id':b.return_id,'actor_id':a.actor_id});bump(db,'fin_plans',v);return plan(db,a,id)
+
+def correction_original(db,a,id,adjustment_id):
+    plan(db,a,id)
+    original=row(db,'fin_adjustments',adjustment_id)
+    if original['plan_id']!=id:raise Denied(404,'NOT_FOUND')
+    return original
+
+def correct_adjustment(db,a,id,b):
+    v=plan(db,a,id);cat.expected(v,b.expected_version)
+    original=correction_original(db,a,id,b.adjustment_id)
+    if v['state']!='confirmed' or original['amount']>=0:raise Denied(422,'FIN_CORRECTION_REQUIRES_REDUCTION')
+    if rows(db,'fin_adjustment_corrections','adjustment_id',b.adjustment_id):raise Denied(409,'FIN_ADJUSTMENT_ALREADY_CORRECTED')
+    effective=D(v['effective'])-original['amount']
+    if effective<max(D(0),D(v['allocated'])):raise Denied(409,'FIN_DEALLOCATE_FIRST')
+    # The original negative amount never freed allowance. Restoring it consumes no new allowance.
+    insert(db,a,'fin_adjustment_corrections',{'id':uuid4(),'plan_id':id,'adjustment_id':b.adjustment_id,'reason':b.reason,'basis_ref':b.basis_ref,'actor_id':a.actor_id})
+    bump(db,'fin_plans',v);return plan(db,a,id)
 
 def release(db,a,id,b):
     v=plan(db,a,id);cat.expected(v,b.expected_version)

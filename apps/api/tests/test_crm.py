@@ -182,7 +182,7 @@ def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_r
                     old_app.dispose()
         app=make_engine(str(make_url(database.url).set(database=name)))
         with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
-            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0013_finance'
+            assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0014_finance_corrections'
             assert db.scalar(text("SELECT context_id IS NOT NULL FROM sessions WHERE token_hash='legacy-session'"))
             assert db.scalar(text('SELECT count(*) FROM crm_customers'))==(1 if start_revision in ('0004_session_context','0005_catalog','0006_quotes') else 0)
             if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):

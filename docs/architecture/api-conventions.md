@@ -48,3 +48,5 @@
 - `source-adjustments` 保存商业依据和当前来源版本；`summary` / `reconciliation` 为当前经营口径及明细守恒，不是法定收入或利润。
 
 所有写入保留幂等键，同一次响应丢失重试复用；显式新建意图使用新键。金额为最多两位小数的精确字符串；不接受 JSON 浮点数、非有限值或 CNY 以外币种。拒绝使用 `FIN_*` 稳定代码；409 表示版本、额度或业务约束冲突，422 表示输入/方向/金额关系错误，403 权限不足，404 对象不可见。
+
+TASK-011 R1：`POST /finance/plans/{id}/correct-adjustment` 使用 `expected_version`、`confirmed`、`reason`、`basis_ref` 和 `adjustment_id`，不接受金额。仅完整撤销同计划原负向调整；需要 finance.correct/read。操作作用域含计划与原调整；新命令重复更正返回 FIN_ADJUSTMENT_ALREADY_CORRECTED，并发旧版本返回版本冲突；同键原命令重放返回原结果（仍重查权限/关系）。PlanView.corrections 返回原调整关联、后端恢复金额和经办历史；为兼容旧幂等响应缺省为空。普通调整仍受原来源额度约束。

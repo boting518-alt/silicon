@@ -53,6 +53,9 @@ class AdjustmentInput(Version):
     amount:SignedMoney
     basis_ref:Name
     return_id:UUID|None=None
+class AdjustmentCorrectionInput(Version):
+    adjustment_id:UUID
+    basis_ref:Name
 class ReleaseInput(Version):
     due_date:date
 class RefundInput(Input):
@@ -126,6 +129,8 @@ class AllocationView(View):
     created_at:datetime
     actor_id:UUID
     reversed:bool
+class AdjustmentCorrectionView(EventView):
+    adjustment_id:UUID
 class PlanView(View):
     id:UUID
     source_id:UUID
@@ -149,6 +154,7 @@ class PlanView(View):
     released:bool
     overdue:bool
     adjustments:list[EventView]
+    corrections:list[AdjustmentCorrectionView]=Field(default_factory=list)
     releases:list[EventView]
     allocations:list[AllocationView]
 class CashView(View):

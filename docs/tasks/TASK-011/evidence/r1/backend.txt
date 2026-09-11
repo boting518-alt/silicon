@@ -1,0 +1,98 @@
+........................................................................ [ 29%]
+........................................................................ [ 59%]
+....................E................................................... [ 88%]
+...........................                                              [100%]
+==================================== ERRORS ====================================
+_____ ERROR at setup of test_real_keycloak_code_callback_logout_and_expiry _____
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:52098/silicon', migration_url='postgresql+psycopg://silicon_...folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-107/test_cleanup_waits_for_invento0/private-files')
+tmp_path = PosixPath('/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-107/test_real_keycloak_code_callba0')
+
+    @pytest.fixture
+    def real_oidc(database,tmp_path):
+        configured=os.getenv('SILICON_TEST_KEYCLOAK_HOME')
+        if not configured:pytest.skip('not_run: set SILICON_TEST_KEYCLOAK_HOME to Keycloak 26.7.3 distribution; Java 21 required')
+        home=tmp_path/'keycloak'
+        shutil.copytree(configured,home,ignore=shutil.ignore_patterns('._*','data','log'))
+        idp_port,api_port=port(),port()
+        origin=f'https://localhost:{api_port}'
+        issuer=f'https://127.0.0.1:{idp_port}/realms/silicon-dev'
+        imports=home/'data/import';imports.mkdir(parents=True)
+        (imports/'silicon-dev-realm.json').write_text(json.dumps(realm(origin)))
+        key,cert=generate(tmp_path/'tls')
+        tls=ssl.create_default_context(cafile=str(cert))
+        assert tls.verify_mode == ssl.CERT_REQUIRED and tls.check_hostname
+        env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web',
+             'OIDC_CLIENT_SECRET':'fictional-dev-client-secret','PUBLIC_ORIGIN':origin,'OIDC_CA_BUNDLE':str(cert)}
+        processes=[]
+        with (tmp_path/'keycloak.log').open('w') as kc_log,(tmp_path/'api.log').open('w') as api_log:
+            try:
+                kc=subprocess.Popen([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false',f'--https-port={idp_port}',
+                                     f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}',
+                                     '--import-realm','--cache=local'],stdout=kc_log,stderr=subprocess.STDOUT,
+                                     env={**os.environ,'JAVA_OPTS_APPEND':'-Xms128m -Xmx512m'})
+                processes.append(kc)
+>               wait_http(issuer+'/.well-known/openid-configuration',kc,tls)
+
+apps/api/tests/test_oidc_integration.py:79:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+url = 'https://127.0.0.1:53413/realms/silicon-dev/.well-known/openid-configuration'
+process = <Popen: returncode: 1 args: ['/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73...>
+tls = <ssl.SSLContext object at 0x109177b50>, seconds = 90
+
+    def wait_http(url,process,tls,seconds=90):
+        deadline=time.monotonic()+seconds
+        with httpx.Client(verify=tls,timeout=2,trust_env=False) as client:
+            while time.monotonic()<deadline:
+>               if process.poll() is not None:raise RuntimeError('test process exited; inspect captured log')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               RuntimeError: test process exited; inspect captured log
+
+apps/api/tests/test_oidc_integration.py:47: RuntimeError
+---------------------------- Captured stdout setup -----------------------------
+Keycloak/API logs: /private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-107/test_real_keycloak_code_callba0
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_assembly.py::test_concurrent_sn_reservation_and_release_protects_old_stock
+apps/api/tests/test_finance.py::test_concurrent_plan_confirmation_cannot_exceed_contract
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'body' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_assembly.py::test_release_issue_race_and_completion_concurrency
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'expected_version' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_assembly_correction.py::test_concurrent_correction_replay_permissions_and_repeated_history
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'idempotency-key' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_assembly_correction.py::test_concurrent_correction_replay_permissions_and_repeated_history
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[withdraw]
+apps/api/tests/test_contracts.py::test_pending_delete_and_sign_serialize_without_stranding_files
+apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[withdraw]
+apps/api/tests/test_publication.py::test_publish_resubmit_race_and_historical_candidate_guard
+apps/api/tests/test_publication.py::test_revision_sources_concurrent_replay_and_permissions
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-expected-tenant' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_crm.py::test_concurrent_duplicate_create_single_customer
+apps/api/tests/test_finance.py::test_same_cash_concurrency_and_lost_response_retry
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_delivery.py::test_concurrent_shipping_return_and_permission_replays
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'id' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry
+242 passed, 15 warnings, 1 error in 253.87s (0:04:13)
