@@ -1,0 +1,48 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_expired_reservation_can_be_replaced_without_worker ____________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:60572/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:60572/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-71/test_expired_reservation_can_b0/private-files')
+identities = namespace(a=UUID('cddd065a-b70c-413f-8855-8bc7d80b9207'), b=UUID('01b0ceaa-6d7c-49b6-ae84-a9fbe2ae2226'), user=UUID('a...D('f023c55d-038b-4e34-8422-637c896467ce'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:60572/silicon))
+
+    def test_expired_reservation_can_be_replaced_without_worker(engine,database,identities):
+        from sqlalchemy import text
+        i=identities;_,_,b=prepared(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=ok(reserve(c,confirm(c,ok(post(c,'/works',b)))))
+            with i.owner.begin() as db:
+                db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
+                db.execute(text("UPDATE asm_reservations SET expires_at=clock_timestamp()-interval '1 second'"))
+            refreshed=ok(c.get(P+'/works/'+w['id']))
+            assert refreshed['requirements'][0]['missing']==1
+>           replaced=ok(reserve(c,refreshed))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_assembly.py:325:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+r = <Response [409 Conflict]>, status = 200
+
+    def ok(r,status=200):
+>       assert r.status_code==status,r.text
+E       AssertionError: {"code":"VERSION_CONFLICT","message":"身份无效或没有执行此操作的权限","request_id":"522bfa1d-47ae-4e21-b332-5e805701d65b"}
+E       assert 409 == 200
+E        +  where 409 = <Response [409 Conflict]>.status_code
+
+apps/api/tests/test_inventory.py:9: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_assembly.py::test_expired_reservation_can_be_replaced_without_worker
+1 failed, 17 deselected, 2 warnings in 2.89s

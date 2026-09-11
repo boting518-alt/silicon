@@ -45,7 +45,7 @@ for file in [root/'README.md', root/'AGENTS.md', *list((root/'docs').rglob('*.md
     if file.name.startswith('._'): continue
     content = re.sub(r'```.*?```','',file.read_text(),flags=re.S)
     for link in re.findall(r'\]\(([^)]+)\)',content):
-        if '://' in link or link.startswith('#'):continue
+        if '://' in link or link.startswith(('#','sandbox:')):continue
         assert (file.parent/link.split('#')[0]).exists(), (file, link)
         count += 1
 print(f'PASS task handoff/state, relative paths, unchanged reviews, {count} local links')

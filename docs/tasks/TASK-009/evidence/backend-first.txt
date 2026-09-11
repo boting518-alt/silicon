@@ -1,0 +1,1405 @@
+........................................................................ [ 35%]
+....FFFFF...........F...............................E..............FF... [ 70%]
+...........................................................              [100%]
+==================================== ERRORS ====================================
+_____ ERROR at setup of test_real_keycloak_code_callback_logout_and_expiry _____
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_cleanup_waits_for_invento0/private-files')
+tmp_path = PosixPath('/private/var/folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_real_keycloak_code_callba0')
+
+    @pytest.fixture
+    def real_oidc(database,tmp_path):
+        configured=os.getenv('SILICON_TEST_KEYCLOAK_HOME')
+        if not configured:pytest.skip('not_run: set SILICON_TEST_KEYCLOAK_HOME to Keycloak 26.7.3 distribution; Java 21 required')
+        home=tmp_path/'keycloak'
+        shutil.copytree(configured,home,ignore=shutil.ignore_patterns('._*','data','log'))
+        idp_port,api_port=port(),port()
+        origin=f'https://localhost:{api_port}'
+        issuer=f'https://127.0.0.1:{idp_port}/realms/silicon-dev'
+        imports=home/'data/import';imports.mkdir(parents=True)
+        (imports/'silicon-dev-realm.json').write_text(json.dumps(realm(origin)))
+        key,cert=generate(tmp_path/'tls')
+        tls=ssl.create_default_context(cafile=str(cert))
+        assert tls.verify_mode == ssl.CERT_REQUIRED and tls.check_hostname
+        env={**database.env,'OIDC_ISSUER':issuer,'OIDC_CLIENT_ID':'silicon-web',
+             'OIDC_CLIENT_SECRET':'fictional-dev-client-secret','PUBLIC_ORIGIN':origin,'OIDC_CA_BUNDLE':str(cert)}
+        processes=[]
+        with (tmp_path/'keycloak.log').open('w') as kc_log,(tmp_path/'api.log').open('w') as api_log:
+            try:
+                kc=subprocess.Popen([str(home/'bin/kc.sh'),'start-dev','--http-host=127.0.0.1','--http-enabled=false',f'--https-port={idp_port}',
+                                     f'--https-certificate-file={cert}',f'--https-certificate-key-file={key}',
+                                     '--import-realm','--cache=local'],stdout=kc_log,stderr=subprocess.STDOUT,
+                                     env={**os.environ,'JAVA_OPTS_APPEND':'-Xms128m -Xmx512m'})
+                processes.append(kc)
+                wait_http(issuer+'/.well-known/openid-configuration',kc,tls)
+                assert f'Keycloak {VERSION}' in (tmp_path/'keycloak.log').read_text()
+                api=subprocess.Popen([sys.executable,'-m','uvicorn','silicon.main:create_app','--factory','--host','127.0.0.1',
+                    '--port',str(api_port),'--ssl-keyfile',str(key),'--ssl-certfile',str(cert),'--no-access-log'],
+                    cwd=ROOT,env=env,stdout=api_log,stderr=subprocess.STDOUT)
+                processes.append(api)
+>               wait_http(origin+'/api/v1/ready',api,tls,20)
+
+apps/api/tests/test_oidc_integration.py:85:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+url = 'https://localhost:55328/api/v1/ready'
+process = <Popen: returncode: -15 args: ['/Volumes/Lenovo3/workspace/SILICON/silicon-w...>
+tls = <ssl.SSLContext object at 0x116ba16d0>, seconds = 20
+
+    def wait_http(url,process,tls,seconds=90):
+        deadline=time.monotonic()+seconds
+        with httpx.Client(verify=tls,timeout=2,trust_env=False) as client:
+            while time.monotonic()<deadline:
+                if process.poll() is not None:raise RuntimeError('test process exited; inspect captured log')
+                try:
+                    if client.get(url).status_code==200:return
+                except httpx.HTTPError:pass
+                time.sleep(.2)
+>       raise TimeoutError('test process startup timeout')
+E       TimeoutError: test process startup timeout
+
+apps/api/tests/test_oidc_integration.py:52: TimeoutError
+=================================== FAILURES ===================================
+__ test_upgrade_from_task002_preserves_identity_and_tenant_job[0002_identity] __
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0002_identity'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+        with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+        url=str(make_url(database.migration_url).set(database=name));owner=make_engine(url)
+        actor,tenant,job=(uuid4() for _ in range(3))
+        env={**database.env,'MIGRATION_DATABASE_URL':url}
+        try:
+            with owner.begin() as db:db.execute(text('GRANT USAGE ON SCHEMA public TO silicon_app'))
+            for revision in (start_revision,'head'):
+                result=subprocess.run([sys.executable,'infra/migrate.py','upgrade',revision],cwd=root,env=env,capture_output=True,text=True,timeout=15)
+                assert result.returncode==0,result.stderr
+                if revision==start_revision:
+                    with owner.begin() as db:
+                        db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:u,'test','legacy','legacy user')"),{'u':actor})
+                        db.execute(text("INSERT INTO tenants VALUES (:t,'legacy tenant')"),{'t':tenant})
+                        db.execute(text("INSERT INTO memberships VALUES (:t,:u,'admin',true)"),dict(t=tenant,u=actor))
+                        db.execute(text("INSERT INTO jobs(id,kind,dedupe_key,tenant_id,actor_id) VALUES (:id,'identity.check','legacy-tenant-job',:t,:u)"),dict(id=job,t=tenant,u=actor))
+                        db.execute(text("INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at) VALUES ('legacy-session',:u,:t,'legacy-csrf',now()+interval '5 minutes')"),dict(u=actor,t=tenant))
+                        if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
+                            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
+                            db.execute(text("INSERT INTO crm_customers(tenant_id,id,number,name,owner_id) VALUES (:t,:id,'UPGRADE-CUSTOMER','原客户',:u)"),dict(t=tenant,id=actor,u=actor))
+                            db.execute(text("INSERT INTO crm_contacts(tenant_id,customer_id,id,name,title,phone,email) VALUES (:t,:id,:id,'原联系人','','','')"),dict(t=tenant,id=actor))
+                    if start_revision in ('0005_catalog','0006_quotes'):
+                        import sys
+                        sys.path.insert(0,str(root/'infra'))
+                        from catalog_examples import seed
+                        old_app=make_engine(str(make_url(database.url).set(database=name)))
+                        seed(old_app,actor,tenant)
+                        if start_revision=='0006_quotes':
+                            with owner.begin() as db:
+                                db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
+                                db.execute(text("INSERT INTO crm_projects(tenant_id,customer_id,id,name,notes) VALUES (:t,:id,:id,'原项目','')"),dict(t=tenant,id=actor))
+                                bom=db.scalar(text("SELECT id FROM catalog_boms WHERE state='published' LIMIT 1"))
+                                db.execute(text("INSERT INTO quote_drafts(tenant_id,id,name,customer_id,project_id,bom_id,quantity,scope,tax_included,calculation,owner_id) VALUES (:t,:id,'原草稿',:id,:id,:bom,1,'retail',true,'{}',:id)"),dict(t=tenant,id=actor,bom=bom))
+                        old_app.dispose()
+            app=make_engine(str(make_url(database.url).set(database=name)))
+            with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
+>               assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0009_inventory'
+E               AssertionError: assert '0010_assembly' == '0009_inventory'
+E
+E                 - 0009_inventory
+E                 + 0010_assembly
+
+apps/api/tests/test_crm.py:185: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+self = <sqlalchemy.engine.base.Connection object at 0x1155661e0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x1154d3cb0>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1126ce480>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1126cc770>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1157cd850>
+query = 'DROP DATABASE silicon_crm_upgrade', params = {}, prepare = None
+binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.QueryCanceled: canceling statement due to statement timeout
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: QueryCanceled
+
+The above exception was the direct cause of the following exception:
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0002_identity'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+        with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+        url=str(make_url(database.migration_url).set(database=name));owner=make_engine(url)
+        actor,tenant,job=(uuid4() for _ in range(3))
+        env={**database.env,'MIGRATION_DATABASE_URL':url}
+        try:
+            with owner.begin() as db:db.execute(text('GRANT USAGE ON SCHEMA public TO silicon_app'))
+            for revision in (start_revision,'head'):
+                result=subprocess.run([sys.executable,'infra/migrate.py','upgrade',revision],cwd=root,env=env,capture_output=True,text=True,timeout=15)
+                assert result.returncode==0,result.stderr
+                if revision==start_revision:
+                    with owner.begin() as db:
+                        db.execute(text("INSERT INTO identity_users(id,issuer,subject,display_name) VALUES (:u,'test','legacy','legacy user')"),{'u':actor})
+                        db.execute(text("INSERT INTO tenants VALUES (:t,'legacy tenant')"),{'t':tenant})
+                        db.execute(text("INSERT INTO memberships VALUES (:t,:u,'admin',true)"),dict(t=tenant,u=actor))
+                        db.execute(text("INSERT INTO jobs(id,kind,dedupe_key,tenant_id,actor_id) VALUES (:id,'identity.check','legacy-tenant-job',:t,:u)"),dict(id=job,t=tenant,u=actor))
+                        db.execute(text("INSERT INTO sessions(token_hash,user_id,tenant_id,csrf_hash,expires_at) VALUES ('legacy-session',:u,:t,'legacy-csrf',now()+interval '5 minutes')"),dict(u=actor,t=tenant))
+                        if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
+                            db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
+                            db.execute(text("INSERT INTO crm_customers(tenant_id,id,number,name,owner_id) VALUES (:t,:id,'UPGRADE-CUSTOMER','原客户',:u)"),dict(t=tenant,id=actor,u=actor))
+                            db.execute(text("INSERT INTO crm_contacts(tenant_id,customer_id,id,name,title,phone,email) VALUES (:t,:id,:id,'原联系人','','','')"),dict(t=tenant,id=actor))
+                    if start_revision in ('0005_catalog','0006_quotes'):
+                        import sys
+                        sys.path.insert(0,str(root/'infra'))
+                        from catalog_examples import seed
+                        old_app=make_engine(str(make_url(database.url).set(database=name)))
+                        seed(old_app,actor,tenant)
+                        if start_revision=='0006_quotes':
+                            with owner.begin() as db:
+                                db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),dict(t=str(tenant),u=str(actor)))
+                                db.execute(text("INSERT INTO crm_projects(tenant_id,customer_id,id,name,notes) VALUES (:t,:id,:id,'原项目','')"),dict(t=tenant,id=actor))
+                                bom=db.scalar(text("SELECT id FROM catalog_boms WHERE state='published' LIMIT 1"))
+                                db.execute(text("INSERT INTO quote_drafts(tenant_id,id,name,customer_id,project_id,bom_id,quantity,scope,tax_included,calculation,owner_id) VALUES (:t,:id,'原草稿',:id,:id,:bom,1,'retail',true,'{}',:id)"),dict(t=tenant,id=actor,bom=bom))
+                        old_app.dispose()
+            app=make_engine(str(make_url(database.url).set(database=name)))
+            with tenant_transaction(app,actor,tenant,'crm.read','upgrade') as (db,_):
+                assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0009_inventory'
+                assert db.scalar(text("SELECT context_id IS NOT NULL FROM sessions WHERE token_hash='legacy-session'"))
+                assert db.scalar(text('SELECT count(*) FROM crm_customers'))==(1 if start_revision in ('0004_session_context','0005_catalog','0006_quotes') else 0)
+                if start_revision in ('0004_session_context','0005_catalog','0006_quotes'):
+                    assert db.scalar(text('SELECT name FROM crm_customers'))=='原客户'
+                    assert db.scalar(text('SELECT name FROM crm_contacts'))=='原联系人'
+                if start_revision in ('0005_catalog','0006_quotes'):
+                    assert db.scalar(text('SELECT count(*) FROM catalog_skus'))==3
+                    assert db.scalar(text("SELECT count(*) FROM catalog_boms WHERE state='published'"))==2
+                    assert str(db.scalar(text('SELECT amount FROM catalog_price_lines')))=='10000.50'
+                if start_revision=='0006_quotes':
+                    assert db.scalar(text('SELECT name FROM quote_drafts'))=='原草稿'
+                    assert db.scalar(text('SELECT calculation FROM quote_drafts'))=={}
+                assert db.scalar(text('SELECT tenant_id FROM jobs WHERE id=:id'),{'id':job})==tenant
+            from silicon.shared.jobs import run_once
+            assert run_once(app)
+            with app.connect() as db:assert db.scalar(text('SELECT status FROM jobs WHERE id=:id'),{'id':job})=='completed'
+            app.dispose()
+        finally:
+            owner.dispose()
+>           with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'DROP DATABASE {name}'))
+                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_crm.py:205:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1157cd850>
+query = 'DROP DATABASE silicon_crm_upgrade', params = {}, prepare = None
+binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.OperationalError: (psycopg.errors.QueryCanceled) canceling statement due to statement timeout
+E           [SQL: DROP DATABASE silicon_crm_upgrade]
+E           (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: OperationalError
+____ test_upgrade_from_task002_preserves_identity_and_tenant_job[0003_crm] _____
+
+self = <sqlalchemy.engine.base.Connection object at 0x1165df800>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x112e50b60>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1157672f0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x115764200>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x117e54b90>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.DuplicateDatabase: database "silicon_crm_upgrade" already exists
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: DuplicateDatabase
+
+The above exception was the direct cause of the following exception:
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0003_crm'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+>       with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_crm.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x117e54b90>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateDatabase) database "silicon_crm_upgrade" already exists
+E           [SQL: CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+_ test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context] _
+
+self = <sqlalchemy.engine.base.Connection object at 0x1165f70b0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x1165f4d10>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1165443b0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x112702210>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1157cd850>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.DuplicateDatabase: database "silicon_crm_upgrade" already exists
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: DuplicateDatabase
+
+The above exception was the direct cause of the following exception:
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0004_session_context'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+>       with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_crm.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1157cd850>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateDatabase) database "silicon_crm_upgrade" already exists
+E           [SQL: CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+__ test_upgrade_from_task002_preserves_identity_and_tenant_job[0005_catalog] ___
+
+self = <sqlalchemy.engine.base.Connection object at 0x112bc2750>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x112bc0560>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x1126cc5f0>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x1126cfc50>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1200e8e90>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.DuplicateDatabase: database "silicon_crm_upgrade" already exists
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: DuplicateDatabase
+
+The above exception was the direct cause of the following exception:
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0005_catalog'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+>       with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_crm.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x1200e8e90>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateDatabase) database "silicon_crm_upgrade" already exists
+E           [SQL: CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+___ test_upgrade_from_task002_preserves_identity_and_tenant_job[0006_quotes] ___
+
+self = <sqlalchemy.engine.base.Connection object at 0x112204f80>
+dialect = <sqlalchemy.dialects.postgresql.psycopg.PGDialect_psycopg object at 0x112207c20>
+context = <sqlalchemy.dialects.postgresql.psycopg.PGExecutionContext_psycopg object at 0x112204920>
+statement = <sqlalchemy.dialects.postgresql.psycopg.PGCompiler_psycopg object at 0x112206180>
+parameters = [{}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+
+        effective_parameters: Optional[_AnyExecuteParams]
+
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+
+        if self._echo:
+            self._log_info(str_statement)
+
+            stats = context._get_cache_stats()
+
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x117e57f50>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.DuplicateDatabase: database "silicon_crm_upgrade" already exists
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: DuplicateDatabase
+
+The above exception was the direct cause of the following exception:
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+start_revision = '0006_quotes'
+
+    @pytest.mark.parametrize('start_revision',['0002_identity','0003_crm','0004_session_context','0005_catalog','0006_quotes'])
+    def test_upgrade_from_task002_preserves_identity_and_tenant_job(database,start_revision):
+        import subprocess,sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        from silicon.shared.db import make_engine
+        root=Path(__file__).resolve().parents[3]
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_crm_upgrade'
+>       with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apps/api/tests/test_crm.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1421: in execute
+    return meth(
+.venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py:526: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1643: in _execute_clauseelement
+    ret = self._execute_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1848: in _execute_context
+    return self._exec_single_context(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1988: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2365: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:1969: in _exec_single_context
+    self.dialect.do_execute(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Cursor [closed] [IDLE] (host=127.0.0.1 port=54580 user=silicon_bootstrap database=postgres) at 0x117e57f50>
+query = 'CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator'
+params = {}, prepare = None, binary = None
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool | None = None,
+    ) -> Self:
+        """
+        Execute a query or command to the database.
+        """
+        try:
+            with self._conn.lock:
+                self._conn.wait(
+                    self._execute_gen(query, params, prepare=prepare, binary=binary)
+                )
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           sqlalchemy.exc.ProgrammingError: (psycopg.errors.DuplicateDatabase) database "silicon_crm_upgrade" already exists
+E           [SQL: CREATE DATABASE silicon_crm_upgrade OWNER silicon_migrator]
+E           (Background on this error at: https://sqlalche.me/e/20/f405)
+
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: ProgrammingError
+__________________ test_upgrade_from_task001_preserves_queue ___________________
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_pdf_processing_limits_rej1/private-files')
+
+    def test_upgrade_from_task001_preserves_queue(database):
+        """A second database in the same disposable cluster; no resident connection."""
+        import os, subprocess, sys
+        from pathlib import Path
+        from sqlalchemy.engine import make_url
+        bootstrap=make_engine(str(make_url(database.url).set(username='silicon_bootstrap',database='postgres')))
+        name='silicon_upgrade_test'
+        with bootstrap.connect().execution_options(isolation_level='AUTOCOMMIT') as db:
+            db.execute(text(f'CREATE DATABASE {name} OWNER silicon_migrator'))
+        url=str(make_url(database.migration_url).set(database=name))
+        owner=make_engine(url)
+        root=Path(__file__).resolve().parents[3]
+        env={**database.env,'MIGRATION_DATABASE_URL':url}
+        try:
+            with owner.begin() as db:db.execute(text('GRANT USAGE ON SCHEMA public TO silicon_app'))
+            for revision in ['0001_platform','head']:
+                result=subprocess.run([sys.executable,'infra/migrate.py','upgrade',revision],cwd=root,env=env,capture_output=True,text=True)
+                assert result.returncode==0,result.stderr
+                if revision=='0001_platform':
+                    with owner.begin() as db:
+                        db.execute(text("INSERT INTO jobs(id,kind,dedupe_key) VALUES (:id,'smoke','legacy')"),{'id':uuid4()})
+            with owner.connect() as db:
+>               assert db.scalar(text('SELECT version_num FROM alembic_version'))=='0009_inventory'
+E               AssertionError: assert '0010_assembly' == '0009_inventory'
+E
+E                 - 0009_inventory
+E                 + 0010_assembly
+
+apps/api/tests/test_identity.py:252: AssertionError
+____________________ test_empty_migration_and_runtime_role _____________________
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_cleanup_waits_for_invento0/private-files')
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon)
+
+    def test_empty_migration_and_runtime_role(database, engine):
+        with engine.connect() as db:
+>           assert db.scalar(text("SELECT version_num FROM alembic_version")) == '0009_inventory'
+E           AssertionError: assert '0010_assembly' == '0009_inventory'
+E
+E             - 0009_inventory
+E             + 0010_assembly
+
+apps/api/tests/test_platform.py:24: AssertionError
+____________________________ test_health_and_ready _____________________________
+
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54580/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-65/test_cleanup_waits_for_invento0/private-files')
+
+    def test_health_and_ready(database):
+        with TestClient(create_app(Settings(database.url, 'test'))) as client:
+            assert client.get('/api/v1/health').json() == {'status':'ok'}
+            ready = client.get('/api/v1/ready')
+>           assert ready.status_code == 200 and ready.json() == {'status':'ready'}
+E           assert (503 == 200)
+E            +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+apps/api/tests/test_platform.py:38: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[sign]
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'scope' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[edit]
+apps/api/tests/test_contracts.py::test_pending_delete_and_sign_serialize_without_stranding_files
+apps/api/tests/test_inventory.py::test_same_serial_concurrent_different_orders_and_case_preservation
+apps/api/tests/test_publication.py::test_publish_edit_and_convert_withdraw_linear_order[edit]
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-expected-tenant' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[edit]
+apps/api/tests/test_inventory.py::test_concurrent_receipts_reverse_replay_and_reconciliation
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'id' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[delete]
+apps/api/tests/test_contracts.py::test_signing_competition_is_atomic[withdraw]
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'body' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+apps/api/tests/test_publication.py::test_revision_sources_concurrent_replay_and_permissions
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'x-session-context' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR apps/api/tests/test_oidc_integration.py::test_real_keycloak_code_callback_logout_and_expiry
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0002_identity]
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0003_crm]
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0004_session_context]
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0005_catalog]
+FAILED apps/api/tests/test_crm.py::test_upgrade_from_task002_preserves_identity_and_tenant_job[0006_quotes]
+FAILED apps/api/tests/test_identity.py::test_upgrade_from_task001_preserves_queue
+FAILED apps/api/tests/test_platform.py::test_empty_migration_and_runtime_role
+FAILED apps/api/tests/test_platform.py::test_health_and_ready - assert (503 =...
+8 failed, 194 passed, 12 warnings, 1 error in 170.65s (0:02:50)

@@ -3187,7 +3187,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Issue"
+                "$ref": "#/components/schemas/silicon__publication__models__Issue"
               }
             }
           }
@@ -4602,7 +4602,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Version"
+                "$ref": "#/components/schemas/silicon__contracts__models__Version"
               }
             }
           }
@@ -4707,7 +4707,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Version"
+                "$ref": "#/components/schemas/silicon__contracts__models__Version"
               }
             }
           }
@@ -7617,6 +7617,1291 @@
         }
       }
     },
+    "/api/v1/assembly/orders": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Orders",
+        "operationId": "orders_api_v1_assembly_orders_get",
+        "parameters": [
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalesSourceView"
+                  },
+                  "title": "Response Orders Api V1 Assembly Orders Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Works",
+        "operationId": "works_api_v1_assembly_works_get",
+        "parameters": [
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkView"
+                  },
+                  "title": "Response Works Api V1 Assembly Works Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Create",
+        "operationId": "create_api_v1_assembly_works_post",
+        "parameters": [
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Detail",
+        "operationId": "detail_api_v1_assembly_works__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/ready": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Ready",
+        "operationId": "ready_api_v1_assembly_works__id__ready_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/silicon__assembly__models__Version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/reserve": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Reserve",
+        "operationId": "reserve_api_v1_assembly_works__id__reserve_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reserve"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/release": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Release",
+        "operationId": "release_api_v1_assembly_works__id__release_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/silicon__assembly__models__Version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/cancel": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Cancel",
+        "operationId": "cancel_api_v1_assembly_works__id__cancel_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/silicon__assembly__models__Version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/issue": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Issue",
+        "operationId": "issue_api_v1_assembly_works__id__issue_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/silicon__assembly__models__Issue"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/complete": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Complete",
+        "operationId": "complete_api_v1_assembly_works__id__complete_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Complete"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/reverse": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Reverse",
+        "operationId": "reverse_api_v1_assembly_works__id__reverse_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reverse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/devices": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Devices",
+        "operationId": "devices_api_v1_assembly_devices_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceView"
+                  },
+                  "title": "Response Devices Api V1 Assembly Devices Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/devices/{id}": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Device",
+        "operationId": "device_api_v1_assembly_devices__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/save": {
+      "post": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Save",
+        "operationId": "save_api_v1_assembly_works__id__save_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkEdit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/assembly/works/{id}/reconciliation": {
+      "get": {
+        "tags": [
+          "assembly"
+        ],
+        "summary": "Reconciliation",
+        "operationId": "reconciliation_api_v1_assembly_works__id__reconciliation_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "x-expected-tenant",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Expected-Tenant"
+            }
+          },
+          {
+            "name": "x-session-context",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Session-Context"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconciliationView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "summary": "Health",
@@ -8334,6 +9619,47 @@
           "message"
         ],
         "title": "Check"
+      },
+      "Complete": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Reason",
+            "default": "确认"
+          },
+          "serial": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Serial"
+          },
+          "location_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed",
+          "serial",
+          "location_id"
+        ],
+        "title": "Complete"
       },
       "Confirmation": {
         "properties": {
@@ -9304,6 +10630,200 @@
         ],
         "title": "Decide"
       },
+      "DeviceInventoryView": {
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Id"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "location_id",
+          "state",
+          "quantity"
+        ],
+        "title": "DeviceInventoryView"
+      },
+      "DeviceRef": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "movement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Movement Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "movement_id"
+        ],
+        "title": "DeviceRef"
+      },
+      "DeviceView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "work_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Work Id"
+          },
+          "inventory_unit_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Inventory Unit Id"
+          },
+          "layer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Layer Id"
+          },
+          "movement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Movement Id"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Sku"
+          },
+          "serial": {
+            "type": "string",
+            "title": "Serial"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completed At"
+          },
+          "order_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Order Id"
+          },
+          "order_number": {
+            "type": "string",
+            "title": "Order Number"
+          },
+          "contract_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contract Id"
+          },
+          "contract_number": {
+            "type": "string",
+            "title": "Contract Number"
+          },
+          "quote_version_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Quote Version Id"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "customer_name": {
+            "type": "string",
+            "title": "Customer Name"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Id"
+          },
+          "reversed": {
+            "type": "boolean",
+            "title": "Reversed"
+          },
+          "inventory": {
+            "items": {
+              "$ref": "#/components/schemas/DeviceInventoryView"
+            },
+            "type": "array",
+            "title": "Inventory"
+          },
+          "installations": {
+            "items": {
+              "$ref": "#/components/schemas/InstallationView"
+            },
+            "type": "array",
+            "title": "Installations"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost"
+          },
+          "cost_scope": {
+            "type": "string",
+            "title": "Cost Scope"
+          },
+          "delivery_state": {
+            "type": "string",
+            "title": "Delivery State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "work_id",
+          "inventory_unit_id",
+          "layer_id",
+          "movement_id",
+          "product",
+          "serial",
+          "completed_at",
+          "order_id",
+          "order_number",
+          "contract_id",
+          "contract_number",
+          "quote_version_id",
+          "customer_id",
+          "customer_name",
+          "project_id",
+          "reversed",
+          "inventory",
+          "installations",
+          "cost_scope",
+          "delivery_state"
+        ],
+        "title": "DeviceView"
+      },
       "DiscountCode": {
         "properties": {
           "code": {
@@ -9397,6 +10917,42 @@
           "request_id"
         ],
         "title": "Error"
+      },
+      "EventView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Actor Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "action",
+          "reason",
+          "actor_id",
+          "created_at"
+        ],
+        "title": "EventView"
       },
       "Fields-Input": {
         "properties": {
@@ -9712,6 +11268,129 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "InstallationView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "layer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Layer Id"
+          },
+          "unit_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Id"
+          },
+          "sku_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Sku Id"
+          },
+          "sku_number": {
+            "type": "string",
+            "title": "Sku Number"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "position": {
+            "type": "string",
+            "title": "Position"
+          },
+          "serial": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Serial"
+          },
+          "batch": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batch"
+          },
+          "installed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Installed At"
+          },
+          "removed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Removed At"
+          },
+          "correction_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correction Id"
+          },
+          "source_movement": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Source Movement"
+          },
+          "source_line": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Line"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "layer_id",
+          "sku_id",
+          "sku_number",
+          "quantity",
+          "position",
+          "installed_at",
+          "source_movement"
+        ],
+        "title": "InstallationView"
+      },
       "InventoryVersion": {
         "properties": {
           "expected_version": {
@@ -9738,27 +11417,47 @@
         ],
         "title": "InventoryVersion"
       },
-      "Issue": {
+      "IssueLine": {
         "properties": {
-          "expected_version": {
+          "reservation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Reservation Id"
+          },
+          "quantity": {
             "type": "integer",
             "maximum": 1000000.0,
-            "exclusiveMinimum": 0.0,
-            "title": "Expected Version"
-          },
-          "confirmed": {
-            "type": "boolean",
-            "const": true,
-            "title": "Confirmed"
+            "minimum": 1.0,
+            "title": "Quantity"
           }
         },
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "expected_version",
-          "confirmed"
+          "reservation_id",
+          "quantity"
         ],
-        "title": "Issue"
+        "title": "IssueLine"
+      },
+      "IssueView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "movement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Movement Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "movement_id"
+        ],
+        "title": "IssueView"
       },
       "Location": {
         "properties": {
@@ -11533,6 +13232,245 @@
         ],
         "title": "ReceiptView"
       },
+      "ReconciliationView": {
+        "properties": {
+          "work_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Work Id"
+          },
+          "issued_quantity": {
+            "type": "integer",
+            "title": "Issued Quantity"
+          },
+          "wip_quantity": {
+            "type": "integer",
+            "title": "Wip Quantity"
+          },
+          "completed_quantity": {
+            "type": "integer",
+            "title": "Completed Quantity"
+          },
+          "issued_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issued Cost"
+          },
+          "wip_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wip Cost"
+          },
+          "finished_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished Cost"
+          },
+          "matches": {
+            "type": "boolean",
+            "title": "Matches"
+          },
+          "differences": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Differences"
+          }
+        },
+        "type": "object",
+        "required": [
+          "work_id",
+          "issued_quantity",
+          "wip_quantity",
+          "completed_quantity",
+          "matches",
+          "differences"
+        ],
+        "title": "ReconciliationView"
+      },
+      "RequirementView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "sku_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Sku Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "position": {
+            "type": "string",
+            "title": "Position"
+          },
+          "reserved": {
+            "type": "integer",
+            "title": "Reserved"
+          },
+          "issued": {
+            "type": "integer",
+            "title": "Issued"
+          },
+          "missing": {
+            "type": "integer",
+            "title": "Missing"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "sku_id",
+          "quantity",
+          "position",
+          "reserved",
+          "issued",
+          "missing"
+        ],
+        "title": "RequirementView"
+      },
+      "ReservationView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "requirement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Requirement Id"
+          },
+          "layer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Layer Id"
+          },
+          "location_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "consumed": {
+            "type": "integer",
+            "title": "Consumed"
+          },
+          "released": {
+            "type": "integer",
+            "title": "Released"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "requirement_id",
+          "layer_id",
+          "location_id",
+          "quantity",
+          "consumed",
+          "released",
+          "expires_at"
+        ],
+        "title": "ReservationView"
+      },
+      "Reserve": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Reason",
+            "default": "确认"
+          },
+          "requirement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Requirement Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "minimum": 1.0,
+            "title": "Quantity"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "duration_hours": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 8760.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed",
+          "requirement_id",
+          "quantity"
+        ],
+        "title": "Reserve"
+      },
       "Responsibility": {
         "properties": {
           "role": {
@@ -11556,6 +13494,40 @@
           "user_id"
         ],
         "title": "Responsibility"
+      },
+      "Reverse": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Reason",
+            "default": "确认"
+          },
+          "movement_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Movement Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed",
+          "movement_id"
+        ],
+        "title": "Reverse"
       },
       "RoleHistory": {
         "properties": {
@@ -11802,6 +13774,34 @@
           "expected_version"
         ],
         "title": "RuleRevision"
+      },
+      "SalesSourceView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "host": {
+            "$ref": "#/components/schemas/Sku"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "quantity",
+          "host"
+        ],
+        "title": "SalesSourceView"
       },
       "Save": {
         "properties": {
@@ -12356,6 +14356,22 @@
       },
       "StockItem": {
         "properties": {
+          "reserved_quantity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reserved Quantity"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage",
+            "default": "material"
+          },
           "layer_id": {
             "type": "string",
             "format": "uuid",
@@ -12951,21 +14967,6 @@
         ],
         "title": "ValidationError"
       },
-      "Version": {
-        "properties": {
-          "expected_version": {
-            "type": "integer",
-            "minimum": 0.0,
-            "title": "Expected Version"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "expected_version"
-        ],
-        "title": "Version"
-      },
       "VersionCommand": {
         "properties": {
           "expected_version": {
@@ -13004,6 +15005,210 @@
           "reason"
         ],
         "title": "Withdraw"
+      },
+      "WorkEdit": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "product_sku_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Sku Id"
+          },
+          "manager_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Manager Id"
+          },
+          "planned_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Planned On"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "product_sku_id",
+          "manager_id",
+          "planned_on"
+        ],
+        "title": "WorkEdit"
+      },
+      "WorkInput": {
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Order Id"
+          },
+          "product_sku_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Sku Id"
+          },
+          "manager_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Manager Id"
+          },
+          "planned_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Planned On"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "order_id",
+          "product_sku_id",
+          "manager_id",
+          "planned_on"
+        ],
+        "title": "WorkInput"
+      },
+      "WorkView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "order_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Order Id"
+          },
+          "product_sku_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Sku Id"
+          },
+          "manager_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Manager Id"
+          },
+          "planned_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Planned On"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "wip_location_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Wip Location Id"
+          },
+          "requirements": {
+            "items": {
+              "$ref": "#/components/schemas/RequirementView"
+            },
+            "type": "array",
+            "title": "Requirements"
+          },
+          "reservations": {
+            "items": {
+              "$ref": "#/components/schemas/ReservationView"
+            },
+            "type": "array",
+            "title": "Reservations"
+          },
+          "included": {
+            "items": {
+              "$ref": "#/components/schemas/TechnicalLine"
+            },
+            "type": "array",
+            "title": "Included"
+          },
+          "checks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/IssueView"
+            },
+            "type": "array",
+            "title": "Issues"
+          },
+          "devices": {
+            "items": {
+              "$ref": "#/components/schemas/DeviceRef"
+            },
+            "type": "array",
+            "title": "Devices"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/EventView"
+            },
+            "type": "array",
+            "title": "History"
+          },
+          "wip_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wip Cost"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "order_id",
+          "product_sku_id",
+          "manager_id",
+          "planned_on",
+          "notes",
+          "state",
+          "version",
+          "wip_location_id",
+          "requirements",
+          "reservations",
+          "included",
+          "checks",
+          "issues",
+          "devices",
+          "history"
+        ],
+        "title": "WorkView"
       },
       "Workspace": {
         "properties": {
@@ -13100,6 +15305,72 @@
         ],
         "title": "Workspace"
       },
+      "silicon__assembly__models__Issue": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Reason",
+            "default": "确认"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/IssueLine"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Lines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed",
+          "lines"
+        ],
+        "title": "Issue"
+      },
+      "silicon__assembly__models__Version": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Reason",
+            "default": "确认"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed"
+        ],
+        "title": "Version"
+      },
       "silicon__contracts__models__Party": {
         "properties": {
           "name": {
@@ -13130,6 +15401,43 @@
         "additionalProperties": false,
         "type": "object",
         "title": "Party"
+      },
+      "silicon__contracts__models__Version": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version"
+        ],
+        "title": "Version"
+      },
+      "silicon__publication__models__Issue": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Expected Version"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "confirmed"
+        ],
+        "title": "Issue"
       },
       "silicon__publication__models__Party": {
         "properties": {

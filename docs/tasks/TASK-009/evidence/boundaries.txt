@@ -1,0 +1,41 @@
+...F......                                                               [100%]
+=================================== FAILURES ===================================
+______________ test_expiry_worker_revocation_and_cost_visibility _______________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:54026/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:54026/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-63/test_expiry_worker_revocation_0/private-files')
+identities = namespace(a=UUID('09ac5da5-86f8-40a8-80e6-9ebb92212540'), b=UUID('91901f6e-4c54-4270-9592-7f0d3d5ffa6a'), user=UUID('a...D('b29832bb-6d79-4c47-9645-118b14fd7ecc'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:54026/silicon))
+
+    def test_expiry_worker_revocation_and_cost_visibility(engine,database,identities):
+        from sqlalchemy import text
+        from silicon.shared.jobs import run_once
+        i=identities;o,loc,b=prepared(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+            w=ok(reserve(c,confirm(c,ok(post(c,'/works',b)))))
+            with i.owner.begin() as db:
+                db.execute(text("SELECT set_config('silicon.tenant_id',:t,true)"),{'t':str(i.a)})
+                db.execute(text("UPDATE asm_reservations SET expires_at=clock_timestamp()-interval '1 second'"))
+                db.execute(text("UPDATE jobs SET available_at=clock_timestamp()-interval '1 second' WHERE kind='assembly.expire'"))
+            r=post(c,'/works/'+w['id']+'/issue',{'expected_version':w['version'],'confirmed':True,'lines':[{'reservation_id':w['reservations'][0]['id'],'quantity':1}]})
+>           assert r.json()['code']=='RESERVATION_EXPIRED'
+                   ^^^^^^^^^^^^^^^^
+E           KeyError: 'code'
+
+apps/api/tests/test_assembly.py:105: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+apps/api/tests/test_assembly.py::test_concurrent_sn_reservation_and_release_protects_old_stock
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2274: UnsupportedFieldAttributeWarning: The 'alias' attribute with value 'body' was provided to the `Field()` function, which has no effect in the context it was used. 'alias' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_assembly.py::test_expiry_worker_revocation_and_cost_visibility
+1 failed, 9 passed, 3 warnings in 15.26s

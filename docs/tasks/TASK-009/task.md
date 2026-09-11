@@ -1,4 +1,4 @@
-status: executing
+status: review_ready
 
 # TASK-009：库存预留、装配与设备档案
 

@@ -1,0 +1,128 @@
+[
+  {
+    "text": "assembly-component-final.txt",
+    "original": "assembly-component-final.raw.gz",
+    "original_sha256": "45d7b60ee7fb98f7dd504809ec1e6225a2548d5f8327fe2809de45ae895fd400",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "assembly-component.txt",
+    "original": "assembly-component.raw.gz",
+    "original_sha256": "45d7b60ee7fb98f7dd504809ec1e6225a2548d5f8327fe2809de45ae895fd400",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "backend-first.txt",
+    "original": "backend-first.raw.gz",
+    "original_sha256": "ed163af5c01a3ced2021c670db2408738f14091c43c3ffee63b6172f6c58fc8d",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-completed.txt",
+    "original": "browser-completed.raw.gz",
+    "original_sha256": "f5663674b256fd14d5049259fe401630e26df6802cdc9e8f59f76dd669dee853",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-created.txt",
+    "original": "browser-created.raw.gz",
+    "original_sha256": "ba11cba928f937a9a5a67cf8cd174a87870cf059833b0aff74846be531d2adf7",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-device-refreshed.txt",
+    "original": "browser-device-refreshed.raw.gz",
+    "original_sha256": "1f8c33865210308cfdc047fb32e67fe47a4d0c68fb0e144c0779b4ea0c25a7ff",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-enterprise-b-verified.txt",
+    "original": "browser-enterprise-b-verified.raw.gz",
+    "original_sha256": "d0665d536289bf4c89d8e7cc4a8fc160ca89ae5ae659830397f902b93e76e26f",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-enterprise-b.txt",
+    "original": "browser-enterprise-b.raw.gz",
+    "original_sha256": "09abb57d00b728af9882e9de582f754a4780fa25eaee08609a023c0deec6a4b1",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-incomplete-block.txt",
+    "original": "browser-incomplete-block.raw.gz",
+    "original_sha256": "96e3bf01075aeb2524b9a854b5d9578ed082453177c4185ea0de9d8e7572e3d0",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-reserved.txt",
+    "original": "browser-reserved.raw.gz",
+    "original_sha256": "95d48eff527e20981a37e892d4b4b0645b7a9a75adddd34d7890513eee397117",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "browser-source-trace.txt",
+    "original": "browser-source-trace.raw.gz",
+    "original_sha256": "ec64f32e9a69e547be231cab631d8e52901e58d2757452ccf9c99b390d4d5128",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "duration-red.txt",
+    "original": "duration-red.raw.gz",
+    "original_sha256": "89fe84b9fac2a574f81b6120eac8a7b23a4e82e7667547791b5a4facb1e4d32c",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "expiry-replace-red.txt",
+    "original": "expiry-replace-red.raw.gz",
+    "original_sha256": "131b5136ffd6974416f7016d38da0cfaf311aa61787e20fcf1e7916884e4034a",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "issue-green.txt",
+    "original": "issue-green.raw.gz",
+    "original_sha256": "4dbf3ede83d0020c2702e650e2a55140cf212dea6dc3e1934b72fe96ed015650",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "issue-red.txt",
+    "original": "issue-red.raw.gz",
+    "original_sha256": "3974f8aa692635ceb5d1b4928587dc8f7a3945158cd8306a318b203f5979c12c",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "node-final.txt",
+    "original": "node-final.raw.gz",
+    "original_sha256": "e1f5e4cec65618b084f562785a8c2feb6cbe509ef831abfb2e6796d7b95d8e2c",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "reserve-red.txt",
+    "original": "reserve-red.raw.gz",
+    "original_sha256": "c09d9b35b8769abd82fc6317a017a1d38195ec9ef04d203e2791143dc9ab0801",
+    "normalization": "trailing whitespace and final newline only"
+  },
+  {
+    "text": "typecheck-duration.txt",
+    "original": "typecheck-duration.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "normalization": "trailing whitespace and blank EOF lines only"
+  },
+  {
+    "text": "typecheck-first.txt",
+    "original": "typecheck-first.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "normalization": "trailing whitespace and blank EOF lines only"
+  },
+  {
+    "text": "typecheck-fixed.txt",
+    "original": "typecheck-fixed.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "normalization": "trailing whitespace and blank EOF lines only"
+  },
+  {
+    "text": "typecheck-verified.txt",
+    "original": "typecheck-verified.raw.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "normalization": "trailing whitespace and blank EOF lines only"
+  }
+]

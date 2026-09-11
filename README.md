@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-008 已由产品/架构负责人确认 accepted。当前 TASK-009 库存预留、装配与设备档案已授权，状态 executing；完整任务书已归档，进入实现。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
+TASK-000～TASK-008 已由产品/架构负责人确认 accepted。当前 TASK-009 库存预留、装配与设备档案已授权，状态 review_ready；实现、测试与审查材料见 [结果](docs/tasks/TASK-009/result.md)。沿用硅屿 UI、Keycloak OIDC、租户权限与审计；生产模式仍拒绝启动。付款计划不是收款，订单不是交付。最终任务状态见 [backlog](docs/tasks/backlog.md)。
 
 ## 入口与边界
 
@@ -195,7 +195,7 @@ TASK-004 浏览器复现及固定虚构目录夹具见 [历史浏览器验证](d
 
 [任务与发布边界](docs/tasks/TASK-006/task.md)、[ADR-011](docs/architecture/adr/ADR-011.md)、[验证结果](docs/tasks/TASK-006/result.md)、[两身份浏览器准备](docs/tasks/TASK-006/browser-acceptance.md)。开发政策只在独立测试栈显式种入；真实企业无政策阻断发布。所有报价须双人审批，确定性BLOCK不可绕过。已发布正文不可修改，合同只是来源草稿，不代表签约或核销。
 
-当前工作：[TASK-008](docs/tasks/TASK-008/task.md) review_ready；TASK-007 已由负责人接受，见 [交接](docs/tasks/TASK-008/handoff.md)。不开始 TASK-009。
+TASK-008 已由负责人接受；当前 TASK-009 review_ready，见 [交接](docs/tasks/TASK-009/handoff.md) 与 [结果](docs/tasks/TASK-009/result.md)。不开始 TASK-010。
 
 ## TASK-007 合同与私有附件
 
@@ -245,3 +245,10 @@ SILICON_BROWSER_INVENTORY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=
 此标志仅把虚构 carol 设为仓库 member；alice 为 A 管理员。采购、库位、收货和导入由页面操作，不在该种子中预置。退出测试栈由其夹具清理独立数据库/IdP/附件。详见 [ADR-013](docs/architecture/adr/ADR-013.md) 与 [TASK-008 结果](docs/tasks/TASK-008/result.md)。
 
 TASK-008附件上传先授权再限量流式读取，写入前重新授权/核对版本。文件锁跨越业务提交，失败孤儿按以上统一引用规则回收。详见 [R1/R2审查](docs/reviews/TASK-008-dd4031f-review.md) 与 [ADR-013](docs/architecture/adr/ADR-013.md)。
+
+
+### 装配与设备（TASK-009）
+
+侧栏装配工单：选择已签约来源销售订单与SN成品SKU，每张工单一台。确认需求后预留自有合格物料，按固定SN/FIFO来源分批领用，完工转待测试成品。included展示不额外领料。设备详情可查询安装及库存来源；成本只向有权限的人员显示。到期按服务器UTC计算，Worker按当前授权处理。逆向仅用于无后续依赖的整次错误更正，填写原因；不删除历史。
+
+开发验收使用 `SILICON_BROWSER_ASSEMBLY=1` 配合既有浏览器测试栈，详见 [复现步骤](docs/tasks/TASK-009/browser-acceptance.md)。禁止用常驻数据库进行测试。完工不代表测试合格、发货、验收或收款。

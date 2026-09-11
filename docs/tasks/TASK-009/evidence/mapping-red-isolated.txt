@@ -1,0 +1,33 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________ test_order_work_mapping_and_capacity _____________________
+
+engine = Engine(postgresql+psycopg://silicon_app@127.0.0.1:53574/silicon)
+database = namespace(url='postgresql+psycopg://silicon_app@127.0.0.1:53574/silicon', migration_url='postgresql+psycopg://silicon_.../folders/p4/m6bmjjsx4sq9vtzkqxvw73sm0000gn/T/pytest-of-boting/pytest-56/test_order_work_mapping_and_ca0/private-files')
+identities = namespace(a=UUID('d6d4db04-4315-468d-bdbf-d32dd4a4e74c'), b=UUID('57b0d6a1-42bd-45b7-b7ce-5d3c468a5dea'), user=UUID('c...D('b753458d-60cc-437e-9c45-835656cec6ba'), owner=Engine(postgresql+psycopg://silicon_migrator@127.0.0.1:53574/silicon))
+
+    def test_order_work_mapping_and_capacity(engine,database,identities):
+        i=identities;o=order(engine,database,i)
+        with client(engine,database,i.user,i.a) as c:
+>           r=c.get(P+'/orders');assert r.status_code==200,r.text
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: {"detail":"Not Found"}
+E           assert 404 == 200
+E            +  where 404 = <Response [404 Not Found]>.status_code
+
+apps/api/tests/test_assembly.py:17: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED apps/api/tests/test_assembly.py::test_order_work_mapping_and_capacity
+1 failed, 2 warnings in 2.85s

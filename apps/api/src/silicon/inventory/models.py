@@ -161,6 +161,8 @@ class ReceiptView(Model):
     lines:list[ReceiptLineView]
     movement_id:UUID|None=None
 class StockItem(Model):
+    reserved_quantity:int|None=None
+    stage:str="material"
     layer_id:UUID
     sku_id:UUID
     location_id:UUID

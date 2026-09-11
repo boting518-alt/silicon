@@ -1331,6 +1331,245 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/assembly/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Orders */
+        get: operations["orders_api_v1_assembly_orders_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Works */
+        get: operations["works_api_v1_assembly_works_get"];
+        put?: never;
+        /** Create */
+        post: operations["create_api_v1_assembly_works_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detail */
+        get: operations["detail_api_v1_assembly_works__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ready */
+        post: operations["ready_api_v1_assembly_works__id__ready_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/reserve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reserve */
+        post: operations["reserve_api_v1_assembly_works__id__reserve_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/release": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Release */
+        post: operations["release_api_v1_assembly_works__id__release_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel */
+        post: operations["cancel_api_v1_assembly_works__id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/issue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Issue */
+        post: operations["issue_api_v1_assembly_works__id__issue_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Complete */
+        post: operations["complete_api_v1_assembly_works__id__complete_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/reverse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reverse */
+        post: operations["reverse_api_v1_assembly_works__id__reverse_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Devices */
+        get: operations["devices_api_v1_assembly_devices_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/devices/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Device */
+        get: operations["device_api_v1_assembly_devices__id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save */
+        post: operations["save_api_v1_assembly_works__id__save_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assembly/works/{id}/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Reconciliation */
+        get: operations["reconciliation_api_v1_assembly_works__id__reconciliation_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -1618,6 +1857,28 @@ export interface components {
             status: "BLOCK" | "WARN" | "UNKNOWN" | "PASS";
             /** Message */
             message: string;
+        };
+        /** Complete */
+        Complete: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /**
+             * Reason
+             * @default 确认
+             */
+            reason: string;
+            /** Serial */
+            serial: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
         };
         /** Confirmation */
         Confirmation: {
@@ -2058,6 +2319,114 @@ export interface components {
             /** Confirmations */
             confirmations?: components["schemas"]["Confirmation"][];
         };
+        /** DeviceInventoryView */
+        DeviceInventoryView: {
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** State */
+            state: string;
+            /** Quantity */
+            quantity: number;
+        };
+        /** DeviceRef */
+        DeviceRef: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /**
+             * Movement Id
+             * Format: uuid
+             */
+            movement_id: string;
+        };
+        /** DeviceView */
+        DeviceView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /**
+             * Work Id
+             * Format: uuid
+             */
+            work_id: string;
+            /**
+             * Inventory Unit Id
+             * Format: uuid
+             */
+            inventory_unit_id: string;
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Movement Id
+             * Format: uuid
+             */
+            movement_id: string;
+            product: components["schemas"]["Sku"];
+            /** Serial */
+            serial: string;
+            /**
+             * Completed At
+             * Format: date-time
+             */
+            completed_at: string;
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /** Order Number */
+            order_number: string;
+            /**
+             * Contract Id
+             * Format: uuid
+             */
+            contract_id: string;
+            /** Contract Number */
+            contract_number: string;
+            /**
+             * Quote Version Id
+             * Format: uuid
+             */
+            quote_version_id: string;
+            /**
+             * Customer Id
+             * Format: uuid
+             */
+            customer_id: string;
+            /** Customer Name */
+            customer_name: string;
+            /**
+             * Project Id
+             * Format: uuid
+             */
+            project_id: string;
+            /** Reversed */
+            reversed: boolean;
+            /** Inventory */
+            inventory: components["schemas"]["DeviceInventoryView"][];
+            /** Installations */
+            installations: components["schemas"]["InstallationView"][];
+            /** Cost */
+            cost?: string | null;
+            /** Cost Scope */
+            cost_scope: string;
+            /** Delivery State */
+            delivery_state: string;
+        };
         /** DiscountCode */
         DiscountCode: {
             /** Code */
@@ -2100,6 +2469,28 @@ export interface components {
             message: string;
             /** Request Id */
             request_id: string;
+        };
+        /** EventView */
+        EventView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Action */
+            action: string;
+            /** Reason */
+            reason: string;
+            /**
+             * Actor Id
+             * Format: uuid
+             */
+            actor_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
         };
         /** Fields */
         "Fields-Input": {
@@ -2235,6 +2626,52 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** InstallationView */
+        InstallationView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /** Unit Id */
+            unit_id?: string | null;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Sku Number */
+            sku_number: string;
+            /** Quantity */
+            quantity: number;
+            /** Position */
+            position: string;
+            /** Serial */
+            serial?: string | null;
+            /** Batch */
+            batch?: string | null;
+            /**
+             * Installed At
+             * Format: date-time
+             */
+            installed_at: string;
+            /** Removed At */
+            removed_at?: string | null;
+            /** Correction Id */
+            correction_id?: string | null;
+            /**
+             * Source Movement
+             * Format: uuid
+             */
+            source_movement: string;
+            /** Source Line */
+            source_line?: string | null;
+        };
         /** InventoryVersion */
         InventoryVersion: {
             /** Expected Version */
@@ -2250,15 +2687,28 @@ export interface components {
              */
             reason: string;
         };
-        /** Issue */
-        Issue: {
-            /** Expected Version */
-            expected_version: number;
+        /** IssueLine */
+        IssueLine: {
             /**
-             * Confirmed
-             * @constant
+             * Reservation Id
+             * Format: uuid
              */
-            confirmed: true;
+            reservation_id: string;
+            /** Quantity */
+            quantity: number;
+        };
+        /** IssueView */
+        IssueView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Movement Id
+             * Format: uuid
+             */
+            movement_id: string;
         };
         /** Location */
         Location: {
@@ -3091,6 +3541,113 @@ export interface components {
             /** Movement Id */
             movement_id?: string | null;
         };
+        /** ReconciliationView */
+        ReconciliationView: {
+            /**
+             * Work Id
+             * Format: uuid
+             */
+            work_id: string;
+            /** Issued Quantity */
+            issued_quantity: number;
+            /** Wip Quantity */
+            wip_quantity: number;
+            /** Completed Quantity */
+            completed_quantity: number;
+            /** Issued Cost */
+            issued_cost?: string | null;
+            /** Wip Cost */
+            wip_cost?: string | null;
+            /** Finished Cost */
+            finished_cost?: string | null;
+            /** Matches */
+            matches: boolean;
+            /** Differences */
+            differences: string[];
+        };
+        /** RequirementView */
+        RequirementView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Sku Id
+             * Format: uuid
+             */
+            sku_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Position */
+            position: string;
+            /** Reserved */
+            reserved: number;
+            /** Issued */
+            issued: number;
+            /** Missing */
+            missing: number;
+        };
+        /** ReservationView */
+        ReservationView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Requirement Id
+             * Format: uuid
+             */
+            requirement_id: string;
+            /**
+             * Layer Id
+             * Format: uuid
+             */
+            layer_id: string;
+            /**
+             * Location Id
+             * Format: uuid
+             */
+            location_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Consumed */
+            consumed: number;
+            /** Released */
+            released: number;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+        };
+        /** Reserve */
+        Reserve: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /**
+             * Reason
+             * @default 确认
+             */
+            reason: string;
+            /**
+             * Requirement Id
+             * Format: uuid
+             */
+            requirement_id: string;
+            /** Quantity */
+            quantity: number;
+            /** Expires At */
+            expires_at?: string | null;
+            /** Duration Hours */
+            duration_hours?: number | null;
+        };
         /** Responsibility */
         Responsibility: {
             /**
@@ -3103,6 +3660,26 @@ export interface components {
              * Format: uuid
              */
             user_id: string;
+        };
+        /** Reverse */
+        Reverse: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /**
+             * Reason
+             * @default 确认
+             */
+            reason: string;
+            /**
+             * Movement Id
+             * Format: uuid
+             */
+            movement_id: string;
         };
         /** RoleHistory */
         RoleHistory: {
@@ -3209,6 +3786,19 @@ export interface components {
             power_budget_w?: number | null;
             /** Expected Version */
             expected_version: number;
+        };
+        /** SalesSourceView */
+        SalesSourceView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Number */
+            number: string;
+            /** Quantity */
+            quantity: number;
+            host: components["schemas"]["Sku"];
         };
         /** Save */
         Save: {
@@ -3442,6 +4032,13 @@ export interface components {
         };
         /** StockItem */
         StockItem: {
+            /** Reserved Quantity */
+            reserved_quantity?: number | null;
+            /**
+             * Stage
+             * @default material
+             */
+            stage: string;
             /**
              * Layer Id
              * Format: uuid
@@ -3714,11 +4311,6 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
-        /** Version */
-        Version: {
-            /** Expected Version */
-            expected_version: number;
-        };
         /** VersionCommand */
         VersionCommand: {
             /** Expected Version */
@@ -3730,6 +4322,114 @@ export interface components {
             expected_version: number;
             /** Reason */
             reason: string;
+        };
+        /** WorkEdit */
+        WorkEdit: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Product Sku Id
+             * Format: uuid
+             */
+            product_sku_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Planned On
+             * Format: date
+             */
+            planned_on: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+        };
+        /** WorkInput */
+        WorkInput: {
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /**
+             * Product Sku Id
+             * Format: uuid
+             */
+            product_sku_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Planned On
+             * Format: date
+             */
+            planned_on: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+        };
+        /** WorkView */
+        WorkView: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Order Id
+             * Format: uuid
+             */
+            order_id: string;
+            /**
+             * Product Sku Id
+             * Format: uuid
+             */
+            product_sku_id: string;
+            /**
+             * Manager Id
+             * Format: uuid
+             */
+            manager_id: string;
+            /**
+             * Planned On
+             * Format: date
+             */
+            planned_on: string;
+            /** Notes */
+            notes: string;
+            /** State */
+            state: string;
+            /** Version */
+            version: number;
+            /**
+             * Wip Location Id
+             * Format: uuid
+             */
+            wip_location_id: string;
+            /** Requirements */
+            requirements: components["schemas"]["RequirementView"][];
+            /** Reservations */
+            reservations: components["schemas"]["ReservationView"][];
+            /** Included */
+            included: components["schemas"]["TechnicalLine"][];
+            /** Checks */
+            checks: string[];
+            /** Issues */
+            issues: components["schemas"]["IssueView"][];
+            /** Devices */
+            devices: components["schemas"]["DeviceRef"][];
+            /** History */
+            history: components["schemas"]["EventView"][];
+            /** Wip Cost */
+            wip_cost?: string | null;
         };
         /** Workspace */
         Workspace: {
@@ -3764,6 +4464,38 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        /** Issue */
+        silicon__assembly__models__Issue: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /**
+             * Reason
+             * @default 确认
+             */
+            reason: string;
+            /** Lines */
+            lines: components["schemas"]["IssueLine"][];
+        };
+        /** Version */
+        silicon__assembly__models__Version: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /**
+             * Reason
+             * @default 确认
+             */
+            reason: string;
+        };
         /** Party */
         silicon__contracts__models__Party: {
             /**
@@ -3786,6 +4518,21 @@ export interface components {
              * @default
              */
             representative: string;
+        };
+        /** Version */
+        silicon__contracts__models__Version: {
+            /** Expected Version */
+            expected_version: number;
+        };
+        /** Issue */
+        silicon__publication__models__Issue: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
         };
         /** Party */
         silicon__publication__models__Party: {
@@ -5237,7 +5984,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Issue"];
+                "application/json": components["schemas"]["silicon__publication__models__Issue"];
             };
         };
         responses: {
@@ -5841,7 +6588,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Version"];
+                "application/json": components["schemas"]["silicon__contracts__models__Version"];
             };
         };
         responses: {
@@ -5881,7 +6628,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Version"];
+                "application/json": components["schemas"]["silicon__contracts__models__Version"];
             };
         };
         responses: {
@@ -7173,6 +7920,555 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    orders_api_v1_assembly_orders_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SalesSourceView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    works_api_v1_assembly_works_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_api_v1_assembly_works_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detail_api_v1_assembly_works__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ready_api_v1_assembly_works__id__ready_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__assembly__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reserve_api_v1_assembly_works__id__reserve_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Reserve"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    release_api_v1_assembly_works__id__release_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__assembly__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_api_v1_assembly_works__id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__assembly__models__Version"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    issue_api_v1_assembly_works__id__issue_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["silicon__assembly__models__Issue"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    complete_api_v1_assembly_works__id__complete_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Complete"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reverse_api_v1_assembly_works__id__reverse_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Reverse"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    devices_api_v1_assembly_devices_get: {
+        parameters: {
+            query?: {
+                q?: string;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeviceView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    device_api_v1_assembly_devices__id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeviceView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    save_api_v1_assembly_works__id__save_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string;
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkEdit"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reconciliation_api_v1_assembly_works__id__reconciliation_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReconciliationView"];
                 };
             };
             /** @description Validation Error */

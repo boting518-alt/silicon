@@ -1,0 +1,133 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱 未启用" [disabled]:
+      - generic: ▧
+      - text: 业务驾驶舱
+      - generic: 未启用
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收 未启用" [disabled]:
+      - generic: ▤
+      - text: 交付与验收
+      - generic: 未启用
+    - button "⚙ 售后与部件 未启用" [disabled]:
+      - generic: ⚙
+      - text: 售后与部件
+      - generic: 未启用
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 经营总览 未启用" [disabled]:
+      - generic: ◫
+      - text: 经营总览
+      - generic: 未启用
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析 未启用" [disabled]:
+      - generic: ◷
+      - text: 周转分析
+      - generic: 未启用
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /设备查询
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "从每个部件，到清晰版本。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "设备与部件档案" [level=2]
+  - button "刷新查询"
+  - paragraph: 库存预留 → 实际领料 → 完工待测试。仅实际领料成本，不含人工及其他费用。
+  - heading "设备查询" [level=3]
+  - text: 搜索整机 / 部件 SN、型号、客户、合同或订单
+  - textbox "搜索整机 / 部件 SN、型号、客户、合同或订单": H1
+  - button "查询设备"
+  - strong: FICTIONAL-ASM-009 · 虚构 FINISHED
+  - paragraph: 澄川大学 · 人工智能学院 · SO-CON-001 · 已完工，待测试
+  - button "设备详情 FICTIONAL-ASM-009" [active]
+  - heading "FICTIONAL-ASM-009 · FINISHED" [level=3]
+  - paragraph: 虚构制造商 / 硅屿测试品牌 / 自主品牌
+  - paragraph: 实物 6001f79a-1337-41f7-96fd-799191e0d379 · 设备档案引用同一库存实物
+  - paragraph: 客户 澄川大学 · 人工智能学院 · 合同 CON-001 · 订单 SO-CON-001
+  - paragraph: 报价版本 ee535aab-c12e-4448-943c-9ad2be5778d7 · 项目 35b04551-057c-43eb-a539-7e865da47d0b
+  - paragraph: 待检 / 待测试 · 1 件；未发货、未验收、未收款。
+  - paragraph: 成品成本 90.00 CNY · 仅实际领料成本
+  - table:
+    - rowgroup:
+      - row "部件 位置 安装历史 库存来源":
+        - columnheader "部件"
+        - columnheader "位置"
+        - columnheader "安装历史"
+        - columnheader "库存来源"
+    - rowgroup:
+      - row "PUB-memory MEM × 2 memory:PUB-memory 2026-09-11T16:28:21.199586+08:00 有效安装 b4729fff-3e9d-4d30-942d-3e9b94a8f40b 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d":
+        - cell "PUB-memory MEM × 2":
+          - text: PUB-memory
+          - text: MEM × 2
+        - cell "memory:PUB-memory"
+        - cell "2026-09-11T16:28:21.199586+08:00 有效安装":
+          - text: 2026-09-11T16:28:21.199586+08:00
+          - text: 有效安装
+        - cell "b4729fff-3e9d-4d30-942d-3e9b94a8f40b 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d":
+          - text: b4729fff-3e9d-4d30-942d-3e9b94a8f40b
+          - text: 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d
+      - row "PUB-H H1 × 1 host:PUB-H 2026-09-11T16:28:21.198803+08:00 有效安装 534d1450-ea3d-4216-989c-87b0342d90f1 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d":
+        - cell "PUB-H H1 × 1":
+          - text: PUB-H
+          - text: H1 × 1
+        - cell "host:PUB-H"
+        - cell "2026-09-11T16:28:21.198803+08:00 有效安装":
+          - text: 2026-09-11T16:28:21.198803+08:00
+          - text: 有效安装
+        - cell "534d1450-ea3d-4216-989c-87b0342d90f1 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d":
+          - text: 534d1450-ea3d-4216-989c-87b0342d90f1
+          - text: 入库 33fc5306-67d2-4f02-87d3-6c3fb936073d
+  - button "关闭设备详情"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

@@ -165,6 +165,7 @@ def create_layer(db,a,m,sku,quantity,tracking,serial,batch,location,state,cost,s
         old=db.execute(text('SELECT * FROM inv_units WHERE sku_id=:s AND manufacturer_id=:m AND serial_normal=:n'),{'s':sku['id'],'m':sku['manufacturer_id'],'n':normal}).mappings().first()
         if old:
             unit=old['id']
+            if db.scalar(text('SELECT 1 FROM asm_installations WHERE unit_id=:u AND removed_at IS NULL'),{'u':unit}):raise Denied(409,'COMPONENT_INSTALLED')
             if db.scalar(text('SELECT coalesce(sum(b.quantity),0) FROM inv_balances b JOIN inv_layers l ON l.id=b.layer_id AND l.tenant_id=b.tenant_id WHERE l.unit_id=:u'),{'u':unit}):raise Denied(409,'SERIAL_ALREADY_IN_STOCK')
         else:
             unit=uuid4();insert(db,a,'inv_units',{'id':unit,'sku_id':sku['id'],'manufacturer_id':sku['manufacturer_id'],'serial_raw':serial,'serial_normal':normal})
@@ -201,6 +202,8 @@ def receipt_post(db,a,id,b,request_id):
 
 def transfer(db,a,b,request_id):
     l=row(db,'inv_layers',b.layer_id);c.expected(l,b.expected_version)
+    if db.scalar(text('SELECT 1 FROM asm_works WHERE wip_location_id=:p OR wip_location_id=:s'),{'p':b.target_location_id,'s':b.source_location_id}):raise Denied(409,'ASSEMBLY_LOCATION_PROTECTED')
+    if b.source_state!=b.target_state and db.scalar(text('SELECT 1 FROM asm_devices WHERE layer_id=:l'),{'l':b.layer_id}):raise Denied(409,'DEVICE_TESTING_NOT_ENABLED')
     row(db,'inv_locations',b.source_location_id);row(db,'inv_locations',b.target_location_id)
     if not b.confirmed:raise Denied(422,'CONFIRM_REQUIRED')
     if (b.source_location_id,b.source_state)==(b.target_location_id,b.target_state):raise Denied(422,'NO_MOVEMENT')
@@ -209,6 +212,8 @@ def transfer(db,a,b,request_id):
     if inspection and (b.source_state!='pending' or b.target_state not in ('qualified','quarantine') or b.source_location_id!=b.target_location_id):raise Denied(422,'INSPECTION_TRANSITION_INVALID')
     quantity=db.scalar(text('SELECT quantity FROM inv_balances WHERE layer_id=:l AND location_id=:p AND state=:s'),{'l':b.layer_id,'p':b.source_location_id,'s':b.source_state}) or 0
     if quantity<b.quantity:raise Denied(409,'INSUFFICIENT_STOCK')
+    from silicon.assembly.service import active
+    if active(db,b.layer_id,b.source_location_id):raise Denied(409,'ACTIVE_RESERVATION')
     m=movement(db,a,'inspection' if inspection else 'transfer',b.reason,request_id,date.today())
     entry(db,a,m,b.layer_id,b.source_location_id,b.source_state,-b.quantity);entry(db,a,m,b.layer_id,b.target_location_id,b.target_state,b.quantity)
     c.update(db,'inv_layers',b.layer_id,{'version':l['version']+1})
@@ -219,10 +224,13 @@ def movement_detail(db,id):
 
 def reverse(db,a,id,b,request_id):
     m=movement_detail(db,id)
+    if m['kind'].startswith('assembly_'):raise Denied(409,'USE_ASSEMBLY_REVERSAL')
     if b.expected_version != 1:raise Denied(409,'VERSION_CONFLICT')
     if not b.confirmed or not b.reason.strip():raise Denied(422,'CONFIRM_REASON_REQUIRED')
     if m['kind']=='reverse' or db.scalar(text('SELECT 1 FROM inv_movements WHERE reverse_of=:id'),{'id':id}):raise Denied(409,'ALREADY_REVERSED')
     for e in m['entries']:
+        from silicon.assembly.service import active
+        if active(db,e['layer_id']):raise Denied(409,'ACTIVE_RESERVATION')
         # Every later unreversed movement involving the layer must be reversed first.
         later=db.scalar(text('''SELECT x.id FROM inv_movements x JOIN inv_entries e ON e.movement_id=x.id AND e.tenant_id=x.tenant_id WHERE e.layer_id=:l AND x.created_at>:at AND x.kind<>'reverse' AND NOT EXISTS(SELECT 1 FROM inv_movements r WHERE r.reverse_of=x.id) LIMIT 1'''),{'l':e['layer_id'],'at':m['created_at']})
         if later:raise Denied(409,'MOVEMENT_DEPENDENCY')
@@ -243,11 +251,15 @@ def stock(db,as_of=None):
     known=Decimal(0);unknown=0;available=0
     for x in items:
         x['layer_id']=x.pop('id')
+        x['stage']='wip' if x['state']=='wip' else ('finished' if db.scalar(text('SELECT 1 FROM asm_devices WHERE layer_id=:id'),{'id':x['layer_id']}) else 'material')
         if x['ownership']=='own':
             if x['unit_cost'] is None:unknown+=x['balance']
             else:known+=x['unit_cost']*x['balance']
-            if x['state']=='qualified':available+=x['balance']
-    return {'items':items,'available_quantity':available,'unit':'piece','reservation_state':'not_implemented','known_cost':format(known,'.2f'),'unknown_quantity':unknown,'cost_complete':unknown==0,'total_cost':format(known,'.2f') if not unknown else None,'as_of':at}
+            if x['state']=='qualified':
+                from silicon.assembly.service import active
+                x['reserved_quantity']=active(db,x['layer_id'],x['location_id']) if as_of is None else None
+                available+=x['balance']-(x['reserved_quantity'] or 0)
+    return {'items':items,'available_quantity':available,'unit':'piece','reservation_state':'current' if as_of is None else 'historical_reservations_not_projected','known_cost':format(known,'.2f'),'unknown_quantity':unknown,'cost_complete':unknown==0,'total_cost':format(known,'.2f') if not unknown else None,'as_of':at}
 import csv,io
 CSV_COLUMNS=['external_id','sku','location_id','state','ownership','quantity','serial','batch','unit_cost','cost_status','currency','opening_date','basis']
 

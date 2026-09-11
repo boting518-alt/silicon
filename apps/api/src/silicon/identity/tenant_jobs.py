@@ -39,12 +39,15 @@ def _execute(engine, job):
             return False
         allowed = False
         try:
-            if current['kind'] != 'identity.check' or current['tenant_id'] is None or current['actor_id'] is None:
+            if current['kind'] not in ('identity.check','assembly.expire') or current['tenant_id'] is None or current['actor_id'] is None:
                 raise Denied()
             access = authorize(db,current['actor_id'],current['tenant_id'])
-            access.require('job.run')
+            access.require('assembly.release' if current['kind']=='assembly.expire' else 'job.run')
             db.execute(text("SELECT set_config('silicon.tenant_id',:tenant,true),set_config('silicon.user_id',:actor,true)"),
                        {'tenant':str(access.tenant_id),'actor':str(access.actor_id)})
+            if current['kind']=='assembly.expire':
+                from silicon.assembly.service import guard,expire
+                guard(db,access,True);expire(db,access)
             allowed = True
         except Denied:
             pass

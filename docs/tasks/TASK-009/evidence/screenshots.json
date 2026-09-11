@@ -1,0 +1,44 @@
+[
+  {
+    "path": "device-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "078cd33f44aae4fe78a3f48454afb6983ddaf69fb4dfc62290513289d898974c",
+    "note": "actual browser screenshot"
+  },
+  {
+    "path": "device-mobile.jpg",
+    "width": 390,
+    "height": 844,
+    "sha256": "4f196b1d415a0bf36c385dee7b29e42de9a20499c98c2e2e084373f558ba0616",
+    "note": "actual browser screenshot"
+  },
+  {
+    "path": "source-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "931b961193cba288052849a0b58d06dade97265895e6a7f55a9fbb1caba51cdc",
+    "note": "actual browser screenshot"
+  },
+  {
+    "path": "source-mobile-verified.jpg",
+    "width": 390,
+    "height": 844,
+    "sha256": "60e9e7bc6f43b85056d0182abfcf04fcd885960d825ac685f639016b34bc91e7",
+    "note": "actual browser screenshot"
+  },
+  {
+    "path": "source-viewport-attempt-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a3535cfe667062cedbb92455adecb4a8b28f109d33ec8ffc4b169541be561b8c",
+    "note": "viewport attempt retained as desktop, not mobile evidence"
+  },
+  {
+    "path": "work-block-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "sha256": "c88a3f2eaf41bf219dccb6d248f1e4fb6e76ee66614487bbd34f9ba90221d316",
+    "note": "actual browser screenshot"
+  }
+]

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/infra/check_docs.py", line 49, in <module>
+    assert (file.parent/link.split('#')[0]).exists(), (file, link)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (PosixPath('/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/docs/tasks/TASK-009/result.md'), 'evidence/validation.json')

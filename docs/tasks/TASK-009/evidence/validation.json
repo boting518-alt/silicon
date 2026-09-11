@@ -1,0 +1,95 @@
+{
+  "task": "TASK-009",
+  "status": "review_ready",
+  "base": "b56ed65f2a234a956f75102b1320f7658dddfd71",
+  "handoff": "01e2c2759bb29d728ccd38f45db0597d689f0ceb",
+  "environment": {
+    "postgresql": "17.11",
+    "java": "21.0.6",
+    "keycloak": "26.7.3",
+    "python": "3.12.7",
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "database": "temporary isolated clusters with real silicon_app RLS role; resident database untouched",
+    "authentication": "real OIDC integration and browser; business unit fixtures replace login only",
+    "tls": "explicit test CA and hostname verification; browser existing trusted certificate; no trust change"
+  },
+  "checks": [
+    {
+      "name": "full backend incl real OIDC",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" SILICON_TEST_KEYCLOAK_HOME=\"$KEYCLOAK_HOME\" .venv/bin/python -m pytest apps/api/tests -q",
+      "status": "passed",
+      "result": "209 passed, 10 warnings in 169.69s",
+      "log": "backend-final.txt",
+      "note": "Before final expiry replacement ordering fix; relevant final suite below."
+    },
+    {
+      "name": "final assembly/inventory/identity/Worker regression",
+      "command": "SILICON_TEST_PG_BIN=\"$PG17_HOME/bin\" .venv/bin/python -m pytest apps/api/tests/test_assembly.py apps/api/tests/test_inventory.py apps/api/tests/test_identity.py apps/api/tests/test_platform.py -q",
+      "status": "passed",
+      "result": "59 passed, 5 warnings in 46.42s",
+      "log": "expiry-replace-regression.txt"
+    },
+    {
+      "name": "frontend typecheck",
+      "command": "npm run typecheck",
+      "status": "passed",
+      "log": "typecheck-verified.txt"
+    },
+    {
+      "name": "frontend build incl typecheck",
+      "command": "npm run build",
+      "status": "passed",
+      "log": "build-final.txt"
+    },
+    {
+      "name": "frontend node tests",
+      "command": "node --test apps/web/tests/catalog-time.test.ts apps/web/tests/context-race.test.ts",
+      "status": "passed",
+      "result": "19 passed",
+      "log": "node-tracked-final.txt"
+    },
+    {
+      "name": "OpenAPI and generated client byte consistency",
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types; compare both files byte-for-byte with saved pre-generation contents",
+      "status": "passed",
+      "log": "contract-final.txt"
+    },
+    {
+      "name": "React interaction HTTP substitutes",
+      "command": "Open https://localhost:5173/tests/assembly-component.html in actual browser",
+      "status": "passed",
+      "result": "2 passed",
+      "log": "assembly-component-final.txt"
+    },
+    {
+      "name": "real browser PG IdP business flow",
+      "command": "SILICON_BROWSER_ASSEMBLY=1 SILICON_BROWSER_INVENTORY=1 SILICON_BROWSER_CONTRACTS=1 SILICON_BROWSER_CATALOG=1 .venv/bin/python infra/browser_stack.py; follow ../browser-acceptance.md",
+      "status": "passed",
+      "log": "browser-stack-retry.txt",
+      "note": "All assembly writes via UI; owned stack CLEANED. Six screenshots, one explicitly retained as failed viewport attempt. Initial enterprise switch session expired; re-login and verified B empty."
+    },
+    {
+      "name": "documentation and history hashes",
+      "command": ".venv/bin/python infra/check_docs.py",
+      "status": "passed",
+      "log": "docs-verified.txt"
+    },
+    {
+      "name": "git whitespace check",
+      "command": "git diff --check; git diff --cached --check",
+      "status": "passed",
+      "log": "diff-check.txt"
+    },
+    {
+      "name": "remote CI",
+      "status": "not_run",
+      "reason": "No remote workflow result independently verified; push does not establish CI passing."
+    },
+    {
+      "name": "other browser engines and new procurement-to-assembly browser flow",
+      "status": "not_run",
+      "reason": "Actual browser uses existing opening stock fixtures; PG procurement regression run. Other engines not required for this local evidence."
+    }
+  ]
+}
