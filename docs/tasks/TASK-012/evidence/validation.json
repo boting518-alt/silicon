@@ -115,5 +115,6 @@
     "people-red.txt",
     "component-red.txt"
   ],
-  "browser_note": "CSS viewports requested 1440x900 and 390x844; screenshot pixel dimensions differ, explicitly indexed."
+  "browser_note": "CSS viewports requested 1440x900 and 390x844; screenshot pixel dimensions differ, explicitly indexed.",
+  "implementation_commit": "b8dcbc663be23196f6179532deedd64057376c7e"
 }

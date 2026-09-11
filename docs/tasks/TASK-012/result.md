@@ -49,3 +49,5 @@ status: review_ready。本报告不代表独立验收。
 实际React+HTTP替身 **4 passed**；Node **19 passed**。最终类型检查、构建、OpenAPI/客户端重复生成一致性、文档及git diff --check通过。真实浏览器闭环、企业切换、设备入口、退出与双视口证据如上；远程CI未核实。
 
 变更清单见 [changed-files.txt](changed-files.txt)。审查包从最终HEAD完整导出，校验源码Git blob、基线增量补丁重放、历史报告/证据不变及解压SHA256SUMS。执行者不自行accepted，不将推送等同于独立审查通过。
+
+实现提交：`b8dcbc663be23196f6179532deedd64057376c7e`。本收尾提交仅登记实现引用；最终完整HEAD以审查包REVIEW_MANIFEST.md为准，源码按该提交完整导出。
