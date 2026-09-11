@@ -1,0 +1,114 @@
+ AGENTS.md                                          |    4 +-
+ README.md                                          |   15 +-
+ apps/api/migrations/versions/0010_assembly.py      |   55 +
+ apps/api/src/silicon/assembly/models.py            |  156 ++
+ apps/api/src/silicon/assembly/routes.py            |   75 +
+ apps/api/src/silicon/assembly/service.py           |  219 ++
+ apps/api/src/silicon/identity/tenant_jobs.py       |    7 +-
+ apps/api/src/silicon/inventory/models.py           |    2 +
+ apps/api/src/silicon/inventory/service.py          |   16 +-
+ apps/api/src/silicon/main.py                       |    4 +-
+ apps/api/tests/conftest.py                         |    2 +-
+ apps/api/tests/test_assembly.py                    |  328 +++
+ apps/api/tests/test_crm.py                         |    2 +-
+ apps/api/tests/test_identity.py                    |    2 +-
+ apps/api/tests/test_platform.py                    |    4 +-
+ apps/web/src/Assembly.tsx                          |   47 +
+ apps/web/src/Inventory.tsx                         |    4 +-
+ apps/web/src/main.tsx                              |    9 +-
+ apps/web/tests/assembly-component.html             |    1 +
+ apps/web/tests/assembly-component.jsx              |   13 +
+ docs/architecture/adr/ADR-014.md                   |   25 +
+ docs/reviews/TASK-008-b56ed65-review.md            |   61 +
+ docs/tasks/TASK-008/task.md                        |    2 +-
+ docs/tasks/TASK-009/browser-acceptance.md          |   40 +
+ .../evidence/assembly-component-final.raw.gz       |  Bin 0 -> 280 bytes
+ .../TASK-009/evidence/assembly-component-final.txt |    3 +
+ .../TASK-009/evidence/assembly-component.raw.gz    |  Bin 0 -> 280 bytes
+ .../tasks/TASK-009/evidence/assembly-component.txt |    3 +
+ docs/tasks/TASK-009/evidence/assembly-final.txt    |   20 +
+ docs/tasks/TASK-009/evidence/backend-final.txt     |   31 +
+ docs/tasks/TASK-009/evidence/backend-first.raw.gz  |  Bin 0 -> 7723 bytes
+ docs/tasks/TASK-009/evidence/backend-first.txt     | 1405 +++++++++++
+ docs/tasks/TASK-009/evidence/backend-fixed.txt     |   29 +
+ docs/tasks/TASK-009/evidence/boundaries.txt        |   41 +
+ .../TASK-009/evidence/browser-completed.raw.gz     |  Bin 0 -> 2002 bytes
+ docs/tasks/TASK-009/evidence/browser-completed.txt |  139 ++
+ .../tasks/TASK-009/evidence/browser-created.raw.gz |  Bin 0 -> 1705 bytes
+ docs/tasks/TASK-009/evidence/browser-created.txt   |  139 ++
+ .../evidence/browser-device-refreshed.raw.gz       |  Bin 0 -> 1817 bytes
+ .../TASK-009/evidence/browser-device-refreshed.txt |  133 ++
+ .../evidence/browser-enterprise-b-verified.raw.gz  |  Bin 0 -> 1096 bytes
+ .../evidence/browser-enterprise-b-verified.txt     |   92 +
+ .../TASK-009/evidence/browser-enterprise-b.raw.gz  |  Bin 0 -> 980 bytes
+ .../TASK-009/evidence/browser-enterprise-b.txt     |   86 +
+ .../evidence/browser-incomplete-block.raw.gz       |  Bin 0 -> 1914 bytes
+ .../TASK-009/evidence/browser-incomplete-block.txt |  142 ++
+ .../TASK-009/evidence/browser-reserved.raw.gz      |  Bin 0 -> 1833 bytes
+ docs/tasks/TASK-009/evidence/browser-reserved.txt  |  136 ++
+ .../TASK-009/evidence/browser-source-trace.raw.gz  |  Bin 0 -> 1972 bytes
+ .../TASK-009/evidence/browser-source-trace.txt     |  142 ++
+ .../TASK-009/evidence/browser-stack-final.txt      |    5 +
+ .../TASK-009/evidence/browser-stack-retry.txt      |    5 +
+ docs/tasks/TASK-009/evidence/browser-stack.txt     |    5 +
+ docs/tasks/TASK-009/evidence/build-final.txt       |   18 +
+ docs/tasks/TASK-009/evidence/build-first.txt       |   18 +
+ docs/tasks/TASK-009/evidence/build.txt             |   18 +
+ docs/tasks/TASK-009/evidence/contract-final.txt    |    9 +
+ docs/tasks/TASK-009/evidence/device-desktop.jpg    |  Bin 0 -> 105056 bytes
+ docs/tasks/TASK-009/evidence/device-mobile.jpg     |  Bin 0 -> 51595 bytes
+ docs/tasks/TASK-009/evidence/diff-check.txt        |    3 +
+ docs/tasks/TASK-009/evidence/docs-final.txt        |    5 +
+ docs/tasks/TASK-009/evidence/docs-verified.txt     |    1 +
+ docs/tasks/TASK-009/evidence/duration-red.raw.gz   |  Bin 0 -> 1445 bytes
+ docs/tasks/TASK-009/evidence/duration-red.txt      |   43 +
+ .../TASK-009/evidence/duration-regression.txt      |   20 +
+ docs/tasks/TASK-009/evidence/expanded.txt          |   16 +
+ .../TASK-009/evidence/expiry-replace-red.raw.gz    |  Bin 0 -> 1477 bytes
+ .../tasks/TASK-009/evidence/expiry-replace-red.txt |   48 +
+ .../evidence/expiry-replace-regression.txt         |   18 +
+ docs/tasks/TASK-009/evidence/issue-fixed.txt       |   12 +
+ docs/tasks/TASK-009/evidence/issue-green.raw.gz    |  Bin 0 -> 4102 bytes
+ docs/tasks/TASK-009/evidence/issue-green.txt       |  207 ++
+ docs/tasks/TASK-009/evidence/issue-red.raw.gz      |  Bin 0 -> 1183 bytes
+ docs/tasks/TASK-009/evidence/issue-red.txt         |   41 +
+ docs/tasks/TASK-009/evidence/mapping-green.txt     |   12 +
+ .../TASK-009/evidence/mapping-red-isolated.txt     |   33 +
+ docs/tasks/TASK-009/evidence/mapping-red.txt       |   28 +
+ docs/tasks/TASK-009/evidence/node-final.raw.gz     |  Bin 0 -> 1235 bytes
+ docs/tasks/TASK-009/evidence/node-final.txt        |  Bin 0 -> 12441 bytes
+ .../tasks/TASK-009/evidence/node-tracked-final.txt |   27 +
+ docs/tasks/TASK-009/evidence/node.txt              |   27 +
+ docs/tasks/TASK-009/evidence/raw-log-index.json    |  128 +
+ docs/tasks/TASK-009/evidence/reserve-green.txt     |   16 +
+ docs/tasks/TASK-009/evidence/reserve-red.raw.gz    |  Bin 0 -> 1182 bytes
+ docs/tasks/TASK-009/evidence/reserve-red.txt       |   45 +
+ docs/tasks/TASK-009/evidence/screenshots.json      |   44 +
+ docs/tasks/TASK-009/evidence/source-desktop.jpg    |  Bin 0 -> 85957 bytes
+ .../TASK-009/evidence/source-mobile-verified.jpg   |  Bin 0 -> 35701 bytes
+ .../evidence/source-viewport-attempt-desktop.jpg   |  Bin 0 -> 84169 bytes
+ .../TASK-009/evidence/typecheck-duration.raw.gz    |  Bin 0 -> 101 bytes
+ .../tasks/TASK-009/evidence/typecheck-duration.txt |    7 +
+ docs/tasks/TASK-009/evidence/typecheck-final.txt   |   16 +
+ .../tasks/TASK-009/evidence/typecheck-first.raw.gz |  Bin 0 -> 101 bytes
+ docs/tasks/TASK-009/evidence/typecheck-first.txt   |    7 +
+ .../tasks/TASK-009/evidence/typecheck-fixed.raw.gz |  Bin 0 -> 101 bytes
+ docs/tasks/TASK-009/evidence/typecheck-fixed.txt   |    7 +
+ .../TASK-009/evidence/typecheck-verified.raw.gz    |  Bin 0 -> 101 bytes
+ .../tasks/TASK-009/evidence/typecheck-verified.txt |    7 +
+ docs/tasks/TASK-009/evidence/typecheck.txt         |   16 +
+ docs/tasks/TASK-009/evidence/validation.json       |   95 +
+ .../tasks/TASK-009/evidence/work-block-desktop.jpg |  Bin 0 -> 82188 bytes
+ docs/tasks/TASK-009/handoff.md                     |   27 +
+ docs/tasks/TASK-009/original-task.md               |  329 +++
+ docs/tasks/TASK-009/result.md                      |   59 +
+ docs/tasks/TASK-009/task.md                        |  327 +++
+ docs/tasks/backlog.md                              |   12 +-
+ infra/assembly_examples.py                         |   20 +
+ infra/browser_stack.py                             |    3 +
+ infra/check_docs.py                                |   11 +-
+ infra/package_task009_review.py                    |  138 ++
+ packages/api-client/openapi.json                   | 2488 +++++++++++++++++++-
+ packages/api-client/schema.d.ts                    | 1936 ++++++++++++---
+ runtime/project.json                               |    2 +-
+ 113 files changed, 9553 insertions(+), 440 deletions(-)
