@@ -52,7 +52,7 @@ status: review_ready。等待独立审查，不自行accepted，不开始TASK-01
 
 ## 独立审查 R1/R2 增量修复（2026-09-12）
 
-status: review_ready，未自行accepted，不开始TASK014。审查基准`706e032cce1d944d1b6566388789bba82308884d`；本轮修复实现提交：待登记。最终HEAD由新审查包REVIEW_MANIFEST从实际提交解析。
+status: review_ready，未自行accepted，不开始TASK014。审查基准`706e032cce1d944d1b6566388789bba82308884d`；本轮修复实现提交：`627b23c215c20a5ea86e1ea12cccb4f1e80cc73d`。最终HEAD由新审查包REVIEW_MANIFEST从实际提交解析。
 
 原[独立报告](../../reviews/TASK-013-706e032-review.md)原样归档。R1未授权动态basis统一裁剪为通用说明；R2期间现金流不再被余额as_of截断，当前确认事实按发生日、逆向按登记日进入期间，余额继续保守历史重建。旧错误现金流断言修正，原资金和确认元数据未修改。
 

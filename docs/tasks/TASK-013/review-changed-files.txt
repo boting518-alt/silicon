@@ -19,6 +19,7 @@ docs/tasks/TASK-013/evidence/review-r1-r2/browser-tenant-b.txt
 docs/tasks/TASK-013/evidence/review-r1-r2/build.txt
 docs/tasks/TASK-013/evidence/review-r1-r2/contract-generation.txt
 docs/tasks/TASK-013/evidence/review-r1-r2/cutoff-before-1440.jpg
+docs/tasks/TASK-013/evidence/review-r1-r2/delivery.json
 docs/tasks/TASK-013/evidence/review-r1-r2/final-checks.txt
 docs/tasks/TASK-013/evidence/review-r1-r2/flow-basis-1440.jpg
 docs/tasks/TASK-013/evidence/review-r1-r2/node.txt

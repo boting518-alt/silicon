@@ -1,0 +1,8 @@
+{
+  "review_base": "706e032cce1d944d1b6566388789bba82308884d",
+  "repair_implementation": "627b23c215c20a5ea86e1ea12cccb4f1e80cc73d",
+  "status": "review_ready",
+  "final_head": "Resolved at export into REVIEW_MANIFEST.md",
+  "backend": "286 passed + separately real OIDC 1 passed",
+  "remote_ci": "not_verified"
+}
