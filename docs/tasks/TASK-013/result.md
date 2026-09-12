@@ -7,7 +7,7 @@ status: review_ready。等待独立审查，不自行accepted，不开始TASK-01
 - 已验收基线：`18966f4eaf3fdd1311b883e32f6f8e2eb123d48a`。
 - 交接：`5a882909d6aee58b6f1262b5c2a91825a1618b22`。
 - 编码前指标/ADR提交：`4fb5b02dd08d3156ee010cac23e45e9a5aa88a9a`。
-- 实现提交：交付登记提交追加准确SHA。
+- 实现提交：`a9bdbed5b320929eb686378d46169ad07eb5e9a2`。
 - 最终HEAD：审查包 `REVIEW_MANIFEST.md` 从实际Git HEAD解析；不把自引用文档提交号伪造成已知值。
 - main，保留原报告与TASK012结果/证据。TASK012 accepted基于用户及原增量报告，未改写Reviewer未重跑部分的限制。
 

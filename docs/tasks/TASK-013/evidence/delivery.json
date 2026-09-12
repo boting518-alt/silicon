@@ -1,0 +1,11 @@
+{
+  "base": "18966f4eaf3fdd1311b883e32f6f8e2eb123d48a",
+  "handoff": "5a882909d6aee58b6f1262b5c2a91825a1618b22",
+  "metric_decision": "4fb5b02dd08d3156ee010cac23e45e9a5aa88a9a",
+  "implementation": "a9bdbed5b320929eb686378d46169ad07eb5e9a2",
+  "final_head": "Resolved from Git HEAD into REVIEW_MANIFEST.md by package_task013_review.py; this receipt is committed in finalization",
+  "status": "review_ready",
+  "full_backend": "279 passed, 22 warnings, 365.92s",
+  "remote_before_delivery": "18966f4eaf3fdd1311b883e32f6f8e2eb123d48a",
+  "remote_CI": "not_verified"
+}

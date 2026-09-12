@@ -59,6 +59,7 @@ docs/tasks/TASK-013/evidence/component-server.txt
 docs/tasks/TASK-013/evidence/contract-generation.txt
 docs/tasks/TASK-013/evidence/contracts-react.json
 docs/tasks/TASK-013/evidence/delivery-react.json
+docs/tasks/TASK-013/evidence/delivery.json
 docs/tasks/TASK-013/evidence/diff-check.txt
 docs/tasks/TASK-013/evidence/docs-delivery.txt
 docs/tasks/TASK-013/evidence/docs-initial.txt
