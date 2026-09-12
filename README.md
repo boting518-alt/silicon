@@ -1,12 +1,12 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-011 已由负责人确认 accepted。当前 TASK-012 售后工单、备件、设备换件与供应商 RMA 已授权，状态 review_ready；见 [交接](docs/tasks/TASK-012/handoff.md) 与 [任务书](docs/tasks/TASK-012/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
+TASK-000～TASK-012 已由负责人确认 accepted。当前 TASK-013 经营驾驶舱、地区分布及库存资金分析已授权，状态 executing；见 [交接](docs/tasks/TASK-013/handoff.md) 与 [任务书](docs/tasks/TASK-013/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
 
 ## 入口与边界
 
-先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-012 任务书](docs/tasks/TASK-012/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
+先读 [AGENTS.md](AGENTS.md)、[runtime/project.json](runtime/project.json)、[TASK-013 任务书](docs/tasks/TASK-013/task.md)。产品/架构基线见 [scope](docs/product/scope.md)、[架构](docs/architecture/architecture.md)、[ADR-006](docs/architecture/adr/ADR-006.md)、[客户决策 ADR-007](docs/architecture/adr/ADR-007.md)、[版本依据](docs/architecture/dependencies.md)；[原 Demo](docs/design/demo-baseline.md) 为独立只读参考。
 
-所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。已配置 GitHub 远程，未部署。CI 文件已提供，本轮远程运行结果未核实。当前仅 TASK-012；不自动开始 TASK-013。
+所有以下命令从仓库根执行。路径均相对仓库；不要把历史指南的会话路径写成依赖。已配置 GitHub 远程，未部署。CI 文件已提供，本轮远程运行结果未核实。当前仅 TASK-013；不自动开始 TASK-014。
 
 ## 安装锁定依赖
 

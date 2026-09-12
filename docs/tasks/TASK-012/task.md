@@ -1,4 +1,4 @@
-status: review_ready
+status: accepted
 
 # TASK-012
 
