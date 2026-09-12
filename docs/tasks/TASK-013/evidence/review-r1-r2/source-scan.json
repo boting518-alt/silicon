@@ -1,0 +1,7 @@
+{
+  "files_checked": 1571,
+  "high_confidence_secret_matches": 0,
+  "forbidden_paths": 0,
+  "real_sensitive_data_found": false,
+  "limitation": "pattern scan, not a universal guarantee; fictional fixtures retained"
+}

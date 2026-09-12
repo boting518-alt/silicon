@@ -1,0 +1,26 @@
+[
+  {
+    "original": "analytics-expanded.txt",
+    "stored": "analytics-expanded.txt.gz",
+    "raw_sha256": "f8ad719d25bbc2dfd5d754e0539090c4ea3412980e814b9e8ca89be68479ec88",
+    "note": "Preserve raw whitespace and failures without modification"
+  },
+  {
+    "original": "r1-red.txt",
+    "stored": "r1-red.txt.gz",
+    "raw_sha256": "b0ea89e62f9ae36b1f81d2ed045be53e93957c6d032825438745ac49e7c4cb9d",
+    "note": "Preserve raw whitespace and failures without modification"
+  },
+  {
+    "original": "r2-red.txt",
+    "stored": "r2-red.txt.gz",
+    "raw_sha256": "7c97f3206b5070ecc9384facb682a43b4c5f731b51108ce89f614188afe9f2d7",
+    "note": "Preserve raw whitespace and failures without modification"
+  },
+  {
+    "original": "typecheck.txt",
+    "stored": "typecheck.txt.gz",
+    "raw_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "note": "Preserve raw whitespace and failures without modification"
+  }
+]

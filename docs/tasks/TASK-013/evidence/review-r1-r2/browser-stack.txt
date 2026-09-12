@@ -1,0 +1,8 @@
+/Volumes/Lenovo3/workspace/SILICON/silicon-workspace/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+Verified empty database migration on postgres (PostgreSQL) 17.11 (Homebrew)
+R1_FIXTURE_READY: R1-BATCH / R1-RMA, two pieces at supplier, no return/hold/disposition seeded
+ANALYTICS_FIXTURE_READY: fictional signed360.00, receivable110 (50 unreleased), receipt80, allocated40, RMA one outside / one held; no external actions
+ANALYTICS_REVIEW_READY: alice authorized; carol no delivery/finance; Sep1 receipt80 confirmed at current test time, independent of balance cutoff
+BROWSER_STACK_READY: https://localhost:5173; real IdP; isolated PG; fictional seeded A; empty B
+BROWSER_STACK_CLEANED

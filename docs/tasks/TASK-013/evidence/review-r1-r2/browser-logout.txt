@@ -1,0 +1,81 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱":
+      - generic: ▧
+      - text: 业务驾驶舱
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件":
+      - generic: ⚙
+      - text: 售后与部件
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台":
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析":
+      - generic: ◷
+      - text: 周转分析
+  - generic: 硅
+  - text: 尚未登录
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /业务驾驶舱
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每个判断，都有真实依据。" [level=1]
+  - paragraph: 从签约、交付到资金与库存，以可追溯的经营事实连接每个环节。
+  - generic: 工作台 / 2026.09.08
+  - alert: 请先登录企业身份。
+  - heading "进入客户工作空间" [level=2]
+  - paragraph: 使用企业身份登录后，选择企业访问客户档案。
+  - link "使用企业身份登录":
+    - /url: /api/v1/auth/login
+  - button "刷新登录状态"
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

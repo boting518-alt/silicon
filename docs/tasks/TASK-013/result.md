@@ -49,3 +49,15 @@ status: review_ready。等待独立审查，不自行accepted，不开始TASK-01
 [指标字典](../../analytics/metric-catalog.md) · [ADR018](../../architecture/adr/ADR-018.md) · [视觉变化](visual-comparison.md) · [变更清单](changed-files.txt)
 
 新增原始日志中的pytest尾随空格和空行原样保存在gzip中；见[evidence/raw-log-index.json](evidence/raw-log-index.json)的解压后SHA256，没有清洗或改写失败输出。
+
+## 独立审查 R1/R2 增量修复（2026-09-12）
+
+status: review_ready，未自行accepted，不开始TASK014。审查基准`706e032cce1d944d1b6566388789bba82308884d`；本轮修复实现提交：待登记。最终HEAD由新审查包REVIEW_MANIFEST从实际提交解析。
+
+原[独立报告](../../reviews/TASK-013-706e032-review.md)原样归档。R1未授权动态basis统一裁剪为通用说明；R2期间现金流不再被余额as_of截断，当前确认事实按发生日、逆向按登记日进入期间，余额继续保守历史重建。旧错误现金流断言修正，原资金和确认元数据未修改。
+
+新增真实PG/API审查回归8项通过；完整非OIDC后端286项通过，真实OIDC单独执行；相关React8项、Node19项、类型检查、构建、接口生成一致性通过。命令与准确计数见[本轮验证](evidence/review-r1-r2/validation.json)。真实浏览器验证固定期间三种截止日、授权/无权限说明、企业切换及退出；桌面与移动截图已保存。见[修复与复现](review-repair.md)和[本轮差异文件](review-changed-files.txt)。
+
+R1/R2红测试、绿测试、扩展夹具必填备注错误均保留在独立证据目录；未覆盖此前279项执行历史或Reviewer未独立重跑的限制。无关原浏览器/组件场景本轮not_run，理由为前端实现未改；本轮相关交互与完整后端已运行。远程CI未核实。完整增量包保留所有已跟踪源码、原报告、旧证据和本轮测试，SHA256清单校验，不含秘密、依赖或数据库。
+
+本轮真实OIDC补充结果：1 passed，27.84秒；与非OIDC286项分开运行，合计覆盖完整后端集合。隔离栈已清理。

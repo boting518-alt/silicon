@@ -107,7 +107,10 @@ with tempfile.TemporaryDirectory(prefix='silicon-browser-',dir='/tmp') as direct
             assert os.getenv('SILICON_BROWSER_CONTRACTS')=='1'
             from inventory_review_examples import seed as inventory_seed
             inventory_seed(engine,database,actor,a,temp/'contract-files')
-        if os.getenv('SILICON_BROWSER_ANALYTICS')=='1':
+        if os.getenv('SILICON_BROWSER_ANALYTICS_REVIEW')=='1':
+            from analytics_review_examples import seed as analytics_seed
+            analytics_seed(engine,database,actor,a,temp/'contract-files',issuer)
+        elif os.getenv('SILICON_BROWSER_ANALYTICS')=='1':
             from analytics_examples import seed as analytics_seed
             analytics_seed(engine,database,actor,a,temp/'contract-files',issuer)
         elif os.getenv('SILICON_BROWSER_SERVICE_REPAIR')=='1':

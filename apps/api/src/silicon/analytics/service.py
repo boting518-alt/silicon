@@ -54,7 +54,11 @@ class Projection:
     def metric(self,id,label,unit,permission,rows=(),*,basis='',status='complete',reason='',value=None,group='group',unsupported=False):
         allowed=all(p in self.a.permissions for p in permission.split('+'))
         xs=list(rows) if allowed else []
-        if not allowed:status='unauthorized';reason='没有来源数据权限'
+        if not allowed:
+            status='unauthorized';reason='没有来源数据权限'
+            # Metadata is an output channel too: dynamic sample explanations
+            # must not disclose facts when the source permission is missing.
+            basis='需具备来源权限后查看指标口径'
         elif unsupported:status='not_applicable';reason=reason or '当前筛选或负责人范围不适用于此来源';xs=[]
         if status in ('unauthorized','not_applicable','unavailable'):val=None;xs=[]
         else:
@@ -195,10 +199,13 @@ class Projection:
         self.metric('customer_receivable_rank','客户应收余额排行','CNY','finance.read',[x.model_copy(update={'group':x.customer_id}) for x in balances['receivable']],status=status,reason=reason)
         flows={k:[] for k in ('receipts','payments','customer_refunds','supplier_refunds')};available=defaultdict(list);refunded=defaultdict(lambda:D(0))
         def flow(kind,x,metric,cid,label,target):
-            if not confirmed(kind+'s' if kind=='refund' else 'cash',x):return
+            # Period flows use facts known to be confirmed at query time.
+            # Confirmation chronology is needed for historical balances only;
+            # a late-entered fact retains its recorded business occurrence date.
+            if x['state']!='confirmed':return
             if self.period(x['occurred_at']):flows[metric].append(self.contribution(x['id'],label,x['amount'],x['occurred_at'],cid,target=target))
             r=reversals.get((kind,sid(x['id'])))
-            if r and self.cutoff(r['created_at']) and self.period(r['created_at']):flows[metric].append(self.contribution(r['id'],label,-x['amount'],r['created_at'],cid,note='逆向事实归属逆向登记日',target=target))
+            if r and self.period(r['created_at']):flows[metric].append(self.contribution(r['id'],label,-x['amount'],r['created_at'],cid,note='逆向事实归属逆向登记日',target=target))
         for r in refunds:
             c=cash[sid(r['cash_id'])];cid=c['party_id'] if c['direction']=='receivable' else None
             flow('refund',r,'customer_refunds' if cid else 'supplier_refunds',cid,'退款',{'kind':'finance','id':'refunds/'+sid(r['id'])})
@@ -209,9 +216,9 @@ class Projection:
             if confirmed('cash',c) and self.cutoff(c['occurred_at']) and not reversed_at('cash',c['id']):
                 left=c['amount']-used_cash[sid(c['id'])]-refunded[sid(c['id'])]
                 if left:available[(c['purpose'],c['direction'])].append(self.contribution(c['id'],'收付款 '+sid(c['id'])[:8],left,c['occurred_at'],cid,target=target))
-        for id,label in [('receipts','本期实际收款'),('payments','本期实际付款'),('customer_refunds','本期客户退款'),('supplier_refunds','本期供应商退款')]:self.metric(id,label,'CNY','finance.read',flows[id],status=status,reason=reason,unsupported=self.customer_filter and id in ('payments','supplier_refunds'),basis='已确认资金的发生时间；冲销按逆向登记日；核销不产生现金流',group='region')
+        for id,label in [('receipts','本期实际收款'),('payments','本期实际付款'),('customer_refunds','本期客户退款'),('supplier_refunds','本期供应商退款')]:self.metric(id,label,'CNY','finance.read',flows[id],unsupported=self.customer_filter and id in ('payments','supplier_refunds'),basis='按查询时已确认事实的发生日；冲销按逆向登记日；余额截止日不截断期间流量；核销不产生现金流',group='region')
         net=[x.model_copy(update={'id':key+':'+x.id,'value':str(D(x.value)*sign)}) for key,sign in [('receipts',1),('payments',-1),('customer_refunds',-1),('supplier_refunds',1)] for x in flows[key]]
-        self.metric('net_cash','本期经营净现金流','CNY','finance.read',net,status=status,reason=reason,unsupported=self.customer_filter,basis='实际收款－付款－客户退款＋供应商退款；不等同利润')
+        self.metric('net_cash','本期经营净现金流','CNY','finance.read',net,unsupported=self.customer_filter,basis='期间实际收款－付款－客户退款＋供应商退款；余额截止日不截断期间流量；不等同利润')
         for purpose,prefix in [('advance','advance'),('unallocated','unallocated')]:
             for direction,suffix,label in [('receivable','receipts','收款'),('payable','payments','付款')]:self.metric(prefix+'_'+suffix,('预' if purpose=='advance' else '未分配')+label+'余额','CNY','finance.read',available[(purpose,direction)],status=status,reason=reason,unsupported=self.customer_filter and direction=='payable')
 

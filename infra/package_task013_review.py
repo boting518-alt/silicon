@@ -1,12 +1,14 @@
 """TASK-013 committed full-source export; derived from task012 packaging checks."""
 import argparse,gzip,hashlib,io,json,re,subprocess,tarfile,tempfile,zipfile
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('--implementation',required=True);p.add_argument('--destination',type=Path,required=True);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--implementation',required=True);p.add_argument('--review-base');p.add_argument('--destination',type=Path,required=True);args=p.parse_args()
 repo=Path(__file__).resolve().parents[1]
 def git(*parts):return subprocess.check_output(['git',*parts],cwd=repo)
 base='18966f4eaf3fdd1311b883e32f6f8e2eb123d48a';handoff='5a882909d6aee58b6f1262b5c2a91825a1618b22'
 implementation=git('rev-parse',args.implementation).decode().strip();head=git('rev-parse','HEAD').decode().strip()
 for a,b in [(base,handoff),(handoff,implementation),(implementation,head)]:subprocess.run(['git','merge-base','--is-ancestor',a,b],cwd=repo,check=True)
+review_base=git('rev-parse',args.review_base).decode().strip() if args.review_base else None
+if review_base:subprocess.run(['git','merge-base','--is-ancestor',review_base,implementation],cwd=repo,check=True)
 status=git('status','--porcelain=v1','--untracked-files=all');assert not status,'Inspect and preserve uncommitted files before exporting'
 assert not args.destination.exists(),'Never overwrite prior review package'
 def extract(commit,destination):
@@ -19,7 +21,7 @@ def extract(commit,destination):
         archive.extractall(destination,filter='data')
 with tempfile.TemporaryDirectory(prefix='silicon-task013-review-') as temporary:
     root=Path(temporary);source=root/'source';source.mkdir();extract(head,source);changes=root/'changes';changes.mkdir()
-    for label,a,b in [('base-to-final',base,head),('handoff-to-implementation',handoff,implementation),('implementation-to-final',implementation,head)]:
+    for label,a,b in [('base-to-final',base,head),('handoff-to-implementation',handoff,implementation),('implementation-to-final',implementation,head)]+([('review-to-final',review_base,head)] if review_base else []):
         for suffix,command in [('patch',['diff','--binary','--full-index',a,b]),('log.txt',['log','--format=fuller','--reverse',a+'..'+b]),('changed-files.txt',['diff','--name-status',a,b]),('stat.txt',['diff','--stat',a,b])]:
             (changes/(label+'.'+suffix)).write_bytes(git(*command))
     (changes/'worktree-status.txt').write_bytes(status)
@@ -50,6 +52,8 @@ Status review_ready, not accepted. TASK-014 not started.
 - Handoff: {handoff}
 - Implementation: {implementation}
 - Final HEAD: {head}
+- Incremental review base: {review_base or 'not applicable'}
+- When incremental, read source/docs/tasks/TASK-013/evidence/review-r1-r2/validation.json and source/docs/tasks/TASK-013/review-repair.md for this repair's exact commands and evidence. Use SILICON_BROWSER_ANALYTICS_REVIEW=1 instead of SILICON_BROWSER_ANALYTICS=1 for its isolated browser fixture.
 - Worktree: clean at export; main. Ancestry verified.
 
 source/ is ALL tracked files archived from final HEAD. changes/ includes full binary patches, logs, status and stats for base→final, handoff→implementation and implementation→final, and prior instructions. SHA256SUMS excludes itself. PACKAGE_CHECKS verifies exact Git blobs, replaying the binary patch, unchanged historical evidence, and unpacked checksums. No uncommitted content.
@@ -118,12 +122,27 @@ No .env, real credentials, sessions/tokens, private keys, database/backup files,
         subprocess.run(['git','apply','--binary',str(changes/'base-to-final.patch')],cwd=old,check=True)
         assert {str(f.relative_to(old)) for f in old.rglob('*') if f.is_file()}==set(tree)
         for name in tree:assert (old/name).read_bytes()==(source/name).read_bytes(),name
+    if review_base:
+        for entry in git('ls-tree','-rz',review_base,'docs/tasks/TASK-013/evidence','docs/reviews').split(b'\0'):
+            if not entry:continue
+            _,name=entry.split(b'\t',1);name=name.decode()
+            assert git('show',review_base+':'+name)==(source/name).read_bytes(),name
+        prior=git('show',review_base+':docs/tasks/TASK-013/result.md')
+        assert (source/'docs/tasks/TASK-013/result.md').read_bytes().startswith(prior),'Keep original result verbatim, append repair record'
     for name in ['apps/api/migrations/versions/0016_analytics.py','apps/api/tests/test_analytics.py','apps/web/src/Analytics.tsx','docs/tasks/TASK-013/task.md','docs/tasks/TASK-013/evidence/validation.json','docs/tasks/TASK-013/evidence/screenshots.json']:
         assert (source/name).is_file(),name
     screenshots=json.loads((source/'docs/tasks/TASK-013/evidence/screenshots.json').read_text())
     for item in screenshots:
         f=source/'docs/tasks/TASK-013/evidence'/item['file'];assert hashlib.sha256(f.read_bytes()).hexdigest()==item['sha256']
-    (root/'PACKAGE_CHECKS.json').write_text(json.dumps({'final':head,'tracked_files':len(tree),'commit_blobs_exact':True,'binary_patch_replay_exact':True,'prior_reports_and_task012_history_unchanged':True,'symlinks':0,'secret_scan':'no high-confidence matches; fictional fixtures retained','independent_acceptance':False},indent=2)+'\n')
+    if review_base:
+        repair=source/'docs/tasks/TASK-013/evidence/review-r1-r2'
+        for item in json.loads((repair/'screenshots.json').read_text()):
+            assert hashlib.sha256((repair/item['file']).read_bytes()).hexdigest()==item['sha256']
+        for item in json.loads((repair/'raw-log-index.json').read_text()):
+            assert hashlib.sha256(gzip.decompress((repair/item['stored']).read_bytes())).hexdigest()==item['raw_sha256']
+        with (evidence/'INDEX.md').open('a') as f:
+            f.write('\nCurrent incremental evidence: [repair](../source/docs/tasks/TASK-013/review-repair.md), [validation](../source/docs/tasks/TASK-013/evidence/review-r1-r2/validation.json), [original report](../source/docs/reviews/TASK-013-706e032-review.md).\n')
+    (root/'PACKAGE_CHECKS.json').write_text(json.dumps({'final':head,'tracked_files':len(tree),'commit_blobs_exact':True,'binary_patch_replay_exact':True,'prior_reports_and_task012_history_unchanged':True,'symlinks':0,'secret_scan':'no high-confidence matches; fictional fixtures retained','independent_acceptance':False,'incremental_review_base':review_base,'prior_task013_evidence_preserved':bool(review_base)},indent=2)+'\n')
     files=sorted(f for f in root.rglob('*') if f.is_file());(root/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root))+'\n' for f in files))
     args.destination.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(args.destination,'w',zipfile.ZIP_DEFLATED) as archive:

@@ -1,0 +1,4 @@
+PASS task handoff/state, relative paths, unchanged reviews, 432 local links
+PASS git diff --cached --check
+PASS original review report byte comparison
+PASS historical evidence unchanged and original result prefix preserved

@@ -82,14 +82,14 @@ def test_historical_allocations_refunds_reversals_and_retention(engine,database,
         assert metrics(report(c,as_of='2026-03-01'))['receivables']['value']=='150.00'
         refund=new_refund(c,freed,'20');refund=ok(cmd(c,'/refunds/'+refund['id']+'/confirm',version(refund,cash_version=freed['version'])))
         fixture_date(i,'analytics_confirmations',refund['id'],'confirmed_at','2026-01-02T00:00:00Z')
-        assert metrics(report(c,as_of='2026-01-01'))['net_cash']['value']=='100.00'
+        assert metrics(report(c,as_of='2026-01-01'))['net_cash']['value']=='80.00'  # fixed period includes the refund regardless of balance cutoff
         assert metrics(report(c,as_of='2026-01-02'))['net_cash']['value']=='80.00'
         ok(cmd(c,'/refunds/'+refund['id']+'/reverse',version(refund)))
         with i.owner.begin() as db:
             db.execute(text("SELECT set_config('silicon.tenant_id',:t,true),set_config('silicon.user_id',:u,true)"),{'t':str(i.a),'u':str(i.user)})
             rid=db.scalar(text('SELECT id FROM fin_reversals WHERE refund_id=:id'),{'id':refund['id']})
         fixture_date(i,'fin_reversals',rid,'created_at','2026-04-01T00:00:00Z')
-        assert metrics(report(c,as_of='2026-03-31'))['net_cash']['value']=='80.00'
+        assert metrics(report(c,as_of='2026-03-31'))['net_cash']['value']=='100.00'  # fixed period also includes the April reversal
         assert metrics(report(c,as_of='2026-04-01'))['net_cash']['value']=='100.00'
         current=metrics(report(c));summary=get(c,'summary')
         assert current['receivables']['value']==summary['receivable']

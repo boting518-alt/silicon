@@ -1,0 +1,50 @@
+[
+  {
+    "file": "authorized-explanation-1440.jpg",
+    "sha256": "c49ea1ac1b86aa1c03e8db74902a89fafc9316b8612008010129774b7579649f",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "css_viewport": "1440x900"
+  },
+  {
+    "file": "cutoff-before-1440.jpg",
+    "sha256": "e69cef7e9672e6e03d38798353b30b99a2a35bd1b03564c2673b6ecf32bebec9",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "css_viewport": "1440x900"
+  },
+  {
+    "file": "flow-basis-1440.jpg",
+    "sha256": "83801df84dc9b23af87a3edfcb935fbb84074ffb8c10416bc359e717df3841c5",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "css_viewport": "1440x900"
+  },
+  {
+    "file": "restricted-page-390.jpg",
+    "sha256": "6a8ccfd0e0c0b03260c91ff955c823f9e996b42e4195d6267f7fec2d0a010b51",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "css_viewport": "390x844"
+  },
+  {
+    "file": "restricted-popup-1440.jpg",
+    "sha256": "5a761b567a71a74099b7c3cee3fe243e8f1094fcd4b8ec5e8466fa2c699924a9",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "css_viewport": "1440x900"
+  },
+  {
+    "file": "restricted-popup-390.jpg",
+    "sha256": "cf5e7ba433d2a528405a707462d265349d48a6e6ef58673f85f7b20a69cd25dc",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "css_viewport": "390x844"
+  }
+]

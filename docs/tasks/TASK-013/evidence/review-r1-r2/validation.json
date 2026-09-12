@@ -1,0 +1,82 @@
+{
+  "status": "review_ready",
+  "base": "706e032cce1d944d1b6566388789bba82308884d",
+  "independent_acceptance": false,
+  "checks": [
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> .venv/bin/python -m pytest apps/api/tests/test_analytics_review.py -q",
+      "result": "8 passed, 2 warnings, 17.24s",
+      "evidence": "review-final.txt"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> .venv/bin/python -m pytest apps/api/tests --ignore=apps/api/tests/test_oidc_integration.py -q",
+      "result": "286 passed, 13 warnings, 373.90s",
+      "evidence": "backend-full.txt"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> SILICON_TEST_KEYCLOAK_HOME=<KEYCLOAK_HOME> .venv/bin/python -m pytest apps/api/tests/test_oidc_integration.py -q",
+      "result": "1 passed, 27.84s; real Keycloak, explicit test CA and hostname verification",
+      "evidence": "oidc.txt"
+    },
+    {
+      "command": "real React /tests/analytics-component.html",
+      "result": "8 passed, HTTP substitutes",
+      "evidence": "react.json"
+    },
+    {
+      "command": "node --test apps/web/tests/*.test.ts",
+      "result": "19 passed",
+      "evidence": "node.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "typecheck.txt.gz"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "build.txt"
+    },
+    {
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types",
+      "result": "passed; OpenAPI/client byte-identical",
+      "evidence": "contract-generation.txt"
+    },
+    {
+      "command": "real browser using isolated PG/Keycloak/HTTPS",
+      "result": "passed R1 authorized/unauthorized popup, R2 three cutoffs, tenant/logout, desktop/mobile",
+      "evidence": "../../review-repair.md"
+    },
+    {
+      "command": ".venv/bin/python infra/check_docs.py; git diff --check",
+      "result": "passed: 432 links, staged whitespace check, historical evidence and original report exact",
+      "evidence": "final-checks.txt"
+    }
+  ],
+  "red_green": {
+    "r1": "3 failed expected dynamic basis vs 3 passed",
+    "r2": "1 failed expected100 actual0 vs first combined4 passed",
+    "expanded": "21 passed/3 fixture failures missing notes, repaired; not claimed product red"
+  },
+  "not_run": [
+    {
+      "check": "remote CI",
+      "reason": "not queried; local tests do not prove CI"
+    },
+    {
+      "check": "unrelated historical browser/React fixtures",
+      "reason": "frontend implementation unchanged; related8 component and real browser rerun"
+    }
+  ],
+  "environment": {
+    "postgresql": "17.11 isolated",
+    "python": "3.12.7",
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "java": "21.0.6",
+    "keycloak": "26.7.3",
+    "system_trust_changed": false,
+    "resident_database_used": false
+  }
+}
