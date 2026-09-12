@@ -1,0 +1,92 @@
+[
+  {
+    "original": "targeted-followup.txt",
+    "stored": "targeted-followup.txt.gz",
+    "original_sha256": "59503de4b43033f1e88b1e4d4828694de45b1f28bd95a1e3e51e1e8d2368715c",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "implementation-pg-02.txt",
+    "stored": "implementation-pg-02.txt.gz",
+    "original_sha256": "2e1c835732c02f0fb2667a46006ad8672f3b5b2a4bf2c182a8fa4679c25c6c64",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "implementation-pg-03.txt",
+    "stored": "implementation-pg-03.txt.gz",
+    "original_sha256": "4d4808acbc2fae8c0a2d796f243df555a74d547451ec97abfabc8a8922f34062",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "red-initial.txt",
+    "stored": "red-initial.txt.gz",
+    "original_sha256": "2d871787dba546cd0c3fc42cdf9ee5c392ab60135a75f7b839291d4c635d5cfe",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "analytics-suite-02.txt",
+    "stored": "analytics-suite-02.txt.gz",
+    "original_sha256": "9cf8e140a4b2311489d64c058de4a717f7f189614cc546e56d34a00e8540bc0c",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "analytics-suite-03.txt",
+    "stored": "analytics-suite-03.txt.gz",
+    "original_sha256": "81763763a754113d5ab0e035c1d02cc8b92258d61601b4565f38b6e3325432b9",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "analytics-suite-04.txt",
+    "stored": "analytics-suite-04.txt.gz",
+    "original_sha256": "51134912094288fbf65aabba47cb24d97318afdcfd3a137495460b5a626cecb1",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "backend-first-full.txt",
+    "stored": "backend-first-full.txt.gz",
+    "original_sha256": "494914a38b6b41eb922eb72f60a2286c203d467cb08ada6e3c7dd51a6d226ffc",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "typecheck-delivery.txt",
+    "stored": "typecheck-delivery.txt.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "backend-second-full.txt",
+    "stored": "backend-second-full.txt.gz",
+    "original_sha256": "6d8645ace017eccc21c937615650b9a21b80cd856d406f0184732cdb3268be97",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "typecheck-02.txt",
+    "stored": "typecheck-02.txt.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "first-pg-run.txt",
+    "stored": "first-pg-run.txt.gz",
+    "original_sha256": "4dc90055e17a97c754e76b90f46775d9d9618f7d780ede6d59af79eb5d195def",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "analytics-initial-suite.txt",
+    "stored": "analytics-initial-suite.txt.gz",
+    "original_sha256": "4cac60f97c1387a4f21037dac191f9dd220fa2dc4a70d192533f59520ea27196",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "typecheck-final.txt",
+    "stored": "typecheck-final.txt.gz",
+    "original_sha256": "2e543cd6b058c77be7c1056503b8403399c646478b917218bdedaf8ae0bd0324",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  },
+  {
+    "original": "analytics-delivery.txt",
+    "stored": "analytics-delivery.txt.gz",
+    "original_sha256": "63b599b5b1a7774bd55a0185c3af198efc76c30d78ab604e46187b203e7b5954",
+    "reason": "Raw output preserved byte-for-byte, including whitespace"
+  }
+]

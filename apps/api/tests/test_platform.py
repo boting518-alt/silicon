@@ -21,7 +21,7 @@ from conftest import ROOT, run
 
 def test_empty_migration_and_runtime_role(database, engine):
     with engine.connect() as db:
-        assert db.scalar(text("SELECT version_num FROM alembic_version")) == '0015_service'
+        assert db.scalar(text("SELECT version_num FROM alembic_version")) == '0016_analytics'
         role = db.execute(text("SELECT rolsuper, rolbypassrls, rolcreatedb, rolcreaterole FROM pg_roles WHERE rolname=current_user")).one()
         assert tuple(role) == (False, False, False, False)
         assert db.scalar(text("SELECT tableowner FROM pg_tables WHERE tablename='jobs'")) == 'silicon_migrator'
@@ -49,7 +49,7 @@ def test_ready_requires_migration(database):
             assert client.get('/api/v1/health').status_code == 200
     finally:
         with owner.begin() as db:
-            db.execute(text("UPDATE alembic_version SET version_num='0015_service'"))
+            db.execute(text("UPDATE alembic_version SET version_num='0016_analytics'"))
         owner.dispose()
 
 

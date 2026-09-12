@@ -15,10 +15,10 @@ export function FinanceSummary({context,direction,sourceId}:{context:ContextTick
  return <section className="nested-card" aria-label="资金摘要"><h3>经营资金摘要</h3>{error?<p>{error}</p>:value?<><p>来源约定 {value.source.amount} CNY · 有效发票登记 {value.invoiced} CNY</p>{value.plans.map(p=><p key={p.id}>{p.node} · {state[p.state]} · 未结 {p.remaining} CNY · {p.due_date||'待释放'}</p>)}{!value.plans.length&&<p>尚未显式建立应收/应付。</p>}</>:<p>正在独立读取资金摘要…</p>}</section>;
 }
 
-export function Finance({context,onContextError}:{context:ContextTicket;onContextError:(e:unknown)=>void}){
- const [tab,setTab]=useState<'plans'|'cash'|'refunds'|'invoices'>('plans');
+export function Finance({context,onContextError,preferredSource=''}:{preferredSource?:string;context:ContextTicket;onContextError:(e:unknown)=>void}){
+ const [tab,setTab]=useState<'plans'|'cash'|'refunds'|'invoices'>((preferredSource.split('/')[0]||'plans') as 'plans'|'cash'|'refunds'|'invoices');
  const [sources,setSources]=useState<Source[]>([]),[parties,setParties]=useState<Party[]>([]),[plans,setPlans]=useState<Plan[]>([]),[cash,setCash]=useState<Cash[]>([]),[refunds,setRefunds]=useState<Refund[]>([]),[invoices,setInvoices]=useState<Invoice[]>([]),[summary,setSummary]=useState<Summary|null>(null),[permissions,setPermissions]=useState<string[]>([]);
- const [selected,setSelected]=useState(''),[direction,setDirection]=useState<'receivable'|'payable'>('receivable'),[party,setParty]=useState(''),[source,setSource]=useState('');
+ const [selected,setSelected]=useState(preferredSource.split('/')[1]||''),[direction,setDirection]=useState<'receivable'|'payable'>('receivable'),[party,setParty]=useState(''),[source,setSource]=useState('');
  const [amount,setAmount]=useState(''),[node,setNode]=useState(''),[due,setDue]=useState(''),[retention,setRetention]=useState(false),[condition,setCondition]=useState(''),[notes,setNotes]=useState('');
  const [account,setAccount]=useState(''),[method,setMethod]=useState('人工登记'),[external,setExternal]=useState(''),[purpose,setPurpose]=useState<'unallocated'|'advance'>('unallocated'),[at,setAt]=useState(new Date().toISOString().slice(0,16));
  const [reason,setReason]=useState(''),[basis,setBasis]=useState(''),[returnId,setReturnId]=useState(''),[adjust,setAdjust]=useState(''),[allocation,setAllocation]=useState<Record<string,string>>({}),[cashSource,setCashSource]=useState('');

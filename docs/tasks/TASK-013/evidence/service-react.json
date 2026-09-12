@@ -1,0 +1,18 @@
+[
+  {
+    "name": "StrictMode initializes and lost create response retries identical operation",
+    "status": "passed"
+  },
+  {
+    "name": "delayed successful service response cannot populate another tenant",
+    "status": "passed"
+  },
+  {
+    "name": "focus revocation removes previously visible service facts",
+    "status": "passed"
+  },
+  {
+    "name": "optional service summary denial preserves underlying device",
+    "status": "passed"
+  }
+]

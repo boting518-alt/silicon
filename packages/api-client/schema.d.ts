@@ -2817,6 +2817,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/analytics/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Overview */
+        get: operations["overview_api_v1_analytics_overview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/analytics/details": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Details */
+        get: operations["details_api_v1_analytics_details_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -3076,6 +3110,108 @@ export interface components {
             expected_version: number;
             /** Confirmed */
             confirmed: boolean;
+        };
+        /** AnalyticsDetails */
+        AnalyticsDetails: {
+            /** Snapshot */
+            snapshot: string;
+            filters: components["schemas"]["AnalyticsFilter"];
+            metric: components["schemas"]["Metric"];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+            /** Items */
+            items: components["schemas"]["Contribution"][];
+        };
+        /** AnalyticsFilter */
+        AnalyticsFilter: {
+            /**
+             * Start
+             * Format: date
+             */
+            start: string;
+            /**
+             * End
+             * Format: date
+             */
+            end: string;
+            /**
+             * As Of
+             * Format: date
+             */
+            as_of: string;
+            /** Customer Id */
+            customer_id?: string | null;
+            /** Region */
+            region?: string | null;
+            /**
+             * Overdue Days
+             * @default 90
+             */
+            overdue_days: number;
+            /**
+             * Old Stock Days
+             * @default 180
+             */
+            old_stock_days: number;
+            /**
+             * Due Days
+             * @default 7
+             */
+            due_days: number;
+            /**
+             * Top N
+             * @default 5
+             */
+            top_n: number;
+        };
+        /** AnalyticsGroup */
+        AnalyticsGroup: {
+            /** Key */
+            key: string;
+            /** Label */
+            label: string;
+            /** Value */
+            value: string;
+            /** Count */
+            count: number;
+        };
+        /** AnalyticsReport */
+        AnalyticsReport: {
+            /** Customers */
+            customers: components["schemas"]["CustomerOption"][];
+            /** Snapshot */
+            snapshot: string;
+            /**
+             * Calculated At
+             * Format: date-time
+             */
+            calculated_at: string;
+            /**
+             * Basis Version
+             * @default analytics-v1
+             */
+            basis_version: string;
+            filters: components["schemas"]["AnalyticsFilter"];
+            /** Metrics */
+            metrics: components["schemas"]["Metric"][];
+            /** Regions */
+            regions: components["schemas"]["RegionView"][];
+            /** Scope Note */
+            scope_note: string;
+        };
+        /** AnalyticsTarget */
+        AnalyticsTarget: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "customer" | "contract" | "order" | "shipment" | "finance" | "inventory" | "service";
+            /** Id */
+            id: string;
         };
         /** Assignment */
         Assignment: {
@@ -3639,6 +3775,35 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        /** Contribution */
+        Contribution: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Date */
+            date?: string | null;
+            /** Value */
+            value: string;
+            /** Customer Id */
+            customer_id?: string | null;
+            /**
+             * Region
+             * @default unknown
+             */
+            region: string;
+            /**
+             * Group
+             * @default
+             */
+            group: string;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            target?: components["schemas"]["AnalyticsTarget"] | null;
+        };
         /** Convert */
         Convert: {
             /** Expected Version */
@@ -3814,6 +3979,13 @@ export interface components {
             sites?: components["schemas"]["Site"][];
             /** Responsibilities */
             responsibilities?: components["schemas"]["Responsibility"][];
+        };
+        /** CustomerOption */
+        CustomerOption: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
         };
         /** CustomerPage */
         CustomerPage: {
@@ -4775,6 +4947,48 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+        };
+        /** Metric */
+        Metric: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Value */
+            value: string | null;
+            /** Unit */
+            unit: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "complete" | "partial" | "unavailable" | "unauthorized" | "not_applicable";
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
+            /** Basis */
+            basis: string;
+            /**
+             * Start
+             * Format: date
+             */
+            start: string;
+            /**
+             * End
+             * Format: date
+             */
+            end: string;
+            /**
+             * As Of
+             * Format: date
+             */
+            as_of: string;
+            /** Drillable */
+            drillable: boolean;
+            /** Groups */
+            groups?: components["schemas"]["AnalyticsGroup"][];
         };
         /** MovementView */
         MovementView: {
@@ -5801,6 +6015,19 @@ export interface components {
             external_ref: string;
             /** Reversed */
             reversed: boolean;
+        };
+        /** RegionView */
+        RegionView: {
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            /** Short */
+            short: string;
+            /** Row */
+            row: number;
+            /** Column */
+            column: number;
         };
         /** ReleaseInput */
         ReleaseInput: {
@@ -14726,6 +14953,96 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ServiceReconciliation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    overview_api_v1_analytics_overview_get: {
+        parameters: {
+            query: {
+                start: string;
+                end: string;
+                as_of: string;
+                customer_id?: string | null;
+                region?: string | null;
+                overdue_days?: number;
+                old_stock_days?: number;
+                due_days?: number;
+                top_n?: number;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyticsReport"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    details_api_v1_analytics_details_get: {
+        parameters: {
+            query: {
+                metric: string;
+                snapshot: string;
+                page?: number;
+                page_size?: number;
+                sort?: "date" | "label" | "value";
+                descending?: boolean;
+                start: string;
+                end: string;
+                as_of: string;
+                customer_id?: string | null;
+                region?: string | null;
+                overdue_days?: number;
+                old_stock_days?: number;
+                due_days?: number;
+                top_n?: number;
+            };
+            header?: {
+                "x-expected-tenant"?: string | null;
+                "x-session-context"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyticsDetails"];
                 };
             };
             /** @description Validation Error */

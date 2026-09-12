@@ -1,0 +1,26 @@
+[
+  {
+    "name": "old pending after signing can be deleted without enabling frozen file edits",
+    "status": "passed"
+  },
+  {
+    "name": "edit and unbalanced plan block confirmation",
+    "status": "passed"
+  },
+  {
+    "name": "version conflict preserves edits",
+    "status": "passed"
+  },
+  {
+    "name": "upload failure does not claim success or signing",
+    "status": "passed"
+  },
+  {
+    "name": "lost signing response retries same command then readonly",
+    "status": "passed"
+  },
+  {
+    "name": "late successful response cannot cross enterprise",
+    "status": "passed"
+  }
+]

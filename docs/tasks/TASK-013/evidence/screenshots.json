@@ -1,0 +1,192 @@
+[
+  {
+    "file": "screenshots/ccc-explanation-1440.jpg",
+    "sha256": "1c31270296fb16dddd1af8b30565336b403d186853f291f07e389acdba859dc9",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/drill-390.jpg",
+    "sha256": "2d213702e63ca76c7f2008cd87234c596c0f25cb96a69513a52282da99e159fc",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "actual_css_viewport": "390x844",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/enterprise-b-390.jpg",
+    "sha256": "ebb210adffaaa70508efe8b3246b1b0ed01fe34e0df85d84ab9398a8cabce926",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "actual_css_viewport": "390x844",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/historical-stock-age-1440.jpg",
+    "sha256": "52491f37220923b3feaf85e90fc0f4e2a2b56c1cb3fd0ca48607361ccd01b487",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/initial-date-input-1440.jpg",
+    "sha256": "02dc859ba77ee9b764a06d0fb13dfeab604a5c5072e72681f5cb7573859f58c0",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/mobile-complete-390.jpg",
+    "sha256": "779737fa34f26bf626a393a81a4371cb4f14e2f12214804bfc2f0b9f356bd392",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 4940,
+    "actual_css_viewport": "1440x900",
+    "full_page": true,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/mobile-verified-390.jpg",
+    "sha256": "86b3cccb4293faf664e897b83a609e86a23fb27fa32e1f2fff703fc530400c18",
+    "format": "JPEG",
+    "width": 375,
+    "height": 5932,
+    "actual_css_viewport": "390x844",
+    "full_page": true,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/nonfinance-1440.jpg",
+    "sha256": "70049a554b3a033457dac9536c7bfcca5cb025b16e00b31364ab0e6c1feafa96",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/nonfinance-390.jpg",
+    "sha256": "5cfb04a5e08acef93018dd5f4009092a37c46c370915199302ad0b3a99a1a841",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "actual_css_viewport": "390x844",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/original-contract-1440.jpg",
+    "sha256": "35eefcda29db427e70288b11a39f6499cccafe0f0c7f9653a011e7bcc4a2fef5",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/overview-1440.jpg",
+    "sha256": "0bbaf9854f2d32dda33d09d7a6286a267bda18d2900478733907df84c7e281d3",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/overview-390.jpg",
+    "sha256": "622fec558a81f9faab85926f83cb813a1e0ab3227995ff017fadc542f3f4ccab",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "actual_css_viewport": "390x844",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/overview-final-1440.jpg",
+    "sha256": "8d0b2f672a7f30bfcb9b08d17db6f06f23c763068b69052d38d5527c36d756ad",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/receivable-age-1440.jpg",
+    "sha256": "2086179e1e3dd58c613e21901ba0cc723bd22be36d3f5f0371c6da2dd6ee24e8",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/region-390.jpg",
+    "sha256": "622fec558a81f9faab85926f83cb813a1e0ab3227995ff017fadc542f3f4ccab",
+    "format": "JPEG",
+    "width": 375,
+    "height": 812,
+    "actual_css_viewport": "390x844",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/region-drill-1440.jpg",
+    "sha256": "37e1c3624393498dc6ca373f03a26c1d485b1fd4f90b3f4e0c8978abb2646e74",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 891,
+    "actual_css_viewport": "1440x900",
+    "full_page": false,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/report-full-1440.jpg",
+    "sha256": "854ce44ed3766eb042b626b80a56c5c0a08a297df4dea2a10d895087950825a3",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 4940,
+    "actual_css_viewport": "1440x900",
+    "full_page": true,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/report-full-390.jpg",
+    "sha256": "779737fa34f26bf626a393a81a4371cb4f14e2f12214804bfc2f0b9f356bd392",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 4940,
+    "actual_css_viewport": "1440x900",
+    "full_page": true,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  },
+  {
+    "file": "screenshots/report-mobile-full.jpg",
+    "sha256": "779737fa34f26bf626a393a81a4371cb4f14e2f12214804bfc2f0b9f356bd392",
+    "format": "JPEG",
+    "width": 1425,
+    "height": 4940,
+    "actual_css_viewport": "1440x900",
+    "full_page": true,
+    "note": "filename viewport may be a capture attempt; actual dimensions authoritative"
+  }
+]

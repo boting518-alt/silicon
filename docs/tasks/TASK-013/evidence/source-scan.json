@@ -1,0 +1,7 @@
+{
+  "files_checked": 1531,
+  "high_confidence_secrets": 0,
+  "forbidden_paths": 0,
+  "large_files": 0,
+  "note": "Whole tracked source and pending deliverables scanned; fictional credentials and existing fixtures retained; not a guarantee against every possible secret format"
+}

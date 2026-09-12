@@ -83,10 +83,13 @@ def test_only_original_negative_full_correction_and_remaining_floor(engine,datab
 def test_0013_upgrade_preserves_old_adjustment_and_correction_downgrade_blocked(engine,database,identities):
     from conftest import ROOT,run
     import sys,subprocess
-    i=identities;order(engine,database,i)
+    i=identities
+    env={**database.env,'DATABASE_URL':database.migration_url}
+    # Establish the old-schema fixture before creating confirmations that 0016 protects.
+    run(sys.executable,'infra/migrate.py','downgrade','0015_service',cwd=ROOT,env=env)
+    order(engine,database,i)
     with client(engine,database,i.user,i.a) as c:
         s=get(c,'sources')[0];p=reduction(c,new_plan(c,s,'300'))
-        env={**database.env,'DATABASE_URL':database.migration_url}
         run(sys.executable,'infra/migrate.py','downgrade','0013_finance',cwd=ROOT,env=env)
         up=run(sys.executable,'infra/migrate.py','upgrade','head',cwd=ROOT,env=env);assert up.returncode==0,up.stdout+up.stderr
         assert get(c,'plans',p['id'])==p

@@ -1,0 +1,200 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱":
+      - generic: ▧
+      - text: 业务驾驶舱
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件":
+      - generic: ⚙
+      - text: 售后与部件
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台":
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析":
+      - generic: ◷
+      - text: 周转分析
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /合同管理
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每项约定，都有清晰来源。" [level=1]
+  - paragraph: 商品、技术组成与商业价格分开维护，来源与未知状态清晰可查。
+  - generic: 工作台 / 2026.09.08
+  - heading "合同完善与签约登记" [level=2]
+  - paragraph: 线下签约事实登记；付款节点是约定，不是已收款。订单不代表发货。
+  - button "刷新列表"
+  - navigation "合同与订单列表":
+    - button "CON-001 · 虚构算力合同 · 已签虚构甲方 · 360.00 CNY · 虚构用户甲 / 虚构前置审批人":
+      - text: CON-001 · 虚构算力合同 · 已签
+      - generic: 虚构甲方 · 360.00 CNY · 虚构用户甲 / 虚构前置审批人
+    - heading "待履行订单" [level=3]
+    - button "SO-CON-001 · 360.00 CNY"
+  - article:
+    - region "资金摘要":
+      - heading "经营资金摘要" [level=3]
+      - paragraph: 来源约定 360.00 CNY · 有效发票登记 0.00 CNY
+      - paragraph: 虚构首期 · 已确认 · 未结 60.00 CNY · 2026-09-01
+      - paragraph: 虚构质保金 · 已确认 · 未结 50.00 CNY · 待释放
+    - heading "已签合同 · 冻结内容 · v2" [level=2]
+    - paragraph: 演示数据 / 开发政策，不用于真实商务
+    - paragraph: 来源 Q-000001 · ee2ad9239036271fe77b045b8267b32430ab219590aa3320eb5766b0ae0375ca
+    - button "重新载入合同"
+    - button "查看报价版本历史"
+    - text: 合同编号
+    - textbox "合同编号" [disabled]: CON-001
+    - text: 合同名称
+    - textbox "合同名称" [disabled]: 虚构算力合同
+    - heading "甲方主体" [level=3]
+    - text: 甲方名称
+    - textbox "甲方名称" [disabled]: 虚构甲方
+    - text: 甲方地址
+    - textbox "甲方地址" [disabled]: 虚构甲方路1号
+    - text: 甲方主体标识（选填）
+    - textbox "甲方主体标识（选填）" [disabled]
+    - text: 甲方签约代表
+    - textbox "甲方签约代表" [disabled]: 虚构代表甲
+    - heading "乙方主体" [level=3]
+    - text: 乙方名称
+    - textbox "乙方名称" [disabled]: 虚构乙方
+    - text: 乙方地址
+    - textbox "乙方地址" [disabled]: 虚构乙方路2号
+    - text: 乙方主体标识（选填）
+    - textbox "乙方主体标识（选填）" [disabled]
+    - text: 乙方签约代表
+    - textbox "乙方签约代表" [disabled]: 虚构代表乙
+    - heading "客户联系人与内部责任人" [level=3]
+    - text: 项目负责人
+    - textbox "项目负责人" [disabled]: 虚构项目负责人
+    - text: 项目负责人联系方式
+    - textbox "项目负责人联系方式" [disabled]: test@example.invalid
+    - text: 关键联系人 1
+    - textbox "关键联系人 1" [disabled]: 虚构关键人
+    - text: 联系方式 1
+    - textbox "联系方式 1" [disabled]: contact@example.invalid
+    - button "移除联系人 1" [disabled]
+    - button "添加关键联系人" [disabled]
+    - text: 销售负责人
+    - combobox "销售负责人 历史姓名：虚构用户甲" [disabled]:
+      - option "请选择" [disabled]
+      - option "虚构前置审批人" [disabled]
+      - option "虚构只读用户" [disabled]
+      - option "虚构用户甲" [disabled] [selected]
+    - generic: 历史姓名：虚构用户甲
+    - text: 售后负责人
+    - combobox "售后负责人 历史姓名：虚构前置审批人" [disabled]:
+      - option "请选择" [disabled]
+      - option "虚构前置审批人" [disabled] [selected]
+      - option "虚构只读用户" [disabled]
+      - option "虚构用户甲" [disabled]
+    - generic: 历史姓名：虚构前置审批人
+    - text: 线下签约日期
+    - textbox "线下签约日期" [disabled]: 2026-01-01
+    - text: 约定交付日期
+    - textbox "约定交付日期" [disabled]
+    - text: 交付说明
+    - textbox "交付说明" [disabled]: 签约后协商，不代表已交付
+    - text: 商务备注
+    - textbox "商务备注" [disabled]
+    - heading "付款约定 · 合同金额 360.00 CNY" [level=3]
+    - text: 节点名称 1
+    - textbox "节点名称 1" [disabled]: 约定款
+    - text: 节点金额 1
+    - textbox "节点金额 1" [disabled]: "360.00"
+    - text: 到期方式 1
+    - combobox "到期方式 1" [disabled]:
+      - option "固定日期" [disabled]
+      - option "签约日期起" [disabled] [selected]
+      - option "交付后（待触发）" [disabled]
+      - option "验收后（待触发）" [disabled]
+    - text: 偏移日历天 1
+    - spinbutton "偏移日历天 1" [disabled]: "7"
+    - button "移除节点 1" [disabled]
+    - button "添加付款节点" [disabled]
+    - button "保存合同资料" [disabled]
+    - heading "来源商业内容 · 不可在合同改价" [level=3]
+    - strong: 360.00 CNY · 含税
+    - paragraph: 变更配置或金额请返回报价修订、审批和发布流程。
+    - paragraph: PUB-cpu · 虚构 PUB-cpu · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 含于包件，不重复收费
+    - paragraph: PUB-psu · 虚构 PUB-psu · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×2 · 含于包件，不重复收费
+    - paragraph: PUB-system_disk · 虚构 PUB-system_disk · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 含于包件，不重复收费
+    - paragraph: PUB-gpu · 虚构 PUB-gpu · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×1 · 含于包件，不重复收费
+    - paragraph: PUB-memory · 虚构 PUB-memory · 虚构制造商 · 硅屿测试品牌 / 自主品牌 ×2 · 独立商业行
+    - paragraph: 虚构 PUB-H ×1 · 100.00 CNY
+    - paragraph: 虚构 PUB-memory ×2 · 20.00 CNY
+    - heading "私有附件" [level=3]
+    - paragraph: PDF/JPEG/PNG，默认最大10 MiB；类型检查不等于恶意软件扫描。上传后需显式关联。
+    - text: 附件用途
+    - combobox "附件用途":
+      - option "签约证明" [selected]
+      - option "合同文件"
+      - option "技术配置"
+      - option "其他"
+    - text: 选择附件
+    - button "选择附件"
+    - button "上传附件" [disabled]
+    - paragraph: fictional-proof.pdf · 621 bytes · 已关联 · proof · 原合同材料
+    - generic: SHA-256 62fd01c6592eddc70834abff52d7d25c9718b430e7d33e36a0f7837c967a9ace
+    - button "下载 fictional-proof.pdf"
+    - button "删除 fictional-proof.pdf" [disabled]
+    - paragraph: 已签内容及原附件只读；本期不支持变更或解除；后续上传仅为独立补充材料，不改变原冻结集。
+    - button "查看关联订单"
+    - heading "责任人与资料历史" [level=3]
+    - paragraph: 版本 1 · 2026-09-12T09:37:38.204022+08:00 · 销售：虚构用户甲 / 售后：虚构前置审批人
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

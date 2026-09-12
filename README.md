@@ -1,6 +1,6 @@
 # 硅屿 SILICON
 
-TASK-000～TASK-012 已由负责人确认 accepted。当前 TASK-013 经营驾驶舱、地区分布及库存资金分析已授权，状态 executing；见 [交接](docs/tasks/TASK-013/handoff.md) 与 [任务书](docs/tasks/TASK-013/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
+TASK-000～TASK-012 已由负责人确认 accepted。当前 TASK-013 经营驾驶舱、地区分布及库存资金分析已完成本轮实现，状态 review_ready；见 [交接](docs/tasks/TASK-013/handoff.md) 与 [任务书](docs/tasks/TASK-013/task.md)。生产模式保护保留，不执行外部消息、远控、银行或税务操作。
 
 ## 入口与边界
 
@@ -256,3 +256,11 @@ TASK-008附件上传先授权再限量流式读取，写入前重新授权/核�
 ## 售后与供应商维修
 
 TASK-012使用已交付设备、共享库存移动和安装历史；客户代管、备件消耗、服务收费及资金核销分别登记。入口为“售后与部件”及设备详情独立售后摘要。复现使用隔离测试环境，见 [实施说明](docs/tasks/TASK-012/implementation.md)、[浏览器闭环](docs/tasks/TASK-012/browser-acceptance.md) 和 [执行结果](docs/tasks/TASK-012/result.md)。不使用常驻业务库跑测试，不自动向客户或供应商发送。
+
+## 经营分析（TASK-013）
+
+登录并选择企业后进入“业务驾驶舱”。期间为上海自然日左闭右开，截止日包含当天；卡片可查看口径与贡献明细，再打开原合同、订单或来源记录。图表/明细之间事实变化时要求整体刷新。地区使用当前客户明确省份，不声称历史收货地点；方格示意与真实地区表同时提供。
+
+`analytics.read` 只提供入口，资金/合同/库存成本仍单独鉴权。不具备会计收入与平均余额数据的标准周转率明确不可计算。使用前执行迁移至 `0016_analytics`，见[指标字典](docs/analytics/metric-catalog.md)、[RLS与历史读取决策](docs/architecture/adr/ADR-018.md)、[迁移边界](docs/tasks/TASK-013/migration.md)。不启用经营数据自动写入或外部发送。
+
+隔离复现沿用测试配置：`SILICON_TEST_PG_BIN` 指向已验证 PG17.11 的 bin，`SILICON_TEST_KEYCLOAK_HOME` 指向已验证 Keycloak26.7.3。分析定向测试为 `.venv/bin/python -m pytest apps/api/tests/test_analytics.py -q -s`。浏览器夹具 `SILICON_BROWSER_ANALYTICS=1 SILICON_BROWSER_CONTRACTS=1 .venv/bin/python infra/browser_stack.py`；依赖已授权的开发证书及既有固定字体，不操作常驻数据库。完整流程和限制见本任务交付报告。

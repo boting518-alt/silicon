@@ -1,0 +1,30 @@
+[
+  {
+    "name": "actual drill and original-source click preserve source identity",
+    "status": "passed"
+  },
+  {
+    "name": "focus permission recheck clears amount and open detail immediately",
+    "status": "passed"
+  },
+  {
+    "name": "delayed successful report cannot enter a new enterprise",
+    "status": "passed"
+  },
+  {
+    "name": "delayed successful detail after refresh never repopulates dialog",
+    "status": "passed"
+  },
+  {
+    "name": "source snapshot mismatch removes whole report then explicit refresh restores",
+    "status": "passed"
+  },
+  {
+    "name": "failed reload never falls back to old successful data",
+    "status": "passed"
+  },
+  {
+    "name": "date input event changes the next real component request",
+    "status": "passed"
+  }
+]

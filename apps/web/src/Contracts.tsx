@@ -6,7 +6,7 @@ import type {ContextTicket,Member} from './api';
 type S=components['schemas'];type Work=S['Workspace'];type Fields=Work['fields'];type Order=S['Order'];
 const messages:Record<string,string>={FILE_VALIDATION_LIMIT:'文件超出解析资源限制，请缩小文件或减少页面后重试。',FILE_VALIDATOR_BUSY:'文件校验繁忙，请稍后重试。',FILE_VALIDATOR_UNAVAILABLE:'文件解析服务不可用，请稍后重试。',ACTIVE_CONTENT_REJECTED:'文件含不支持的主动内容，请提供普通 PDF 或图片。',PARTIES_INCOMPLETE:'请补齐甲乙方主体、签约代表、项目负责人及关键联系人。',RESPONSIBILITY_REQUIRED:'请选择销售和售后负责人。',RESPONSIBILITY_INACTIVE:'责任人已停用，请重新分配。',SIGNING_DATE_INVALID:'请填写不晚于今天的线下签约日期。',DELIVERY_REQUIRED:'请填写交付日期或约定说明。',PAYMENTS_UNBALANCED:'付款节点合计必须等于合同金额。',PROOF_REQUIRED:'请上传并关联至少一份签约证明。',SOURCE_NOT_ACTIVE:'来源报价已过期或撤回，不能登记签约；请返回报价流程处理。',ZERO_CONTRACT_POLICY_UNCONFIGURED:'零金额签约政策未配置。',FORMAL_POLICY_REQUIRED:'正式签约政策未配置。',VERSION_CONFLICT:'合同版本已变化，请重新载入并合并修改。',CONTRACT_ALREADY_SIGNED:'合同已签，只能查看冻结内容；本期不支持变更。',CONFIRMATION_STALE:'确认内容已变化，请重新查看签约预览。',FILE_TYPE_REJECTED:'文件内容与允许的 PDF/JPEG/PNG 类型不符。',FILE_SIZE_LIMIT:'文件为空或超出配置大小上限。',FILE_NOT_READY:'文件未就绪或完整性校验失败。',INVALID_FILENAME:'文件名无效，请使用不含路径的文件名。',INVALID_CONTRACT_RELATION:'合同编号重复或关联资料无效。',FILE_STORAGE_UNCONFIGURED:'私有文件存储尚未配置。'};
 function message(e:unknown){return e instanceof ApiError?(messages[e.code]??errorMessage(e)):errorMessage(e);}
-export function Contracts({context,members,canWrite,canSign,ordersOnly=false,onOpenQuotes,onContextError}:{context:ContextTicket;members:Member[];canWrite:boolean;canSign:boolean;ordersOnly?:boolean;onOpenQuotes?:()=>void;onContextError:(e:unknown)=>void}){
+export function Contracts({context,members,canWrite,canSign,ordersOnly=false,onOpenQuotes,onContextError,preferredId=''}:{context:ContextTicket;members:Member[];canWrite:boolean;canSign:boolean;ordersOnly?:boolean;preferredId?:string;onOpenQuotes?:()=>void;onContextError:(e:unknown)=>void}){
  const [rows,setRows]=useState<Work[]>([]),[orders,setOrders]=useState<Order[]>([]),[work,setWork]=useState<Work|null>(null),[order,setOrder]=useState<Order|null>(null),[form,setForm]=useState<Fields|null>(null);
  const [busy,setBusy]=useState(false),[dirty,setDirty]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[confirm,setConfirm]=useState(false),[category,setCategory]=useState('proof'),[file,setFile]=useState<File|null>(null);
  const generation=useRef(0),keys=useRef(new Map<string,string>());
@@ -20,7 +20,7 @@ export function Contracts({context,members,canWrite,canSign,ordersOnly=false,onO
  const get=<T,>(path:string)=>crmRequests.request<T>(context,'/contracts'+path);
  function post<T>(path:string,body:unknown){const signature=JSON.stringify([path,body]);if(!keys.current.has(signature))keys.current.set(signature,crypto.randomUUID());return crmRequests.request<T>(context,'/contracts'+path,{method:'POST',headers:{'Idempotency-Key':keys.current.get(signature)!},body:JSON.stringify(body)});}
  const load=()=>Promise.all([get<Work[]>(''),get<Order[]>('/orders')]);
- function refresh(){void run(load,([r,o])=>{setRows(r);setOrders(o);});}
+ function refresh(){void run(load,([r,o])=>{setRows(r);setOrders(o);if(preferredId){if(ordersOnly){const selected=o.find(x=>x.id===preferredId);if(selected)setOrder(selected);}else{const selected=r.find(x=>x.id===preferredId);if(selected)apply(selected);}}});}
  useEffect(refresh,[context.context_id]);
  function apply(w:Work){setWork(w);setForm(structuredClone(w.fields));setDirty(false);setConfirm(false);setOrder(null);setFile(null);setRows(r=>r.map(x=>x.id===w.id?w:x));}
  function open(id:string){void run(()=>get<Work>('/'+id),apply);}

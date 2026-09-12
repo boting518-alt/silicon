@@ -6,7 +6,7 @@
 
 | ID / 名称 / 单位 | 来源、粒度、键 | 公式 / 日期 / 状态与逆向 | 权限 / 范围 / 下钻对账 / 缺项 |
 |---|---|---|---|
-| contracts / 本期签约额 / CNY | signed_contracts.id；content.commercial.config.customer_id | 每签约冻结commercial.calculation.total一次；fields.signed_on或登记日；退货不冲减签约 | contract.read；当前CRM owner；合同贡献求和=卡片=地区；税按冻结商业金额，资料缺失partial |
+| contracts / 本期签约额 / CNY | signed_contracts.id；content.commercial.config.customer_id | 每签约冻结commercial.calculation.total一次；fields.signing_date或登记日；退货不冲减签约 | contract.read；当前CRM owner；合同贡献求和=卡片=地区；税按冻结商业金额，资料缺失partial |
 | contract_count / 签约合同数 / 份 | 同上 | 期间签约事实去重计数 | 同上，合同下钻 |
 | dispatched / 发出 / 台 | del_lines.id→movement_id→inv_movements | 期间原出库+1；误操作逆向在逆向日期-1；不是按草稿日期 | delivery.read；订单→冻结customer→当前owner；发货贡献 |
 | returned / 实际退回 / 台 | del_returns.id→movement_id | 期间实际实收+1；申请不计 | 同上，原发货下钻 |
@@ -41,3 +41,16 @@
 ## 历史不足
 
 确认时间表仅保存时间元数据；回填来源为成功finance.<kind>.confirm审计，不用创建日期猜测。缺确认时点的旧确认计划在历史截止日返回不足，不显示今天余额。所有数据不足/样本不足在UI独立显示，空集合零与未知null不同。
+
+## 已落实的分解指标及差异说明
+
+- `customer_rank`：按可见客户汇总期间签约金额，合同冻结粒度先去重；CNY，`contract.read`。`customer_receivable_rank`：当前可见客户下各已确认计划未结金额，CNY，`finance.read`；下钻仍为计划贡献，不另建余额。
+- `receivable_age`、`payable_age`：同未结项目源，按有效到期日分为未到期、逾期1–30、31–60、61–90、90天以上、待释放/到期日未知；每档为计划余额和，档合计=对应未结总额。权限与未结指标相同。
+- `inventory_age` 专用于超过筛选阈值的长库龄数量。完整分档通过 `inventory_age_bands` 返回；`inventory_structure` 为自有层的阶段/质量分组，`customer_custody` 为客户所有层数量，不含成本。原料/商品、在制、成品明确分组；`service_issued` 表示售后领用暂存，`supplier` 表示供应商保管；均按移动事实截止日余额。同源 `inventory.read`，无法归属具体负责人的 own 范围不展示全企业库存。
+- `unshipped_completions` 为截至日有效完工但无有效首次发货样本数量，与经营样本均值同屏。已经误冲销的发货不作为有效首发样本。均值明细返回各样本天数，样本和除以样本数才等于均值；集中度明细返回各客户原签约金额，不能直接把该列视为百分比求和。
+- `signed_regions` / `delivery_regions` 是字典中的分布名称，API复用 `contracts.groups` / `net_delivery.groups`，不返回重复总额。
+- RMA在外数量用已发送行数量减截止日前逐笔实返数量，与 supplier 保管移动对账；待处理包含尚未检验及 hold 后未最终处置的每笔返回，不只是 hold。
+- 34地区及海外/未知表：[数据来源及许可](regions-source.md)。首期不提供产品/负责人跨模块过滤；其分析为冻结签约分组，UI明确名称。
+- 签约明细金额的税口径以原冻结报价为准；本报表不将不同原税口径换算为统一不含税金额。正式冻结必需字段由来源合同约束保证；未配置品牌/负责人单列未知，不据当前目录或当前成员改写。
+
+客户签约及应收排行按稳定客户 ID 归组，展示名称与编号，金额倒序；同名客户不合并。产品、品牌、负责人按冻结展示字段分组。

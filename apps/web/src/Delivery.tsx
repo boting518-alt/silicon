@@ -5,9 +5,9 @@ import type {ContextTicket} from './api';
 type S=components['schemas'];type Device=S['DeliveryDeviceView'];type Ship=S['ShipmentView'];type Progress=S['DeliveryProgress'];type Location=S['LocationView'];
 const label:Record<string,string>={pending:'待测试',pass:'测试通过',fail:'测试不通过',invalid:'原完工已失效',shipped:'已发货',draft:'发货草稿',confirmed:'已确认发货',cancelled:'已取消'};
 const messages:Record<string,string>={DEVICE_TEST_REQUIRED:'设备未取得当前有效测试通过结果，不能发货。',COMPLETION_CHANGED:'设备完工或配置已变化，请重新测试并新建发货草稿。',VERSION_CONFLICT:'记录已变化，请刷新核对后重新操作。',DELIVERY_DOWNSTREAM_DEPENDENCY:'已有验收或退货记录，不能直接冲销。',ALREADY_RETURNED:'此设备已实际退回，不能重复办理。',ALREADY_ACCEPTED:'此设备已验收，不能重复登记。',ACTIVE_RESERVATION:'设备存在有效预留，请先核对并释放。',SHIPMENT_NOT_ACTIVE:'此发货批次尚未确认或已冲销。',ORDER_DEVICE_MISMATCH:'设备不属于所选订单。',ORDER_CAPACITY_EXCEEDED:'本次发货超过订单剩余待履约数量。'};
-export function Delivery({context,onContextError}:{context:ContextTicket;onContextError:(e:unknown)=>void}){
+export function Delivery({context,onContextError,preferredShipment=''}:{preferredShipment?:string;context:ContextTicket;onContextError:(e:unknown)=>void}){
  const [devices,setDevices]=useState<Device[]>([]),[ships,setShips]=useState<Ship[]>([]),[orders,setOrders]=useState<Progress[]>([]),[locations,setLocations]=useState<Location[]>([]),[permissions,setPermissions]=useState<string[]>([]);
- const [device,setDevice]=useState(''),[ship,setShip]=useState(''),[order,setOrder]=useState(''),[selected,setSelected]=useState<string[]>([]),[lines,setLines]=useState<string[]>([]);
+ const [device,setDevice]=useState(''),[ship,setShip]=useState(preferredShipment),[order,setOrder]=useState(''),[selected,setSelected]=useState<string[]>([]),[lines,setLines]=useState<string[]>([]);
  const [recipient,setRecipient]=useState(''),[address,setAddress]=useState(''),[contact,setContact]=useState(''),[location,setLocation]=useState(''),[reason,setReason]=useState(''),[proof,setProof]=useState('');
  const [testName,setTestName]=useState('启动与配置核对'),[result,setResult]=useState<'pass'|'fail'>('pass');
  const [busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');

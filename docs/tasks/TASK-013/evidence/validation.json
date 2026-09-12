@@ -1,0 +1,101 @@
+{
+  "status": "review_ready",
+  "independent_acceptance": false,
+  "environment": {
+    "postgresql": "17.11 isolated",
+    "python": "3.12.7",
+    "node": "24.15.0",
+    "npm": "11.12.1",
+    "java": "21.0.6",
+    "keycloak": "26.7.3"
+  },
+  "checks": [
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> SILICON_TEST_KEYCLOAK_HOME=<KEYCLOAK_HOME> .venv/bin/python -m pytest apps/api/tests -q",
+      "result": "279 passed, 22 warnings, 365.92s",
+      "evidence": "backend-delivery-complete.txt",
+      "scope": "FINAL implementation, entire backend including real OIDC, isolated PG only"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> .venv/bin/python -m pytest apps/api/tests --ignore=apps/api/tests/test_oidc_integration.py -q",
+      "result": "277 passed, 11 warnings, 338.57s",
+      "evidence": "backend-final.txt",
+      "scope": "all backend except OIDC; before final customer-ID rank refinement"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> SILICON_TEST_KEYCLOAK_HOME=<KEYCLOAK_HOME> .venv/bin/python -m pytest apps/api/tests -q",
+      "result": "276 passed, 1 failed, 17 warnings; OIDC passed; failure was new transfer test using wrong route, subsequently corrected",
+      "evidence": "backend-second-full.txt.gz"
+    },
+    {
+      "command": "SILICON_TEST_PG_BIN=<PG17_BIN> .venv/bin/python -m pytest apps/api/tests/test_analytics.py -q",
+      "result": "16 passed, 2 warnings, 31.07s",
+      "evidence": "analytics-delivery-final.txt",
+      "scope": "latest backend changes"
+    },
+    {
+      "command": "browser /tests/analytics-component.html",
+      "result": "7 passed; real React, HTTP substitutes",
+      "evidence": "analytics-react-delivery.json"
+    },
+    {
+      "command": "browser existing contracts/finance/inventory/delivery/service component fixtures",
+      "result": "19 passed; real React, HTTP substitutes",
+      "evidence": [
+        "contracts-react.json",
+        "finance-react.json",
+        "inventory-react.json",
+        "delivery-react.json",
+        "service-react.json"
+      ]
+    },
+    {
+      "command": "node --test apps/web/tests/*.test.ts",
+      "result": "19 passed",
+      "evidence": "node-tests.txt"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "typecheck-delivery.txt.gz"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "build-delivery.txt"
+    },
+    {
+      "command": ".venv/bin/python infra/export_openapi.py && npm run api:types",
+      "result": "passed; regeneration byte-identical",
+      "evidence": "contract-generation.txt"
+    },
+    {
+      "command": "real browser HTTPS/Keycloak/API/PG",
+      "result": "passed recorded steps; final rank-label refinement PG-tested separately",
+      "evidence": "../browser-acceptance.md"
+    },
+    {
+      "command": ".venv/bin/python infra/check_docs.py; git diff --check",
+      "result": "passed (424 links); final Git whitespace check passed",
+      "evidence": [
+        "docs-delivery.txt",
+        "diff-check.txt"
+      ]
+    }
+  ],
+  "not_run": [
+    {
+      "check": "remote CI",
+      "reason": "not independently queried; local passes do not imply remote CI"
+    },
+    {
+      "check": "standard DIO/DSO/DPO/CCC",
+      "reason": "no reliable accounting numerator and complete average balances; deliberately unavailable"
+    },
+    {
+      "check": "production deployment / large warehouse load benchmark",
+      "reason": "outside task; representative 2000-customer query plan only"
+    }
+  ],
+  "failures_preserved": "Initial endpoint404; sandbox local-bind refusal; early implementation/fixture/schema revision errors; date input browser defect; wrong transfer test route; final added two-customer fixture duplicate PUB number. Logs retained, fixture errors not called product red tests."
+}

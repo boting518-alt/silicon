@@ -1,0 +1,31 @@
+
+> silicon-workspace@0.1.0 dev
+> npm run dev --workspace @silicon/web
+
+
+> @silicon/web@0.1.0 dev
+> vite --host 127.0.0.1
+
+
+  VITE v8.2.2  ready in 404 ms
+
+  ➜  Local:   https://127.0.0.1:5173/
+  ➜  Local:   https://localhost:5173/
+9:27:05 AM [vite] (client) [console.error] Each child in a list should have a unique "key" prop.
+
+Check the render method of `section`. It was passed a child from Contracts. See https://react.dev/link/warning-keys for more information.
+9:29:53 AM [vite] (client) hmr update /src/Inventory.tsx
+9:29:53 AM [vite] (client) hmr update /src/Analytics.tsx
+9:29:53 AM [vite] (client) page reload tests/analytics-component.jsx
+9:29:53 AM [vite] (client) [console.error] Each child in a list should have a unique "key" prop.
+
+Check the render method of `section`. It was passed a child from Contracts. See https://react.dev/link/warning-keys for more information.
+9:36:04 AM [vite] (client) hmr update /src/Analytics.tsx
+9:36:04 AM [vite] (client) hmr update /src/analytics.css
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error workspace @silicon/web@0.1.0
+npm error location /Volumes/Lenovo3/workspace/SILICON/silicon-workspace/apps/web
+npm error command failed
+npm error command sh -c vite --host 127.0.0.1

@@ -1,0 +1,9 @@
+$ .venv/bin/python infra/export_openapi.py
+$ npm run api:types
+
+> silicon-workspace@0.1.0 api:types
+> openapi-typescript packages/api-client/openapi.json -o packages/api-client/schema.d.ts
+
+✨ openapi-typescript 7.13.0
+🚀 packages/api-client/openapi.json → packages/api-client/schema.d.ts [194.3ms]
+PASS: regenerated OpenAPI and client are byte-identical

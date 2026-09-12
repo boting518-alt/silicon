@@ -1,10 +1,10 @@
 # 任务登记
 
-唯一当前任务：TASK-013，status: executing。TASK-000～TASK-012 已由产品/架构负责人确认 accepted；TASK-014 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
+唯一当前任务：TASK-013，status: review_ready。TASK-000～TASK-012 已由产品/架构负责人确认 accepted；TASK-014 起均为 planned；后续条目只是规划，不授权实施。依赖任务需通过独立审查，P0/P1 修复后才可前进，最终 accepted 由业务验收人决定。
 
 ## 10. 分阶段交付计划
 
-TASK-000～TASK-012 为 accepted；TASK-013 为 executing；TASK-014～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
+TASK-000～TASK-012 为 accepted；TASK-013 为 review_ready；TASK-014～016 均为 planned。TASK-000～003 足够启动；后续任务在前序稳定后细化，不让 Codex 一次生成所有系统。
 
 | 任务 | 范围 | 前置 | 完成判据 |
 |---|---|---|---|
@@ -135,3 +135,5 @@ TASK-011 R1 按用户授权修复：原样归档[独立报告](../reviews/TASK-0
 ## TASK-013 验收交接
 
 负责人依据[TASK-012增量报告](../reviews/TASK-012-18966f4-review.md)确认accepted，并授权[TASK-013](TASK-013/task.md)。见[交接](TASK-013/handoff.md)；历史结果与Reviewer验证限制保留。
+
+TASK-013 实现与本地验证完成，状态 review_ready，见[结果](TASK-013/result.md)。历史验收和限制保留，等待独立审查，不开始 TASK-014。

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "actual new intent, lost creation response and retry create only one fact",
+    "status": "passed"
+  },
+  {
+    "name": "late successful creation cannot replace new enterprise state",
+    "status": "passed"
+  },
+  {
+    "name": "finance summary revocation clears protected values and preserves base page",
+    "status": "passed"
+  },
+  {
+    "name": "integer-cent display subtraction stays exact",
+    "status": "passed"
+  },
+  {
+    "name": "negative correction entry restores amount once after lost response and keeps original history",
+    "status": "passed"
+  }
+]

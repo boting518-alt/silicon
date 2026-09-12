@@ -1,0 +1,521 @@
+- complementary:
+  - link "硅屿首页":
+    - /url: /
+    - generic: ▧
+    - text: 硅屿
+    - generic: SILICON
+  - generic: 业务工作空间
+  - navigation "主导航":
+    - button "▧ 业务驾驶舱":
+      - generic: ▧
+      - text: 业务驾驶舱
+    - button "◇ 报价与利润":
+      - generic: ◇
+      - text: 报价与利润
+    - button "✓ 报价审批":
+      - generic: ✓
+      - text: 报价审批
+    - button "▤ 交付与验收":
+      - generic: ▤
+      - text: 交付与验收
+    - button "⚙ 售后与部件":
+      - generic: ⚙
+      - text: 售后与部件
+    - button "↗ 续保与扩容 未启用" [disabled]:
+      - generic: ↗
+      - text: 续保与扩容
+      - generic: 未启用
+    - button "◫ 资金工作台":
+      - generic: ◫
+      - text: 资金工作台
+    - button "◉ 客户管理":
+      - generic: ◉
+      - text: 客户管理
+    - button "▦ 商品目录":
+      - generic: ▦
+      - text: 商品目录
+    - button "◇ 包件 / BOM":
+      - generic: ◇
+      - text: 包件 / BOM
+    - button "▤ 价格维护":
+      - generic: ▤
+      - text: 价格维护
+    - button "▤ 合同管理":
+      - generic: ▤
+      - text: 合同管理
+    - button "▤ 销售订单":
+      - generic: ▤
+      - text: 销售订单
+    - button "⚙ 装配工单":
+      - generic: ⚙
+      - text: 装配工单
+    - button "▥ 设备查询":
+      - generic: ▥
+      - text: 设备查询
+    - button "▣ 采购合同":
+      - generic: ▣
+      - text: 采购合同
+    - button "▦ 库存管理":
+      - generic: ▦
+      - text: 库存管理
+    - button "◷ 周转分析":
+      - generic: ◷
+      - text: 周转分析
+  - generic: 虚
+  - text: 虚构用户甲
+  - generic: 客户与服务协同
+- banner:
+  - generic: 业务管理 /业务驾驶舱
+  - combobox "当前企业":
+    - option "请选择企业" [disabled]
+    - option "虚构企业 A" [selected]
+    - option "虚构企业 B"
+  - button "退出登录"
+- main:
+  - generic: SALES & CUSTOMER INTELLIGENCE
+  - heading "让每个判断，都有真实依据。" [level=1]
+  - paragraph: 从签约、交付到资金与库存，以可追溯的经营事实连接每个环节。
+  - generic: 工作台 / 2026.09.08
+  - region "经营驾驶舱":
+    - text: SILICON / OPERATIONS
+    - heading "经营驾驶舱" [level=2]
+    - button "刷新分析"
+    - text: 期间开始
+    - textbox "期间开始": 2026-01-01
+    - text: 期间结束（不含）
+    - textbox "期间结束（不含）": 2026-09-13
+    - text: 截止日（含）
+    - textbox "截止日（含）": 2026-09-12
+    - text: 地区
+    - combobox "地区":
+      - option "全部地区" [selected]
+      - option "北京市"
+      - option "天津市"
+      - option "河北省"
+      - option "山西省"
+      - option "内蒙古自治区"
+      - option "辽宁省"
+      - option "吉林省"
+      - option "黑龙江省"
+      - option "上海市"
+      - option "江苏省"
+      - option "浙江省"
+      - option "安徽省"
+      - option "福建省"
+      - option "江西省"
+      - option "山东省"
+      - option "河南省"
+      - option "湖北省"
+      - option "湖南省"
+      - option "广东省"
+      - option "广西壮族自治区"
+      - option "海南省"
+      - option "重庆市"
+      - option "四川省"
+      - option "贵州省"
+      - option "云南省"
+      - option "西藏自治区"
+      - option "陕西省"
+      - option "甘肃省"
+      - option "青海省"
+      - option "宁夏回族自治区"
+      - option "新疆维吾尔自治区"
+      - option "台湾省"
+      - option "香港特别行政区"
+      - option "澳门特别行政区"
+      - option "海外（明确标识）"
+      - option "地区待完善"
+    - text: 客户
+    - combobox "客户":
+      - option "全部可见客户" [selected]
+      - option "澄川大学 · 人工智能学院"
+      - option "澄川大学 · 人工智能学院"
+      - option "栖原智能科技有限公司"
+      - option "远岑材料研究院"
+      - option "京澜智能研究中心"
+      - option "锦序工业科技有限公司"
+      - option "南序机器人有限公司"
+      - option "浦澄数据技术有限公司"
+    - text: 长库龄阈值（天）
+    - spinbutton "长库龄阈值（天）": "180"
+    - text: 上海自然日 · 已知事实重建 · 待交付默认90天、到期应付未来7天、集中度前5名。客户/地区筛选不适用于应付和自有库存。
+    - paragraph: Asia/Shanghai 自然日；期间左闭右开。按查询时已知事实重建经营日期；负责人和客户地区按当前资料。无权限和缺失资料不记作零。 · 统计时间 2026/9/12 09:41:19
+    - region "经营规模":
+      - heading "经营规模" [level=2]
+      - article:
+        - text: 本期签约金额
+        - button "360.00 CNY"
+        - generic: 完整
+        - button "本期签约金额口径": 口径 ↗
+      - article:
+        - text: 本期签约合同
+        - button "1 份"
+        - generic: 完整
+        - button "本期签约合同口径": 口径 ↗
+      - article:
+        - text: 本期发出（扣误冲销）
+        - button "1 台"
+        - generic: 完整
+        - button "本期发出（扣误冲销）口径": 口径 ↗
+      - article:
+        - text: 本期实际退回
+        - button "0 台" [disabled]
+        - generic: 完整
+        - button "本期实际退回口径": 口径 ↗
+      - article:
+        - text: 本期净交付
+        - button "1 台"
+        - generic: 完整
+        - button "本期净交付口径": 口径 ↗
+      - article:
+        - text: 本期实际收款
+        - button "80.00 CNY"
+        - generic: 完整
+        - button "本期实际收款口径": 口径 ↗
+      - article:
+        - text: 本期实际付款
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "本期实际付款口径": 口径 ↗
+      - article:
+        - text: 本期客户退款
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "本期客户退款口径": 口径 ↗
+      - article:
+        - text: 本期供应商退款
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "本期供应商退款口径": 口径 ↗
+      - article:
+        - text: 本期经营净现金流
+        - button "80.00 CNY"
+        - generic: 完整
+        - button "本期经营净现金流口径": 口径 ↗
+    - region "资金与库存":
+      - heading "资金与库存" [level=2]
+      - article:
+        - text: 应收未核销
+        - button "110.00 CNY"
+        - generic: 完整
+        - button "应收未核销口径": 口径 ↗
+      - article:
+        - text: 应付未核销
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "应付未核销口径": 口径 ↗
+      - article:
+        - text: 逾期应收
+        - button "60.00 CNY"
+        - generic: 完整
+        - button "逾期应收口径": 口径 ↗
+      - article:
+        - text: 即将到期应付
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "即将到期应付口径": 口径 ↗
+      - article:
+        - text: 已知自有库存成本
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "已知自有库存成本口径": 口径 ↗
+      - article:
+        - text: 未知成本库存数量
+        - button "0 件" [disabled]
+        - generic: 完整
+        - button "未知成本库存数量口径": 口径 ↗
+    - region "待处理事项":
+      - heading "待处理事项" [level=2]
+      - article:
+        - text: 长期待履约设备
+        - button "2 台"
+        - generic: 完整
+        - button "长期待履约设备口径": 口径 ↗
+      - article:
+        - text: 长期库存数量
+        - button "0 件" [disabled]
+        - generic: 完整
+        - button "长期库存数量口径": 口径 ↗
+      - article:
+        - text: 售后在手客户设备
+        - button "0 件" [disabled]
+        - generic: 完整
+        - button "售后在手客户设备口径": 口径 ↗
+      - article:
+        - text: 供应商RMA在外数量
+        - button "1 件"
+        - generic: 完整
+        - button "供应商RMA在外数量口径": 口径 ↗
+      - article:
+        - text: 供应商RMA逾期未回
+        - button "0 件" [disabled]
+        - generic: 完整
+        - button "供应商RMA逾期未回口径": 口径 ↗
+      - article:
+        - text: RMA返还待检/未处置
+        - button "1 件"
+        - generic: 完整
+        - button "RMA返还待检/未处置口径": 口径 ↗
+    - region "客户与销售地区分布":
+      - text: REGIONAL DISTRIBUTION
+      - heading "客户与销售地区" [level=2]
+      - text: 地图指标
+      - combobox "地图指标":
+        - option "客户数"
+        - option "签约金额" [selected]
+        - option "净交付数量"
+      - paragraph: 按当前客户明确地区。省级方格示意，不代表行政边界或客户坐标；海外及地区待完善单列。
+      - group "省级方格示意图":
+        - button "北京市 0 CNY":
+          - text: 北京
+          - strong: "0"
+        - button "天津市 0 CNY":
+          - text: 天津
+          - strong: "0"
+        - button "河北省 0 CNY":
+          - text: 河北
+          - strong: "0"
+        - button "山西省 0 CNY":
+          - text: 山西
+          - strong: "0"
+        - button "内蒙古自治区 0 CNY":
+          - text: 内蒙古
+          - strong: "0"
+        - button "辽宁省 0 CNY":
+          - text: 辽宁
+          - strong: "0"
+        - button "吉林省 0 CNY":
+          - text: 吉林
+          - strong: "0"
+        - button "黑龙江省 0 CNY":
+          - text: 黑龙江
+          - strong: "0"
+        - button "上海市 0 CNY":
+          - text: 上海
+          - strong: "0"
+        - button "江苏省 0 CNY":
+          - text: 江苏
+          - strong: "0"
+        - button "浙江省 360.00 CNY":
+          - text: 浙江
+          - strong: "360.00"
+        - button "安徽省 0 CNY":
+          - text: 安徽
+          - strong: "0"
+        - button "福建省 0 CNY":
+          - text: 福建
+          - strong: "0"
+        - button "江西省 0 CNY":
+          - text: 江西
+          - strong: "0"
+        - button "山东省 0 CNY":
+          - text: 山东
+          - strong: "0"
+        - button "河南省 0 CNY":
+          - text: 河南
+          - strong: "0"
+        - button "湖北省 0 CNY":
+          - text: 湖北
+          - strong: "0"
+        - button "湖南省 0 CNY":
+          - text: 湖南
+          - strong: "0"
+        - button "广东省 0 CNY":
+          - text: 广东
+          - strong: "0"
+        - button "广西壮族自治区 0 CNY":
+          - text: 广西
+          - strong: "0"
+        - button "海南省 0 CNY":
+          - text: 海南
+          - strong: "0"
+        - button "重庆市 0 CNY":
+          - text: 重庆
+          - strong: "0"
+        - button "四川省 0 CNY":
+          - text: 四川
+          - strong: "0"
+        - button "贵州省 0 CNY":
+          - text: 贵州
+          - strong: "0"
+        - button "云南省 0 CNY":
+          - text: 云南
+          - strong: "0"
+        - button "西藏自治区 0 CNY":
+          - text: 西藏
+          - strong: "0"
+        - button "陕西省 0 CNY":
+          - text: 陕西
+          - strong: "0"
+        - button "甘肃省 0 CNY":
+          - text: 甘肃
+          - strong: "0"
+        - button "青海省 0 CNY":
+          - text: 青海
+          - strong: "0"
+        - button "宁夏回族自治区 0 CNY":
+          - text: 宁夏
+          - strong: "0"
+        - button "新疆维吾尔自治区 0 CNY":
+          - text: 新疆
+          - strong: "0"
+        - button "台湾省 0 CNY":
+          - text: 台湾
+          - strong: "0"
+        - button "香港特别行政区 0 CNY":
+          - text: 香港
+          - strong: "0"
+        - button "澳门特别行政区 0 CNY":
+          - text: 澳门
+          - strong: "0"
+      - paragraph: 浅色：无贡献 · 深绿：有贡献（数值为准，包含负向更正）
+      - table "真实地区贡献表（地图不可用时仍可阅读）":
+        - caption: 真实地区贡献表（地图不可用时仍可阅读）
+        - rowgroup:
+          - row "地区 本期签约金额 操作":
+            - columnheader "地区"
+            - columnheader "本期签约金额"
+            - columnheader "操作"
+        - rowgroup:
+          - row "浙江 360.00 CNY 筛选此地区":
+            - cell "浙江"
+            - cell "360.00 CNY"
+            - cell "筛选此地区":
+              - button "筛选此地区"
+      - button "查看地区贡献明细"
+    - region "客户与冻结销售结构":
+      - heading "客户与冻结销售结构" [level=2]
+      - article:
+        - text: 本期有签约客户
+        - button "1 家"
+        - generic: 完整
+        - button "本期有签约客户口径": 口径 ↗
+      - article:
+        - text: 本期新增成交客户
+        - button "1 家"
+        - generic: 完整
+        - button "本期新增成交客户口径": 口径 ↗
+      - article:
+        - text: 前5客户签约集中度
+        - button "100.00 %"
+        - generic: 完整
+        - button "前5客户签约集中度口径": 口径 ↗
+      - heading "客户签约排行" [level=3]
+      - paragraph: 360.00 CNY
+      - button "查看客户签约排行明细"
+      - button "口径"
+      - paragraph:
+        - text: 澄川大学 · 人工智能学院
+        - strong: 360.00 CNY
+      - heading "客户应收余额排行" [level=3]
+      - paragraph: 110.00 CNY
+      - button "查看客户应收余额排行明细"
+      - button "口径"
+      - paragraph:
+        - text: 澄川大学 · 人工智能学院
+        - strong: 110.00 CNY
+      - heading "冻结主机产品签约结构" [level=3]
+      - paragraph: 360.00 CNY
+      - button "查看冻结主机产品签约结构明细"
+      - button "口径"
+      - paragraph:
+        - text: 虚构 PUB-H
+        - strong: 360.00 CNY
+      - heading "冻结销售品牌签约结构" [level=3]
+      - paragraph: 360.00 CNY
+      - button "查看冻结销售品牌签约结构明细"
+      - button "口径"
+      - paragraph:
+        - text: 硅屿测试品牌
+        - strong: 360.00 CNY
+      - heading "冻结销售负责人签约结构" [level=3]
+      - paragraph: 360.00 CNY
+      - button "查看冻结销售负责人签约结构明细"
+      - button "口径"
+      - paragraph:
+        - text: 虚构用户甲
+        - strong: 360.00 CNY
+    - region "资金账龄与库存库龄":
+      - heading "资金账龄与库存库龄" [level=2]
+      - heading "应收账龄" [level=3]
+      - paragraph:
+        - text: 待释放/到期日未知
+        - strong: 50.00 CNY
+      - paragraph:
+        - text: 逾期1–30天
+        - strong: 60.00 CNY
+      - button "查看应收账龄明细"
+      - button "口径"
+      - heading "应付账龄" [level=3]
+      - paragraph: 暂无余额。
+      - button "查看应付账龄明细" [disabled]
+      - button "口径"
+      - heading "自有库存库龄分档" [level=3]
+      - paragraph: 暂无余额。
+      - button "查看自有库存库龄分档明细" [disabled]
+      - button "口径"
+      - heading "自有库存阶段与质量" [level=3]
+      - paragraph: 暂无余额。
+      - button "查看自有库存阶段与质量明细" [disabled]
+      - button "口径"
+      - heading "客户所有库存（不计自有成本）" [level=3]
+      - paragraph:
+        - text: quarantine
+        - strong: 1 件
+      - paragraph:
+        - text: supplier
+        - strong: 1 件
+      - button "查看客户所有库存（不计自有成本）明细"
+      - button "口径"
+      - article:
+        - text: 预收款余额
+        - button "40.00 CNY"
+        - generic: 完整
+        - button "预收款余额口径": 口径 ↗
+      - article:
+        - text: 预付款余额
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "预付款余额口径": 口径 ↗
+      - article:
+        - text: 未分配收款余额
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "未分配收款余额口径": 口径 ↗
+      - article:
+        - text: 未分配付款余额
+        - button "0.00 CNY" [disabled]
+        - generic: 完整
+        - button "未分配付款余额口径": 口径 ↗
+      - article:
+        - text: 完工至首次发货平均天数
+        - button "0.00 天"
+        - generic: 完整
+        - button "完工至首次发货平均天数口径": 口径 ↗
+      - article:
+        - text: 完工尚未发货样本
+        - button "0 台" [disabled]
+        - generic: 完整
+        - button "完工尚未发货样本口径": 口径 ↗
+      - article:
+        - text: DIO 标准财务指标
+        - button "暂不可计算" [disabled]: 暂不可计算
+        - generic: 暂不可计算
+        - button "DIO 标准财务指标口径": 口径 ↗
+      - article:
+        - text: DSO 标准财务指标
+        - button "暂不可计算" [disabled]: 暂不可计算
+        - generic: 暂不可计算
+        - button "DSO 标准财务指标口径": 口径 ↗
+      - article:
+        - text: DPO 标准财务指标
+        - button "暂不可计算" [disabled]: 暂不可计算
+        - generic: 暂不可计算
+        - button "DPO 标准财务指标口径": 口径 ↗
+      - article:
+        - text: CCC 标准财务指标
+        - button "暂不可计算" [disabled]: 暂不可计算
+        - generic: 暂不可计算
+        - button "CCC 标准财务指标口径": 口径 ↗
+  - text: 硅屿 SILICON / BUSINESS STUDIO
+  - generic: 企业内独立档案 · 操作记录可追溯

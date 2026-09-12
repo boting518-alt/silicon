@@ -1,0 +1,10 @@
+[
+  {
+    "name": "lost supplier response retries same intent; no false success",
+    "status": "passed"
+  },
+  {
+    "name": "late successful old enterprise refresh cannot repopulate new page",
+    "status": "passed"
+  }
+]
